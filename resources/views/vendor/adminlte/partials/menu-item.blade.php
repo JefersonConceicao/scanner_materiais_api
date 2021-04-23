@@ -16,7 +16,7 @@
         </div>
       </form>
 @else
-    <li class="{{ $item['class'] }}">
+    <li class="{{ $item['class']}}">
         <a href="{{ $item['href'] }}"
            @if (isset($item['target'])) target="{{ $item['target'] }}" @endif
         >

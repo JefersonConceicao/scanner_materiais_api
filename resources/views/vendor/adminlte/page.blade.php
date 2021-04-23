@@ -55,7 +55,6 @@
             @endif
                 <!-- Navbar Right Menu -->
                 <div class="navbar-custom-menu">
-
                     <ul class="nav navbar-nav">
                         <li>
                             @if(config('adminlte.logout_method') == 'GET' || !config('adminlte.logout_method') && version_compare(\Illuminate\Foundation\Application::VERSION, '5.3.0', '<'))
@@ -98,7 +97,6 @@
 
             <!-- sidebar: style can be found in sidebar.less -->
             <section class="sidebar">
-
                 <!-- Sidebar Menu -->
                 <ul class="sidebar-menu" data-widget="tree">
                     @each('adminlte::partials.menu-item', $adminlte->menu(), 'item')
@@ -112,23 +110,16 @@
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             @if(config('adminlte.layout') == 'top-nav')
-            <div class="container">
+                <div class="container">
             @endif
-
-            <!-- Content Header (Page header) -->
-            <section class="content-header">
-                @yield('content_header')
-            </section>
-
             <!-- Main content -->
-            <section class="content">
+                <section class="content">
+                    @yield('content')
+                </section>
 
-                @yield('content')
-
-            </section>
             <!-- /.content -->
             @if(config('adminlte.layout') == 'top-nav')
-            </div>
+                </div>
             <!-- /.container -->
             @endif
         </div>

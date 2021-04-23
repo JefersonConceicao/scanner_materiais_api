@@ -16,16 +16,25 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 
+        'email', 
+        'password',
+        'remember_token',
+        'url_photo',
+        'name',
+        'username',
+        'password_resets',
+        'active',
     ];
 
     /**
-     * The attributes that should be hidden for arrays.
+     * Atributos que serão "escondidos" quando forem recuperados.
      *
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 
+        'remember_token',
     ];
 
     /**
@@ -36,4 +45,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    /**
+     * 
+     * Virtual field flag active 0 
+     */
+    public function getActiveAttribute($value){
+        return $value == 0 ? "Inativo" : "Ativo";
+    }
 }

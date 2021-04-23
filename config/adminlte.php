@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Title
@@ -12,13 +11,9 @@ return [
     | You can optionally also specify a title prefix and/or postfix.
     |
     */
-
     'title' => 'source_BT',
-
     'title_prefix' => '',
-
     'title_postfix' => '',
-
     /*
     |--------------------------------------------------------------------------
     | Logo
@@ -29,17 +24,21 @@ return [
     | variant, used for the mini side bar. Make it 3 letters or so
     |
     */
-
     'logo' => '<img 
-                    src="/assets/bahia_tursa_source_system.png" 
+                    class="img-responsive"
+                    src="/assets/bahia_tursa_logo.png" 
                     width="300px" 
                     height="120px" 
                     alt="unionLogoType"
                     object-fit="contain"
                 />',
 
-    'logo_mini' => '<b>A</b>LT',
-
+    'logo_mini' => '<img 
+                        class="img-responsive"
+                        height="50px"
+                        width="50px"
+                        src="/assets/logo_mini_bt.png" />
+                    ',
     /*
     |--------------------------------------------------------------------------
     | Skin Color
@@ -50,9 +49,7 @@ return [
     | light variant: blue-light, purple-light, purple-light, etc.
     |
     */
-
-    'skin' => 'blue',
-
+    'skin' => 'black-light',
     /*
     |--------------------------------------------------------------------------
     | Layout
@@ -94,7 +91,6 @@ return [
     | The right Sidebar can only be used if layout is not top-nav.
     |
     */
-
     'right_sidebar' => false,
     'right_sidebar_icon' => 'fas fa-cogs',
     'right_sidebar_theme' => 'dark',
@@ -113,14 +109,11 @@ return [
     */
 
     'dashboard_url' => 'home',
-
     'logout_url' => 'logout',
-
     'logout_method' => null,
 
     'login_url' => 'login',
-
-    'register_url' => 'register',
+    'register_url' => false,
 
     /*
     |--------------------------------------------------------------------------
@@ -134,24 +127,13 @@ return [
     */
 
     'menu' => [
+        ['header' => 'Navegação Principal'],
         [
-            'text' => 'search',
-            'search' => true,
+            'text' => 'Início',
+            'url' => 'home/',
+            'icon' => 'fa fa-home',
         ],
-        ['header' => 'main_navigation'],
-        [
-            'text' => 'blog',
-            'url'  => 'admin/blog',
-            'can'  => 'manage-blog',
-        ],
-        [
-            'text'        => 'pages',
-            'url'         => 'admin/pages',
-            'icon'        => 'far fa-file',
-            'label'       => 4,
-            'label_color' => 'success',
-        ],
-        ['header' => 'account_settings'],
+        ['header' => 'Minha Conta'],
         [
             'text' => 'profile',
             'url'  => 'admin/settings',
@@ -162,18 +144,23 @@ return [
             'url'  => 'admin/settings',
             'icon' => 'fas fa-fw fa-lock',
         ],
-        ['header' => 'labels'],
+        ['header' => 'Gerenciamento'],
         [
-            'text'       => 'important',
-            'icon_color' => 'red',
+            'text' => 'blog',
+            'url'  => 'admin/blog',
+            'can'  => 'manage-blog',
         ],
         [
-            'text'       => 'warning',
-            'icon_color' => 'yellow',
+            'text'  => 'Usuários',
+            'url'   => 'users/',
+            'icon'  => 'fa fa-users',
+
+            'label_color' => 'success',
         ],
+        ['header' => 'Configurações'],
         [
-            'text'       => 'information',
-            'icon_color' => 'aqua',
+            'text' => 'Configurações',
+            'icon' => 'fa fa-cog',
         ],
     ],
 
@@ -231,6 +218,17 @@ return [
             ],
         ],
         [
+            'name' => 'FontAwesome',
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css'
+                ],
+            ],
+        ],
+        [
             'name' => 'Select2',
             'active' => true,
             'files' => [
@@ -265,22 +263,6 @@ return [
                     'type' => 'js',
                     'asset' => false,
                     'location' => '//cdn.jsdelivr.net/npm/sweetalert2@8',
-                ],
-            ],
-        ],
-        [
-            'name' => 'Pace',
-            'active' => true,
-            'files' => [
-                [
-                    'type' => 'css',
-                    'asset' => false,
-                    'location' => '//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-center-radar.min.css',
-                ],
-                [
-                    'type' => 'js',
-                    'asset' => false,
-                    'location' => '//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js',
                 ],
             ],
         ],
