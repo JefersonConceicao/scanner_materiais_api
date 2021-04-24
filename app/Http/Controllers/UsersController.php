@@ -21,13 +21,13 @@ class UsersController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Retorna view create
      *
-     * @return \Illuminate\Http\Response
+     * @return View usuarios.create
      */
     public function create()
     {
-        //
+        return view('usuarios.create');
     }
 
     /**

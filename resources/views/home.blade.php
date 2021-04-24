@@ -1,5 +1,4 @@
 @extends('adminlte::page')
-
 @section('title', 'BT | Inicio')
 
 @section('content_header')

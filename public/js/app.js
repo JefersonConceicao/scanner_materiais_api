@@ -170,6 +170,34 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./resources/js/Core/AppUsage.js":
+/*!***************************************!*\
+  !*** ./resources/js/Core/AppUsage.js ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(function () {});
+
+var loadModal = function loadModal(url) {
+  var callback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+  var modal = "#myModal";
+  $(modal).modal();
+  $(modal).find('.modal-content').html("");
+  $(modal).find('.modal-content').append("<section>  \n             <div class=\"alert alert-primary\"> Carregando... <div>\n         </section>");
+  $(".modal-content").load("".concat(url, " .modal-content >"), function () {
+    if (!!callback) {
+      callback();
+    }
+  });
+};
+
+module.exports = {
+  loadModal: loadModal
+};
+
+/***/ }),
+
 /***/ "./resources/js/Logged/AppUsers.js":
 /*!*****************************************!*\
   !*** ./resources/js/Logged/AppUsers.js ***!
@@ -182,11 +210,19 @@ $(function () {
   habilitaEventos();
 });
 
-var habilitaEventos = function habilitaEventos() {};
+var habilitaEventos = function habilitaEventos() {
+  $("#cadastrarUser").on("click", function () {
+    var url = '/users/create';
+    AppUsage.loadModal(url, function () {});
+  });
+};
 
 var habilitaBotoes = function habilitaBotoes() {};
 
-module.exports = {};
+module.exports = {
+  habilitaEventos: habilitaEventos,
+  habilitaBotoes: habilitaBotoes
+};
 
 /***/ }),
 
@@ -200,6 +236,7 @@ module.exports = {};
 window.AppLogin = __webpack_require__(/*! ./Auth/AppLogin */ "./resources/js/Auth/AppLogin.js");
 window.AppUsers = __webpack_require__(/*! ./Logged/AppUsers */ "./resources/js/Logged/AppUsers.js");
 window.AppSettings = __webpack_require__(/*! ./Core/AppSettings */ "./resources/js/Core/AppSettings.js");
+window.AppUsage = __webpack_require__(/*! ./Core/AppUsage */ "./resources/js/Core/AppUsage.js");
 
 /***/ }),
 
@@ -221,8 +258,8 @@ window.AppSettings = __webpack_require__(/*! ./Core/AppSettings */ "./resources/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\nova_sap\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\nova_sap\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\bt_source\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\bt_source\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

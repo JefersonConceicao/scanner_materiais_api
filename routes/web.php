@@ -20,7 +20,7 @@ Route::group(['middleware' => 'auth']  , function(){
 
     Route::group(['as' => 'users', 'prefix' => 'users'], function(){
         Route::get('/', 'UsersController@index')->name('index');
-        Route::get('/add', 'UsersController@create')->name('add');
+        Route::get('/create', 'UsersController@create')->name('create');
         Route::post('/store', 'UsersController@store')->name('store');
         Route::get('/edit/{id}','UsersController@edit')->name('edit');
         Route::put('/update/{id}', 'UsersController@store')->name('store');

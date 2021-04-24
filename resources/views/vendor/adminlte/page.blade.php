@@ -15,7 +15,6 @@
 
 @section('body')
     <div class="wrapper">
-
         <!-- Main Header -->
         <header class="main-header">
             @if(config('adminlte.layout') == 'top-nav')
@@ -90,6 +89,14 @@
                 @endif
             </nav>
         </header>
+
+        <div id="myModal" class="modal fade" role="dialog"> 
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    @yield('modal')
+                </div>
+            </div>
+        </div>
 
         @if(config('adminlte.layout') != 'top-nav')
         <!-- Left side column. contains the logo and sidebar -->

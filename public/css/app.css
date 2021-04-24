@@ -20,3 +20,7 @@ a {
   margin: 7% auto;
 }
 
+.main-header {
+  border-top: solid 2px #e91313;
+}
+

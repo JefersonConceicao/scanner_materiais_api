@@ -47,11 +47,10 @@
                             Total de registros: {{ count($dados) }}
                         </p>
 
-                        <a href="#" class="btn btn-primary btn-xs pull-right"> 
+                        <a href="#" id="cadastrarUser" class="btn btn-primary btn-xs pull-right" bt_ac="users.create"> 
                             <i class="fa fa-plus-square"> </i>   
-                               &nbsp Novo  
+                               &nbsp Incluir  
                         </a>
-
                     </div>
                     <div class="box-body table-responsive" style="overflow:auto;">
                         <table class="table table-hover">
@@ -68,7 +67,7 @@
                                     <tr> 
                                         <td> {{!empty($dado->name) ? $dado->name : "Não informado"}} </td>
                                         <td> {{!empty($dado->email) ? $dado->email : "Não informado"}} </td>
-                                        <td> <span class="badge {{$dado->active == 0 ? "bg-red" : "bg-green"}}"> 
+                                        <td> <span class="badge {{$dado->active == "Inativo" ? "bg-red" : "bg-green"}}"> 
                                                 {{$dado->active}} 
                                             </span> 
                                         </td>
@@ -89,12 +88,12 @@
                                                 </button>
                                                 <ul class="dropdown-menu pull-right">
                                                     <li> 
-                                                        <a href="#">  
+                                                        <a href="#" bt_ac="users.edit">  
                                                             <i class="fa fa-edit"> </i> Editar 
                                                         </a>
                                                     </li>
                                                     <li> 
-                                                        <a href="#"> 
+                                                        <a href="#" bt_ac="users.destroy"> 
                                                             <i class="fa fa-trash" style="color:red;"> </i> Excluir 
                                                         </a>
                                                     </li>

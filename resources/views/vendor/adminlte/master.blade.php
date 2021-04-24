@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="shortcut icon" href="{{ asset("assets/favicon.ico") }}"/>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title> @yield('title_prefix', config('adminlte.title_prefix', ''))
@@ -37,6 +38,7 @@
 @include('adminlte::plugins', ['type' => 'js'])
 
 @yield('adminlte_js')
+
 
 </body>
 </html>

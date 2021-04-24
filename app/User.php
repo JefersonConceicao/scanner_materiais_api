@@ -23,7 +23,6 @@ class User extends Authenticatable
         'url_photo',
         'name',
         'username',
-        'password_resets',
         'active',
     ];
 
