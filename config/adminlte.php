@@ -29,7 +29,7 @@ return [
 
     'logo' => '<img 
                     class="img-responsive"
-                    src="/assets/bahia_tursa_logo.png" 
+                    src="/assets/logo_union.png" 
                     width="300px" 
                     height="120px" 
                     alt="unionLogoType"
@@ -40,7 +40,7 @@ return [
                         class="img-responsive"
                         height="50px"
                         width="50px"
-                        src="/assets/logo_mini_bt.png" 
+                        src="/assets/union_mini_icon.png" 
                         object-fit="contain"
                         />
                     ',
@@ -132,34 +132,165 @@ return [
     */
 
     'menu' => [
-        ['header' => 'Navegação Principal'],
-        [
-            'text' => 'Início',
-            'url' => 'home/',
-            'icon' => 'fa fa-home',
-        ],
-        ['header' => 'Minha Conta'],
-        [
-            'text' => 'Perfil',
-            'url'  => 'admin/settings',
-            'icon' => 'fas fa-fw fa-user',
-        ],
-        ['header' => 'Gerenciamento'],
-        [
-            'text' => 'blog',
-            'url'  => 'admin/blog',
-            'can'  => 'manage-blog',
-        ],
-        [
-            'text'  => 'Usuários',
-            'url'   => 'users/',
-            'icon'  => 'fa fa-users',
-        ],
-        ['header' => 'Configurações'],
-        [
-            'text' => 'Configurações',
-            'icon' => 'fa fa-cog',
-        ],
+        ['header' => ''],
+            [
+                'text' => 'Painel de Controle',
+                'url' => 'home/',
+                'icon' => 'fa fa-tachometer',
+            ],
+
+        ['header' => ''],
+            [
+                'text' => 'Minha Conta',
+                'icon' => 'fas fa-fw fa-user',
+                'submenu' => [
+                    [
+                        'text' => 'Perfil',
+                        'icon' => 'fa fa-angle-right',
+                    ],
+                    [
+                        'text' => 'Alterar senha',
+                        'icon' => 'fa fa-angle-right'
+                    ],
+                ],
+            ],
+        ['header' => ''],
+            [
+                'text' => 'Administrativo',
+                'icon' => 'fa fa-briefcase',
+                'submenu' => [
+                    [
+                        'text' => 'Projetos',
+                        'icon' => 'fa fa-angle-right'
+                    ],
+                ],
+            ],
+        ['header' => ''],
+            [
+                'text' => 'Cadastros',
+                'icon' => 'fa fa-cubes',
+                'submenu' => [
+                    [
+                      'text' => 'Categoria do instrumento',
+                      'icon' => 'fa fa-angle-right',
+                      'url' => ''  
+                    ],
+                    [
+                        'text' => 'Checklist de Estrutura',
+                        'icon' => 'fa fa-angle-right',
+                        'url' => ''     
+                    ],
+                    [
+                        'text' => 'Checklist de Itens',
+                        'icon' => 'fa fa-angle-right',
+                        'url' => ''  
+                    ],
+                    [
+                        'text' => 'Cehcklist de Modelos',
+                        'icon' => 'fa fa-angle-right',
+                        'url' => ''      
+                    ],
+                    [
+                        'text' => 'Elemento de Despesa',
+                        'icon' => 'fa fa-angle-right',
+                        'url' => ''       
+                    ],
+                    [
+                        'text' => 'Fonte de Recurso',
+                        'icon' => 'fa fa-angle-right',
+                        'url' => ''      
+                    ],
+                    [
+                        'text' => 'Modalidade de Apoio',
+                        'icon' => 'fa fa-angle-right',
+                        'url' => ''  
+                    ],
+                    [
+                        'text' => 'Modalidade de Licitação',
+                        'icon' => 'fa fa-angle-right',
+                        'url' => ''  
+                    ],
+                    [
+                        'text' => 'Projeto de Atividade',
+                        'icon' => 'fa fa-angle-right',
+                        'url' => ''  
+                    ],
+                    [
+                        'text' => 'Proponente',
+                        'icon' => 'fa fa-angle-right',
+                        'url' => ''  
+                    ],
+                    [
+                        'text' => 'Setor',
+                        'icon' => 'fa fa-angle-right',
+                        'url' => ''
+                    ],
+                    [
+                        'text' => 'Tipo de Projetos (Eventos)',
+                        'icon' => 'fa fa-angle-right',
+                        'url' => ''
+                    ],
+                ],
+            ],
+        ['header' => ''],
+            [
+                'text' => 'Localidades',
+                'icon' => 'fa fa-map-marker',
+                'submenu' => [
+                    [
+                        'text' => 'Localidades',
+                        'icon' => 'fa fa-angle-right',
+                        'url' => ''
+                    ],
+                    [
+                        'text' => 'País',
+                        'icon' => 'fa fa-angle-right',
+                        'url' => ''
+                    ],
+                    [
+                        'text' => 'Território de Identidade',
+                        'icon' => 'fa fa-angle-right',
+                        'url' => ''
+                    ],
+                    [
+                        'text' => 'Tipo Evento/Festa',
+                        'icon' => 'fa fa-angle-right',
+                        'url' => ''
+                    ],
+                    [
+                        'text' => 'Tipo Infraestrutura',
+                        'icon' => 'fa fa-angle-right',
+                        'url' => ''
+                    ],
+                    [
+                        'text' => 'UF',
+                        'icon' => 'fa fa-angle-right',
+                        'url' => ''
+                    ],
+                    [
+                        'text' => 'Zona Turística',
+                        'icon' => 'fa fa-angle-right',
+                        'url' => ''
+                    ],
+                ],
+            ],
+        ['header' => ''],
+            [
+                'text'  => 'Controle de Acesso',
+                'icon'  => 'fa fa-lock',
+                'submenu' => [
+                    [
+                        'text' => 'Usuários',
+                        'url' => 'users/',
+                        'icon' => 'fa fa-angle-right'
+                    ],
+                ]
+            ],
+            ['header' => 'Configurações'],
+                [
+                    'text' => 'Configurações',
+                    'icon' => 'fa fa-cog',
+                ],
     ],
 
     /*

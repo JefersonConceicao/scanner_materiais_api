@@ -236,6 +236,10 @@ var habilitaEventos = function habilitaEventos() {
     var form = $(this).serialize();
     getUsersFilter(form);
   });
+  $("#clear_filter_user").on('click', function () {
+    var selects = $("#role, #setor");
+    selects.select2('destroy').val("").select2();
+  });
 };
 
 var habilitaBotoes = function habilitaBotoes() {
@@ -301,8 +305,8 @@ window.AppUsage = __webpack_require__(/*! ./Core/AppUsage */ "./resources/js/Cor
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\bt_source\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\bt_source\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\novo_union\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\novo_union\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

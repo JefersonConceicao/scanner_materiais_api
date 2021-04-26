@@ -15,27 +15,53 @@
     </section>
 
     <section class="content">
+        {{-- INICIO COMPONENT FILTRO  --}}
         @component('components.filtro')
             <form id="searchUser"> 
                 <div class="row">
-                    <div class="col-md-6">  
+                    <div class="col-md-3">  
                         <div class="form-group">
                             {{ Form::label ('nome', 'Nome')}}
                             {{ Form::text('nome', null, ['class' => 'form-control', 'placeholder' => 'Pesquise por nome'])}}
                         </div>
                     </div>
-                    <div class="col-md-6">  
+                    <div class="col-md-3">
                         <div class="form-group">
-                            {{ Form::label('active','Status') }}
-                            {{ Form::select('active', [ 0 => 'Inativo', 1 => 'Ativo'] , [1], 
-                                ['class' => 'form-control select2']   
-                            )}}
+                            {{ Form::label ('email', 'E-mail')}}
+                            {{ Form::text('email', null, [
+                                'type' => 'email', 
+                                'class' => 'form-control', 
+                                'placeholder' => 'Pesquise por e-mail',
+                            ])}}
+                        </div>
+                    </div>
+                    <div class="col-md-3">  
+                        <div class="form-group">
+                            {{ Form::label('role', 'Perfil') }}
+                            {{ Form::select('role', $roles, [], [
+                                'class' => 'form-control select2',
+                                'placeholder' => 'Selecione uma opção'
+                            ])}}
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            {{ Form::label('setor','Setor') }}
+                            {{ Form::select('setor', $setores, [], [
+                                'class' => 'form-control select2',
+                                'placeholder' => 'Selecione uma opção'
+                            ])}}
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12">
-                        <button class="btn btn-primary pull-right"> 
+                    <div class="col-md-12 pull-left">
+                        <button type="reset" class="btn btn-primary" id="clear_filter_user">
+                            <i class="fa fa-eraser" aria-hidden="true"> </i>
+                            Limpar Pesquisa 
+                        </button>
+
+                        <button type="submit" class="btn btn-primary"> 
                             <i class="fa fa-search"> </i>
                             Pesquisar
                         </button>
@@ -43,7 +69,9 @@
                 </div>
             </form>
         @endcomponent
-        {{--- data grid --}}
+        {{-- FIM COMPONENT FILTRO  --}}
+
+        {{--- Início grid --}}
         <div class="row">
             <div class="col-md-12">
                 <div class="box" id="gridUsers">
@@ -51,10 +79,9 @@
                         <p class="box-title"> 
                             Total de registros: {{ count($dados) }}
                         </p>
-
-                        <a href="#" id="cadastrarUser" class="btn btn-primary btn-xs pull-right" bt_ac="users.create"> 
+                        <a href="#" id="cadastrarUser" class="btn btn-primary pull-right" bt_ac="users.create"> 
                             <i class="fa fa-plus-square"> </i>   
-                               &nbsp Incluir  
+                               &nbsp Novo  
                         </a>
                     </div>
                     @if(count($dados) > 0)
@@ -63,48 +90,54 @@
                                 <thead> 
                                     <tr> 
                                         <th> Nome </th>
+                                        <th> Usuário </th>
+                                        <th> Perfil </th>
                                         <th> Email </th>
-                                        <th> Status </th>
-                                        <th width="2%"> Ações </th>
+                                        <th> Setor
+                                             </th>
+                                        <th class="text-center" style="width:8%;"> 
+                                            Ações 
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach($dados as $dado) 
                                         <tr> 
                                             <td> {{!empty($dado->name) ? $dado->name : "Não informado"}} </td>
+                                            <td> {{!empty($dado->username) ? $dado->username : "Não informado"}} </td>
+                                            <td> {{!empty($dado->rolesByUser[0]->name) ? $dado->rolesByUser[0]->name : "Não informado"}}    </td>
                                             <td> {{!empty($dado->email) ? $dado->email : "Não informado"}} </td>
-                                            <td> <span class="badge {{$dado->active == "Inativo" ? "bg-red" : "bg-green"}}"> 
-                                                    {{$dado->active}} 
-                                                </span> 
-                                            </td>
-                                            <td>     
-                                            <div class="dropdown">
-                                                    <button 
-                                                        class="
-                                                            btn
-                                                            btn-primary
-                                                            btn-xs
-                                                            dropdown-toggle
-                                                        "
-                                                        type="button"
-                                                        data-toggle="dropdown"
-                                                        data-boundary="viewport"
-                                                    > 
-                                                        <i class="fa fa-cog"> </i>
-                                                    </button>
-                                                    <ul class="dropdown-menu pull-right">
-                                                        <li> 
-                                                            <a href="#" bt_ac="users.edit">  
-                                                                <i class="fa fa-edit"> </i> Editar 
-                                                            </a>
-                                                        </li>
-                                                        <li> 
-                                                            <a href="#" bt_ac="users.destroy"> 
-                                                                <i class="fa fa-trash" style="color:red;"> </i> Excluir 
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                            </div>
+                                            <td> {{!empty($dado->userSetor->descsetor) ? $dado->userSetor->descsetor :  "Não informado" }} </td> 
+                                            
+                                            <td class="text-center" style="display:flex; justify-content:space-between;">     
+                                                <a
+                                                    href="#" 
+                                                    bt_ac="users.edit" 
+                                                    class="btn btn-xs btn-primary" 
+                                                    data-toggle="tooltip" 
+                                                    title="Editar"
+                                                >
+                                                     <i class="fa fa-edit"> </i>
+                                                </a>
+
+                                                <a  
+                                                    href="#" 
+                                                    class="btn btn-xs btn-success" 
+                                                    title="Visualizar" 
+                                                    data-toggle="Visualizar"
+                                                > 
+
+                                                    <i class="fa fa-bars"> </i>
+                                                </a>
+
+                                                <a 
+                                                    href="#" 
+                                                    class="btn btn-xs btn-danger" 
+                                                    title="Excluir" 
+                                                    data-toggle="Excluir"
+                                                >
+                                                    <i class="fa fa-trash"> </i>
+                                                </a>
                                             </td>
                                         </tr>
                                     @endforeach                            
@@ -117,6 +150,6 @@
                 </div>
             </div>
         </div>
-        {{--- fim data grid --}}
+        {{--- fim grid --}}
     </section>
 @endsection

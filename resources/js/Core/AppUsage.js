@@ -13,6 +13,9 @@ const loadLibs = function(){
         width:'100%',
     });
 
+    
+
+
 }
 
 const loadModal = function(url, callback = null){

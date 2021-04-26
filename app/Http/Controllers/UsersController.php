@@ -2,86 +2,59 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
-use App\User;
+use App\Models\User;
+use App\Models\Role;
+use App\Models\Setor;
 
 class UsersController extends Controller
 {
-    /**
-     * Prepara os dados do usuário
-     *
-     * @param Request query string filtro nome | active | setor
-     * @return View usuarios.index
-     */
     public function index(Request $request)
     {
-        $user = new User;
-        $data = $user->getUsers($request->all());
-        
+        $user= new User; 
+        $role = new Role;
+        $setor = new Setor; 
+
+        $data = $user->getUsers($request->all())->get();
+        //ARRAYS FOR COMBOBOX SEARCH
+        $dataRoles = $role->getRoles()->pluck('name', 'id');
+        $dataSetores = $setor->getSetores()->pluck('descsetor', 'id');
+
         return view('usuarios.index')
-            ->with('dados', $data);
+            ->with('dados', $data)
+            ->with('roles', $dataRoles)
+            ->with('setores', $dataSetores);
     }
 
-    /**
-     * Retorna view create
-     *
-     * @return View usuarios.create
-     */
+    
     public function create()
     {
         return view('usuarios.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+   
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+  
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+   
     public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         //

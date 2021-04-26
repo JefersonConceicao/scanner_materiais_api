@@ -11,6 +11,10 @@ const habilitaEventos = function(){
         getUsersFilter(form);
     });
 
+    $("#clear_filter_user").on('click', function(){
+        let selects = $("#role, #setor");
+        selects.select2('destroy').val("").select2();
+    });
 }
 
 const habilitaBotoes = function(){
