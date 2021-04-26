@@ -10,11 +10,6 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'name', 
         'email', 
@@ -25,26 +20,17 @@ class User extends Authenticatable
         'username',
         'active',
     ];
-
-    /**
-     * Atributos que serão "escondidos" quando forem recuperados.
-     *
-     * @var array
-     */
+ 
     protected $hidden = [
         'password', 
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
 
+    public $timestamps = true;
 
     /**
      * 
@@ -53,4 +39,20 @@ class User extends Authenticatable
     public function getActiveAttribute($value){
         return $value == 0 ? "Inativo" : "Ativo";
     }
+
+    public function getUsers($request = []){
+        $conditions = [];
+
+        if(isset($request['nome']) && !empty($request['nome'])){
+            $conditions[] = ['name', 'LIKE', $request['nome']];
+        }
+
+        if(isset($request['active'])){
+            $conditions[] = ['active', '=', $request['active']];
+        }
+        
+        $data = $this->where($conditions)->paginate(15);
+        return $data;
+    }
+        
 }

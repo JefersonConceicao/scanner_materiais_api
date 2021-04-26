@@ -11,9 +11,11 @@ return [
     | You can optionally also specify a title prefix and/or postfix.
     |
     */
+
     'title' => 'source_BT',
     'title_prefix' => '',
     'title_postfix' => '',
+
     /*
     |--------------------------------------------------------------------------
     | Logo
@@ -24,6 +26,7 @@ return [
     | variant, used for the mini side bar. Make it 3 letters or so
     |
     */
+
     'logo' => '<img 
                     class="img-responsive"
                     src="/assets/bahia_tursa_logo.png" 
@@ -37,7 +40,9 @@ return [
                         class="img-responsive"
                         height="50px"
                         width="50px"
-                        src="/assets/logo_mini_bt.png" />
+                        src="/assets/logo_mini_bt.png" 
+                        object-fit="contain"
+                        />
                     ',
     /*
     |--------------------------------------------------------------------------
@@ -135,14 +140,9 @@ return [
         ],
         ['header' => 'Minha Conta'],
         [
-            'text' => 'profile',
+            'text' => 'Perfil',
             'url'  => 'admin/settings',
             'icon' => 'fas fa-fw fa-user',
-        ],
-        [
-            'text' => 'change_password',
-            'url'  => 'admin/settings',
-            'icon' => 'fas fa-fw fa-lock',
         ],
         ['header' => 'Gerenciamento'],
         [
@@ -154,8 +154,6 @@ return [
             'text'  => 'Usuários',
             'url'   => 'users/',
             'icon'  => 'fa fa-users',
-
-            'label_color' => 'success',
         ],
         ['header' => 'Configurações'],
         [

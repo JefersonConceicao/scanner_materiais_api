@@ -177,7 +177,20 @@ module.exports = {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-$(function () {});
+$(function () {
+  loadLibs();
+});
+
+var loadLibs = function loadLibs() {
+  //FUNÇÃO QUE HABILITA EVENTOS DE BIBLIOTECAS
+  //SELECT2 
+  $(".select2").select2({
+    language: 'pt-BR',
+    placeholder: 'Selecione uma opção',
+    allowClear: true,
+    width: '100%'
+  });
+};
 
 var loadModal = function loadModal(url) {
   var callback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
@@ -190,10 +203,17 @@ var loadModal = function loadModal(url) {
       callback();
     }
   });
+}; //PARAM - ELEMENTO A SER REMOVIDO PARA INSERÇÃO DO LOADING
+
+
+var loading = function loading(element) {
+  element.closest(element).html("\n        <div class=\"alert alert-danger\">\n            <div class=\"text-center\">    \n                <b> \n                    <i \n                        class=\"fa fa-circle-o-notch fa-spin\" aria-hidden=\"true\"\n                        style=\"font-size:30px;\"\n                    >  \n                    </i>   \n                </b>\n            </div>\n        </div>\n    ");
 };
 
 module.exports = {
-  loadModal: loadModal
+  loadModal: loadModal,
+  loadLibs: loadLibs,
+  loading: loading
 };
 
 /***/ }),
@@ -211,13 +231,36 @@ $(function () {
 });
 
 var habilitaEventos = function habilitaEventos() {
+  $("#searchUser").on('submit', function (e) {
+    e.preventDefault();
+    var form = $(this).serialize();
+    getUsersFilter(form);
+  });
+};
+
+var habilitaBotoes = function habilitaBotoes() {
   $("#cadastrarUser").on("click", function () {
     var url = '/users/create';
     AppUsage.loadModal(url, function () {});
   });
 };
 
-var habilitaBotoes = function habilitaBotoes() {};
+var getUsersFilter = function getUsersFilter(searchformData) {
+  var gridUser = "#gridUsers";
+  $.ajax({
+    type: "GET",
+    url: "/users/",
+    data: searchformData,
+    dataType: "HTML",
+    beforeSend: function beforeSend() {
+      AppUsage.loading($(gridUser));
+    },
+    success: function success(response) {
+      $(gridUser).html($(response).find("".concat(gridUser, " >")));
+      habilitaBotoes();
+    }
+  });
+};
 
 module.exports = {
   habilitaEventos: habilitaEventos,

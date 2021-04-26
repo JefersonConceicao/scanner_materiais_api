@@ -9,13 +9,14 @@ class UsersController extends Controller
     /**
      * Prepara os dados do usuário
      *
+     * @param Request query string filtro nome | active | setor
      * @return View usuarios.index
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = new User;
-        $data = $user->all();
-   
+        $data = $user->getUsers($request->all());
+        
         return view('usuarios.index')
             ->with('dados', $data);
     }
