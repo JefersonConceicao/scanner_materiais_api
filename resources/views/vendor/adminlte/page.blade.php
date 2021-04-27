@@ -90,10 +90,26 @@
             </nav>
         </header>
 
-        <div id="myModal" class="modal fade" role="dialog"> 
+        <div id="nivel1" class="modal fade" role="dialog"> 
             <div class="modal-dialog">
                 <div class="modal-content">
                     @yield('modal')
+                </div>
+            </div>
+        </div>
+
+        <div id="nivel2" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    
+                </div>
+            </div>
+        </div>
+
+        <div id="nivel3" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                
                 </div>
             </div>
         </div>

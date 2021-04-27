@@ -3,6 +3,7 @@ $(function(){
 })
 
 const loadLibs = function(){
+    console.log("hum");
     //FUNÇÃO QUE HABILITA EVENTOS DE BIBLIOTECAS
 
     //SELECT2 
@@ -12,24 +13,29 @@ const loadLibs = function(){
         allowClear:true,
         width:'100%',
     });
-
-    
-
-
 }
 
-const loadModal = function(url, callback = null){
-    let modal = "#myModal"
-    $(modal).modal();
+const loadModal = function(url, modalObject, width = null, callback = null){
+    $(modalObject).modal({
+        backdrop: 'static',
+    });
 
-    $(modal).find('.modal-content').html("");
-    $(modal).find('.modal-content').append(
+    $(modalObject).find('.modal-content').html("");
+
+    $(modalObject).find('.modal-dialog').css({
+        width: !!width ? width : '800px'
+    });
+
+    $(modalObject).find('.modal-content').append(
          `<section>  
-             <div class="alert alert-primary"> Carregando... <div>
+             <div class="alert alert-primary"> <i class="fa fa-spinner fa-spin"> </i> Carregando... <div>
          </section>`
     )
-    
-    $(`.modal-content`).load(`${url} .modal-content >`, function(){
+        
+    $(modalObject).find(`.modal-content`).load(`${url} .modal-content >`, function(){
+        //Executa novamente loadLibs para novo HTML 
+        loadLibs();
+
         if(!!callback){
             callback();
         }

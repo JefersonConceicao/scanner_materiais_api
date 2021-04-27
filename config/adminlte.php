@@ -186,7 +186,7 @@ return [
                         'url' => ''  
                     ],
                     [
-                        'text' => 'Cehcklist de Modelos',
+                        'text' => 'Checklist de Modelos',
                         'icon' => 'fa fa-angle-right',
                         'url' => ''      
                     ],

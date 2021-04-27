@@ -3,6 +3,8 @@ $(function(){
     habilitaEventos()
 });
 
+const modalObject = "#nivel1";
+
 const habilitaEventos = function(){
     $("#searchUser").on('submit', function(e){
         e.preventDefault();
@@ -20,8 +22,8 @@ const habilitaEventos = function(){
 const habilitaBotoes = function(){
     $("#cadastrarUser").on("click", function(){
         let url = '/users/create'
-        AppUsage.loadModal(url, function(){
-             
+        AppUsage.loadModal(url, modalObject, '1000px', function(){
+                
         })
     })
 }

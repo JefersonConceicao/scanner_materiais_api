@@ -105,7 +105,7 @@
                                         <tr> 
                                             <td> {{!empty($dado->name) ? $dado->name : "Não informado"}} </td>
                                             <td> {{!empty($dado->username) ? $dado->username : "Não informado"}} </td>
-                                            <td> {{!empty($dado->rolesByUser[0]->name) ? $dado->rolesByUser[0]->name : "Não informado"}}    </td>
+                                            <td> {{!empty($dado->name_role) ? $dado->name_role : "Não informado"}}    </td>
                                             <td> {{!empty($dado->email) ? $dado->email : "Não informado"}} </td>
                                             <td> {{!empty($dado->userSetor->descsetor) ? $dado->userSetor->descsetor :  "Não informado" }} </td> 
                                             
@@ -118,9 +118,9 @@
                                                     title="Editar"
                                                 >
                                                      <i class="fa fa-edit"> </i>
-                                                </a>
-
-                                                <a  
+                                                </a>    
+                                                
+                                                <a      
                                                     href="#" 
                                                     class="btn btn-xs btn-success" 
                                                     title="Visualizar" 

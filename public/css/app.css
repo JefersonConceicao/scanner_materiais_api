@@ -24,3 +24,9 @@ a {
   border-top: solid 2px #e91313;
 }
 
+@media (max-width: 800px) {
+  .modal-dialog {
+    width: 100% !important;
+  }
+}
+

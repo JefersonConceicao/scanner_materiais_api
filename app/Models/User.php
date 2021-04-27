@@ -32,7 +32,6 @@ class User extends Authenticatable
     ];
 
     public $timestamps = true;
-
     /**
      * 
      * Virtual field flag active 0 
@@ -52,26 +51,36 @@ class User extends Authenticatable
 
     public function getUsers($request = []){
         $conditions = [];
-      
+        
         if(isset($request['nome']) && !empty($request['nome'])){
-            $conditions[] = ['name', 'LIKE', $request['nome']];
+            $conditions[] = ['users.name', 'like', "%".$request['nome']."%"];
         }
 
         if(isset($request['email']) && !empty($request['email'])){
-            $conditions[] = ['email', 'LIKE', $request['email']];
+            $conditions[] = ['users.email','like', "%".$request['email']."%"];
+        }
+
+        if(isset($request['role']) && !empty($request['role'])){
+            $conditions[] = ['role_user.role_id','=',$request['role']];
         }
 
         if(isset($request['setor']) && !empty($request['setor'])){
-            $conditions[] = ['setor_id', '=', $request['setor']];
+            $conditions[] = ['users.setor_id', '=', $request['setor']];
         }
 
-        return $this
+        $data = $this
+            ->leftJoin('role_user','role_user.user_id', 'users.id')
+            ->leftJoin('roles', 'role_user.role_id','roles.id')
+            ->select(
+                'roles.name as name_role',
+                'role_user.*',
+                'users.*'
+            )
             ->where($conditions)
-            ->with(['userSetor', 'rolesByUser' => function($query) use($conditions, $request){
-                return $query
-                    ->where('roles.id','=', isset($request['role']) ? $request['role'] : null)
-                    ->orderBy('roles.id', 'DESC');
-            }]);
+            ->with('userSetor')
+            ->orderBy('role_user.id', 'DESC');
+
+        return $data;
     }
         
 }

@@ -182,8 +182,9 @@ $(function () {
 });
 
 var loadLibs = function loadLibs() {
-  //FUNÇÃO QUE HABILITA EVENTOS DE BIBLIOTECAS
+  console.log("hum"); //FUNÇÃO QUE HABILITA EVENTOS DE BIBLIOTECAS
   //SELECT2 
+
   $(".select2").select2({
     language: 'pt-BR',
     placeholder: 'Selecione uma opção',
@@ -192,13 +193,21 @@ var loadLibs = function loadLibs() {
   });
 };
 
-var loadModal = function loadModal(url) {
-  var callback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-  var modal = "#myModal";
-  $(modal).modal();
-  $(modal).find('.modal-content').html("");
-  $(modal).find('.modal-content').append("<section>  \n             <div class=\"alert alert-primary\"> Carregando... <div>\n         </section>");
-  $(".modal-content").load("".concat(url, " .modal-content >"), function () {
+var loadModal = function loadModal(url, modalObject) {
+  var width = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+  var callback = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
+  $(modalObject).modal({
+    backdrop: 'static'
+  });
+  $(modalObject).find('.modal-content').html("");
+  $(modalObject).find('.modal-dialog').css({
+    width: !!width ? width : '800px'
+  });
+  $(modalObject).find('.modal-content').append("<section>  \n             <div class=\"alert alert-primary\"> <i class=\"fa fa-spinner fa-spin\"> </i> Carregando... <div>\n         </section>");
+  $(modalObject).find(".modal-content").load("".concat(url, " .modal-content >"), function () {
+    //Executa novamente loadLibs para novo HTML 
+    loadLibs();
+
     if (!!callback) {
       callback();
     }
@@ -229,6 +238,7 @@ $(function () {
   habilitaBotoes();
   habilitaEventos();
 });
+var modalObject = "#nivel1";
 
 var habilitaEventos = function habilitaEventos() {
   $("#searchUser").on('submit', function (e) {
@@ -245,7 +255,7 @@ var habilitaEventos = function habilitaEventos() {
 var habilitaBotoes = function habilitaBotoes() {
   $("#cadastrarUser").on("click", function () {
     var url = '/users/create';
-    AppUsage.loadModal(url, function () {});
+    AppUsage.loadModal(url, modalObject, '1000px', function () {});
   });
 };
 
@@ -305,8 +315,8 @@ window.AppUsage = __webpack_require__(/*! ./Core/AppUsage */ "./resources/js/Cor
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\novo_union\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\novo_union\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\bt_source\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\bt_source\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
