@@ -147,10 +147,12 @@ return [
                     [
                         'text' => 'Perfil',
                         'icon' => 'fa fa-angle-right',
+                        'url' => ''
                     ],
                     [
                         'text' => 'Alterar senha',
-                        'icon' => 'fa fa-angle-right'
+                        'icon' => 'fa fa-angle-right',
+                        'url' => ''
                     ],
                 ],
             ],

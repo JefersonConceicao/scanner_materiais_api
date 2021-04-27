@@ -15,14 +15,17 @@ class UsersController extends Controller
         $setor = new Setor; 
 
         $data = $user->getUsers($request->all())->get();
+        
         //ARRAYS FOR COMBOBOX SEARCH
         $dataRoles = $role->getRoles()->pluck('name', 'id');
         $dataSetores = $setor->getSetores()->pluck('descsetor', 'id');
 
-        return view('usuarios.index')
+        $view = view('usuarios.index')
             ->with('dados', $data)
             ->with('roles', $dataRoles)
             ->with('setores', $dataSetores);
+
+        return $request->ajax() ? $view->renderSections()['content'] : $view;
     }
 
     

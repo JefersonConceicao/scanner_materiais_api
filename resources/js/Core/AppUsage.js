@@ -1,37 +1,40 @@
 $(function(){
+    initializeDataTable();
     loadLibs();
 })
 
-const loadLibs = function(){
-    console.log("hum");
-    //FUNÇÃO QUE HABILITA EVENTOS DE BIBLIOTECAS
+const initializeDataTable = function(){
+    $(".dataTable").dataTable({ 
+        buttons:[
+             'pdf',   
+        ],
+        paging: false,
+        searching: false,
+        language: languageDataTable.portugues,
+    });  
+}
 
-    //SELECT2 
-    $(".select2").select2({
+const loadLibs = function(){
+    $(".select2").select2({   
         language:'pt-BR',
         placeholder: 'Selecione uma opção',
         allowClear:true,
         width:'100%',
-    });
+    });  
 }
 
 const loadModal = function(url, modalObject, width = null, callback = null){
-    $(modalObject).modal({
-        backdrop: 'static',
-    });
-
-    $(modalObject).find('.modal-content').html("");
-
+    $(modalObject).modal({ backdrop: 'static'}); //EVITA QUE O MODAL FECHE AO CLICAR FORA DO ESCOPO DO MODAL
     $(modalObject).find('.modal-dialog').css({
         width: !!width ? width : '800px'
     });
 
-    $(modalObject).find('.modal-content').append(
-         `<section>  
-             <div class="alert alert-primary"> <i class="fa fa-spinner fa-spin"> </i> Carregando... <div>
-         </section>`
-    )
-        
+    $(modalObject).find('.modal-content').html("").append(
+        `<section>  
+            <div class="alert alert-primary"> <i class="fa fa-spinner fa-spin"> </i> Carregando... <div>
+        </section>`
+    );
+           
     $(modalObject).find(`.modal-content`).load(`${url} .modal-content >`, function(){
         //Executa novamente loadLibs para novo HTML 
         loadLibs();
@@ -63,4 +66,5 @@ module.exports = {
     loadModal,
     loadLibs,
     loading,
+    initializeDataTable,
 }

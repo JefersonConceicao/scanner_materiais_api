@@ -32,11 +32,11 @@ class User extends Authenticatable
     ];
 
     public $timestamps = true;
+
     /**
      * 
      * Virtual field flag active 0 
      */
-
     public function getActiveAttribute($value){
         return $value == 0 ? "Inativo" : "Ativo";
     }
@@ -49,6 +49,14 @@ class User extends Authenticatable
         return $this->hasOne(Setor::class, 'id', 'setor_id');
     }
 
+    /**
+     * @param string nome 
+     * @param string email
+     * @param string id_role
+     * @param string id_setor
+     *  
+     * @return collection users
+     */
     public function getUsers($request = []){
         $conditions = [];
         

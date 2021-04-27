@@ -28,7 +28,6 @@
     @include('adminlte::plugins', ['type' => 'js'])
     @yield('adminlte_js')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/i18n/pt-BR.js">  </script>
-<script src="{{ asset('js/app.js')}}"> </script>
-
+    <script src="{{ asset('js/app.js')}}"> </script>
 </body>
 </html>

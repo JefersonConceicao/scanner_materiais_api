@@ -30,3 +30,11 @@ a {
   }
 }
 
+.required {
+  color: red;
+}
+
+.warning-required {
+  float: right;
+}
+

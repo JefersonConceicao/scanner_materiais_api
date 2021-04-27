@@ -1,4 +1,13 @@
-window.AppLogin = require('./Auth/AppLogin');
-window.AppUsers = require('./Logged/AppUsers');
-window.AppSettings = require('./Core/AppSettings');
+//CORE Scripts - scripts de estrutura
+window.AppNavigation = require('./Core/AppNavigation');
 window.AppUsage = require('./Core/AppUsage');
+window.AppSettings = require('./Core/AppSettings');
+
+//AUTH Scripts - scripts em telas de authenticação/recuperação de senha
+window.AppLogin = require('./Auth/AppLogin');
+
+//LOGGED Scripts - scripts em módulos do sistema
+window.AppUsers = require('./Logged/AppUsers');
+
+//CONSTANTS Scripts - scripts re-utilizaveis
+window.languageDataTable = require('./Constants/language_dataTable');

@@ -22,7 +22,7 @@ const habilitaEventos = function(){
 const habilitaBotoes = function(){
     $("#cadastrarUser").on("click", function(){
         let url = '/users/create'
-        AppUsage.loadModal(url, modalObject, '1000px', function(){
+        AppUsage.loadModal(url, modalObject, '800px', function(){
                 
         })
     })

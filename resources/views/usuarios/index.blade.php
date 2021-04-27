@@ -86,7 +86,7 @@
                     </div>
                     @if(count($dados) > 0)
                         <div class="box-body table-responsive" style="overflow:auto;">
-                            <table class="table table-hover">
+                            <table class="table table-hover dataTable">
                                 <thead> 
                                     <tr> 
                                         <th> Nome </th>

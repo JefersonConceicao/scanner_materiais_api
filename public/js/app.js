@@ -127,6 +127,226 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./resources/js/Constants/language_dataTable.js":
+/*!******************************************************!*\
+  !*** ./resources/js/Constants/language_dataTable.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var portugues = {
+  "emptyTable": "Não foi encontrado nenhum registo",
+  "loadingRecords": "A carregar...",
+  "processing": "A processar...",
+  "lengthMenu": "Mostrar _MENU_ registos",
+  "zeroRecords": "Não foram encontrados resultados",
+  "search": "Procurar:",
+  "paginate": {
+    "first": "Primeiro",
+    "previous": "Anterior",
+    "next": "Seguinte",
+    "last": "Último"
+  },
+  "aria": {
+    "sortAscending": ": Ordenar colunas de forma ascendente",
+    "sortDescending": ": Ordenar colunas de forma descendente"
+  },
+  "autoFill": {
+    "cancel": "cancelar",
+    "fill": "preencher",
+    "fillHorizontal": "preencher células na horizontal",
+    "fillVertical": "preencher células na vertical",
+    "info": "Exemplo de Auto Preenchimento"
+  },
+  "buttons": {
+    "collection": "Coleção",
+    "colvis": "Visibilidade de colunas",
+    "colvisRestore": "Restaurar visibilidade",
+    "copy": "Copiar",
+    "copyKeys": "Pressiona CTRL ou u2318 + C para copiar a informação para a área de transferência. Para cancelar, clica neste mensagem ou pressiona ESC.",
+    "copySuccess": {
+      "1": "Uma linha copiada para a área de transferência",
+      "_": "%ds linhas copiadas para a área de transferência"
+    },
+    "copyTitle": "Copiar para a área de transferência",
+    "csv": "CSV",
+    "excel": "Excel",
+    "pageLength": {
+      "-1": "Mostrar todas as linhas",
+      "1": "Mostrar 1 linha",
+      "_": "Mostrar %d linhas"
+    },
+    "pdf": "PDF",
+    "print": "Imprimir"
+  },
+  "decimal": ",",
+  "infoFiltered": "(filtrado num total de _MAX_ registos)",
+  "infoThousands": ".",
+  "searchBuilder": {
+    "add": "Adicionar condição",
+    "button": {
+      "0": "Construtor de pesquisa",
+      "_": "Construtor de pesquisa (%d)"
+    },
+    "clearAll": "Limpar tudo",
+    "condition": "Condição",
+    "conditions": {
+      "date": {
+        "after": "Depois",
+        "before": "Antes",
+        "between": "Entre",
+        "empty": "Vazio",
+        "equals": "Igual",
+        "not": "Diferente",
+        "notBetween": "Não está entre",
+        "notEmpty": "Não está vazio"
+      },
+      "number": {
+        "between": "Entre",
+        "empty": "Vazio",
+        "equals": "Igual",
+        "gt": "Maior que",
+        "gte": "Maior ou igual a",
+        "lt": "Menor que",
+        "lte": "Menor ou igual a",
+        "not": "Diferente",
+        "notBetween": "Não está entre",
+        "notEmpty": "Não está vazio"
+      },
+      "string": {
+        "contains": "Contém",
+        "empty": "Vazio",
+        "endsWith": "Termina em",
+        "equals": "Igual",
+        "not": "Diferente",
+        "notEmpty": "Não está vazio",
+        "startsWith": "Começa em"
+      },
+      "array": {
+        "equals": "Igual",
+        "empty": "Vazio",
+        "contains": "Contém",
+        "not": "Diferente",
+        "notEmpty": "Não está vazio",
+        "without": "Não contém"
+      }
+    },
+    "data": "Dados",
+    "deleteTitle": "Excluir condição de filtragem",
+    "logicAnd": "E",
+    "logicOr": "Ou",
+    "title": {
+      "0": "Construtor de pesquisa",
+      "_": "Construtor de pesquisa (%d)"
+    },
+    "value": "Valor"
+  },
+  "searchPanes": {
+    "clearMessage": "Limpar tudo",
+    "collapse": {
+      "0": "Painéis de pesquisa",
+      "_": "Painéis de pesquisa (%d)"
+    },
+    "count": "{total}",
+    "countFiltered": "{shown} ({total})",
+    "emptyPanes": "Sem painéis de pesquisa",
+    "loadMessage": "A carregar painéis de pesquisa",
+    "title": "Filtros ativos"
+  },
+  "select": {
+    "1": "%d linha seleccionada",
+    "_": "%d linhas seleccionadas",
+    "cells": {
+      "1": "1 célula seleccionada",
+      "_": "%d células seleccionadas"
+    },
+    "columns": {
+      "1": "1 coluna seleccionada",
+      "_": "%d colunas seleccionadas"
+    }
+  },
+  "thousands": ".",
+  "editor": {
+    "close": "Fechar",
+    "create": {
+      "button": "Novo",
+      "title": "Criar novo registro",
+      "submit": "Criar"
+    },
+    "edit": {
+      "button": "Editar",
+      "title": "Editar registro",
+      "submit": "Atualizar"
+    },
+    "remove": {
+      "button": "Remover",
+      "title": "Remover",
+      "submit": "Remover"
+    },
+    "error": {
+      "system": "Um erro no sistema ocorreu"
+    },
+    "multi": {
+      "title": "Multiplos valores",
+      "info": "Os itens selecionados contêm valores diferentes para esta entrada. Para editar e definir todos os itens para esta entrada com o mesmo valor, clique ou toque aqui, caso contrário, eles manterão seus valores individuais.",
+      "restore": "Desfazer alterações"
+    }
+  },
+  "info": "Mostrando os registos _START_ a _END_ num total de _TOTAL_",
+  "infoEmpty": "Mostrando 0 os registos num total de 0"
+};
+module.exports = {
+  portugues: portugues
+};
+
+/***/ }),
+
+/***/ "./resources/js/Core/AppNavigation.js":
+/*!********************************************!*\
+  !*** ./resources/js/Core/AppNavigation.js ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(function () {
+  setOptions();
+});
+var listMenu = $('.main-sidebar > .sidebar > .sidebar-menu > li');
+var listMenuGroups = $('.main-sidebar > .sidebar > .sidebar-menu > li.treeview');
+
+var verifySubmenuOpen = function verifySubmenuOpen() {
+  //verifica qual menu está aberto 
+  return listMenu.filter(function (index, value) {
+    return value.classList.contains('active');
+  });
+};
+
+var setOptions = function setOptions() {
+  listMenuGroups.on('click', function (e) {
+    e.preventDefault();
+
+    if ($(this).hasClass('menu-open')) {
+      return null;
+    } else {
+      var optionsMenu = $(this).find('li > a').addClass("targetChange");
+      changeScreen(optionsSubMenu, optionsMenu);
+    }
+  });
+};
+
+var changeScreen = function changeScreen(optionsMenu) {
+  $('.targetChange').on('click', function () {
+    var url = $(this).prop('href');
+  });
+};
+
+module.exports = {
+  verifySubmenuOpen: verifySubmenuOpen,
+  setOptions: setOptions
+};
+
+/***/ }),
+
 /***/ "./resources/js/Core/AppSettings.js":
 /*!******************************************!*\
   !*** ./resources/js/Core/AppSettings.js ***!
@@ -157,9 +377,9 @@ var adjustingDropDown = function adjustingDropDown() {
 };
 
 var setupAjaxAllSuccess = function setupAjaxAllSuccess() {
-  $.ajaxSetup({
-    success: function success() {
-      adjustingDropDown();
+  $(document).ajaxSuccess(function (event, xhr, settings) {
+    if (!$.fn.DataTable.isDataTable($('.dataTable'))) {
+      AppUsage.initializeDataTable();
     }
   });
 };
@@ -178,13 +398,20 @@ module.exports = {
 /***/ (function(module, exports) {
 
 $(function () {
+  initializeDataTable();
   loadLibs();
 });
 
-var loadLibs = function loadLibs() {
-  console.log("hum"); //FUNÇÃO QUE HABILITA EVENTOS DE BIBLIOTECAS
-  //SELECT2 
+var initializeDataTable = function initializeDataTable() {
+  $(".dataTable").dataTable({
+    buttons: ['pdf'],
+    paging: false,
+    searching: false,
+    language: languageDataTable.portugues
+  });
+};
 
+var loadLibs = function loadLibs() {
   $(".select2").select2({
     language: 'pt-BR',
     placeholder: 'Selecione uma opção',
@@ -198,12 +425,12 @@ var loadModal = function loadModal(url, modalObject) {
   var callback = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : null;
   $(modalObject).modal({
     backdrop: 'static'
-  });
-  $(modalObject).find('.modal-content').html("");
+  }); //EVITA QUE O MODAL FECHE AO CLICAR FORA DO ESCOPO DO MODAL
+
   $(modalObject).find('.modal-dialog').css({
     width: !!width ? width : '800px'
   });
-  $(modalObject).find('.modal-content').append("<section>  \n             <div class=\"alert alert-primary\"> <i class=\"fa fa-spinner fa-spin\"> </i> Carregando... <div>\n         </section>");
+  $(modalObject).find('.modal-content').html("").append("<section>  \n            <div class=\"alert alert-primary\"> <i class=\"fa fa-spinner fa-spin\"> </i> Carregando... <div>\n        </section>");
   $(modalObject).find(".modal-content").load("".concat(url, " .modal-content >"), function () {
     //Executa novamente loadLibs para novo HTML 
     loadLibs();
@@ -222,7 +449,8 @@ var loading = function loading(element) {
 module.exports = {
   loadModal: loadModal,
   loadLibs: loadLibs,
-  loading: loading
+  loading: loading,
+  initializeDataTable: initializeDataTable
 };
 
 /***/ }),
@@ -255,7 +483,7 @@ var habilitaEventos = function habilitaEventos() {
 var habilitaBotoes = function habilitaBotoes() {
   $("#cadastrarUser").on("click", function () {
     var url = '/users/create';
-    AppUsage.loadModal(url, modalObject, '1000px', function () {});
+    AppUsage.loadModal(url, modalObject, '800px', function () {});
   });
 };
 
@@ -290,10 +518,16 @@ module.exports = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-window.AppLogin = __webpack_require__(/*! ./Auth/AppLogin */ "./resources/js/Auth/AppLogin.js");
-window.AppUsers = __webpack_require__(/*! ./Logged/AppUsers */ "./resources/js/Logged/AppUsers.js");
-window.AppSettings = __webpack_require__(/*! ./Core/AppSettings */ "./resources/js/Core/AppSettings.js");
+//CORE Scripts - scripts de estrutura
+window.AppNavigation = __webpack_require__(/*! ./Core/AppNavigation */ "./resources/js/Core/AppNavigation.js");
 window.AppUsage = __webpack_require__(/*! ./Core/AppUsage */ "./resources/js/Core/AppUsage.js");
+window.AppSettings = __webpack_require__(/*! ./Core/AppSettings */ "./resources/js/Core/AppSettings.js"); //AUTH Scripts - scripts em telas de authenticação/recuperação de senha
+
+window.AppLogin = __webpack_require__(/*! ./Auth/AppLogin */ "./resources/js/Auth/AppLogin.js"); //LOGGED Scripts - scripts em módulos do sistema
+
+window.AppUsers = __webpack_require__(/*! ./Logged/AppUsers */ "./resources/js/Logged/AppUsers.js"); //CONSTANTS Scripts - scripts re-utilizaveis
+
+window.languageDataTable = __webpack_require__(/*! ./Constants/language_dataTable */ "./resources/js/Constants/language_dataTable.js");
 
 /***/ }),
 
@@ -315,8 +549,8 @@ window.AppUsage = __webpack_require__(/*! ./Core/AppUsage */ "./resources/js/Cor
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\bt_source\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\bt_source\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\novo_union\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\novo_union\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

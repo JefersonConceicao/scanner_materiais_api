@@ -23,10 +23,10 @@ const adjustingDropDown = function(){
 }
 
 const setupAjaxAllSuccess = function(){
-    $.ajaxSetup({   
-        success:function(){
-            adjustingDropDown();
-        },
+    $(document).ajaxSuccess(function(event, xhr, settings){
+        if(!$.fn.DataTable.isDataTable($('.dataTable'))){
+            AppUsage.initializeDataTable();
+        }
     })
 }
 
