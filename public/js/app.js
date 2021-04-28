@@ -309,40 +309,65 @@ module.exports = {
 /***/ (function(module, exports) {
 
 $(function () {
-  setOptions();
+  setOptionsMenu();
+  setOptionsSubMenu();
 });
 var listMenu = $('.main-sidebar > .sidebar > .sidebar-menu > li');
-var listMenuGroups = $('.main-sidebar > .sidebar > .sidebar-menu > li.treeview');
+var listMenuGroups = $('.main-sidebar > .sidebar > .sidebar-menu > li.treeview > .treeview-menu > li > a').addClass('targetSubMenu');
 
-var verifySubmenuOpen = function verifySubmenuOpen() {
-  //verifica qual menu está aberto 
-  return listMenu.filter(function (index, value) {
-    return value.classList.contains('active');
-  });
-};
-
-var setOptions = function setOptions() {
-  listMenuGroups.on('click', function (e) {
+var setOptionsMenu = function setOptionsMenu() {
+  listMenu.on('click', function (e) {
     e.preventDefault();
 
-    if ($(this).hasClass('menu-open')) {
-      return null;
-    } else {
-      var optionsMenu = $(this).find('li > a').addClass("targetChange");
-      changeScreen(optionsSubMenu, optionsMenu);
+    if (!$(this).hasClass('treeview')) {
+      var url = $(this).find('a').attr('href');
+      setActive($(this));
+      getNewScreen(url);
     }
   });
 };
 
-var changeScreen = function changeScreen(optionsMenu) {
-  $('.targetChange').on('click', function () {
-    var url = $(this).prop('href');
+var setOptionsSubMenu = function setOptionsSubMenu() {
+  listMenuGroups.on('click', function (e) {
+    var url = $(this).attr('href');
+    setActive($(this));
+    getNewScreen(url);
+  });
+};
+
+var setActive = function setActive(element) {
+  if (element.hasClass('active')) {
+    return;
+  } //VERIFICA E REMOVE QUALQUER LI ATIVA
+
+
+  var activeList = listMenu.find('.active');
+  var subMenuActive = listMenuGroups.parent().find('.active');
+  activeList.removeClass('active');
+  subMenuActive.removeClass('active');
+  element.parent().addClass("active");
+};
+
+var getNewScreen = function getNewScreen(url) {
+  var elementWrapper = $('.content-wrapper');
+  $.ajax({
+    type: "GET",
+    url: url,
+    dataType: "HTML",
+    beforeSend: function beforeSend() {
+      AppUsage.loading(elementWrapper);
+    },
+    success: function success(response) {
+      elementWrapper.html(response);
+    },
+    error: function error(err) {
+      console.log(err);
+    }
   });
 };
 
 module.exports = {
-  verifySubmenuOpen: verifySubmenuOpen,
-  setOptions: setOptions
+  setOptionsSubMenu: setOptionsSubMenu
 };
 
 /***/ }),
@@ -549,8 +574,8 @@ window.languageDataTable = __webpack_require__(/*! ./Constants/language_dataTabl
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\novo_union\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\novo_union\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\bt_source\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\bt_source\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

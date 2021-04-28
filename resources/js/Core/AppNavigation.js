@@ -1,40 +1,67 @@
 $(function(){
-    setOptions();
+    setOptionsMenu();
+    setOptionsSubMenu();
 })
 
 const listMenu = $('.main-sidebar > .sidebar > .sidebar-menu > li');
-const listMenuGroups = $('.main-sidebar > .sidebar > .sidebar-menu > li.treeview')
+const listMenuGroups = $('.main-sidebar > .sidebar > .sidebar-menu > li.treeview > .treeview-menu > li > a').addClass('targetSubMenu');
 
-const verifySubmenuOpen = function(){   
-    //verifica qual menu está aberto 
-    return listMenu.filter((index, value) => ( 
-        value.classList.contains('active')
-    ))  
-}
-
-const setOptions = function(){
-    listMenuGroups.on('click', function(e){
+const setOptionsMenu = function(){
+    listMenu.on('click', function(e){
         e.preventDefault();
 
-        if($(this).hasClass('menu-open')){
-            return null; 
-        }else{
-            let optionsMenu = $(this).find('li > a').addClass("targetChange");
+        if(!$(this).hasClass('treeview')){
+            let url = $(this).find('a').attr('href');
 
-            changeScreen(optionsSubMenu, optionsMenu);
+            setActive($(this));
+            getNewScreen(url);
         }
     })
 }
 
-const changeScreen = function(optionsMenu){
-   $('.targetChange').on('click', function(){
-        let url = $(this).prop('href');
-     
-   })
-}   
+const setOptionsSubMenu = function(){
+    listMenuGroups.on('click', function(e){
+        let url = $(this).attr('href');
 
+        setActive($(this));
+        getNewScreen(url);
+    })
+}
+
+const setActive = function(element){
+    if(element.hasClass('active')){
+        return;
+    }
+
+    //VERIFICA E REMOVE QUALQUER LI ATIVA
+    let activeList = listMenu.find('.active');
+    let subMenuActive = listMenuGroups.parent().find('.active');
+
+    activeList.removeClass('active');
+    subMenuActive.removeClass('active');
+
+    element.parent().addClass("active");
+}
+
+const getNewScreen = function(url){
+    const elementWrapper = $('.content-wrapper');
+
+    $.ajax({
+        type: "GET",
+        url,
+        dataType: "HTML",
+        beforeSend:function(){
+            AppUsage.loading(elementWrapper);
+        },
+        success: function (response) {
+            elementWrapper.html(response);
+        },
+        error:function(err){
+            console.log(err);
+        },
+    });
+}
 
 module.exports = {
-    verifySubmenuOpen,
-    setOptions,
+    setOptionsSubMenu,
 }
