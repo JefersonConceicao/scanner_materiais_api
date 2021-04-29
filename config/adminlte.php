@@ -147,12 +147,12 @@ return [
                     [
                         'text' => 'Perfil',
                         'icon' => 'fa fa-angle-right',
-                        'url' => ''
+                        'url' => '#'
                     ],
                     [
                         'text' => 'Alterar senha',
                         'icon' => 'fa fa-angle-right',
-                        'url' => ''
+                        'url' => '#'
                     ],
                 ],
             ],
@@ -175,62 +175,62 @@ return [
                     [
                       'text' => 'Categoria do instrumento',
                       'icon' => 'fa fa-angle-right',
-                      'url' => ''  
+                      'url' => '#'  
                     ],
                     [
                         'text' => 'Checklist de Estrutura',
                         'icon' => 'fa fa-angle-right',
-                        'url' => ''     
+                        'url' => '#'     
                     ],
                     [
                         'text' => 'Checklist de Itens',
                         'icon' => 'fa fa-angle-right',
-                        'url' => ''  
+                        'url' => '#'  
                     ],
                     [
                         'text' => 'Checklist de Modelos',
                         'icon' => 'fa fa-angle-right',
-                        'url' => ''      
+                        'url' =>'#'      
                     ],
                     [
                         'text' => 'Elemento de Despesa',
                         'icon' => 'fa fa-angle-right',
-                        'url' => ''       
+                        'url' =>'#'       
                     ],
                     [
                         'text' => 'Fonte de Recurso',
                         'icon' => 'fa fa-angle-right',
-                        'url' => ''      
+                        'url' =>'#'     
                     ],
                     [
                         'text' => 'Modalidade de Apoio',
                         'icon' => 'fa fa-angle-right',
-                        'url' => ''  
+                        'url' => '#'
                     ],
                     [
                         'text' => 'Modalidade de Licitação',
                         'icon' => 'fa fa-angle-right',
-                        'url' => ''  
+                        'url' => '#'  
                     ],
                     [
                         'text' => 'Projeto de Atividade',
                         'icon' => 'fa fa-angle-right',
-                        'url' => ''  
+                        'url' => '#' 
                     ],
                     [
                         'text' => 'Proponente',
                         'icon' => 'fa fa-angle-right',
-                        'url' => ''  
+                        'url' => '#' 
                     ],
                     [
                         'text' => 'Setor',
                         'icon' => 'fa fa-angle-right',
-                        'url' => ''
+                        'url' => '#'
                     ],
                     [
                         'text' => 'Tipo de Projetos (Eventos)',
                         'icon' => 'fa fa-angle-right',
-                        'url' => ''
+                        'url' => '#'
                     ],
                 ],
             ],
@@ -242,37 +242,37 @@ return [
                     [
                         'text' => 'Localidades',
                         'icon' => 'fa fa-angle-right',
-                        'url' => ''
+                        'url' => '#'
                     ],
                     [
                         'text' => 'País',
                         'icon' => 'fa fa-angle-right',
-                        'url' => ''
+                        'url' => '#'
                     ],
                     [
                         'text' => 'Território de Identidade',
                         'icon' => 'fa fa-angle-right',
-                        'url' => ''
+                        'url' => '#'
                     ],
                     [
                         'text' => 'Tipo Evento/Festa',
                         'icon' => 'fa fa-angle-right',
-                        'url' => ''
+                        'url' => '#'
                     ],
                     [
                         'text' => 'Tipo Infraestrutura',
                         'icon' => 'fa fa-angle-right',
-                        'url' => ''
+                        'url' => '#'
                     ],
                     [
                         'text' => 'UF',
                         'icon' => 'fa fa-angle-right',
-                        'url' => ''
+                        'url' => '#'
                     ],
                     [
                         'text' => 'Zona Turística',
                         'icon' => 'fa fa-angle-right',
-                        'url' => ''
+                        'url' => '#'
                     ],
                 ],
             ],
@@ -284,7 +284,8 @@ return [
                     [
                         'text' => 'Usuários',
                         'url' => 'users/',
-                        'icon' => 'fa fa-angle-right'
+                        'icon' => 'fa fa-angle-right',
+                        'requestjs' => 'AppUsers'
                     ],
                 ]
             ],
@@ -383,17 +384,6 @@ return [
                     'type' => 'js',
                     'asset' => false,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.min.js',
-                ],
-            ],
-        ],
-        [
-            'name' => 'Sweetalert2',
-            'active' => true,
-            'files' => [
-                [
-                    'type' => 'js',
-                    'asset' => false,
-                    'location' => '//cdn.jsdelivr.net/npm/sweetalert2@8',
                 ],
             ],
         ],

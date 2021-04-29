@@ -10,8 +10,12 @@
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                {{ Form::label('nome', 'Nome') }} <span class="required"> * </span>
-                {{ Form::text('user_nome', null, ['class' => 'form-control'])}}
+                {{ Form::label('nome', 'Nome Completo') }} <span class="required"> * </span>
+                {{ Form::text('name', null, [
+                    'class' => 'form-control',
+                    'required' => true,
+                    'id' => 'nome_create_user',
+                ])}}
                 
                 <div class="error_feedback"> </div>
             </div>
@@ -19,7 +23,26 @@
         <div class="col-md-6">
             <div class="form-group">
                 {{ Form::label('username', 'Usuário') }} <span class="required"> * </span>
-                {{ Form::text('user_username', null, ['class' => 'form-control'])}}    
+                {{ Form::text('username', null, [
+                    'class' => 'form-control',
+                    'required' => true,
+                    'id' => 'username_create_user'    
+                ])}}    
+
+                <div class="error_feedback"> </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12"> 
+            <div class="form-group">
+                {{ Form::label('email','E-mail') }} <span class="required"> * </span>
+                {{ Form::text('email', null, [
+                    'class' => 'form-control',
+                    'required' => true,
+                    'id' => 'email_create_user'
+                ]) }}
 
                 <div class="error_feedback"> </div>
             </div>
@@ -30,16 +53,23 @@
         <div class="col-md-12">
             <div class="form-group">
                 {{Form::label('perfil', 'Perfis do Usuário')}} <span class="required">  * </span>
-                {{ Form::select('role_user[]', [], [] ,['class' => 'form-control select2'])}} 
+                {{ Form::select('role_user', $roles, [],[
+                    'class' => 'form-control multiselect multiple',
+                    'id' => 'role_create_user'
+                ])}} 
 
                 <div class="error_feedback"> </div>
             </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="form-group">
-                {{Form::label('setor', 'Setor')}}
-                {{ Form::select('user_setor', [], [] ,['class' => 'form-control select2'])}} 
+                {{Form::label('setor', 'Setor')}} <span class="required">  * </span>
+                {{ Form::select('setor_id', $setores, null ,[
+                    'class' => 'form-control select2',
+                    'placeholder' => 'Selecione uma opção',
+                    'id' => 'setor_create_user'
+                ])}} 
 
                 <div class="error_feedback"> </div>
             </div>
@@ -49,16 +79,16 @@
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                {{ Form::label('senha', 'Senha') }}
-                {{ Form::password('user_password', ['class' => 'form-control'])}}
+                {{ Form::label('senha', 'Senha') }} <span class="required">  * </span>
+                {{ Form::password('password', ['class' => 'form-control'])}}
 
                 <div class="error_feedback"> </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="form-group">
+        <div class="col-md-6"> 
+            <div class="form-group"> <span class="required">  * </span>
                 {{ Form::label('confirm_senha', 'Confirmar Senha') }}
-                {{ Form::password('user_confirm_password', ['class' => 'form-control'])}}
+                {{ Form::password('confirm_password', ['class' => 'form-control'])}}
 
                 <div class="error_feedback"> </div>
             </div>

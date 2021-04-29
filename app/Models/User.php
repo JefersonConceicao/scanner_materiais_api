@@ -90,5 +90,12 @@ class User extends Authenticatable
 
         return $data;
     }
-        
+
+    public function saveUser($request = []){
+
+        dd($request);
+
+
+
+    }
 }

@@ -1,5 +1,5 @@
 $(function(){
-    setupAjaxAllSuccess();
+    setupAjax();
     adjustingDropDown();
 })
 
@@ -22,7 +22,14 @@ const adjustingDropDown = function(){
     $(".dropdown-menu > li > a").css('color', 'black');
 }
 
-const setupAjaxAllSuccess = function(){
+const setupAjax = function(){   
+
+    $.ajaxSetup({
+        headers:{
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+    })
+
     $(document).ajaxSuccess(function(event, xhr, settings){
         if(!$.fn.DataTable.isDataTable($('.dataTable'))){
             AppUsage.initializeDataTable();
@@ -31,5 +38,5 @@ const setupAjaxAllSuccess = function(){
 }
 
 module.exports = {
-     setupAjaxAllSuccess,
+    setupAjax,
 }

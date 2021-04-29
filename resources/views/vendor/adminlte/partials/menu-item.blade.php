@@ -8,6 +8,7 @@
           <input type="text" name="{{ $item['input_name'] }}" class="form-control" placeholder="
             {{ $item['text'] }}
           ">
+
           <span class="input-group-btn">
                 <button type="submit" name="search" id="search-btn" class="btn btn-flat">
                   <i class="fas fa-search"></i>
@@ -16,8 +17,8 @@
         </div>
       </form>
 @else
-    <li class="{{ $item['class']}}">
-        <a href="{{ $item['href'] }}"
+    <li class="{{ $item['class']}}" >
+        <a href="{{ $item['href'] }}" module={{ isset($item['requestjs']) ? $item['requestjs'] : "no_module"}} 
            @if (isset($item['target'])) target="{{ $item['target'] }}" @endif
         >
             <i class="{{ $item['icon'] ?? 'far fa-fw fa-circle' }} {{ isset($item['icon_color']) ? 'text-' . $item['icon_color'] : '' }}"></i>
@@ -35,6 +36,7 @@
                 </span>
             @endif
         </a>
+
         @if (isset($item['submenu']))
             <ul class="{{ $item['submenu_class'] }}">
                 @each('adminlte::partials.menu-item', $item['submenu'], 'item')
@@ -42,3 +44,4 @@
         @endif
     </li>
 @endif
+

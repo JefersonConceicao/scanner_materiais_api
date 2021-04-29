@@ -24,6 +24,21 @@ a {
   border-top: solid 2px #e91313;
 }
 
+#containerLoadingBar {
+  width: 100%;
+  background-color: grey;
+}
+
+#progressLoadingBar {
+  height: 4px;
+  background-color: #e91313;
+  width: 1%;
+}
+
+.ms-container {
+  width: 100% !important;
+}
+
 @media (max-width: 800px) {
   .modal-dialog {
     width: 100% !important;

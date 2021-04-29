@@ -21,8 +21,10 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('inicio.inicio');
+        $view = view('inicio.inicio');
+
+        return $request->ajax() ? $view->renderSections()['content'] : $view;
     }
 }

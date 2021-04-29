@@ -114,10 +114,13 @@
             </div>
         </div>
 
+        <div id="containerLoadingBar" style="display:none;">
+            <div id="progressLoadingBar"> </div>
+        </div>  
+
         @if(config('adminlte.layout') != 'top-nav')
         <!-- Left side column. contains the logo and sidebar -->
         <aside class="main-sidebar">
-
             <!-- sidebar: style can be found in sidebar.less -->
             <section class="sidebar">
                 <!-- Sidebar Menu -->
@@ -135,12 +138,13 @@
             @if(config('adminlte.layout') == 'top-nav')
                 <div class="container">
             @endif
+
             <!-- Main content -->
                 <section class="content">
                     @yield('content')
                 </section>
-
             <!-- /.content -->
+
             @if(config('adminlte.layout') == 'top-nav')
                 </div>
             <!-- /.container -->

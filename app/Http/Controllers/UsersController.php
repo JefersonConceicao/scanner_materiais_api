@@ -1,16 +1,21 @@
 <?php
-
+//GERAL NAMESPACES
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+
+//MODELS
 use App\Models\User;
 use App\Models\Role;
 use App\Models\Setor;
+
+//REQUESTS 
+use App\Http\Requests\UserRequest;
 
 class UsersController extends Controller
 {
     public function index(Request $request)
     {
-        $user= new User; 
+        $user = new User; 
         $role = new Role;
         $setor = new Setor; 
 
@@ -28,16 +33,26 @@ class UsersController extends Controller
         return $request->ajax() ? $view->renderSections()['content'] : $view;
     }
 
-    
     public function create()
     {
-        return view('usuarios.create');
+        $role = new Role;
+        $setor = new Setor;
+
+        $optionsRoles = $role->getRoles()->pluck('name', 'id');
+        $optionsSetores = $setor->getSetores()->pluck('descsetor', 'id');
+        
+        return view('usuarios.create')
+            ->with('roles', $optionsRoles)
+            ->with('setores', $optionsSetores);
     }
 
    
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        //
+        $user = new User;
+
+        $data = $user->saveUser($request->all());
+        return response()->json($data, $data['ok'] ? 200 : 500);
     }
 
     

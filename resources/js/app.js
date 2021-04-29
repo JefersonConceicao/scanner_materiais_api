@@ -11,3 +11,6 @@ window.AppUsers = require('./Logged/AppUsers');
 
 //CONSTANTS Scripts - scripts re-utilizaveis
 window.languageDataTable = require('./Constants/language_dataTable');
+
+//LIBS - scripts bibliotecas
+window.Swal = require('sweetalert2'); 

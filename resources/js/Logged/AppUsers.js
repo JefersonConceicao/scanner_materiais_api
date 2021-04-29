@@ -1,3 +1,5 @@
+const { default: Swal } = require("sweetalert2");
+
 $(function(){
     habilitaBotoes()
     habilitaEventos()
@@ -23,9 +25,14 @@ const habilitaBotoes = function(){
     $("#cadastrarUser").on("click", function(){
         let url = '/users/create'
         AppUsage.loadModal(url, modalObject, '800px', function(){
-                
+            formDataUser();
         })
     })
+
+    $("#editaUser").on("click", function(){
+        let id = $(this).attr('id');
+        let url = `/users/edit/${id}`
+    });
 }
 
 const getUsersFilter = function(searchformData){
@@ -36,7 +43,7 @@ const getUsersFilter = function(searchformData){
         url: "/users/",
         data: searchformData,
         dataType: "HTML",
-        beforeSend:function(){
+        beforeSend:function(jqXHR, settings){
             AppUsage.loading($(gridUser));
         },
         success: function (response) {
@@ -46,7 +53,37 @@ const getUsersFilter = function(searchformData){
     });
 }
 
+const formDataUser = function(id){
+    let form = typeof id == "undefined" ? '#create_user' : "#edit_user";
+    let url =  typeof id == "undefined" ? '/users/store' : `/users/update/${id}`
+    let type = typeof id == "undefined" ? 'POST' : 'PUT';
 
+    $(form).on('submit', function(e){
+        e.preventDefault();
+        let formSerialize = $(this).serialize();   
+
+        $.ajax({
+            type,
+            url,
+            data: formSerialize,
+            beforeSend:function(){
+                
+            },
+            success:function(repsonse){
+                console.log(repsonse);
+            },
+            error:function(jqXHR, textStatus, errorThrown){
+                if(!!jqXHR.responseJSON){
+                    let errorsRequest = jqXHR.responseJSON.errors;
+                    AppUsage.showMessagesValidator(form, errorsRequest)
+                }
+            },
+            complete:function(){
+
+            }
+        })
+    });
+}
 
 module.exports = {
     habilitaEventos,
