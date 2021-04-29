@@ -1,5 +1,3 @@
-const { default: Swal } = require("sweetalert2");
-
 $(function(){
     habilitaBotoes()
     habilitaEventos()
@@ -29,9 +27,14 @@ const habilitaBotoes = function(){
         })
     })
 
-    $("#editaUser").on("click", function(){
+    $(".editaUser").on("click", function(){
         let id = $(this).attr('id');
         let url = `/users/edit/${id}`
+
+        AppUsage.loadModal(url, modalObject, '800px', function(){
+            eventShowPassword();    
+            formDataUser(id);
+        })
     });
 }
 
@@ -67,10 +70,22 @@ const formDataUser = function(id){
             url,
             data: formSerialize,
             beforeSend:function(){
-                
+                $(".btnSubmit").prop("disabled", true).html(`
+                    <b> <i class="fa fa-spinner fa-spin"> </i> Carregando...   </b>
+                `)
             },
-            success:function(repsonse){
-                console.log(repsonse);
+            success:function(response){
+                Swal.fire({
+                    position: 'top-end',
+                    icon: !response.error ? 'success' : 'error',
+                    title: response.msg,
+                    toast: true,
+                    showConfirmButton: false,
+                    timer:2000,
+                    didOpen:() => {
+                       $(modalObject).modal('hide');
+                    }
+                }); 
             },
             error:function(jqXHR, textStatus, errorThrown){
                 if(!!jqXHR.responseJSON){
@@ -79,10 +94,20 @@ const formDataUser = function(id){
                 }
             },
             complete:function(){
-
+                $(".btnSubmit").prop("disabled", false).html('Salvar');
             }
         })
     });
+}
+
+const eventShowPassword = function(){
+    $('a[href="#change_password"]').on('click', function(e){
+        if($("#change_password").hasClass('in')){
+            $("input[type='password']").prop("disabled", true);
+        }else{
+            $("input[type='password']").prop("disabled", false);
+        }
+    })
 }
 
 module.exports = {

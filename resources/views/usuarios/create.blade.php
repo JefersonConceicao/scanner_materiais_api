@@ -53,10 +53,11 @@
         <div class="col-md-12">
             <div class="form-group">
                 {{Form::label('perfil', 'Perfis do Usuário')}} <span class="required">  * </span>
-                {{ Form::select('role_user', $roles, [],[
-                    'class' => 'form-control multiselect multiple',
-                    'id' => 'role_create_user'
-                ])}} 
+                {{ Form::select('role_user[]', [null => ''] + $roles , [] ,[
+                    'class' => 'form-control multiselect',
+                    'id' => 'role_create_user',
+                    'multiple' => 'multiple',
+                ])}}  
 
                 <div class="error_feedback"> </div>
             </div>
@@ -65,9 +66,8 @@
         <div class="col-md-12">
             <div class="form-group">
                 {{Form::label('setor', 'Setor')}} <span class="required">  * </span>
-                {{ Form::select('setor_id', $setores, null ,[
+                {{ Form::select('setor_id', [null => 'Selecione uma opção'] + $setores, null ,[
                     'class' => 'form-control select2',
-                    'placeholder' => 'Selecione uma opção',
                     'id' => 'setor_create_user'
                 ])}} 
 

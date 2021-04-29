@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -13,13 +14,12 @@ class User extends Authenticatable
 
     protected $fillable = [
         'name', 
-        'email', 
+        'username', 
+        'email',
         'password',
         'remember_token',
-        'url_photo',
-        'name',
-        'username',
-        'active',
+        'setor_id',
+        'autoriza',
     ];
  
     protected $hidden = [
@@ -92,10 +92,26 @@ class User extends Authenticatable
     }
 
     public function saveUser($request = []){
+        try{
+            $this->fill([
+                'name' => $request['name'],
+                'username' => trim($request['username']),
+                'email' => $request['email'],
+                'setor_id' => $request['setor_id'],
+                'password' => Hash::make($request['password']),
+                'confirm_password' => $request['confirm_password'],
+            ])->save();
 
-        dd($request);
-
-
-
+            return [
+                'error' => false,
+                'msg' => 'Registro salvo com sucesso!',
+            ];
+        }catch(Exception $error){
+            return [
+                'error' => true,
+                'msg' => 'Não consegui salvar o registro, tente novamente mais tarde',
+                'code' => $error->getCode(),
+            ];
+        }
     }
 }

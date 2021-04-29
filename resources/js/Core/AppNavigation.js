@@ -45,6 +45,8 @@ const loadingNavigation = function(inicio, fim, isComplete = false){
     //Calcula tempo de carregamento;
     const msTimeLoading = fim - inicio; 
 
+    //Configura container body
+    $('body').removeClass("fixed");
     $("#containerLoadingBar").show(); //Inicia barra de carregamento
 
     let progressBar = $("#progressLoadingBar");
@@ -53,8 +55,10 @@ const loadingNavigation = function(inicio, fim, isComplete = false){
     let idInterval = setInterval(function(){
         if(width >= 100){
             clearInterval(idInterval);  
-            $("#containerLoadingBar").hide(); 
             width = 1;
+            
+            $("#containerLoadingBar").hide(); 
+            $('body').addClass('fixed');
         }else{
             width++
             progressBar.css({
@@ -85,6 +89,8 @@ const getNewScreen = function(url, module){
             loadingNavigation(this.start_time, new Date().getTime());
         },
         success: function (response) {
+            changeURL(url);
+
             elementWrapper.html(response);
             AppUsage.initializeDataTable();
             AppUsage.loadLibs();
@@ -103,6 +109,10 @@ const getNewScreen = function(url, module){
             loadingNavigation(this.start_time, new Date().getTime(), true);
         },
     });
+}
+
+const changeURL = function(url){ //void
+    history.pushState({}, "", url);
 }
 
 module.exports = {

@@ -86,7 +86,7 @@
                     </div>
                     @if(count($dados) > 0)
                         <div class="box-body table-responsive" style="overflow:auto;">
-                            <table class="table table-hover dataTable">
+                            <table class="table table-hover table-striped dataTable">
                                 <thead> 
                                     <tr> 
                                         <th> Nome </th>
@@ -113,18 +113,20 @@
                                                 <a
                                                     href="#" 
                                                     bt_ac="users.edit" 
-                                                    class="btn btn-xs btn-primary" 
+                                                    class="btn btn-xs btn-primary editaUser" 
                                                     data-toggle="tooltip" 
                                                     title="Editar"
+                                                    id={{$dado->id}}
                                                 >
                                                      <i class="fa fa-edit"> </i>
                                                 </a>    
                                                 
                                                 <a      
                                                     href="#" 
-                                                    class="btn btn-xs btn-success" 
+                                                    class="btn btn-xs btn-success viewUser"  
                                                     title="Visualizar" 
                                                     data-toggle="Visualizar"
+                                                    id={{$dado->id}}
                                                 > 
 
                                                     <i class="fa fa-bars"> </i>
@@ -132,9 +134,10 @@
 
                                                 <a 
                                                     href="#" 
-                                                    class="btn btn-xs btn-danger" 
+                                                    class="btn btn-xs btn-danger deleteUser" 
                                                     title="Excluir" 
                                                     data-toggle="Excluir"
+                                                    id={{$dado->id}}
                                                 >
                                                     <i class="fa fa-trash"> </i>
                                                 </a>

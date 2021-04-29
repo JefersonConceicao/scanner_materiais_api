@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Route;
 
 class UserRequest extends FormRequest
 {
@@ -22,17 +23,37 @@ class UserRequest extends FormRequest
      * @return array
      */
     public function rules()
-    {
-        return [
-            'name' => 'required',
-            'username' => 'required',
-            'email' => 'required|unique:users,email|email',
-            'password' => 'required|min:8',
-            'confirm_password' => 'required| min:6 | same:password',
-            'role_user' => 'required',
-            'setor_id' => 'required',
-            'role_user' => 'required',
-        ];
+    {   
+        $atualGroupRoute = explode("::", Route::currentRouteName());
+        $atualRoute = end($atualGroupRoute);
+    
+        $validate = [];
+        switch ($atualRoute) {
+            case 'store':
+                $validate = [
+                    'name' => 'required',
+                    'username' => 'required',
+                    'email' => 'required|unique:users,email|email',
+                    'password' => 'required|min:8',
+                    'confirm_password' => 'required| min:6 | same:password',
+                    'role_user[].*' => 'required',
+                    'setor_id' => 'required',
+                    'role_user' => 'required',
+                ];
+            break;
+            case 'update':
+                $validate = [
+                    'name' => 'required',
+                    'username' => 'required',
+                    'email' => 'required|email',
+                    'role_user[].*' => 'required',
+                    'setor_id' => 'required',
+                    'role_user' => 'required',
+                ];
+            break;
+        }
+
+        return $validate;
     }
 
     public function messages(){
@@ -47,6 +68,7 @@ class UserRequest extends FormRequest
             'password.required' => 'Campo senha é obrigatório',
             'password.min' => 'Tamanho minimo de :min caracteres',
             'setor_id.required' => 'Campo setor obrigatório',
+            'role_user[].required' => 'Campo perfil obrigatório'
         ];
     }
 }

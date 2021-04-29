@@ -9,7 +9,6 @@
 
 @section('body_class', 'skin-' . config('adminlte.skin', 'blue') . ' sidebar-mini ' . (config('adminlte.layout') ? [
     'boxed' => 'layout-boxed',
-    'fixed' => 'fixed',
     'top-nav' => 'layout-top-nav'
 ][config('adminlte.layout')] : '') . (config('adminlte.collapse_sidebar') ? ' sidebar-collapse ' : ''))
 
@@ -90,6 +89,10 @@
             </nav>
         </header>
 
+        <div id="containerLoadingBar" style="display:none;">
+            <div id="progressLoadingBar"> </div>
+        </div>  
+
         <div id="nivel1" class="modal fade" role="dialog"> 
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -114,9 +117,6 @@
             </div>
         </div>
 
-        <div id="containerLoadingBar" style="display:none;">
-            <div id="progressLoadingBar"> </div>
-        </div>  
 
         @if(config('adminlte.layout') != 'top-nav')
         <!-- Left side column. contains the logo and sidebar -->

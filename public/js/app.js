@@ -3998,7 +3998,9 @@ var setActive = function setActive(element) {
 var loadingNavigation = function loadingNavigation(inicio, fim) {
   var isComplete = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
   //Calcula tempo de carregamento;
-  var msTimeLoading = fim - inicio;
+  var msTimeLoading = fim - inicio; //Configura container body
+
+  $('body').removeClass("fixed");
   $("#containerLoadingBar").show(); //Inicia barra de carregamento
 
   var progressBar = $("#progressLoadingBar");
@@ -4006,8 +4008,9 @@ var loadingNavigation = function loadingNavigation(inicio, fim) {
   var idInterval = setInterval(function () {
     if (width >= 100) {
       clearInterval(idInterval);
-      $("#containerLoadingBar").hide();
       width = 1;
+      $("#containerLoadingBar").hide();
+      $('body').addClass('fixed');
     } else {
       width++;
       progressBar.css({
@@ -4037,6 +4040,7 @@ var getNewScreen = function getNewScreen(url, module) {
       loadingNavigation(this.start_time, new Date().getTime());
     },
     success: function success(response) {
+      changeURL(url);
       elementWrapper.html(response);
       AppUsage.initializeDataTable();
       AppUsage.loadLibs();
@@ -4053,6 +4057,11 @@ var getNewScreen = function getNewScreen(url, module) {
       loadingNavigation(this.start_time, new Date().getTime(), true);
     }
   });
+};
+
+var changeURL = function changeURL(url) {
+  //void
+  history.pushState({}, "", url);
 };
 
 module.exports = {
@@ -4124,7 +4133,6 @@ $(function () {
 
 var initializeDataTable = function initializeDataTable() {
   $(".dataTable").dataTable({
-    buttons: ['pdf'],
     paging: false,
     searching: false,
     language: languageDataTable.portugues
@@ -4214,8 +4222,7 @@ var configSelect2 = function configSelect2() {
 };
 
 var showMessagesValidator = function showMessagesValidator(form, errorsRequest) {
-  if (form.length < 0) {
-    console.log('no form');
+  if (form.length == 0) {
     return;
   }
 
@@ -4223,9 +4230,9 @@ var showMessagesValidator = function showMessagesValidator(form, errorsRequest) 
   var fields = Object.keys(errorsRequest);
 
   var _loop = function _loop() {
-    var input = $("".concat(form, " input[name=").concat(fields[i], "]"));
-    var select = $("".concat(form, " select[name=").concat(fields[i], "]"));
-    var textArea = $("".concat(form, " textarea[name=").concat(fields[i], "]"));
+    var input = $("".concat(form, " input[name=\"").concat(fields[i], "\"]"));
+    var select = $("".concat(form, " select[name=\"").concat(fields[i], "\"]"));
+    var textArea = $("".concat(form, " textarea[name=\"").concat(fields[i], "\"]"));
 
     if (!!input) {
       errorsRequest[fields[i]].forEach(function (value) {
@@ -4300,10 +4307,7 @@ webpackContext.id = "./resources/js/Logged sync recursive ^\\.\\/.*$";
   !*** ./resources/js/Logged/AppUsers.js ***!
   \*****************************************/
 /*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var _require = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js"),
-    Swal = _require["default"];
+/***/ (function(module, exports) {
 
 $(function () {
   habilitaBotoes();
@@ -4330,9 +4334,13 @@ var habilitaBotoes = function habilitaBotoes() {
       formDataUser();
     });
   });
-  $("#editaUser").on("click", function () {
+  $(".editaUser").on("click", function () {
     var id = $(this).attr('id');
     var url = "/users/edit/".concat(id);
+    AppUsage.loadModal(url, modalObject, '800px', function () {
+      eventShowPassword();
+      formDataUser(id);
+    });
   });
 };
 
@@ -4364,9 +4372,21 @@ var formDataUser = function formDataUser(id) {
       type: type,
       url: url,
       data: formSerialize,
-      beforeSend: function beforeSend() {},
-      success: function success(repsonse) {
-        console.log(repsonse);
+      beforeSend: function beforeSend() {
+        $(".btnSubmit").prop("disabled", true).html("\n                    <b> <i class=\"fa fa-spinner fa-spin\"> </i> Carregando...   </b>\n                ");
+      },
+      success: function success(response) {
+        Swal.fire({
+          position: 'top-end',
+          icon: !response.error ? 'success' : 'error',
+          title: response.msg,
+          toast: true,
+          showConfirmButton: false,
+          timer: 2000,
+          didOpen: function didOpen() {
+            $(modalObject).modal('hide');
+          }
+        });
       },
       error: function error(jqXHR, textStatus, errorThrown) {
         if (!!jqXHR.responseJSON) {
@@ -4374,8 +4394,20 @@ var formDataUser = function formDataUser(id) {
           AppUsage.showMessagesValidator(form, errorsRequest);
         }
       },
-      complete: function complete() {}
+      complete: function complete() {
+        $(".btnSubmit").prop("disabled", false).html('Salvar');
+      }
     });
+  });
+};
+
+var eventShowPassword = function eventShowPassword() {
+  $('a[href="#change_password"]').on('click', function (e) {
+    if ($("#change_password").hasClass('in')) {
+      $("input[type='password']").prop("disabled", true);
+    } else {
+      $("input[type='password']").prop("disabled", false);
+    }
   });
 };
 

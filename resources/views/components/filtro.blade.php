@@ -7,12 +7,6 @@
                     <i class="fa fa-filter"> </i>
                      Filtro 
                 </div>
-
-                <div class="box-tools pull-right">
-                    <button data-widget="collapse" class="btn btn-box-tool"> 
-                        <i class="fa fa-minus"> </i>     
-                    </button>   
-                </div>
             </div>
             <div class="box-body"> 
                 {{  $slot }}

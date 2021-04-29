@@ -15,12 +15,12 @@
                     </div>
                     <div class="modal-footer">
                         @hasSection('btn_fechar')
-                            <button type="button" class="btn btn-danger pull-left" data-dismiss="modal"> 
+                            <button type="button" class="btn btn-danger pull-left btnFechar" data-dismiss="modal"> 
                                 @yield('btn_fechar')
                             </button>
                         @endif
                         @hasSection('btn_submit')
-                            <button type="submit" class="btn btn-primary pull-right"> 
+                            <button type="submit" class="btn btn-primary pull-right btnSubmit"> 
                                 @yield('btn_submit')
                             </button>
                         @endif
@@ -41,12 +41,12 @@
                 </div>
                 <div class="modal-footer">
                     @hasSection('btn_fechar')
-                        <button type="button" class="btn btn-danger pull-left" data-dismiss="modal"> 
+                        <button type="button" class="btn btn-danger pull-left btnSubmit" data-dismiss="modal"> 
                             @yield('btn_fechar')
                         </button>
                     @endif
                     @hasSection('btn_submit')
-                        <button type="submit" class="btn btn-primary pull-right"> 
+                        <button type="submit" class="btn btn-primary pull-right btnClose"> 
                             @yield('btn_submit')
                         </button>
                     @endif

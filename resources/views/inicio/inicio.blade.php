@@ -6,5 +6,7 @@
 @stop 
 
 @section('content')
-    <p> first screen </p>
+    <div class="content-header">
+        <h1> Dashboard</h1>
+    </div>
 @stop

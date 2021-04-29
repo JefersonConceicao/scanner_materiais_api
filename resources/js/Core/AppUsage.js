@@ -5,10 +5,6 @@ $(function(){
 
 const initializeDataTable = function(){
     $(".dataTable").dataTable({ 
-        buttons:[
-             'pdf',   
-        ],
-        
         paging: false,
         searching: false,
         language: languageDataTable.portugues,
@@ -128,18 +124,18 @@ const configSelect2 = function(){
 }
 
 const showMessagesValidator = function(form, errorsRequest){
-    if(form.length < 0){
-        console.log('no form');
+    if(form.length == 0){
         return;
     }   
+
     $('.error_feedback').html("");
 
     let fields = Object.keys(errorsRequest);
                     
     for(i=0; i < fields.length; i++){
-        let input = $(`${form} input[name=${fields[i]}]`);
-        let select = $(`${form} select[name=${fields[i]}]`);
-        let textArea = $(`${form} textarea[name=${fields[i]}]`);
+        let input = $(`${form} input[name="${fields[i]}"]`);
+        let select = $(`${form} select[name="${fields[i]}"]`);
+        let textArea = $(`${form} textarea[name="${fields[i]}"]`);
    
         if(!!input){
             errorsRequest[fields[i]].forEach(value => {

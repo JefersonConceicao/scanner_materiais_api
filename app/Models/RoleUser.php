@@ -15,4 +15,10 @@ class RoleUser extends Model
     ];
     
     public $timestamps = true;
+
+    public function getRolesByUser($idUser){
+        return $this
+            ->where('user_id','=', $idUser)
+            ->get();
+    }
 }
