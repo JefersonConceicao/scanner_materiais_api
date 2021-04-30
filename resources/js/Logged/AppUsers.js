@@ -1,3 +1,5 @@
+const { default: Swal } = require("sweetalert2");
+
 $(function(){
     habilitaBotoes()
     habilitaEventos()
@@ -78,10 +80,11 @@ const formDataUser = function(id){
                 Swal.fire({
                     position: 'top-end',
                     icon: !response.error ? 'success' : 'error',
-                    title: response.msg,
+                    title: `<b style="color:#fff"> ${response.msg} </b>`,
                     toast: true,
                     showConfirmButton: false,
-                    timer:2000,
+                    timer: 2000,
+                    background: '#337ab7',
                     didOpen:() => {
                        $(modalObject).modal('hide');
                     }

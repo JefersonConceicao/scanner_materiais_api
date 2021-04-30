@@ -86,15 +86,16 @@ class User extends Authenticatable
             )
             ->where($conditions)
             ->with('userSetor')
+            ->orderBy('users.id', 'DESC')
             ->orderBy('role_user.id', 'DESC');
 
         return $data;
     }
-
+ 
     public function saveUser($request = []){
         try{
             $this->fill([
-                'name' => $request['name'],
+                'name' => trim($request['name']),
                 'username' => trim($request['username']),
                 'email' => $request['email'],
                 'setor_id' => $request['setor_id'],
@@ -109,8 +110,41 @@ class User extends Authenticatable
         }catch(Exception $error){
             return [
                 'error' => true,
-                'msg' => 'Não consegui salvar o registro, tente novamente mais tarde',
+                'msg' => 'Não foi possível salvar o registro, tente novamente mais tarde',
                 'code' => $error->getCode(),
+            ];
+        }
+    }
+
+    public function updateUser($id, $request = []){
+        try{
+            $objUser = $this->find($id);
+    
+            $objUser->fill([
+                'name' => trim($request['name']),
+                'username' => trim($request['username']),
+                'email' => $request['email'],
+                'setor_id' => $request['setor_id'],
+            ]);
+
+            if(isset($request['password']) && isset($request['confirm_password'])){
+                $objUser->password = Hash::make($request['password']);
+            }
+
+            if($objUser->update()){
+                $objUser->rolesByUser()->sync($request['role_user']);
+            }
+
+            return [ 
+                'error' => false,
+                'msg' => 'Registro alterado com sucesso',
+            ];
+
+        }catch(Excpetion $err){
+            return [ 
+                'error' => false,
+                'msg' => 'Infelizmente não foi possível atualizar o registro, tente novamente mais tarde',
+                'code' => $err->getCode()
             ];
         }
     }

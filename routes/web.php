@@ -23,7 +23,7 @@ Route::group(['middleware' => 'auth']  , function(){
         Route::get('/create', 'UsersController@create')->name('create');
         Route::post('/store', 'UsersController@store')->name('store');
         Route::get('/edit/{id}','UsersController@edit')->name('edit');
-        Route::put('/update/{id}', 'UsersController@store')->name('store');
+        Route::put('/update/{id}', 'UsersController@update')->name('update');
         Route::delete('/destroy/{id}','UsersController@delete')->name('delete');
     });
 

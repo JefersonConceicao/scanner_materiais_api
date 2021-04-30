@@ -26,7 +26,7 @@ class UserRequest extends FormRequest
     {   
         $atualGroupRoute = explode("::", Route::currentRouteName());
         $atualRoute = end($atualGroupRoute);
-    
+        
         $validate = [];
         switch ($atualRoute) {
             case 'store':
@@ -49,6 +49,7 @@ class UserRequest extends FormRequest
                     'role_user[].*' => 'required',
                     'setor_id' => 'required',
                     'role_user' => 'required',
+                    'confirm_password' => 'same:password',
                 ];
             break;
         }

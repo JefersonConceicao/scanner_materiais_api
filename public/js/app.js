@@ -4051,9 +4051,11 @@ var getNewScreen = function getNewScreen(url, module) {
         modulo.habilitaEventos();
       }
     },
-    error: function error(err) {//console.log(err);
+    error: function error(err) {
+      console.log(err);
     },
     complete: function complete() {
+      //console.log(this);
       loadingNavigation(this.start_time, new Date().getTime(), true);
     }
   });
@@ -4076,7 +4078,10 @@ module.exports = {
   !*** ./resources/js/Core/AppSettings.js ***!
   \******************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+var _require = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js"),
+    Swal = _require["default"];
 
 $(function () {
   setupAjax();
@@ -4110,6 +4115,17 @@ var setupAjax = function setupAjax() {
     if (!$.fn.DataTable.isDataTable($('.dataTable'))) {
       AppUsage.initializeDataTable();
     }
+  });
+  $(document).ajaxError(function (event, jqXHR, ajaxSettings, error) {// if(jqXHR.status == 500){
+    //     Swal.fire({
+    //         position:'top-end',
+    //         icon: 'error',
+    //         title: 'Ocorreu um erro interno, tente novamente mais tarde ou abra um chamado',
+    //         toast: true,
+    //         time: 3000,
+    //         showConfirmButton: false,
+    //     })
+    // }
   });
 };
 
@@ -4257,6 +4273,18 @@ var showMessagesValidator = function showMessagesValidator(form, errorsRequest) 
     _loop();
   }
 };
+/**
+ * 
+ * @param {string} url 
+ * @param {callback} onSuccess 
+ * @param {callback} onError 
+ */
+
+
+var deleteForGrid = function deleteForGrid(url, onSuccess) {//Remove button e insere spinner
+
+  var onError = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+};
 
 module.exports = {
   loadModal: loadModal,
@@ -4307,7 +4335,10 @@ webpackContext.id = "./resources/js/Logged sync recursive ^\\.\\/.*$";
   !*** ./resources/js/Logged/AppUsers.js ***!
   \*****************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+var _require = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js"),
+    Swal = _require["default"];
 
 $(function () {
   habilitaBotoes();
@@ -4379,10 +4410,11 @@ var formDataUser = function formDataUser(id) {
         Swal.fire({
           position: 'top-end',
           icon: !response.error ? 'success' : 'error',
-          title: response.msg,
+          title: "<b style=\"color:#fff\"> ".concat(response.msg, " </b>"),
           toast: true,
           showConfirmButton: false,
           timer: 2000,
+          background: '#337ab7',
           didOpen: function didOpen() {
             $(modalObject).modal('hide');
           }
@@ -4458,8 +4490,8 @@ window.Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\novo_union\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\novo_union\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\bt_source\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\bt_source\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

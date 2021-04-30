@@ -103,9 +103,11 @@ const getNewScreen = function(url, module){
             }
         },
         error:function(err){
-            //console.log(err);
+            console.log(err);
         },
         complete:function(){
+       
+            //console.log(this);
             loadingNavigation(this.start_time, new Date().getTime(), true);
         },
     });

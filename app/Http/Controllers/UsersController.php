@@ -72,11 +72,11 @@ class UsersController extends Controller
 
     public function update(UserRequest $request, $id)
     {   
+        $user = new User;
+        $data = $user->updateUser($id, $request->all());
 
-        //
-
-
-
+        return response()->json($data, $data['error'] ? 500 : 200);
+        
     }
 
     public function show($id)

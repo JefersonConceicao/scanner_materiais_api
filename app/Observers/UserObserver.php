@@ -25,12 +25,12 @@ class UserObserver
     /**
      * Captura evento quando um usuário é atualizado
      *
-     * @param  \App\User  $user
+     * @param  \App\ModelsUser  $user
      * @return void
      */
     public function updated(User $user)
     {
-        //
+
     }
 
     /**

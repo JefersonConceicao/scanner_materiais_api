@@ -163,6 +163,22 @@ const showMessagesValidator = function(form, errorsRequest){
     }    
 }
 
+/**
+ * 
+ * @param {string} url 
+ * @param {callback} onSuccess 
+ * @param {callback} onError 
+ */
+
+const deleteForGrid = function(url, onSuccess, onError = null){
+    //Remove button e insere spinner
+    
+
+
+
+
+
+}
 
 module.exports = {
     loadModal,
