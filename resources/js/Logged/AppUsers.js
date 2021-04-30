@@ -38,6 +38,13 @@ const habilitaBotoes = function(){
             formDataUser(id);
         })
     });
+
+    $(".deleteUser").on("click", function(e){
+        e.preventDefault();
+        let id = $(this).attr("id");
+
+
+    });
 }
 
 const getUsersFilter = function(searchformData){

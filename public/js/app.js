@@ -4373,6 +4373,10 @@ var habilitaBotoes = function habilitaBotoes() {
       formDataUser(id);
     });
   });
+  $(".deleteUser").on("click", function (e) {
+    e.preventDefault();
+    var id = $(this).attr("id");
+  });
 };
 
 var getUsersFilter = function getUsersFilter(searchformData) {
