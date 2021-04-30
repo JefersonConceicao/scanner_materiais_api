@@ -18,7 +18,7 @@ class UserRequest extends FormRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Aplica regras de validação para requisição
      *
      * @return array
      */
@@ -26,7 +26,7 @@ class UserRequest extends FormRequest
     {   
         $atualGroupRoute = explode("::", Route::currentRouteName());
         $atualRoute = end($atualGroupRoute);
-        
+
         $validate = [];
         switch ($atualRoute) {
             case 'store':
@@ -50,6 +50,13 @@ class UserRequest extends FormRequest
                     'setor_id' => 'required',
                     'role_user' => 'required',
                     'confirm_password' => 'same:password',
+                ];
+            break;
+            case 'changePassword':
+                $validate = [
+                    'actual_password' => 'required',
+                    'password' => 'required|min:6',
+                    'confirm_password' => 'required|min:6|same:password'
                 ];
             break;
         }

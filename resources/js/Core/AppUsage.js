@@ -1,3 +1,5 @@
+const { default: Swal } = require("sweetalert2");
+
 $(function(){
     initializeDataTable();
     loadLibs();
@@ -129,7 +131,6 @@ const showMessagesValidator = function(form, errorsRequest){
     }   
 
     $('.error_feedback').html("");
-
     let fields = Object.keys(errorsRequest);
                     
     for(i=0; i < fields.length; i++){
@@ -170,14 +171,65 @@ const showMessagesValidator = function(form, errorsRequest){
  * @param {callback} onError 
  */
 
-const deleteForGrid = function(url, onSuccess, onError = null){
-    //Remove button e insere spinner
-    
+const deleteForGrid = function(url, onSuccess = null, onError = null){
+    $.ajax({
+        method: "DELETE",
+        url, 
+        beforeSend:function(){
+            
+        },
+        success:function(response){
+            if(!response.error){
+               Swal.fire({
+                    position: 'top-end',
+                    icon: !response.error ? 'success' : 'error',
+                    title: `<b style="color:#fff"> ${response.msg} </b>`,
+                    toast: true,    
+                    showConfirmButton: false,
+                    timer: 3500,
+                    background: '#337ab7',
+                    iconColor: '#ffff',
+               })     
+            }
 
+            if(!!onSuccess){
+                onSuccess();
+            }  
+        },
+        error:function(jqXHR, textStatus, errorThrown){
+        let msg = "Não foi possível excluir o registro, tente novamente mais tarde ou abra um chamado."
+        
+            if(!!jqXHR.responseJSON){
+                let code = jqXHR.responseJSON.code
 
+                switch (code) {
+                    case "23000":
+                        msg = "Não foi possível excluir este registro, pois o mesmo está sendo utilizado";
+                        break;
+                
+                    default:
+                        msg = msg
+                    break;
+                }
+            }
 
+            Swal.fire({
+                position: 'top-end',
+                icon: 'error',
+                title: `<b style="color:#fff"> ${msg} </b>`,
+                toast: true,    
+                showConfirmButton: false,
+                timer: 3500,
+                timerProgressBar: true,
+                background: '#e91313', 
+                iconColor: '#ffff', 
+            })
 
-
+            if(!!onError){
+                onError();
+            }
+        },
+    });
 }
 
 module.exports = {
@@ -186,4 +238,5 @@ module.exports = {
     loading,
     initializeDataTable,
     showMessagesValidator,
+    deleteForGrid,
 }

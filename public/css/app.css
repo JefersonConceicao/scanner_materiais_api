@@ -39,6 +39,18 @@ a {
   width: 100% !important;
 }
 
+.content-wrapper {
+  background-color: #e5e6e6;
+}
+
+.box {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.33) !important;
+}
+
+.bg-bahia {
+  background-color: #337ab7 !important;
+}
+
 @media (max-width: 800px) {
   .modal-dialog {
     width: 100% !important;

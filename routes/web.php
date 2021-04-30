@@ -15,7 +15,7 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-Route::group(['middleware' => 'auth']  , function(){
+Route::group(['middleware' => 'auth'] , function(){
     Route::get('/home', 'HomeController@index')->name('home');
 
     Route::group(['as' => 'users::', 'prefix' => 'users'], function(){
@@ -24,7 +24,10 @@ Route::group(['middleware' => 'auth']  , function(){
         Route::post('/store', 'UsersController@store')->name('store');
         Route::get('/edit/{id}','UsersController@edit')->name('edit');
         Route::put('/update/{id}', 'UsersController@update')->name('update');
-        Route::delete('/destroy/{id}','UsersController@delete')->name('delete');
+        Route::delete('/destroy/{id}','UsersController@destroy')->name('delete');
+        Route::get('/view/{id}', 'UsersController@show')->name('view');
+        Route::get('/perfil', 'UsersController@profile')->name('profile');
+        Route::put('/changePassword', 'UsersController@changePassword')->name('changePassword');
     });
 
 });

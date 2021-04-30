@@ -1,5 +1,3 @@
-const { default: Swal } = require("sweetalert2");
-
 $(function(){
     habilitaBotoes()
     habilitaEventos()
@@ -10,9 +8,8 @@ const modalObject = "#nivel1";
 const habilitaEventos = function(){
     $("#searchUser").on('submit', function(e){
         e.preventDefault();
-        let form = $(this).serialize();
-
-        getUsersFilter(form);
+        
+        getUsersFilter();
     });
 
     $("#clear_filter_user").on('click', function(){
@@ -38,15 +35,81 @@ const habilitaBotoes = function(){
             formDataUser(id);
         })
     });
+
+    $(".viewUser").on('click', function(){
+        let id = $(this).attr('id');
+        let url = `/users/view/${id}`;
+
+        AppUsage.loadModal(url, modalObject, '800px', function(){
+
+        });
+    })
+
+
+    $(".deleteUser").on('click', function(e){
+        e.preventDefault();
+        let id = $(this).attr("id");
+        
+        Swal.fire({
+            title: 'Deseja realmente excluir o registro?',
+            text: 'Esta ação é irreversivel!',
+            icon: 'warning',
+            showCancelButton: true,
+            reverseButtons: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: 'Cancelar',
+            timeProgressBar: true,
+        }).then((result) => {
+            if(result.isConfirmed){
+                AppUsage.deleteForGrid(`/users/destroy/${id}`, function(){
+                    getUsersFilter();
+                });
+            }
+        })
+    });
+
+    $("#changePassword").on("submit", function(e){
+        e.preventDefault();
+        
+        let form = $(this).serialize();
+        let url = '/users/changePassword'
+
+        $.ajax({
+            method: "PUT",
+            data: form, 
+            url,
+            beforeSend:function(){
+                $(".changePassword").prop("disabled", true).html(`
+                    <i class="fa fa-spinner fa-spin"> </i> 
+                    Carregando
+                `)    
+            },
+            success:function(response){
+                console.log(response)
+            },
+            error:function(jqXHR, textStatus, error){
+    
+                if(!!jqXHR.responseJSON.errors){
+                    AppUsage.showMessagesValidator("#changePassword", jqXHR.responseJSON.errors);
+                }
+            },
+            complete:function(){
+                $(".changePassword").prop("disabled", false).html("Salvar");
+            },
+        })
+    })
 }
 
-const getUsersFilter = function(searchformData){
+const getUsersFilter = function(){
+    let form = $("#searchUser").serialize();
     let gridUser = "#gridUsers";
 
     $.ajax({
         type: "GET",
         url: "/users/",
-        data: searchformData,
+        data: form,
         dataType: "HTML",
         beforeSend:function(jqXHR, settings){
             AppUsage.loading($(gridUser));
@@ -83,12 +146,14 @@ const formDataUser = function(id){
                     title: `<b style="color:#fff"> ${response.msg} </b>`,
                     toast: true,
                     showConfirmButton: false,
-                    timer: 2000,
+                    timer: 3500,
                     background: '#337ab7',
                     didOpen:() => {
                        $(modalObject).modal('hide');
                     }
                 }); 
+
+                getUsersFilter();
             },
             error:function(jqXHR, textStatus, errorThrown){
                 if(!!jqXHR.responseJSON){
