@@ -8,7 +8,7 @@ use App\Models\User;
 use App\Models\Role;
 use App\Models\Setor;
 use App\Models\RoleUser;
-
+use Auth;
 //REQUESTS 
 use App\Http\Requests\UserRequest;
 
@@ -74,19 +74,42 @@ class UsersController extends Controller
     {   
         $user = new User;
         $data = $user->updateUser($id, $request->all());
-
+      
         return response()->json($data, $data['error'] ? 500 : 200);
-        
     }
 
     public function show($id)
     {
-        //
-    }
+        $user = new User;
+        $data = $user->getUserById($id);
 
+        return view('usuarios.view')
+                ->with('user', $data);
+    }
 
     public function destroy($id)
     {
-        //
+        $user = new User;
+        $data = $user->destroyUser($id);
+        
+        return response()->json($data, $data['error'] ? 500 : 200);
     }
+
+    public function profile(){
+        $user = Auth::user();
+        $data = $user->getUserById($user->id);
+
+        $view = view('usuarios.perfil')
+            ->with('user', $data);
+
+        return request()->ajax() ? $view->renderSections()['content'] : $view;
+    } 
+
+    public function changePassword(UserRequest $request){
+        $user = new User;
+        $data = $user->changePassword($request->all(), Auth::user());
+
+        return response()->json($data);
+    }
+
 }

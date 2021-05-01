@@ -25,7 +25,7 @@ class UserObserver
     /**
      * Captura evento quando um usuário é atualizado
      *
-     * @param  \App\ModelsUser  $user
+     * @param  \App\Models\User  $user
      * @return void
      */
     public function updated(User $user)
@@ -36,12 +36,12 @@ class UserObserver
     /**
      * Handle the user "deleted" event.
      *
-     * @param  \App\User  $user
+     * @param  \App\Models\User  $user
      * @return void
      */
     public function deleted(User $user)
     {
-        //
+        //dd("user deleted");
     }
 
     /**

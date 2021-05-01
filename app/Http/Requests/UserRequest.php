@@ -18,7 +18,7 @@ class UserRequest extends FormRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Aplica regras de validação para requisição
      *
      * @return array
      */
@@ -26,7 +26,7 @@ class UserRequest extends FormRequest
     {   
         $atualGroupRoute = explode("::", Route::currentRouteName());
         $atualRoute = end($atualGroupRoute);
-        
+
         $validate = [];
         switch ($atualRoute) {
             case 'store':
@@ -52,6 +52,13 @@ class UserRequest extends FormRequest
                     'confirm_password' => 'same:password',
                 ];
             break;
+            case 'changePassword':
+                $validate = [
+                    'actual_password' => 'required',
+                    'password' => 'required|min:6',
+                    'confirm_password' => 'required|min:6|same:password'
+                ];
+            break;
         }
 
         return $validate;
@@ -65,11 +72,12 @@ class UserRequest extends FormRequest
             'email.unique' => 'Este e-mail já existe em nossa base de dados',
             'email.email' => 'Por favor preencha um e-mail válido',
             'confirm_password.same' => 'Senhas não conferem',
-            'confirm_password.required' => 'Confirmação de senha obrigatória',
             'password.required' => 'Campo senha é obrigatório',
-            'password.min' => 'Tamanho minimo de :min caracteres',
+            'password.min' => 'Tamanho mínimo de :min caracteres',
+            'confirm_password.min' => 'Tamanho mínimo de :min caracteres',
             'setor_id.required' => 'Campo setor obrigatório',
-            'role_user[].required' => 'Campo perfil obrigatório'
+            'role_user[].required' => 'Campo perfil obrigatório',
+            'confirm_password.required' => 'Confirmação de senha obrigatória',
         ];
     }
 }

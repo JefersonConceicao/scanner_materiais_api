@@ -20,6 +20,7 @@ class User extends Authenticatable
         'remember_token',
         'setor_id',
         'autoriza',
+        'url_photo',
     ];
  
     protected $hidden = [
@@ -79,19 +80,27 @@ class User extends Authenticatable
         $data = $this
             ->leftJoin('role_user','role_user.user_id', 'users.id')
             ->leftJoin('roles', 'role_user.role_id','roles.id')
+            ->leftJoin('setor', 'setor.id', 'users.setor_id')
             ->select(
                 'roles.name as name_role',
                 'role_user.*',
+                'setor.descsetor as descricao_setor',
                 'users.*'
             )
             ->where($conditions)
-            ->with('userSetor')
-            ->orderBy('users.id', 'DESC')
             ->orderBy('role_user.id', 'DESC');
+     
+        return $data;
+    }
+
+    public function getUserById($id){
+        $data = $this
+                ->with('rolesByUser', 'userSetor')
+                ->find($id);
 
         return $data;
     }
- 
+
     public function saveUser($request = []){
         try{
             $this->fill([
@@ -148,4 +157,54 @@ class User extends Authenticatable
             ];
         }
     }
+
+    public function destroyUser($id){
+        try{
+            $this->destroy($id);
+            return [
+                'error' => false,
+                'msg' => 'Registro excluido com sucesso!'
+            ];
+        }catch(\Exception $err){
+            return [
+                'error' => true,
+                'msg' => 'Infelizmente não pude excluir o seu registro.',
+                'code' => $err->getCode()
+            ];
+        }
+    }
+
+    public function changePassword($request = [], $user){
+        try{
+            $sessionUser = $this->find($user->id);
+    
+            if(!Hash::check($request['actual_password'], $sessionUser->password)){
+                return [
+                    'error' => true,
+                    'msg' => 'Senha atual incorreta!'
+                ];
+            }
+
+            if(Hash::check($request['password'], $sessionUser->password)){
+                return [
+                    'error' => true,
+                    'msg' => 'Nova senha não pode ser igual a senha atual'
+                ];
+            }
+
+            $sessionUser->password = Hash::make($request['password']);
+            $sessionUser->save();
+
+            return [
+                'error' => false,
+                'msg' => 'Senha alterada com sucesso!'
+            ];
+        }catch(\Exception $err){
+            return [
+                'error' => false,
+                'msg' => 'Ocorreu um erro interno, tente novamente mais tarde'
+            ];
+        }
+    }
+
 }

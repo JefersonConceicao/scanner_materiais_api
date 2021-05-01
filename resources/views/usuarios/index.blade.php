@@ -63,7 +63,7 @@
 
                         <button type="submit" class="btn btn-primary"> 
                             <i class="fa fa-search"> </i>
-                            Pesquisar
+                            Localizar
                         </button>
                     </div>
                 </div>
@@ -91,7 +91,6 @@
                                     <tr> 
                                         <th> Nome </th>
                                         <th> Usuário </th>
-                                        <th> Perfil </th>
                                         <th> Email </th>
                                         <th> Setor
                                              </th>
@@ -105,13 +104,12 @@
                                         <tr> 
                                             <td> {{!empty($dado->name) ? $dado->name : "Não informado"}} </td>
                                             <td> {{!empty($dado->username) ? $dado->username : "Não informado"}} </td>
-                                            <td> {{!empty($dado->name_role) ? $dado->name_role : "Não informado"}}    </td>
                                             <td> {{!empty($dado->email) ? $dado->email : "Não informado"}} </td>
-                                            <td> {{!empty($dado->userSetor->descsetor) ? $dado->userSetor->descsetor :  "Não informado" }} </td> 
+                                            <td> {{!empty($dado->descricao_setor) ? $dado->descricao_setor : "Não informado" }} </td> 
                                             
                                             <td class="text-center" style="display:flex; justify-content:space-between;">     
                                                 <a
-                                                    href="#" 
+                                                    href="javascript:void(0)" 
                                                     bt_ac="users.edit" 
                                                     class="btn btn-xs btn-primary editaUser" 
                                                     data-toggle="tooltip" 
@@ -122,7 +120,7 @@
                                                 </a>    
                                                 
                                                 <a      
-                                                    href="#" 
+                                                    href="javascript:void(0)" 
                                                     class="btn btn-xs btn-success viewUser"  
                                                     title="Visualizar" 
                                                     data-toggle="Visualizar"
@@ -133,7 +131,7 @@
                                                 </a>
 
                                                 <a 
-                                                    href="#" 
+                                                    href="javascript:void(0)" 
                                                     class="btn btn-xs btn-danger deleteUser" 
                                                     title="Excluir" 
                                                     data-toggle="Excluir"

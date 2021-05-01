@@ -143,18 +143,8 @@ return [
             [
                 'text' => 'Minha Conta',
                 'icon' => 'fas fa-fw fa-user',
-                'submenu' => [
-                    [
-                        'text' => 'Perfil',
-                        'icon' => 'fa fa-angle-right',
-                        'url' => '#'
-                    ],
-                    [
-                        'text' => 'Alterar senha',
-                        'icon' => 'fa fa-angle-right',
-                        'url' => '#'
-                    ],
-                ],
+                'url' => '/users/perfil',
+                'requestjs' => 'AppProfile',
             ],
         ['header' => ''],
             [

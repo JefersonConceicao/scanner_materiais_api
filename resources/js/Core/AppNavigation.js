@@ -98,8 +98,10 @@ const getNewScreen = function(url, module){
             if(module != "no_module"){
                 modulo = require('../Logged/'+module);
 
-                modulo.habilitaBotoes();
-                modulo.habilitaEventos();
+                if(!!modulo.habilitaBotoes && !!modulo.habilitaEventos){
+                    modulo.habilitaBotoes();
+                    modulo.habilitaEventos();
+                }
             }
         },
         error:function(err){

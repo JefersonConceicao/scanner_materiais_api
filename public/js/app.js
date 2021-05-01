@@ -4047,8 +4047,11 @@ var getNewScreen = function getNewScreen(url, module) {
 
       if (module != "no_module") {
         modulo = __webpack_require__("./resources/js/Logged sync recursive ^\\.\\/.*$")("./" + module);
-        modulo.habilitaBotoes();
-        modulo.habilitaEventos();
+
+        if (!!modulo.habilitaBotoes && !!modulo.habilitaEventos) {
+          modulo.habilitaBotoes();
+          modulo.habilitaEventos();
+        }
       }
     },
     error: function error(err) {
@@ -4140,7 +4143,10 @@ module.exports = {
   !*** ./resources/js/Core/AppUsage.js ***!
   \***************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+var _require = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js"),
+    Swal = _require["default"];
 
 $(function () {
   initializeDataTable();
@@ -4281,9 +4287,65 @@ var showMessagesValidator = function showMessagesValidator(form, errorsRequest) 
  */
 
 
-var deleteForGrid = function deleteForGrid(url, onSuccess) {//Remove button e insere spinner
-
+var deleteForGrid = function deleteForGrid(url) {
+  var onSuccess = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
   var onError = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+  $.ajax({
+    method: "DELETE",
+    url: url,
+    beforeSend: function beforeSend() {},
+    success: function success(response) {
+      if (!response.error) {
+        Swal.fire({
+          position: 'top-end',
+          icon: !response.error ? 'success' : 'error',
+          title: "<b style=\"color:#fff\"> ".concat(response.msg, " </b>"),
+          toast: true,
+          showConfirmButton: false,
+          timer: 3500,
+          background: '#337ab7',
+          iconColor: '#ffff'
+        });
+      }
+
+      if (!!onSuccess) {
+        onSuccess();
+      }
+    },
+    error: function error(jqXHR, textStatus, errorThrown) {
+      var msg = "Não foi possível excluir o registro, tente novamente mais tarde ou abra um chamado.";
+
+      if (!!jqXHR.responseJSON) {
+        var code = jqXHR.responseJSON.code;
+
+        switch (code) {
+          case "23000":
+            msg = "Não foi possível excluir este registro, pois o mesmo está sendo utilizado";
+            break;
+
+          default:
+            msg = msg;
+            break;
+        }
+      }
+
+      Swal.fire({
+        position: 'top-end',
+        icon: 'error',
+        title: "<b style=\"color:#fff\"> ".concat(msg, " </b>"),
+        toast: true,
+        showConfirmButton: false,
+        timer: 3500,
+        timerProgressBar: true,
+        background: '#e91313',
+        iconColor: '#ffff'
+      });
+
+      if (!!onError) {
+        onError();
+      }
+    }
+  });
 };
 
 module.exports = {
@@ -4291,7 +4353,8 @@ module.exports = {
   loadLibs: loadLibs,
   loading: loading,
   initializeDataTable: initializeDataTable,
-  showMessagesValidator: showMessagesValidator
+  showMessagesValidator: showMessagesValidator,
+  deleteForGrid: deleteForGrid
 };
 
 /***/ }),
@@ -4304,6 +4367,8 @@ module.exports = {
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
+	"./AppProfile": "./resources/js/Logged/AppProfile.js",
+	"./AppProfile.js": "./resources/js/Logged/AppProfile.js",
 	"./AppUsers": "./resources/js/Logged/AppUsers.js",
 	"./AppUsers.js": "./resources/js/Logged/AppUsers.js"
 };
@@ -4330,15 +4395,92 @@ webpackContext.id = "./resources/js/Logged sync recursive ^\\.\\/.*$";
 
 /***/ }),
 
+/***/ "./resources/js/Logged/AppProfile.js":
+/*!*******************************************!*\
+  !*** ./resources/js/Logged/AppProfile.js ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(function () {
+  habilitaBotoes();
+  habilitaEventos();
+});
+
+var habilitaEventos = function habilitaEventos() {
+  $("#changePassword").on("submit", function (e) {
+    e.preventDefault();
+    var form = $(this).serialize();
+
+    if (!!form) {
+      formChangePassword(form);
+    }
+  });
+};
+
+var habilitaBotoes = function habilitaBotoes() {
+  $(".profilePicture").on("click", function () {});
+};
+
+var formChangePassword = function formChangePassword(form) {
+  var url = '/users/changePassword';
+  $.ajax({
+    method: "PUT",
+    data: form,
+    url: url,
+    beforeSend: function beforeSend() {
+      $(".changePassword").prop("disabled", true).html("\n                <i class=\"fa fa-spinner fa-spin\"> </i> \n                Carregando\n            ");
+    },
+    success: function success(response) {
+      Swal.fire({
+        position: 'top-end',
+        icon: !response.error ? 'success' : 'error',
+        iconColor: '#ffff',
+        title: "<b style=\"color:#fff\"> ".concat(response.msg, " </b>"),
+        toast: true,
+        showConfirmButton: false,
+        timer: 3500,
+        background: !response.error ? '#337ab7' : '#e91313',
+        timerProgressBar: true,
+        didOpen: function didOpen(toast) {
+          $(toast).on('mouseenter', function () {
+            Swal.stopTimer();
+          });
+          $(toast).on('mouseleave', function () {
+            Swal.resumeTimer();
+          });
+        }
+      });
+
+      if (!response.error) {
+        $("input[type='password']").val("");
+        $(".error_feedback").html("");
+      }
+    },
+    error: function error(jqXHR, textStatus, _error) {
+      if (!!jqXHR.responseJSON.errors) {
+        AppUsage.showMessagesValidator("#changePassword", jqXHR.responseJSON.errors);
+      }
+    },
+    complete: function complete() {
+      $(".changePassword").prop("disabled", false).html("Confirmar alteração");
+    }
+  });
+};
+
+module.exports = {
+  habilitaBotoes: habilitaBotoes,
+  habilitaEventos: habilitaEventos
+};
+
+/***/ }),
+
 /***/ "./resources/js/Logged/AppUsers.js":
 /*!*****************************************!*\
   !*** ./resources/js/Logged/AppUsers.js ***!
   \*****************************************/
 /*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var _require = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js"),
-    Swal = _require["default"];
+/***/ (function(module, exports) {
 
 $(function () {
   habilitaBotoes();
@@ -4349,8 +4491,7 @@ var modalObject = "#nivel1";
 var habilitaEventos = function habilitaEventos() {
   $("#searchUser").on('submit', function (e) {
     e.preventDefault();
-    var form = $(this).serialize();
-    getUsersFilter(form);
+    getUsersFilter();
   });
   $("#clear_filter_user").on('click', function () {
     var selects = $("#role, #setor");
@@ -4373,18 +4514,42 @@ var habilitaBotoes = function habilitaBotoes() {
       formDataUser(id);
     });
   });
-  $(".deleteUser").on("click", function (e) {
+  $(".viewUser").on('click', function () {
+    var id = $(this).attr('id');
+    var url = "/users/view/".concat(id);
+    AppUsage.loadModal(url, modalObject, '800px', function () {});
+  });
+  $(".deleteUser").on('click', function (e) {
     e.preventDefault();
     var id = $(this).attr("id");
+    Swal.fire({
+      title: 'Deseja realmente excluir o registro?',
+      text: 'Esta ação é irreversivel!',
+      icon: 'warning',
+      showCancelButton: true,
+      reverseButtons: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar',
+      timeProgressBar: true
+    }).then(function (result) {
+      if (result.isConfirmed) {
+        AppUsage.deleteForGrid("/users/destroy/".concat(id), function () {
+          getUsersFilter();
+        });
+      }
+    });
   });
 };
 
-var getUsersFilter = function getUsersFilter(searchformData) {
+var getUsersFilter = function getUsersFilter() {
+  var form = $("#searchUser").serialize();
   var gridUser = "#gridUsers";
   $.ajax({
     type: "GET",
     url: "/users/",
-    data: searchformData,
+    data: form,
     dataType: "HTML",
     beforeSend: function beforeSend(jqXHR, settings) {
       AppUsage.loading($(gridUser));
@@ -4417,12 +4582,13 @@ var formDataUser = function formDataUser(id) {
           title: "<b style=\"color:#fff\"> ".concat(response.msg, " </b>"),
           toast: true,
           showConfirmButton: false,
-          timer: 2000,
+          timer: 3500,
           background: '#337ab7',
           didOpen: function didOpen() {
             $(modalObject).modal('hide');
           }
         });
+        getUsersFilter();
       },
       error: function error(jqXHR, textStatus, errorThrown) {
         if (!!jqXHR.responseJSON) {
@@ -4468,7 +4634,8 @@ window.AppSettings = __webpack_require__(/*! ./Core/AppSettings */ "./resources/
 
 window.AppLogin = __webpack_require__(/*! ./Auth/AppLogin */ "./resources/js/Auth/AppLogin.js"); //LOGGED Scripts - scripts em módulos do sistema
 
-window.AppUsers = __webpack_require__(/*! ./Logged/AppUsers */ "./resources/js/Logged/AppUsers.js"); //CONSTANTS Scripts - scripts re-utilizaveis
+window.AppUsers = __webpack_require__(/*! ./Logged/AppUsers */ "./resources/js/Logged/AppUsers.js");
+window.AppProfile = __webpack_require__(/*! ./Logged/AppProfile */ "./resources/js/Logged/AppProfile.js"); //CONSTANTS Scripts - scripts re-utilizaveis
 
 window.languageDataTable = __webpack_require__(/*! ./Constants/language_dataTable */ "./resources/js/Constants/language_dataTable.js"); //LIBS - scripts bibliotecas
 

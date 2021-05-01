@@ -8,7 +8,7 @@ window.AppLogin = require('./Auth/AppLogin');
 
 //LOGGED Scripts - scripts em módulos do sistema
 window.AppUsers = require('./Logged/AppUsers');
-
+window.AppProfile = require('./Logged/AppProfile');
 //CONSTANTS Scripts - scripts re-utilizaveis
 window.languageDataTable = require('./Constants/language_dataTable');
 
