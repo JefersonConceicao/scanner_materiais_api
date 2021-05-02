@@ -16,9 +16,11 @@ const habilitaEventos = function(){
 
 const habilitaBotoes = function(){
     $(".profilePicture").on("click", function(){
-
+        const paramsDrozpone = {
+            url: '/users/changePhoto',
+        }
         
-
+        AppUsage.configDropzone(paramsDrozpone);
     });
 }
 

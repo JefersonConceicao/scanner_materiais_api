@@ -16,7 +16,6 @@
     </section>
 
     <section class="content">
-
         <div class="row"> 
             {{-- BOX IMG USER  --}}
             <div class="col-md-12">
@@ -29,7 +28,7 @@
                     </div>
 
                     <div class="widget-user-image">
-                        <img class="img-circle profilePicture" 
+                        <img class="img-circle profilePicture  dropzone" 
                             src="{{ asset('assets/default_icon.png') }}" 
                             alt="User Avatar"
                             data-toggle="tooltip"

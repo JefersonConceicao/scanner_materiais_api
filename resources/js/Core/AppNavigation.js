@@ -33,12 +33,21 @@ const setOptionsSubMenu = function(){
 
 const setActive = function(element){
     //VERIFICA E REMOVE QUALQUER LI ATIVA
-    let activeList = listMenu.find('.active');
-    let subMenuActive = listMenuGroups.parent().find('.active');
+    let liSubMenu = listMenuGroups.parent();
 
-    activeList.removeClass('active');
-    subMenuActive.removeClass('active');
-    element.parent().addClass("active");
+    if(liSubMenu.hasClass('active')){
+        liSubMenu.removeClass("active");
+    }
+
+    if(listMenu.hasClass("active")){
+        listMenu.removeClass("active")
+    }
+
+    if(element.is('li')){
+        element.addClass("active")
+    }else{
+        element.parent().addClass("active");
+    }
 }
 
 const loadingNavigation = function(inicio, fim, isComplete = false){

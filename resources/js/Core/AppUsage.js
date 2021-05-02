@@ -1,5 +1,3 @@
-const { default: Swal } = require("sweetalert2");
-
 $(function(){
     initializeDataTable();
     loadLibs();
@@ -16,6 +14,7 @@ const initializeDataTable = function(){
 const loadLibs = function(){
     configSelect2();
     configMultiSelect();
+    configDropzone();
 }
 
 /**
@@ -123,6 +122,15 @@ const configSelect2 = function(){
         allowClear:true,
         width:'100%',
     });  
+}
+
+/**
+ * 
+ * @param {Object} params 
+ */
+const configDropzone = function(params){
+    
+
 }
 
 const showMessagesValidator = function(form, errorsRequest){
@@ -239,4 +247,5 @@ module.exports = {
     initializeDataTable,
     showMessagesValidator,
     deleteForGrid,
+    configDropzone,
 }

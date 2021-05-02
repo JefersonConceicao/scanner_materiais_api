@@ -1,4 +1,5 @@
 <?php
+
 //GERAL NAMESPACES
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
@@ -9,6 +10,7 @@ use App\Models\Role;
 use App\Models\Setor;
 use App\Models\RoleUser;
 use Auth;
+
 //REQUESTS 
 use App\Http\Requests\UserRequest;
 
@@ -112,4 +114,8 @@ class UsersController extends Controller
         return response()->json($data);
     }
 
+    public function uploadPhotoProfile(Request $request){
+
+
+    }
 }

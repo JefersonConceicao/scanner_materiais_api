@@ -28,8 +28,8 @@ Route::group(['middleware' => 'auth'] , function(){
         Route::get('/view/{id}', 'UsersController@show')->name('view');
         Route::get('/perfil', 'UsersController@profile')->name('profile');
         Route::put('/changePassword', 'UsersController@changePassword')->name('changePassword');
+        Route::post('uploadPhotoProfile', 'UsersController@uploadPhotoProfile')->name('uploadPhotoProfile');
     });
-
 });
 
 

@@ -14,3 +14,4 @@ window.languageDataTable = require('./Constants/language_dataTable');
 
 //LIBS - scripts bibliotecas
 window.Swal = require('sweetalert2'); 
+//window.Dropzone = require('dropzone');

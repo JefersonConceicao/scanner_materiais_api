@@ -3988,11 +3988,21 @@ var setOptionsSubMenu = function setOptionsSubMenu() {
 
 var setActive = function setActive(element) {
   //VERIFICA E REMOVE QUALQUER LI ATIVA
-  var activeList = listMenu.find('.active');
-  var subMenuActive = listMenuGroups.parent().find('.active');
-  activeList.removeClass('active');
-  subMenuActive.removeClass('active');
-  element.parent().addClass("active");
+  var liSubMenu = listMenuGroups.parent();
+
+  if (liSubMenu.hasClass('active')) {
+    liSubMenu.removeClass("active");
+  }
+
+  if (listMenu.hasClass("active")) {
+    listMenu.removeClass("active");
+  }
+
+  if (element.is('li')) {
+    element.addClass("active");
+  } else {
+    element.parent().addClass("active");
+  }
 };
 
 var loadingNavigation = function loadingNavigation(inicio, fim) {
@@ -4143,10 +4153,7 @@ module.exports = {
   !*** ./resources/js/Core/AppUsage.js ***!
   \***************************************/
 /*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var _require = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js"),
-    Swal = _require["default"];
+/***/ (function(module, exports) {
 
 $(function () {
   initializeDataTable();
@@ -4164,6 +4171,7 @@ var initializeDataTable = function initializeDataTable() {
 var loadLibs = function loadLibs() {
   configSelect2();
   configMultiSelect();
+  configDropzone();
 };
 /**
  * 
@@ -4242,6 +4250,13 @@ var configSelect2 = function configSelect2() {
     width: '100%'
   });
 };
+/**
+ * 
+ * @param {Object} params 
+ */
+
+
+var configDropzone = function configDropzone(params) {};
 
 var showMessagesValidator = function showMessagesValidator(form, errorsRequest) {
   if (form.length == 0) {
@@ -4354,7 +4369,8 @@ module.exports = {
   loading: loading,
   initializeDataTable: initializeDataTable,
   showMessagesValidator: showMessagesValidator,
-  deleteForGrid: deleteForGrid
+  deleteForGrid: deleteForGrid,
+  configDropzone: configDropzone
 };
 
 /***/ }),
@@ -4419,7 +4435,12 @@ var habilitaEventos = function habilitaEventos() {
 };
 
 var habilitaBotoes = function habilitaBotoes() {
-  $(".profilePicture").on("click", function () {});
+  $(".profilePicture").on("click", function () {
+    var paramsDrozpone = {
+      url: '/users/changePhoto'
+    };
+    AppUsage.configDropzone(paramsDrozpone);
+  });
 };
 
 var formChangePassword = function formChangePassword(form) {
@@ -4639,7 +4660,7 @@ window.AppProfile = __webpack_require__(/*! ./Logged/AppProfile */ "./resources/
 
 window.languageDataTable = __webpack_require__(/*! ./Constants/language_dataTable */ "./resources/js/Constants/language_dataTable.js"); //LIBS - scripts bibliotecas
 
-window.Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+window.Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js"); //window.Dropzone = require('dropzone');
 
 /***/ }),
 
@@ -4661,8 +4682,8 @@ window.Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\bt_source\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\bt_source\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\BT\bt_source\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\BT\bt_source\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
