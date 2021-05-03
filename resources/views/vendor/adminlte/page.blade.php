@@ -104,7 +104,7 @@
         <div id="nivel2" class="modal fade" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    
+                    @yield('modal')
                 </div>
             </div>
         </div>

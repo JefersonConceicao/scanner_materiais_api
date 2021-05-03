@@ -39,16 +39,16 @@ const setupAjax = function(){
     })
 
     $(document).ajaxError(function(event, jqXHR, ajaxSettings, error){
-        // if(jqXHR.status == 500){
-        //     Swal.fire({
-        //         position:'top-end',
-        //         icon: 'error',
-        //         title: 'Ocorreu um erro interno, tente novamente mais tarde ou abra um chamado',
-        //         toast: true,
-        //         time: 3000,
-        //         showConfirmButton: false,
-        //     })
-        // }
+         if(jqXHR.status == 500){
+            Swal.fire({
+                position:'top-end',
+                 icon: 'error',
+                 title: 'Ocorreu um erro interno, tente novamente mais tarde ou abra um chamado',
+                 toast: true,
+                 time: 3000,    
+                showConfirmButton: false,
+            })
+        }
     });
 }
 

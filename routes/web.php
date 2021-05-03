@@ -16,7 +16,6 @@ Route::get('/', function () {
 
 Auth::routes();
 Route::group(['middleware' => 'auth'] , function(){
-
     Route::get('/home', 'HomeController@index')->name('home');
 
     Route::group(['as' => 'users::', 'prefix' => 'users'], function(){
@@ -38,7 +37,12 @@ Route::group(['middleware' => 'auth'] , function(){
     });
 
     Route::group(['as' => 'modulos::', 'prefix' => 'modulos'], function(){
-        Route::get('/', 'PermissoesController@index')->name('index');
+        Route::get('/', 'ModulosController@index')->name('index');
+        Route::get('/create', 'ModulosController@create')->name('create');
+        Route::post('/store', 'ModulosController@store')->name('store');
+        Route::get('/edit', 'ModulosController@edit')->name('edit');
+        Route::put('/update', 'ModulosController@update')->name('update');
+        Route::delete('/delete', 'ModulosController@destroy')->name('delete');
     });
 
     Route::group(['as' => 'funcionalidades::', 'prefix' => 'funcionalidades'], function(){

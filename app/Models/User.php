@@ -21,6 +21,7 @@ class User extends Authenticatable
         'setor_id',
         'autoriza',
         'url_photo',
+        'last_login',
     ];
  
     protected $hidden = [

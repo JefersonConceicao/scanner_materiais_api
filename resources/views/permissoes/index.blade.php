@@ -3,7 +3,7 @@
 @section('content')
     <section class="content-header">
             <h1> 
-                Permissões 
+                Permissões de Acesso 
 
                 <smalL>
                     <i class="fa fa-universal-access"> </i>
@@ -19,7 +19,7 @@
     <section class="content">
         <div class="row">
             <div class="col-md-6">
-                <div class="box box-danger">
+                <div class="box box-bt-blue">
                     <div class="box-header with-border">
                         <span class="box-title"> Funcionalidades </span>
 
@@ -32,13 +32,17 @@
                             <thead> 
                                 <th> Total </th>
                                 <th> Sem Permissões </th>
-                            </thead>    
+                            </thead>
+                            <tbody> 
+                                <td> 0 </td>
+                                <td> 0 </td>
+                            </tbody>
                         </table>
                     </div>
                 </div>  
             </div>
             <div class="col-md-6">
-                <div class="box box-danger">
+                <div class="box box-bt-red">
                     <div class="box-header with-border">
                         <span class="box-title"> Permissões </span>
                         
@@ -64,8 +68,57 @@
                         </table>
                     </div>
                 </div>
+            </div>     
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="box box-bt-red">
+                    <div class="box-header with-border">
+                        <span class="box-title"> Módulos </span>
+
+                        <button type="button" class="btn btn-xs btn-primary pull-right" id="gerModules"> 
+                            Gerir
+                        </button>   
+                    </div> 
+                    <div class="box-body">
+                        <table class="table">
+                            <thead>
+                                <th> Total </th>
+                                <th> Ativos </th>
+                                <th> Inativos  </th>
+                                <th> Sem funcionalidades   </th>
+                            </thead>
+                            <tbody>
+                                <td> 0 </td>
+                                <td> 0 </td>
+                                <td> 0 </td>
+                                <td> 0 </td>
+                            </tbody>
+                        </table>
+                    </div> 
+                </div>
             </div>
-          
+            <div class="col-md-6">
+                <div class="box box-bt-blue">
+                    <div class="box-header with-border">
+                        <span class="box-title"> Sessão  </span>
+
+                        <button type="button" class="btn btn-xs btn-primary pull-right" id="reSession">
+                            Revalidar Sessão
+                        </button>
+                    </div> 
+                    <div class="box-body">
+                        <table class="table">
+                            <thead> 
+                                <th> Último login </th>
+                            </thead>
+                            <tbody>
+                                <td> {{!empty($lastLogin) ? $lastLogin : "Não informado" }} </td>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 @endsection

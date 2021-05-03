@@ -10,9 +10,10 @@ window.AppLogin = require('./Auth/AppLogin');
 window.AppUsers = require('./Logged/AppUsers');
 window.AppProfile = require('./Logged/AppProfile');
 window.AppPermissoes = require('./Logged/AppPermissoes');
+window.AppModulos = require('./Logged/AppModulos');
+
 //CONSTANTS Scripts - scripts re-utilizaveis
 window.languageDataTable = require('./Constants/language_dataTable');
 
 //LIBS - scripts bibliotecas
 window.Swal = require('sweetalert2'); 
-//window.Dropzone = require('dropzone');

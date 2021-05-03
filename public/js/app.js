@@ -4129,16 +4129,17 @@ var setupAjax = function setupAjax() {
       AppUsage.initializeDataTable();
     }
   });
-  $(document).ajaxError(function (event, jqXHR, ajaxSettings, error) {// if(jqXHR.status == 500){
-    //     Swal.fire({
-    //         position:'top-end',
-    //         icon: 'error',
-    //         title: 'Ocorreu um erro interno, tente novamente mais tarde ou abra um chamado',
-    //         toast: true,
-    //         time: 3000,
-    //         showConfirmButton: false,
-    //     })
-    // }
+  $(document).ajaxError(function (event, jqXHR, ajaxSettings, error) {
+    if (jqXHR.status == 500) {
+      Swal.fire({
+        position: 'top-end',
+        icon: 'error',
+        title: 'Ocorreu um erro interno, tente novamente mais tarde ou abra um chamado',
+        toast: true,
+        time: 3000,
+        showConfirmButton: false
+      });
+    }
   });
 };
 
@@ -4162,6 +4163,7 @@ $(function () {
 
 var initializeDataTable = function initializeDataTable() {
   $(".dataTable").dataTable({
+    buttons: ['pdf'],
     paging: false,
     searching: false,
     language: languageDataTable.portugues
@@ -4193,7 +4195,7 @@ var loadModal = function loadModal(url, modalObject) {
     width: !!width ? width : '800px'
   });
   $(modalObject).find('.modal-content').html("").append("<section>  \n            <div class=\"alert alert-primary\"> <i class=\"fa fa-spinner fa-spin\"> </i> Carregando... <div>\n        </section>");
-  $(modalObject).find(".modal-content").load("".concat(url, " .modal-content >"), function () {
+  $(modalObject).find(".modal-content").load("".concat(url, " ").concat(modalObject, " > .modal-dialog > .modal-content >"), function () {
     //Executa novamente loadLibs para novo HTML 
     loadLibs();
 
@@ -4383,6 +4385,10 @@ module.exports = {
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
+	"./AppFuncionalidades": "./resources/js/Logged/AppFuncionalidades.js",
+	"./AppFuncionalidades.js": "./resources/js/Logged/AppFuncionalidades.js",
+	"./AppModulos": "./resources/js/Logged/AppModulos.js",
+	"./AppModulos.js": "./resources/js/Logged/AppModulos.js",
 	"./AppPermissoes": "./resources/js/Logged/AppPermissoes.js",
 	"./AppPermissoes.js": "./resources/js/Logged/AppPermissoes.js",
 	"./AppProfile": "./resources/js/Logged/AppProfile.js",
@@ -4413,6 +4419,109 @@ webpackContext.id = "./resources/js/Logged sync recursive ^\\.\\/.*$";
 
 /***/ }),
 
+/***/ "./resources/js/Logged/AppFuncionalidades.js":
+/*!***************************************************!*\
+  !*** ./resources/js/Logged/AppFuncionalidades.js ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+
+
+/***/ }),
+
+/***/ "./resources/js/Logged/AppModulos.js":
+/*!*******************************************!*\
+  !*** ./resources/js/Logged/AppModulos.js ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var _require = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js"),
+    Swal = _require["default"];
+
+$(function () {
+  habilitaBotoes();
+  habilitaEventos();
+});
+var modalObject = "#nivel2";
+
+var habilitaEventos = function habilitaEventos() {
+  $("#addModule").on("click", function () {
+    var url = '/modulos/create';
+    AppUsage.loadModal(url, modalObject, '600px', function () {
+      $("#formAddModule").on("submit", function (e) {
+        e.preventDefault();
+        formModule();
+      });
+    });
+  });
+};
+
+var habilitaBotoes = function habilitaBotoes() {};
+
+var loadConsModules = function loadConsModules() {
+  var url = '/modulos/';
+  var grid = "#gridModulos";
+  $.ajax({
+    type: "GET",
+    url: url,
+    dataType: "HTML",
+    beforeSend: function beforeSend() {
+      AppUsage.loading($(grid));
+    },
+    success: function success(response) {
+      $(grid).html($(response).find(modalObject + " #gridModulos"));
+    }
+  });
+};
+
+var formModule = function formModule(id) {
+  var url = typeof id === "undefined" ? '/modulos/store' : "/modulos/update/".concat(id);
+  var type = typeof id === "undefined" ? "POST" : "PUT";
+  var form = typeof id === "undefined" ? "#formAddModule" : "#formEditModule";
+  $.ajax({
+    type: type,
+    url: url,
+    data: $(form).serialize(),
+    dataType: "JSON",
+    beforeSend: function beforeSend() {
+      $(modalObject + " .btnSubmit").prop("disabled", true).html("\n                <i class=\"fa fa-spinner fa-spin\"> </i> Carregando...\n            ");
+    },
+    success: function success(response) {
+      Swal.fire({
+        position: 'top-end',
+        icon: !response.error ? 'success' : 'error',
+        title: "<b style=\"color:#fff\"> ".concat(response.msg, " </b>"),
+        toast: true,
+        showConfirmButton: false,
+        timer: 3500,
+        background: '#337ab7',
+        didOpen: function didOpen() {
+          $(modalObject).modal('hide');
+          loadConsModules();
+        }
+      });
+    },
+    error: function error(jqXHR, textStatus, _error) {
+      if (!!jqXHR.responseJSON.errors) {
+        var errors = jqXHR.responseJSON.errors;
+        AppUsage.showMessagesValidator(form, errors);
+      }
+    },
+    complete: function complete() {
+      $(modalObject + " .btnSubmit").prop("disabled", false).html("\n                Salvar\n            ");
+    }
+  });
+};
+
+module.exports = {
+  habilitaBotoes: habilitaBotoes,
+  habilitaEventos: habilitaEventos
+};
+
+/***/ }),
+
 /***/ "./resources/js/Logged/AppPermissoes.js":
 /*!**********************************************!*\
   !*** ./resources/js/Logged/AppPermissoes.js ***!
@@ -4426,15 +4535,22 @@ $(function () {
 });
 var modalObject = "#nivel1";
 
-var habilitaBotoes = function habilitaBotoes() {};
-
 var habilitaEventos = function habilitaEventos() {
   $("#syncPermissions").on("click", function (e) {
     e.preventDefault();
     var url = '/permissoes/create';
     AppUsage.loadModal(url, modalObject, '800px', function () {});
   });
+  $("#gerModules").on("click", function () {
+    var url = "/modulos/";
+    AppUsage.loadModal(url, modalObject, '500px', function () {
+      AppModulos.habilitaBotoes();
+      AppModulos.habilitaEventos();
+    });
+  });
 };
+
+var habilitaBotoes = function habilitaBotoes() {};
 
 module.exports = {
   habilitaEventos: habilitaEventos,
@@ -4689,11 +4805,12 @@ window.AppLogin = __webpack_require__(/*! ./Auth/AppLogin */ "./resources/js/Aut
 
 window.AppUsers = __webpack_require__(/*! ./Logged/AppUsers */ "./resources/js/Logged/AppUsers.js");
 window.AppProfile = __webpack_require__(/*! ./Logged/AppProfile */ "./resources/js/Logged/AppProfile.js");
-window.AppPermissoes = __webpack_require__(/*! ./Logged/AppPermissoes */ "./resources/js/Logged/AppPermissoes.js"); //CONSTANTS Scripts - scripts re-utilizaveis
+window.AppPermissoes = __webpack_require__(/*! ./Logged/AppPermissoes */ "./resources/js/Logged/AppPermissoes.js");
+window.AppModulos = __webpack_require__(/*! ./Logged/AppModulos */ "./resources/js/Logged/AppModulos.js"); //CONSTANTS Scripts - scripts re-utilizaveis
 
 window.languageDataTable = __webpack_require__(/*! ./Constants/language_dataTable */ "./resources/js/Constants/language_dataTable.js"); //LIBS - scripts bibliotecas
 
-window.Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js"); //window.Dropzone = require('dropzone');
+window.Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 
 /***/ }),
 
@@ -4715,8 +4832,8 @@ window.Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\BT\bt_source\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\BT\bt_source\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\novo_union\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\novo_union\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

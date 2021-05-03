@@ -1,5 +1,4 @@
 <div class="row">
-    {{-- filtro --}}
     <div class="col-md-12">
         <div class="box" id="boxFiltroUser">
             <div class="box-header with-border">
@@ -13,5 +12,4 @@
             </div>
         </div>
     </div>
-    {{-- fim filtro --}}
 </div>

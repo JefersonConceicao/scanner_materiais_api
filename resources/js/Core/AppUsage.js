@@ -4,7 +4,10 @@ $(function(){
 })
 
 const initializeDataTable = function(){
-    $(".dataTable").dataTable({ 
+    $(".dataTable").dataTable({
+        buttons:[
+            'pdf',
+        ],
         paging: false,
         searching: false,
         language: languageDataTable.portugues,
@@ -37,7 +40,7 @@ const loadModal = function(url, modalObject, width = null, callback = null){
         </section>`
     );
            
-    $(modalObject).find(`.modal-content`).load(`${url} .modal-content >`, function(){
+    $(modalObject).find(`.modal-content`).load(`${url} ${modalObject} > .modal-dialog > .modal-content >`, function(){
         //Executa novamente loadLibs para novo HTML 
         loadLibs();
 

@@ -3,7 +3,12 @@
             @hasSection('form_modal')
                 <form id="@yield('form_modal')">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"> 
+                        
+                        <button 
+                             style="display: @hasSection('no_close') {{ "none" }} @else  {{ "block "}}  @endif"
+                             type="button" class="close" 
+                             data-dismiss="modal"
+                        > 
                             &times 
                         </button>
                         <h4 class="modal-title"> 
@@ -29,7 +34,11 @@
     
             @else
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"> 
+                    <button 
+                        style="display: @hasSection('no_close') {{ "none" }} @else  {{ "block "}}  @endif"
+                        type="button" class="close" 
+                        data-dismiss="modal"
+                    >  
                         &times 
                     </button>
                     <h4 class="modal-title"> 

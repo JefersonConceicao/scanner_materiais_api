@@ -115,7 +115,7 @@ class UsersController extends Controller
     }
 
     public function uploadPhotoProfile(Request $request){
-
+        
 
     }
 }

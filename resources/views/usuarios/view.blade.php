@@ -33,7 +33,14 @@
 
     <div class="row">
         <div class="col-md-12">
-            <h4 class="pull-left"> Informações Pessoais:  </h4>
+            <h4 class="pull-left"> Informações Pessoais: </h4>
+            <span class="pull-right"> 
+                <b> Último login: &nbsp; </b> 
+                {{ !empty($user->las_login) 
+                    ? converteData($user->last_login, 'd/m/Y H:i')
+                    : "Não informado"    
+                }}   
+            </span>
         </div>
     </div> 
 
@@ -58,9 +65,7 @@
                 ]) }}
             </div>
         </div>
-
     </div>
-
 @stop
 
 @section('btn_fechar')
