@@ -4,9 +4,8 @@ $(function(){
 })
 
 const listMenu = $('.main-sidebar > .sidebar > .sidebar-menu > li');
-const listMenuGroups = $('.main-sidebar > .sidebar > .sidebar-menu > li.treeview > .treeview-menu > li > a')
-                    .addClass('targetSubMenu');
-
+const listMenuGroups = $('.main-sidebar > .sidebar > .sidebar-menu > li.treeview > .treeview-menu > li > a').addClass('targetSubMenu');
+                
 const setOptionsMenu = function(){
     listMenu.on('click', function(e){
         e.preventDefault();

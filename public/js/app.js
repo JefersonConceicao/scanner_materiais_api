@@ -4383,6 +4383,8 @@ module.exports = {
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
+	"./AppPermissoes": "./resources/js/Logged/AppPermissoes.js",
+	"./AppPermissoes.js": "./resources/js/Logged/AppPermissoes.js",
 	"./AppProfile": "./resources/js/Logged/AppProfile.js",
 	"./AppProfile.js": "./resources/js/Logged/AppProfile.js",
 	"./AppUsers": "./resources/js/Logged/AppUsers.js",
@@ -4408,6 +4410,36 @@ webpackContext.keys = function webpackContextKeys() {
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
 webpackContext.id = "./resources/js/Logged sync recursive ^\\.\\/.*$";
+
+/***/ }),
+
+/***/ "./resources/js/Logged/AppPermissoes.js":
+/*!**********************************************!*\
+  !*** ./resources/js/Logged/AppPermissoes.js ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(function () {
+  habilitaBotoes();
+  habilitaEventos();
+});
+var modalObject = "#nivel1";
+
+var habilitaBotoes = function habilitaBotoes() {};
+
+var habilitaEventos = function habilitaEventos() {
+  $("#syncPermissions").on("click", function (e) {
+    e.preventDefault();
+    var url = '/permissoes/create';
+    AppUsage.loadModal(url, modalObject, '800px', function () {});
+  });
+};
+
+module.exports = {
+  habilitaEventos: habilitaEventos,
+  habilitaBotoes: habilitaBotoes
+};
 
 /***/ }),
 
@@ -4656,7 +4688,8 @@ window.AppSettings = __webpack_require__(/*! ./Core/AppSettings */ "./resources/
 window.AppLogin = __webpack_require__(/*! ./Auth/AppLogin */ "./resources/js/Auth/AppLogin.js"); //LOGGED Scripts - scripts em módulos do sistema
 
 window.AppUsers = __webpack_require__(/*! ./Logged/AppUsers */ "./resources/js/Logged/AppUsers.js");
-window.AppProfile = __webpack_require__(/*! ./Logged/AppProfile */ "./resources/js/Logged/AppProfile.js"); //CONSTANTS Scripts - scripts re-utilizaveis
+window.AppProfile = __webpack_require__(/*! ./Logged/AppProfile */ "./resources/js/Logged/AppProfile.js");
+window.AppPermissoes = __webpack_require__(/*! ./Logged/AppPermissoes */ "./resources/js/Logged/AppPermissoes.js"); //CONSTANTS Scripts - scripts re-utilizaveis
 
 window.languageDataTable = __webpack_require__(/*! ./Constants/language_dataTable */ "./resources/js/Constants/language_dataTable.js"); //LIBS - scripts bibliotecas
 

@@ -277,6 +277,12 @@ return [
                         'icon' => 'fa fa-angle-right',
                         'requestjs' => 'AppUsers'
                     ],
+                    [
+                        'text' => 'Permissões',
+                        'url' => 'permissoes/',
+                        'icon' => 'fa fa-angle-right',
+                        'requestjs' => 'AppPermissoes'
+                    ],
                 ]
             ],
             ['header' => 'Configurações'],

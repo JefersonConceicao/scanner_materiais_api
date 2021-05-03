@@ -10,6 +10,7 @@
          
         <ol class="breadcrumb"> 
             <li> <a href="#"> <i class="fa fa-home"> </i> Início </a> </li>
+            <li> <a href="#"> <i class="fa fa-lock"> </i> Controle de Acesso </a> </li>
             <li class="active"> <a href="#">  Usuários </a> </li>
         </ol>
     </section>

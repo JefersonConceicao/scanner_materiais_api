@@ -16,6 +16,7 @@ Route::get('/', function () {
 
 Auth::routes();
 Route::group(['middleware' => 'auth'] , function(){
+
     Route::get('/home', 'HomeController@index')->name('home');
 
     Route::group(['as' => 'users::', 'prefix' => 'users'], function(){
@@ -29,6 +30,19 @@ Route::group(['middleware' => 'auth'] , function(){
         Route::get('/perfil', 'UsersController@profile')->name('profile');
         Route::put('/changePassword', 'UsersController@changePassword')->name('changePassword');
         Route::post('uploadPhotoProfile', 'UsersController@uploadPhotoProfile')->name('uploadPhotoProfile');
+    });
+
+    Route::group(['as' => 'permissoes::', 'prefix' => 'permissoes'], function(){
+        Route::get('/', 'PermissoesController@index')->name('index');
+        Route::get('/create', 'PermissoesController@create')->name('create');
+    });
+
+    Route::group(['as' => 'modulos::', 'prefix' => 'modulos'], function(){
+        Route::get('/', 'PermissoesController@index')->name('index');
+    });
+
+    Route::group(['as' => 'funcionalidades::', 'prefix' => 'funcionalidades'], function(){
+        Route::get('/', 'FuncionalidadesController@index')->name('index');
     });
 });
 
