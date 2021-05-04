@@ -15,6 +15,9 @@ class PermissoesController extends Controller
         $modulo = new Modulo;
 
         $view = view('permissoes.index')
+                ->with('totalModulos', $modulo->count())
+                ->with('modulosAtivos', count($modulo->getModulosAtivos()))
+                ->with('modulosInativos', count($modulo->getModulosInativos()))
                 ->with('permAdicionar', count($permissao->permissionsAdded()))
                 ->with('permRemover', count($permissao->permissionsRemoved()))
                 ->with('total', $permissao->count())

@@ -40,9 +40,9 @@ Route::group(['middleware' => 'auth'] , function(){
         Route::get('/', 'ModulosController@index')->name('index');
         Route::get('/create', 'ModulosController@create')->name('create');
         Route::post('/store', 'ModulosController@store')->name('store');
-        Route::get('/edit', 'ModulosController@edit')->name('edit');
-        Route::put('/update', 'ModulosController@update')->name('update');
-        Route::delete('/delete', 'ModulosController@destroy')->name('delete');
+        Route::get('/edit/{id}', 'ModulosController@edit')->name('edit');
+        Route::put('/update/{id}', 'ModulosController@update')->name('update');
+        Route::delete('/delete/{id}', 'ModulosController@destroy')->name('delete');
     });
 
     Route::group(['as' => 'funcionalidades::', 'prefix' => 'funcionalidades'], function(){

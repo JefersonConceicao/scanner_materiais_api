@@ -4458,7 +4458,40 @@ var habilitaEventos = function habilitaEventos() {
   });
 };
 
-var habilitaBotoes = function habilitaBotoes() {};
+var habilitaBotoes = function habilitaBotoes() {
+  $(".btnEditarModule").on("click", function () {
+    var id = $(this).attr("id");
+    var url = '/modulos/edit/' + id;
+    AppUsage.loadModal(url, modalObject, '600px', function () {
+      $("#formEditModule").on("submit", function (e) {
+        e.preventDefault();
+        formModule(id);
+      });
+    });
+  });
+  $(".btnDeleteModule").on("click", function () {
+    var id = $(this).attr("id");
+    var url = '/modulos/delete/' + id;
+    Swal.fire({
+      title: 'Deseja realmente excluir o registro?',
+      text: 'Esta ação é irreversivel!',
+      icon: 'warning',
+      showCancelButton: true,
+      reverseButtons: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar',
+      timeProgressBar: true
+    }).then(function (result) {
+      if (result.isConfirmed) {
+        AppUsage.deleteForGrid(url, function () {
+          loadConsModules();
+        });
+      }
+    });
+  });
+};
 
 var loadConsModules = function loadConsModules() {
   var url = '/modulos/';
@@ -4471,7 +4504,8 @@ var loadConsModules = function loadConsModules() {
       AppUsage.loading($(grid));
     },
     success: function success(response) {
-      $(grid).html($(response).find(modalObject + " #gridModulos"));
+      $(grid).html($(response).find(modalObject + " #gridModulos >"));
+      habilitaBotoes();
     }
   });
 };
@@ -4536,6 +4570,9 @@ $(function () {
 var modalObject = "#nivel1";
 
 var habilitaEventos = function habilitaEventos() {
+  $(".refreshDash").on("click", function () {
+    loadConsPermissoes();
+  });
   $("#syncPermissions").on("click", function (e) {
     e.preventDefault();
     var url = '/permissoes/create';
@@ -4551,6 +4588,24 @@ var habilitaEventos = function habilitaEventos() {
 };
 
 var habilitaBotoes = function habilitaBotoes() {};
+
+var loadConsPermissoes = function loadConsPermissoes() {
+  var url = '/permissoes/';
+  var grid = "#gridDash";
+  $.ajax({
+    type: "GET",
+    url: url,
+    dataType: "HTML",
+    beforeSend: function beforeSend() {
+      AppUsage.loading($(grid));
+    },
+    success: function success(response) {
+      $(grid).html($(response).find("".concat(grid, " >")));
+      habilitaEventos();
+      habilitaBotoes();
+    }
+  });
+};
 
 module.exports = {
   habilitaEventos: habilitaEventos,
@@ -4832,8 +4887,8 @@ window.Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\novo_union\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\novo_union\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\BT\bt_source\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\BT\bt_source\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

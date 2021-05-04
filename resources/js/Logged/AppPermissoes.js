@@ -6,6 +6,10 @@ $(function(){
 const modalObject = "#nivel1";
 
 const habilitaEventos = function(){
+    $(".refreshDash").on("click", function(){
+        loadConsPermissoes();
+    })
+
 
     $("#syncPermissions").on("click", function(e){
         e.preventDefault();
@@ -29,6 +33,25 @@ const habilitaEventos = function(){
 
 const habilitaBotoes = function(){
 
+}
+
+const loadConsPermissoes = function(){
+    let url = '/permissoes/'
+    let grid = "#gridDash"
+
+    $.ajax({
+        type: "GET",
+        url,
+        dataType: "HTML",
+        beforeSend:function(){
+            AppUsage.loading($(grid));
+        },
+        success: function (response) {
+            $(grid).html($(response).find(`${grid} >`))  
+            habilitaEventos()
+            habilitaBotoes()
+        }
+    });
 }
 
 

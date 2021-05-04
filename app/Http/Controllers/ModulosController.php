@@ -8,10 +8,6 @@ use Illuminate\Http\Request;
 
 class ModulosController extends Controller
 {
-    public function __construct(){
- 
-    }
-
     public function index(){
         $modulo = new Modulo;
 
@@ -32,17 +28,24 @@ class ModulosController extends Controller
         return response()->json($data);
     }
 
-    public function edit(){
-
+    public function edit($id){
+        $modulo = new Modulo;
         
+        return view('modulos.edit')
+            ->with('modulo', $modulo->find($id));
     }
 
-    public function update(){
+    public function update($id, Request $request){
+        $modulo = new Modulo;
 
+        $data = $modulo->updateModulo($id, $request->all());
+        return response()->json($data);
     }
 
-    public function destroy(){
+    public function destroy($id){
+        $modulo = new Modulo;
 
-
+        $data = $modulo->deleteModulo($id);
+        return response()->json($data);
     }
 }

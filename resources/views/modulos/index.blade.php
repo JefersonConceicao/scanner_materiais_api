@@ -36,11 +36,12 @@
                                                 class="btn btn-primary btn-xs btnEditarModule"
                                                 data-toggle="tooltip"
                                                 title="Editar"
+                                                id="{{ $dado->id }}"
                                             > 
                                                 <i class="fa fa-edit"> </i> 
                                             </button>
                                             &nbsp;
-                                            <button class="btn btn-danger btn-xs btnDeleteModule"> 
+                                            <button class="btn btn-danger btn-xs btnDeleteModule" id="{{ $dado->id }}"> 
                                                 <i class="fa fa-trash"> </i>
                                             </button>
                                         </div>

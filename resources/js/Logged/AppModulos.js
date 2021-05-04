@@ -14,16 +14,49 @@ const habilitaEventos = function(){
         AppUsage.loadModal(url, modalObject, '600px', function(){
             $("#formAddModule").on("submit", function(e){
                 e.preventDefault()
-
                 formModule();
             })
         });
     });  
-
 }
 
 const habilitaBotoes = function(){
-   
+    $(".btnEditarModule").on("click", function(){
+        let id = $(this).attr("id");
+        let url = '/modulos/edit/'+id;
+
+        AppUsage.loadModal(url, modalObject, '600px', function(){
+            $("#formEditModule").on("submit", function(e){
+                e.preventDefault();
+
+                formModule(id);
+            })  
+        })
+    })  
+
+    $(".btnDeleteModule").on("click", function(){
+        let id = $(this).attr("id");
+        let url = '/modulos/delete/' + id;
+
+        Swal.fire({
+            title: 'Deseja realmente excluir o registro?',
+            text: 'Esta ação é irreversivel!',
+            icon: 'warning',
+            showCancelButton: true,
+            reverseButtons: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: 'Cancelar',
+            timeProgressBar: true,
+        }).then(result => {
+            if(result.isConfirmed){
+                AppUsage.deleteForGrid(url, function(){
+                    loadConsModules();
+                })
+            }
+        })
+    })
 }
 
 const loadConsModules = function(){
@@ -38,7 +71,8 @@ const loadConsModules = function(){
             AppUsage.loading($(grid))
         },
         success: function (response) {
-            $(grid).html($(response).find(modalObject + " #gridModulos"));
+            $(grid).html($(response).find(modalObject + " #gridModulos >"));
+            habilitaBotoes();
         },
     })
 }

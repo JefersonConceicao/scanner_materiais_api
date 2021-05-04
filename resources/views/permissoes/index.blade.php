@@ -18,104 +18,115 @@
     </section>
     <section class="content">
         <div class="row">
-            <div class="col-md-6">
-                <div class="box box-bt-blue">
-                    <div class="box-header with-border">
-                        <span class="box-title"> Funcionalidades </span>
-
-                        <button type="button" class="btn btn-xs btn-primary pull-right" id="cadastrarFuncionalidade"> 
-                            Cadastrar
-                        </button>
-                    </div>
-                    <div class="box-body">
-                        <table class="table">
-                            <thead> 
-                                <th> Total </th>
-                                <th> Sem Permissões </th>
-                            </thead>
-                            <tbody> 
-                                <td> 0 </td>
-                                <td> 0 </td>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>  
+            <div class="col-md-12">
+                <button class="btn btn-primary refreshDash" style="width:100%;"> 
+                    <i class="fa fa-refresh"> </i>   &nbsp;
+                        Atualizar Painel 
+                </button>
             </div>
-            <div class="col-md-6">
-                <div class="box box-bt-red">
-                    <div class="box-header with-border">
-                        <span class="box-title"> Permissões </span>
-                        
-                        <button type="button" class="btn btn-xs btn-primary pull-right" id="syncPermissions"> 
-                            Atualizar automaticamente
-                        </button>
-                    </div>
-                    
-                    <div class="box-body">
-                        <table class="table"> 
-                            <thead> 
-                                <th> Total </th>
-                                <th> A adicionar   </th>
-                                <th> A remover </th>
-                                <th> Sem vínculo </th>
-                            </thead>
-                            <tbody> 
-                                <td> {{ $total }}  </td>
-                                <td> {{ $permAdicionar }}  </td>
-                                <td> {{ $permRemover }}  </td>
-                                <td> 0  </td>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>     
         </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="box box-bt-red">
-                    <div class="box-header with-border">
-                        <span class="box-title"> Módulos </span>
 
-                        <button type="button" class="btn btn-xs btn-primary pull-right" id="gerModules"> 
-                            Gerir
-                        </button>   
-                    </div> 
-                    <div class="box-body">
-                        <table class="table">
-                            <thead>
-                                <th> Total </th>
-                                <th> Ativos </th>
-                                <th> Inativos  </th>
-                                <th> Sem funcionalidades   </th>
-                            </thead>
-                            <tbody>
-                                <td> 0 </td>
-                                <td> 0 </td>
-                                <td> 0 </td>
-                                <td> 0 </td>
-                            </tbody>
-                        </table>
-                    </div> 
+        <div id="gridDash">
+            <div class="row" style="margin-top:2%;">
+                <div class="col-md-6">
+                    <div class="box box-bt-blue">
+                        <div class="box-header with-border">
+                            <span class="box-title"> Funcionalidades </span>
+
+                            <button type="button" class="btn btn-xs btn-primary pull-right" id="cadastrarFuncionalidade"> 
+                                Cadastrar
+                            </button>
+                        </div>
+                        <div class="box-body">
+                            <table class="table">
+                                <thead> 
+                                    <th> Total </th>
+                                    <th> Sem Permissões </th>
+                                </thead>
+                                <tbody> 
+                                    <td> 0 </td>
+                                    <td> 0 </td>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>  
                 </div>
+                <div class="col-md-6">
+                    <div class="box box-bt-red">
+                        <div class="box-header with-border">
+                            <span class="box-title"> Permissões </span>
+                            
+                            <button type="button" class="btn btn-xs btn-primary pull-right" id="syncPermissions"> 
+                                Atualizar automaticamente
+                            </button>
+                        </div>
+                        
+                        <div class="box-body">
+                            <table class="table"> 
+                                <thead> 
+                                    <th> Total </th>
+                                    <th> A adicionar   </th>
+                                    <th> A remover </th>
+                                    <th> Sem vínculo </th>
+                                </thead>
+                                <tbody> 
+                                    <td> {{ $total }}  </td>
+                                    <td> {{ $permAdicionar }}  </td>
+                                    <td> {{ $permRemover }}  </td>
+                                    <td> 0  </td>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>     
             </div>
-            <div class="col-md-6">
-                <div class="box box-bt-blue">
-                    <div class="box-header with-border">
-                        <span class="box-title"> Sessão  </span>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="box box-bt-red">
+                        <div class="box-header with-border">
+                            <span class="box-title"> Módulos </span>
 
-                        <button type="button" class="btn btn-xs btn-primary pull-right" id="reSession">
-                            Revalidar Sessão
-                        </button>
-                    </div> 
-                    <div class="box-body">
-                        <table class="table">
-                            <thead> 
-                                <th> Último login </th>
-                            </thead>
-                            <tbody>
-                                <td> {{!empty($lastLogin) ? $lastLogin : "Não informado" }} </td>
-                            </tbody>
-                        </table>
+                            <button type="button" class="btn btn-xs btn-primary pull-right" id="gerModules"> 
+                                Gerir
+                            </button>   
+                        </div> 
+                        <div class="box-body">
+                            <table class="table">
+                                <thead>
+                                    <th> Total </th>
+                                    <th> Ativos </th>
+                                    <th> Inativos  </th>
+                                    <th> Sem funcionalidades   </th>
+                                </thead>
+                                <tbody>
+                                    <td> {{ $totalModulos }} </td>
+                                    <td> {{ $modulosAtivos }} </td>
+                                    <td> {{ $modulosInativos }} </td>
+                                    <td> 0 </td>
+                                </tbody>
+                            </table>
+                        </div> 
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="box box-bt-blue">
+                        <div class="box-header with-border">
+                            <span class="box-title"> Sessão  </span>
+
+                            <button type="button" class="btn btn-xs btn-primary pull-right" id="reSession">
+                                Revalidar Sessão
+                            </button>
+                        </div> 
+                        <div class="box-body">
+                            <table class="table">
+                                <thead> 
+                                    <th> Último login </th>
+                                </thead>
+                                <tbody>
+                                    <td> {{!empty($lastLogin) ? $lastLogin : "Não informado" }} </td>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

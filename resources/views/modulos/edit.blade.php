@@ -9,7 +9,7 @@
         <div class="col-md-6"> 
             <div class="form-group">
                 {{ Form::label('nome', "Nome") }}
-                {{ Form::text('nome', null, [
+                {{ Form::text('nome', $modulo->nome , [
                     'class' => 'form-control',
                 ]) }}
 
@@ -19,7 +19,7 @@
         <div class="col-md-6"> 
             <div class="form-group">
                 {{ Form::label('ativo', "Ativo") }}
-                {{ Form::select('active', [ 0 => 'Não', 1 => 'Sim'], [],  [
+                {{ Form::select('active', [ 0 => 'Não', 1 => 'Sim'], $modulo->active ,  [
                     'class' => 'form-control select2',
                 ]) }}   
             </div>
