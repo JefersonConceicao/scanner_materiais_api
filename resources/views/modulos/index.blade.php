@@ -1,7 +1,7 @@
 @extends('layouts.modals')
 @section('no_close','true')
 @section('modal-header')
-    Gerenciamento de Módulos
+    <i class="fa fa-cube"> </i>  Gerenciamento de Módulos
 
     <button class="btn btn-primary pull-right" id="addModule"> 
         <i class="fa fa-plus-square"> </i> Novo Módulo    

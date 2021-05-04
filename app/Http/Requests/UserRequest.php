@@ -38,7 +38,7 @@ class UserRequest extends FormRequest
                     'confirm_password' => 'required| min:6 | same:password',
                     'role_user[].*' => 'required',
                     'setor_id' => 'required',
-                    'role_user' => 'required',
+
                 ];
             break;
             case 'update':

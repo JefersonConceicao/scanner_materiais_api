@@ -47,6 +47,11 @@ Route::group(['middleware' => 'auth'] , function(){
 
     Route::group(['as' => 'funcionalidades::', 'prefix' => 'funcionalidades'], function(){
         Route::get('/', 'FuncionalidadesController@index')->name('index');
+        Route::get('/create', 'FuncionalidadesController@create')->name('create');
+        Route::post('/store', 'FuncionalidadesController@store')->name('store');
+        Route::get('/edit/{id}', 'FuncionalidadesController@edit')->name('edit');
+        Route::put('/update/{id}', 'FuncionalidadesController@update')->name('update');
+        Route::delete('/delete/{id}', 'FuncionalidadesController@delete')->name('delete');
     });
 });
 

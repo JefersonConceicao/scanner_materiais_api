@@ -11,6 +11,7 @@ window.AppUsers = require('./Logged/AppUsers');
 window.AppProfile = require('./Logged/AppProfile');
 window.AppPermissoes = require('./Logged/AppPermissoes');
 window.AppModulos = require('./Logged/AppModulos');
+window.AppFuncionalidades = require('./Logged/AppFuncionalidades');
 
 //CONSTANTS Scripts - scripts re-utilizaveis
 window.languageDataTable = require('./Constants/language_dataTable');

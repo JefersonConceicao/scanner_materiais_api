@@ -4424,9 +4424,69 @@ webpackContext.id = "./resources/js/Logged sync recursive ^\\.\\/.*$";
   !*** ./resources/js/Logged/AppFuncionalidades.js ***!
   \***************************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
+var _require = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js"),
+    Swal = _require["default"];
 
+$(function () {
+  habilitaBotoes();
+  habilitaEventos();
+});
+var modalObject = "#nivel1";
+
+var habilitaEventos = function habilitaEventos() {
+  console.log("active events");
+  $("#modalFormAddFunc").on("submit", function (e) {
+    e.preventDefault();
+    formFuncionalidade();
+  });
+};
+
+var habilitaBotoes = function habilitaBotoes() {};
+
+var formFuncionalidade = function formFuncionalidade(id) {
+  var url = typeof id === "undefined" ? '/funcionalidades/store' : "/funcionalidades/update/".concat(id);
+  var type = typeof id === "undefined" ? "POST" : "PUT";
+  var form = typeof id === "undefined" ? "#modalFormAddFunc" : "#modalFormEditFunc";
+  $.ajax({
+    type: type,
+    url: url,
+    data: $(form).serialize(),
+    dataType: "JSON",
+    beforeSend: function beforeSend() {
+      $(form + " .btnSubmit").prop("disabled", true).html("\n                <i class=\"fa fa-spinner fa-spin\"> </i> Carregando...\n            ");
+    },
+    success: function success(response) {
+      Swal.fire({
+        position: 'top-end',
+        icon: !response.error ? 'success' : 'error',
+        title: "<b style=\"color:#fff\"> ".concat(response.msg, " </b>"),
+        toast: true,
+        showConfirmButton: false,
+        timer: 3500,
+        background: '#337ab7',
+        didOpen: function didOpen() {
+          $(modalObject).modal('hide');
+        }
+      });
+    },
+    error: function error(jqXHR, textstatus, _error) {
+      if (!!jqXHR.responseJSON.errors) {
+        var errors = jqXHR.responseJSON.errors;
+        AppUsage.showMessagesValidator(form, errors);
+      }
+    },
+    complete: function complete() {
+      $(form + " .btnSubmit").prop("disabled", false).html("\n                Salvar\n            ");
+    }
+  });
+};
+
+module.exports = {
+  habilitaBotoes: habilitaBotoes,
+  habilitaEventos: habilitaEventos
+};
 
 /***/ }),
 
@@ -4573,10 +4633,13 @@ var habilitaEventos = function habilitaEventos() {
   $(".refreshDash").on("click", function () {
     loadConsPermissoes();
   });
+};
+
+var habilitaBotoes = function habilitaBotoes() {
   $("#syncPermissions").on("click", function (e) {
     e.preventDefault();
     var url = '/permissoes/create';
-    AppUsage.loadModal(url, modalObject, '800px', function () {});
+    AppUsage.loadModal(url, modalObject, '800px');
   });
   $("#gerModules").on("click", function () {
     var url = "/modulos/";
@@ -4585,9 +4648,14 @@ var habilitaEventos = function habilitaEventos() {
       AppModulos.habilitaEventos();
     });
   });
+  $("#cadastrarFuncionalidade").on("click", function () {
+    var url = "/funcionalidades/create";
+    AppUsage.loadModal(url, modalObject, '600px', function () {
+      AppFuncionalidades.habilitaBotoes();
+      AppFuncionalidades.habilitaEventos();
+    });
+  });
 };
-
-var habilitaBotoes = function habilitaBotoes() {};
 
 var loadConsPermissoes = function loadConsPermissoes() {
   var url = '/permissoes/';
@@ -4601,7 +4669,6 @@ var loadConsPermissoes = function loadConsPermissoes() {
     },
     success: function success(response) {
       $(grid).html($(response).find("".concat(grid, " >")));
-      habilitaEventos();
       habilitaBotoes();
     }
   });
@@ -4861,7 +4928,8 @@ window.AppLogin = __webpack_require__(/*! ./Auth/AppLogin */ "./resources/js/Aut
 window.AppUsers = __webpack_require__(/*! ./Logged/AppUsers */ "./resources/js/Logged/AppUsers.js");
 window.AppProfile = __webpack_require__(/*! ./Logged/AppProfile */ "./resources/js/Logged/AppProfile.js");
 window.AppPermissoes = __webpack_require__(/*! ./Logged/AppPermissoes */ "./resources/js/Logged/AppPermissoes.js");
-window.AppModulos = __webpack_require__(/*! ./Logged/AppModulos */ "./resources/js/Logged/AppModulos.js"); //CONSTANTS Scripts - scripts re-utilizaveis
+window.AppModulos = __webpack_require__(/*! ./Logged/AppModulos */ "./resources/js/Logged/AppModulos.js");
+window.AppFuncionalidades = __webpack_require__(/*! ./Logged/AppFuncionalidades */ "./resources/js/Logged/AppFuncionalidades.js"); //CONSTANTS Scripts - scripts re-utilizaveis
 
 window.languageDataTable = __webpack_require__(/*! ./Constants/language_dataTable */ "./resources/js/Constants/language_dataTable.js"); //LIBS - scripts bibliotecas
 
@@ -4887,8 +4955,8 @@ window.Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\BT\bt_source\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\BT\bt_source\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\novo_union\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\novo_union\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

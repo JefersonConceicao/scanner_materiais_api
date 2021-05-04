@@ -2,8 +2,9 @@
 
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
-class Permissao extends Model
+class Permission extends Model
 {
     protected $table = "permissions";
     protected $fillable = [
@@ -12,6 +13,10 @@ class Permissao extends Model
     ];
 
     public $timestamps = true;
+
+    public function funcionalidades(){
+        return $this->belongsToMany(funcionalidade::class);
+    }
 
     public function permissionsAdded(){
         $routes = \Route::getRoutes();
@@ -28,10 +33,12 @@ class Permissao extends Model
         
         return array_diff($dbPermissions, $routeNames);
     }
-
+     
+   public function permissionsNoRelations(){
+        return $this->doesntHave('funcionalidades')->get();
+    }
 
     public function savePermissions(){
-
         $permissionsAdded = $this->permissionsAdded();
         $permissionsRemoved = $this->permissionsRemoved();
 

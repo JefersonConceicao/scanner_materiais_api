@@ -8,16 +8,15 @@ const modalObject = "#nivel1";
 const habilitaEventos = function(){
     $(".refreshDash").on("click", function(){
         loadConsPermissoes();
-    })
+    });
+}
 
-
+const habilitaBotoes = function(){
     $("#syncPermissions").on("click", function(e){
         e.preventDefault();
         let url = '/permissoes/create';
 
-        AppUsage.loadModal(url, modalObject, '800px', function(){
-
-        })
+        AppUsage.loadModal(url, modalObject, '800px')
     });
 
     $("#gerModules").on("click", function(){
@@ -27,12 +26,16 @@ const habilitaEventos = function(){
             AppModulos.habilitaBotoes();
             AppModulos.habilitaEventos();
         });
-    })
+    });
 
-}
+    $("#cadastrarFuncionalidade").on("click", function(){
+        let url = "/funcionalidades/create";
 
-const habilitaBotoes = function(){
-
+        AppUsage.loadModal(url, modalObject, '600px', function(){
+            AppFuncionalidades.habilitaBotoes();
+            AppFuncionalidades.habilitaEventos();
+        });
+    });
 }
 
 const loadConsPermissoes = function(){
@@ -47,8 +50,7 @@ const loadConsPermissoes = function(){
             AppUsage.loading($(grid));
         },
         success: function (response) {
-            $(grid).html($(response).find(`${grid} >`))  
-            habilitaEventos()
+            $(grid).html($(response).find(`${grid} >`))
             habilitaBotoes()
         }
     });

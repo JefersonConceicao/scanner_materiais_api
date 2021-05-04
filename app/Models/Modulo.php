@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Funcionalidade;
+use DB;
 
 class Modulo extends Model
 {
@@ -14,6 +16,9 @@ class Modulo extends Model
 
     public $timestamps = true;
 
+    public function funcionalidades(){
+        return $this->hasMany(Funcionalidade::class);
+    }
 
     public function getModulosAtivos(){
         return $this->where('active','=',1)->get();
@@ -24,18 +29,34 @@ class Modulo extends Model
     }
 
     public function getModulos(){
-        return  $this->paginate(15);
+        return $this->paginate(6);
     }
 
     public function saveModulo($request = []){  
-        try{
-            $this->fill($request)->save();
+        try{    
+            $funcionalidade = new Funcionalidade;
 
+            DB::beginTransaction();
+            $dataModule = $this->fill([
+                'nome' => $request['nome'],
+                'active' => $request['active'],
+            ]);
+            
+            if($dataModule->save()){
+                if(isset($request['funcionalidades']) && !empty($request['funcionalidades'])){
+                    $arrFuncionalidades = $funcionalidade->whereIn('id', $request['funcionalidades'])->get()->toArray();
+                    $dataModule->funcionalidades()->createMany($arrFuncionalidades);
+                }
+
+                DB::commit();
+            }
+            
             return [
                 'error' => false,
                 'msg' => 'Registro salvo com sucesso!'
             ];
         }catch(\Exception $err){
+            DB::rollback();
             return [
                 'error' => true,
                 'msg' => 'Registro salvo com sucesso!',

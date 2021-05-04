@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Route;
 
-class ModuloRequest extends FormRequest
+class FuncionalidadeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,37 +23,33 @@ class ModuloRequest extends FormRequest
      * @return array
      */
     public function rules()
-    {
+    {   
         $atualGroupRoute = explode("::", Route::currentRouteName());
         $atualRoute = end($atualGroupRoute);
-
         $validate = [];
 
         switch ($atualRoute) {
             case 'store':
                 $validate = [
-                    'nome' => 'required',
-                    'active' => 'required',
-                    'funcionalidades[].*' => 'required'
+                    'modulo_id' =>  'required',
+                    'nome' => 'required|unique:funcionalidades,nome',
+                    'permission_id[].*' => 'required',
+                    'role_id[].*' => 'required',     
                 ];
             break;
-            case 'update':
-                $validate = [
-                    'nome' => 'required',
-                    'active' => 'required',
-                ];
-            break;
-        }
-
-        return $validate; 
+        }     
+        
+        return $validate;
     }
 
     public function messages(){
         return [
-            'nome.required' => 'O nome do módulo é obrigatório',
-            'nome.unique' => 'Já existe um módulo com este nome.',
-            'active.required' => 'O campo ativo é obrigatório',
-            'funcionalidades[].required' => 'O campo funcionalidade é obrigatório',
+            'modulo_id.required' => 'O campo módulo é obrigatório',
+            'nome.required' => 'O campo nome é obrigatório',
+            'nome.unique' => 'Este nome já existe em nosa base de dados',
+            'permission_id.required' => 'O campo permissão é obrigatório',  
+            'role_id.required' => 'O campo grupo é obrigatório'
         ];
     }
+
 }

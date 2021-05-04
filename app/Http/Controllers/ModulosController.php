@@ -2,9 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Modulo;
-use App\Http\Requests\ModuloRequest;
+//Other's namespaces
 use Illuminate\Http\Request;
+
+//Requests
+use App\Http\Requests\ModuloRequest;
+
+//Models
+use App\Models\Modulo;
+use App\Models\Funcionalidade;
 
 class ModulosController extends Controller
 {
@@ -17,8 +23,10 @@ class ModulosController extends Controller
 
     public function create(){
         $modulo = new Modulo;
+        $funcionalidade = new Funcionalidade;
 
-        return view('modulos.create');
+        return view('modulos.create')
+            ->with('optionsFuncionalidades', $funcionalidade->pluck('nome','id')->toArray());
     }
 
     public function store(ModuloRequest $request){

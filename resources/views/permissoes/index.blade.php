@@ -41,11 +41,20 @@
                             <table class="table">
                                 <thead> 
                                     <th> Total </th>
-                                    <th> Sem Permissões </th>
+                                    <th> Permissões vínculadas </th>
                                 </thead>
                                 <tbody> 
-                                    <td> 0 </td>
-                                    <td> 0 </td>
+                                    <td> {{ count($dataFuncionalidades) }} </td>
+                                    <td>   
+                                        @php  
+                                            $countVinculadas = 0;
+                                            foreach($dataFuncionalidades as $funcionalidades){
+                                                $countVinculadas += count($funcionalidades->funcionalidadesPermissions);
+                                            }
+                                        @endphp
+
+                                        {{ $countVinculadas}}
+                                    </td>
                                 </tbody>
                             </table>
                         </div>
@@ -67,13 +76,13 @@
                                     <th> Total </th>
                                     <th> A adicionar   </th>
                                     <th> A remover </th>
-                                    <th> Sem vínculo </th>
+                                    <th> Não vínculadas (Orfãs) </th>
                                 </thead>
                                 <tbody> 
                                     <td> {{ $total }}  </td>
                                     <td> {{ $permAdicionar }}  </td>
                                     <td> {{ $permRemover }}  </td>
-                                    <td> 0  </td>
+                                    <td> {{ $permissionsSemVinculo }} </td>
                                 </tbody>
                             </table>
                         </div>
@@ -126,6 +135,16 @@
                                     <td> {{!empty($lastLogin) ? $lastLogin : "Não informado" }} </td>
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-bt-blue">
+                        <div class="box-body">
+    
                         </div>
                     </div>
                 </div>
