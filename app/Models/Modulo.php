@@ -32,8 +32,12 @@ class Modulo extends Model
         return $this->where('active', '=', 0)->get();
     }
 
-    public function getModulos(){
+    public function getModulosPaginate(){
         return $this->paginate(6);
+    }
+
+    public function getModulosWithFuncionalidades(){
+        return $this->with('funcionalidades')->get();
     }
 
     public function saveModulo($request = []){  

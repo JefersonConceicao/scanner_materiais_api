@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 //OTHERS NAMESPÁCES 
 use Illuminate\Http\Request;
 use Auth;
@@ -18,6 +19,7 @@ class PermissoesController extends Controller
         $funcionalidades = new Funcionalidade;
 
         $view = view('permissoes.index')
+            ->with('moduloWithFuncionalidades', $modulo->getModulosWithFuncionalidades())
             ->with('moduloNoRelations', count($modulo->modulosNoRelations()))
             ->with('permissionsVinculadas', $funcionalidades->permissoesVinculadas())
             ->with('permissionsSemVinculo', count($permissao->permissionsNoRelations()))
@@ -30,7 +32,6 @@ class PermissoesController extends Controller
             ->with('total', $permissao->count())
             ->with('lastLogin', Auth::user()->last_login);
                 
-
         return request()->ajax() ? $view->renderSections()['content'] : $view;
     }
 

@@ -137,7 +137,46 @@
                 <div class="col-md-12">
                     <div class="box box-bt-blue">
                         <div class="box-body">
-    
+                            @foreach($moduloWithFuncionalidades as $modulo)
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label class="label label-primary pull-left text-uppercase"> 
+                                            Módulo: {{ $modulo->nome }} 
+                                        </label>
+                                        &nbsp;
+                                        <a href="#" style="color:black;"> <i class="fa fa-edit"> </i> </a>
+                                    </div>
+                                </div>  
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead> 
+                                                    <th width="50%"> Funcionalidade </th>
+                                                    <th> Grupos Associoados </th>
+                                                    <th> Permissões Associoadas </th>
+                                                    <th width="2%"> Ações </th> 
+                                                </thead>
+                                                <tbody> 
+                                                    @if(count($modulo->funcionalidades) > 0)
+                                                        @foreach($modulo->funcionalidades as $funcionalidades)
+                                                            <tr>
+                                                                <td> {{ $funcionalidades->nome }} </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    @else
+                                                        <tr>
+                                                            <td colspan="12" class="text-center" style="color:red;">  
+                                                                Módulo sem funcionalidades 
+                                                            </td>
+                                                        </tr>
+                                                    @endif
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>  
+                            @endforeach     
                         </div>
                     </div>
                 </div>
