@@ -33,7 +33,7 @@ class Permission extends Model
         
         return array_diff($dbPermissions, $routeNames);
     }
-     
+    
    public function permissionsNoRelations(){
         return $this->doesntHave('funcionalidades')->get();
     }

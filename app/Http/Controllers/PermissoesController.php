@@ -17,9 +17,9 @@ class PermissoesController extends Controller
         $modulo = new Modulo;
         $funcionalidades = new Funcionalidade;
 
-        dd($permissao->permissionsWithRelations());
-
         $view = view('permissoes.index')
+            ->with('moduloNoRelations', count($modulo->modulosNoRelations()))
+            ->with('permissionsVinculadas', $funcionalidades->permissoesVinculadas())
             ->with('permissionsSemVinculo', count($permissao->permissionsNoRelations()))
             ->with('dataFuncionalidades', $funcionalidades->getFuncionalidades()->get())
             ->with('totalModulos', $modulo->count())

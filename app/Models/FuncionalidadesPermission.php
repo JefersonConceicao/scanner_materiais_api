@@ -13,4 +13,8 @@ class FuncionalidadesPermission extends Model
     ];
 
     public $timestamps = false;
+
+    public function permissionsLinked(){
+        return $this->distinct()->count('permission_id');
+    }
 }

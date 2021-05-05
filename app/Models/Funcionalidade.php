@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\FuncionalidadesPermission;
 use DB;
 
 class Funcionalidade extends Model
@@ -15,6 +16,13 @@ class Funcionalidade extends Model
     ];
 
     public $timestamps = true;
+
+    public function permissoesVinculadas(){
+        $funcPermission = new FuncionalidadesPermission;
+
+        return $funcPermission->permissionsLinked();
+    }
+
 
     public function funcionalidadesPermissions(){
         return $this->belongsToMany(Permission::class);
@@ -69,6 +77,4 @@ class Funcionalidade extends Model
 
 
     }
-
-
 }

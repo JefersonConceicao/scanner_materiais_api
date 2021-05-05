@@ -20,6 +20,10 @@ class Modulo extends Model
         return $this->hasMany(Funcionalidade::class);
     }
 
+    public function modulosNoRelations(){
+        return $this->doesntHave('funcionalidades')->get();
+    }
+
     public function getModulosAtivos(){
         return $this->where('active','=',1)->get();
     }

@@ -46,14 +46,7 @@
                                 <tbody> 
                                     <td> {{ count($dataFuncionalidades) }} </td>
                                     <td>   
-                                        @php  
-                                            $countVinculadas = 0;
-                                            foreach($dataFuncionalidades as $funcionalidades){
-                                                $countVinculadas += count($funcionalidades->funcionalidadesPermissions);
-                                            }
-                                        @endphp
-
-                                        {{ $countVinculadas}}
+                                        {{ $permissionsVinculadas }}
                                     </td>
                                 </tbody>
                             </table>
@@ -111,7 +104,7 @@
                                     <td> {{ $totalModulos }} </td>
                                     <td> {{ $modulosAtivos }} </td>
                                     <td> {{ $modulosInativos }} </td>
-                                    <td> 0 </td>
+                                    <td> {{ $moduloNoRelations }} </td>
                                 </tbody>
                             </table>
                         </div> 
