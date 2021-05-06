@@ -180,11 +180,17 @@
                                                                 </td>
                                                                 <td> 
                                                                     <div class="d-flex" style="display:flex">
-                                                                        <button class="btn btn-primary btn-xs"> 
+                                                                        <button 
+                                                                            class="btn btn-primary btn-xs editFuncionalidade"
+                                                                            id={{ $funcionalidades->id }}
+                                                                        > 
                                                                             <i class="fa fa-edit"> </i>
                                                                         </button>
                                                                         &nbsp;
-                                                                        <button class="btn btn-danger btn-xs"> 
+                                                                        <button 
+                                                                            class="btn btn-danger btn-xs deleteFuncionalidade"
+                                                                            id="{{ $funcionalidades->id }}"
+                                                                        > 
                                                                             <i class="fa fa-trash"> </i>
                                                                         </button>
                                                                     </div>

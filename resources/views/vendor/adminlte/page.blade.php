@@ -52,27 +52,72 @@
                 </a>
             @endif
                 <!-- Navbar Right Menu -->
-                <div class="navbar-custom-menu">
+                <div class="navbar-custom-menu">                    
                     <ul class="nav navbar-nav">
-                        <li>
-                            @if(config('adminlte.logout_method') == 'GET' || !config('adminlte.logout_method') && version_compare(\Illuminate\Foundation\Application::VERSION, '5.3.0', '<'))
-                                <a href="{{ url(config('adminlte.logout_url', 'auth/logout')) }}">
-                                    <i class="fa fa-fw fa-power-off"></i> {{ trans('adminlte::adminlte.log_out') }}
-                                </a>
-                            @else
-                                <a href="#"
-                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                                >
-                                    <i class="fa fa-fw fa-power-off"></i> {{ trans('adminlte::adminlte.log_out') }}
-                                </a>
-                                <form id="logout-form" action="{{ url(config('adminlte.logout_url', 'auth/logout')) }}" method="POST" style="display: none;">
-                                    @if(config('adminlte.logout_method'))
-                                        {{ method_field(config('adminlte.logout_method')) }}
-                                    @endif
-                                    {{ csrf_field() }}
-                                </form>
-                            @endif
+                        <li class="dropdown user user-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> 
+                                <img 
+                                    src="{{ Auth::user()->url_photo 
+                                        ? Storage::url(Auth::user()->url_photo)
+                                        : asset('/assets/default_icon.png')
+                                    }}"
+                                    class="user-image"
+                                    alt="foto de perfil union"
+                                />
+
+                                <span class="hidden-xs"> {{ Auth::user()->name }} </span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="user-header bg-bahia">
+                                    <img 
+                                        src="{{ Auth::user()->url_photo 
+                                            ? Storage::url(Auth::user()->url_photo)
+                                            : asset('/assets/default_icon.png')
+                                        }}"
+                                    />
+                                    <p> 
+                                        {{ Auth::user()->name }}   
+                                    </p>
+                                </li>
+                                <li class="user-body">
+                                    <div class="row"> 
+                                        <div class="col-md-12 text-center">
+                                            <a href="#" class="btn btn-default" style="width:100%;">
+                                                <b> 
+                                                    <i class="fa fa-user"> </i> &nbsp; 
+                                                    Meu Perfil 
+                                                </b> 
+                                            </a>  
+                                        </div>
+                                    </div>
+           
+                    
+                                </li> 
+                                <li class="user-footer">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <a 
+                                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                                                href="/auth/logout" class="btn btn-danger" style="width:100%"
+                                            > 
+                                                <i class="fa fa-fw fa-power-off"> </i>
+                                                    Sair
+                                            </a>
+                                        </div>
+                                    </div> 
+                                </li>
+                            </ul>
                         </li>
+
+                        <li>
+                            <form id="logout-form" action="{{ url(config('adminlte.logout_url', 'auth/logout')) }}" method="POST" style="display: none;">
+                                @if(config('adminlte.logout_method'))
+                                    {{ method_field(config('adminlte.logout_method')) }}
+                                @endif
+                                {{ csrf_field() }}
+                            </form>
+                        </li> 
+
                         @if(config('adminlte.right_sidebar') and (config('adminlte.layout') != 'top-nav'))
                         <!-- Control Sidebar Toggle Button -->
                             <li>

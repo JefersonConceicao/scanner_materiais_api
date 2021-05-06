@@ -132,8 +132,7 @@ const configSelect2 = function(){
  * @param {Object} params 
  */
 const configDropzone = function(params){
-    
-
+    console.log(params);
 }
 
 const showMessagesValidator = function(form, errorsRequest){
@@ -190,22 +189,21 @@ const deleteForGrid = function(url, onSuccess = null, onError = null){
             
         },
         success:function(response){
-            if(!response.error){
-               Swal.fire({
-                    position: 'top-end',
-                    icon: !response.error ? 'success' : 'error',
-                    title: `<b style="color:#fff"> ${response.msg} </b>`,
-                    toast: true,    
-                    showConfirmButton: false,
-                    timer: 3500,
-                    background: '#337ab7',
-                    iconColor: '#ffff',
-               })     
-            }
+            Swal.fire({
+                position: 'top-end',
+                icon: !response.error ? 'success' : 'error',
+                title: `<b style="color:#fff"> ${response.msg} </b>`,
+                toast: true,    
+                showConfirmButton: false,
+                timer: 3500,
+                background: '#337ab7',
+                iconColor: !response.error ? '#ffff' : 'red',
+            })     
 
-            if(!!onSuccess){
+            if(!!onSuccess && !response.error){
                 onSuccess();
             }  
+            
         },
         error:function(jqXHR, textStatus, errorThrown){
         let msg = "Não foi possível excluir o registro, tente novamente mais tarde ou abra um chamado."

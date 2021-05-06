@@ -28,13 +28,14 @@
                     </div>
 
                     <div class="widget-user-image">
-                        <img class="img-circle profilePicture  dropzone" 
+                        <img class="img-circle profilePicture dropzone" 
                             src="{{ asset('assets/default_icon.png') }}" 
                             alt="User Avatar"
                             data-toggle="tooltip"
                             title="Clique ou arraste para fazer upload de uma imagem"
                         />
                     </div>
+
                     <div class="box-footer">
                         <div class="row">
                             <div class="col-sm-4">
@@ -76,6 +77,7 @@
                                     </span>
                                 </div>
                             </div>
+                            
                         </div>
                     </div>
                 </div>

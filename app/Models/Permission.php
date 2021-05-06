@@ -15,8 +15,33 @@ class Permission extends Model
     public $timestamps = true;
 
     public function funcionalidades(){
-        return $this->belongsToMany(funcionalidade::class);
+        return $this->belongsToMany(Funcionalidade::class);
     }
+
+    public function getPermissionsVinculed(){
+        return $this
+            ->select('name','id')
+            ->whereRaw('
+                id IN (
+                    SELECT permission_id FROM funcionalidade_permission
+                );')
+            ->pluck('name','id')
+            ->toArray();  
+    }
+
+    public function getPermissionsOrfas(){
+        return $this
+            ->select(
+                DB::raw('CONCAT(name, "*") as nameOrfa'),
+                'id'
+                )
+            ->whereRaw(
+                'id NOT IN (
+                    SELECT permission_id FROM funcionalidade_permission
+                );'
+            )->pluck('nameOrfa','id')->toArray();
+    }
+
 
     public function permissionsAdded(){
         $routes = \Route::getRoutes();

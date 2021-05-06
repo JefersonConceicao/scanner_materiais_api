@@ -6,14 +6,19 @@ $(function(){
 })
 
 const modalObject = "#nivel1";
-
-const habilitaEventos = function(){
-    console.log("active events");
-
+const habilitaEventos = function(id = null){
     $("#modalFormAddFunc").on("submit", function(e){
         e.preventDefault();
         formFuncionalidade()
     })   
+
+    $("#modalFormEditFunc").on("submit", function(e){
+        e.preventDefault();
+
+        if(!!id){
+           formFuncionalidade(id)
+        }   
+    })
 }
 
 const habilitaBotoes = function(){

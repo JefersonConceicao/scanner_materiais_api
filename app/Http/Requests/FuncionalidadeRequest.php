@@ -37,6 +37,14 @@ class FuncionalidadeRequest extends FormRequest
                     'role_id[].*' => 'required',     
                 ];
             break;
+            case 'update':
+                $validate = [
+                    'modulo_id' =>  'required',
+                    'nome' => 'required',
+                    'permission_id[].*' => 'required',
+                    'role_id[].*' => 'required',         
+                ];
+            break;
         }     
         
         return $validate;
