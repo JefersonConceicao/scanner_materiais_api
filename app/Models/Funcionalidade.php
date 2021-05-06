@@ -19,10 +19,8 @@ class Funcionalidade extends Model
 
     public function permissoesVinculadas(){
         $funcPermission = new FuncionalidadesPermission;
-
         return $funcPermission->permissionsLinked();
     }
-
 
     public function funcionalidadesPermissions(){
         return $this->belongsToMany(Permission::class);
