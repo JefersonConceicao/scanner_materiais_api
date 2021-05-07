@@ -16,7 +16,7 @@
                 </a>
             </div>
             
-            <p class="login-box-msg"> Incie uma nova sessão </p>
+            <p class="login-box-msg"> Inicie uma nova sessão </p>
             <form action="{{ url(config('adminlte.login_url', 'login')) }}" method="post">
                 {{ csrf_field() }}
 

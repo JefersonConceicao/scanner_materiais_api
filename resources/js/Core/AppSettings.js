@@ -59,6 +59,11 @@ const setupAjax = function(){
                  }
             })
         }
+        if(jqXHR.status === 401){
+            const url = '/permissoes/methodNotAllowed'
+
+            AppUsage.loadModal(url, '#nivel1', '600px');
+        }
     });
 }
 

@@ -18,4 +18,13 @@ class FuncionalidadesRole extends Model
         return $this->where('funcionalidade_id', $idFuncionalidade);
     }
 
+    public function getPermissionsByRoles(Array $roles){
+        return $this
+            ->join('funcionalidades as f', 'f.id', '=', 'funcionalidade_role.funcionalidade_id')
+            ->join('roles as r', 'r.id', '=', 'funcionalidade_role.role_id')
+            ->join('funcionalidade_permission as fp', 'fp.funcionalidade_id', '=', 'f.id')
+            ->join('permissions as p', 'p.id', '=', 'fp.permission_id')
+            ->whereIn('r.id', $roles)
+            ->pluck('p.name')->toArray();
+    }
 }

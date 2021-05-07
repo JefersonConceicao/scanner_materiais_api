@@ -2,23 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
+//OTHERS NAMESPACE'S
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
-
     use AuthenticatesUsers;
 
     /**
@@ -39,8 +29,19 @@ class LoginController extends Controller
     }
 
     protected function authenticated(Request $request, $user){
-        //SET LAST_LOGIN 
         $user->last_login = date('Y-m-d H:i:s'); 
         $user->save();
+
+        //RETORNA ARRAY COM AS PERMISSOES DO GRUPO DO USUÁRIO
+        $permissions = $user->permissionsByUser();
+
+        //ESCREVE ESTE ARRAY NA SESSÃO DO USUÁRIO
+        session()->put('user_permissions', $permissions);
+    }
+
+    public function logout(){
+        session()->flush();
+
+        return redirect('/');
     }
 }

@@ -1,5 +1,3 @@
-const { default: Swal } = require("sweetalert2");
-
 $(function(){
     habilitaBotoes()
     habilitaEventos()
@@ -48,7 +46,19 @@ const habilitaBotoes = function(){
             AppFuncionalidades.habilitaEventos(id);
         })
     });
-    
+
+    $("#reSession").on('click', function(){
+        const url = '/permissoes/renderViewSessionRevalid'
+
+        AppUsage.loadModal(url, modalObject, '900px', function(){
+            $("#reloadSession").on("submit", function(e){
+                e.preventDefault();
+
+                formReloadSession();     
+            })
+        })
+    })
+
     $(".deleteFuncionalidade").on("click", function(){
         const element = $(this)
         const id = element.attr("id")
@@ -92,6 +102,48 @@ const loadConsPermissoes = function(){
     });
 }
 
+const formReloadSession = function(){
+    const url = '/permissoes/reloadSession';
+    const form = "#reloadSession";
+
+    $.ajax({
+        type: "POST",
+        url,
+        data: $(form).serialize(),
+        dataType: "JSON",
+        beforeSend:function(){
+            $(form + " .btnSubmit").prop("disabled", true).html(
+                `<i class="fa fa-spinner fa-spin"> </i> Carregando...` 
+            )
+        },
+        success: function (response) {
+            Swal.fire({
+                position: 'top-end',
+                icon: !response.error ? 'success' : 'error',
+                title: `<b style="color:#fff"> ${response.msg} </b>`,
+                toast: true,
+                showConfirmButton: false,
+                timer: 3500,
+                background: '#337ab7',
+                didOpen:() => {
+                   $(modalObject).modal('hide');
+                }                
+            }); 
+        },
+        error:function(jqXHR, textstatus, error){
+            if(!!jqXHR.responseJSON.errors){
+                let errors = jqXHR.responseJSON.errors; 
+                AppUsage.showMessagesValidator(form, errors);
+            }
+        },  
+        complete:function(){
+            $(form + " .btnSubmit").prop("disabled", false).html(
+                `Salvar` 
+            )
+        },
+    });
+
+}
 
 module.exports = {
     habilitaEventos,

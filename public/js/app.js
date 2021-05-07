@@ -4068,7 +4068,6 @@ var getNewScreen = function getNewScreen(url, module) {
       console.log(err);
     },
     complete: function complete() {
-      //console.log(this);
       loadingNavigation(this.start_time, new Date().getTime(), true);
     }
   });
@@ -4148,6 +4147,11 @@ var setupAjax = function setupAjax() {
           });
         }
       });
+    }
+
+    if (jqXHR.status === 401) {
+      var url = '/permissoes/methodNotAllowed';
+      AppUsage.loadModal(url, '#nivel1', '600px');
     }
   });
 };
@@ -4267,9 +4271,7 @@ var configSelect2 = function configSelect2() {
  */
 
 
-var configDropzone = function configDropzone(params) {
-  console.log(params);
-};
+var configDropzone = function configDropzone(params) {};
 
 var showMessagesValidator = function showMessagesValidator(form, errorsRequest) {
   if (form.length == 0) {
@@ -4637,10 +4639,7 @@ module.exports = {
   !*** ./resources/js/Logged/AppPermissoes.js ***!
   \**********************************************/
 /*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var _require = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js"),
-    Swal = _require["default"];
+/***/ (function(module, exports) {
 
 $(function () {
   habilitaBotoes();
@@ -4682,6 +4681,15 @@ var habilitaBotoes = function habilitaBotoes() {
       AppFuncionalidades.habilitaEventos(id);
     });
   });
+  $("#reSession").on('click', function () {
+    var url = '/permissoes/renderViewSessionRevalid';
+    AppUsage.loadModal(url, modalObject, '900px', function () {
+      $("#reloadSession").on("submit", function (e) {
+        e.preventDefault();
+        formReloadSession();
+      });
+    });
+  });
   $(".deleteFuncionalidade").on("click", function () {
     var element = $(this);
     var id = element.attr("id");
@@ -4719,6 +4727,43 @@ var loadConsPermissoes = function loadConsPermissoes() {
     success: function success(response) {
       $(grid).html($(response).find("".concat(grid, " >")));
       habilitaBotoes();
+    }
+  });
+};
+
+var formReloadSession = function formReloadSession() {
+  var url = '/permissoes/reloadSession';
+  var form = "#reloadSession";
+  $.ajax({
+    type: "POST",
+    url: url,
+    data: $(form).serialize(),
+    dataType: "JSON",
+    beforeSend: function beforeSend() {
+      $(form + " .btnSubmit").prop("disabled", true).html("<i class=\"fa fa-spinner fa-spin\"> </i> Carregando...");
+    },
+    success: function success(response) {
+      Swal.fire({
+        position: 'top-end',
+        icon: !response.error ? 'success' : 'error',
+        title: "<b style=\"color:#fff\"> ".concat(response.msg, " </b>"),
+        toast: true,
+        showConfirmButton: false,
+        timer: 3500,
+        background: '#337ab7',
+        didOpen: function didOpen() {
+          $(modalObject).modal('hide');
+        }
+      });
+    },
+    error: function error(jqXHR, textstatus, _error) {
+      if (!!jqXHR.responseJSON.errors) {
+        var errors = jqXHR.responseJSON.errors;
+        AppUsage.showMessagesValidator(form, errors);
+      }
+    },
+    complete: function complete() {
+      $(form + " .btnSubmit").prop("disabled", false).html("Salvar");
     }
   });
 };

@@ -1,21 +1,12 @@
 <?php
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 Route::get('/', function () {
     return view('auth.login');
 });
 
+Route::get('/permissoes/methodNotAllowed', 'PermissoesController@renderNotAllowed')->name('methodNotAllowed');
+
 Auth::routes();
-Route::group(['middleware' => 'auth'] , function(){
+Route::group(['middleware' => ['auth', 'verifyPermission']] , function(){
     Route::get('/home', 'HomeController@index')->name('home');
 
     Route::group(['as' => 'users::', 'prefix' => 'users'], function(){
@@ -28,12 +19,14 @@ Route::group(['middleware' => 'auth'] , function(){
         Route::get('/view/{id}', 'UsersController@show')->name('view');
         Route::get('/perfil', 'UsersController@profile')->name('profile');
         Route::put('/changePassword', 'UsersController@changePassword')->name('changePassword');
-        Route::post('uploadPhotoProfile', 'UsersController@uploadPhotoProfile')->name('uploadPhotoProfile');
+        Route::post('/uploadPhotoProfile', 'UsersController@uploadPhotoProfile')->name('uploadPhotoProfile');
     });
 
     Route::group(['as' => 'permissoes::', 'prefix' => 'permissoes'], function(){
         Route::get('/', 'PermissoesController@index')->name('index');
         Route::get('/create', 'PermissoesController@create')->name('create');
+        Route::get('/renderViewSessionRevalid', 'PermissoesController@renderViewSessionRevalid')->name('revalidSession');
+        Route::post('/reloadSession', 'PermissoesController@reloadSession')->name('reloadSession');
     });
 
     Route::group(['as' => 'modulos::', 'prefix' => 'modulos'], function(){
