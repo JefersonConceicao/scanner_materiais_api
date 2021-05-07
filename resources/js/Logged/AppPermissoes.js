@@ -4,7 +4,6 @@ $(function(){
 })
 
 const modalObject = "#nivel1";
-
 const habilitaEventos = function(){
     $(".refreshDash").on("click", function(){
         loadConsPermissoes();
