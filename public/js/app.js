@@ -4268,7 +4268,7 @@ var configSelect2 = function configSelect2() {
 
 
 var configDropzone = function configDropzone(params) {
-  console.log(params);
+  Dropzone.options.myDropzone = {};
 };
 
 var showMessagesValidator = function showMessagesValidator(form, errorsRequest) {

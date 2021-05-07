@@ -6,7 +6,6 @@ $(function(){
 });
 
 const modalObject = "#nivel2"
-
 const habilitaEventos = function(){
     $("#addModule").on("click", function(){
         let url = '/modulos/create';

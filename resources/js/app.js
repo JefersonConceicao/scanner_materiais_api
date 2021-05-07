@@ -17,4 +17,4 @@ window.AppFuncionalidades = require('./Logged/AppFuncionalidades');
 window.languageDataTable = require('./Constants/language_dataTable');
 
 //LIBS - scripts bibliotecas
-window.Swal = require('sweetalert2'); 
+window.Swal = require('sweetalert2');        
