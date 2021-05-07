@@ -4136,8 +4136,17 @@ var setupAjax = function setupAjax() {
         icon: 'error',
         title: 'Ocorreu um erro interno, tente novamente mais tarde ou abra um chamado',
         toast: true,
-        time: 3000,
-        showConfirmButton: false
+        timer: 3000,
+        showConfirmButton: false,
+        timerProgressBar: true,
+        didOpen: function didOpen(toast) {
+          toast.addEventListener('mouseenter', function () {
+            Swal.stopTimer();
+          });
+          toast.addEventListener('mouseleave', function () {
+            Swal.resumeTimer();
+          });
+        }
       });
     }
   });
@@ -4258,7 +4267,9 @@ var configSelect2 = function configSelect2() {
  */
 
 
-var configDropzone = function configDropzone(params) {};
+var configDropzone = function configDropzone(params) {
+  console.log(params);
+};
 
 var showMessagesValidator = function showMessagesValidator(form, errorsRequest) {
   if (form.length == 0) {
@@ -4312,20 +4323,18 @@ var deleteForGrid = function deleteForGrid(url) {
     url: url,
     beforeSend: function beforeSend() {},
     success: function success(response) {
-      if (!response.error) {
-        Swal.fire({
-          position: 'top-end',
-          icon: !response.error ? 'success' : 'error',
-          title: "<b style=\"color:#fff\"> ".concat(response.msg, " </b>"),
-          toast: true,
-          showConfirmButton: false,
-          timer: 3500,
-          background: '#337ab7',
-          iconColor: '#ffff'
-        });
-      }
+      Swal.fire({
+        position: 'top-end',
+        icon: !response.error ? 'success' : 'error',
+        title: "<b style=\"color:#fff\"> ".concat(response.msg, " </b>"),
+        toast: true,
+        showConfirmButton: false,
+        timer: 3500,
+        background: '#337ab7',
+        iconColor: !response.error ? '#ffff' : 'red'
+      });
 
-      if (!!onSuccess) {
+      if (!!onSuccess && !response.error) {
         onSuccess();
       }
     },
@@ -4436,10 +4445,17 @@ $(function () {
 var modalObject = "#nivel1";
 
 var habilitaEventos = function habilitaEventos() {
-  console.log("active events");
+  var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
   $("#modalFormAddFunc").on("submit", function (e) {
     e.preventDefault();
     formFuncionalidade();
+  });
+  $("#modalFormEditFunc").on("submit", function (e) {
+    e.preventDefault();
+
+    if (!!id) {
+      formFuncionalidade(id);
+    }
   });
 };
 
@@ -4621,7 +4637,10 @@ module.exports = {
   !*** ./resources/js/Logged/AppPermissoes.js ***!
   \**********************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+var _require = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js"),
+    Swal = _require["default"];
 
 $(function () {
   habilitaBotoes();
@@ -4653,6 +4672,36 @@ var habilitaBotoes = function habilitaBotoes() {
     AppUsage.loadModal(url, modalObject, '600px', function () {
       AppFuncionalidades.habilitaBotoes();
       AppFuncionalidades.habilitaEventos();
+    });
+  });
+  $(".editFuncionalidade").on("click", function () {
+    var id = $(this).attr('id');
+    var url = "/funcionalidades/edit/" + id;
+    AppUsage.loadModal(url, modalObject, '600px', function () {
+      AppFuncionalidades.habilitaBotoes();
+      AppFuncionalidades.habilitaEventos(id);
+    });
+  });
+  $(".deleteFuncionalidade").on("click", function () {
+    var element = $(this);
+    var id = element.attr("id");
+    var url = "/funcionalidades/delete/" + id;
+    Swal.fire({
+      title: 'Deseja realmente excluir o registro?',
+      icon: 'warning',
+      text: 'Esta ação é irreversivel!',
+      showCancelButton: true,
+      showConfirmButton: true,
+      reverseButtons: true,
+      confirmButtonText: 'Sim, excluir!',
+      cancelButtonText: 'Cancelar',
+      cancelButtonColor: '#e91313'
+    }).then(function (result) {
+      if (result.isConfirmed) {
+        AppUsage.deleteForGrid(url, function () {
+          element.parent().parent().parent().remove();
+        });
+      }
     });
   });
 };

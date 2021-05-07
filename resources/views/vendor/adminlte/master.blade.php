@@ -4,9 +4,10 @@
     <link rel="shortcut icon" href="{{ asset("assets/favicon.ico") }}"/>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title> @yield('title_prefix', config('adminlte.title_prefix', ''))
-            @yield('title', config('adminlte.title', 'BT_Source'))
-            @yield('title_postfix', config('adminlte.title_postfix', ''))
+    <title> 
+        @yield('title_prefix', config('adminlte.title_prefix', ''))
+        @yield('title', config('adminlte.title', 'BT_Source'))
+        @yield('title_postfix', config('adminlte.title_postfix', ''))
     </title>
     <meta name="csrf-token" content="{{ csrf_token()}}"/> 
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -21,7 +22,6 @@
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
 </head>
 <body class="hold-transition @yield('body_class') fixed">
-
 @yield('body')
     <script src="{{ asset('vendor/adminlte/vendor/jquery/dist/jquery.min.js') }}"></script>
     <script src="{{ asset('vendor/adminlte/vendor/jquery/dist/jquery.slimscroll.min.js') }}"></script>

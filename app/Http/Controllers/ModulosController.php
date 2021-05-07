@@ -18,7 +18,7 @@ class ModulosController extends Controller
         $modulo = new Modulo;
 
         return view('modulos.index')
-                ->with('dados', $modulo->getModulos());
+                ->with('dados', $modulo->getModulosPaginate());
     }
 
     public function create(){

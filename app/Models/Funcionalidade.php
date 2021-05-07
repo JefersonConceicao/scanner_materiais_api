@@ -19,10 +19,8 @@ class Funcionalidade extends Model
 
     public function permissoesVinculadas(){
         $funcPermission = new FuncionalidadesPermission;
-
         return $funcPermission->permissionsLinked();
     }
-
 
     public function funcionalidadesPermissions(){
         return $this->belongsToMany(Permission::class);
@@ -30,6 +28,12 @@ class Funcionalidade extends Model
 
     public function funcionalidadesRole(){
         return $this->belongsToMany(Role::class);
+    }
+
+    public function getFuncionalidadeById($id){
+        return $this
+            ->with('funcionalidadesPermissions', 'funcionalidadesRole')
+            ->find($id);
     }
 
     public function getFuncionalidades(){
@@ -63,18 +67,60 @@ class Funcionalidade extends Model
             return [
                 'error' => true,
                 'msg' => 'Não foi possível salvar o registro',
-                'code' => $error->getCode()
+                'code' => $error->getCode(),
+                'error_message' => $error->getMessage()
             ];
         }   
     }
 
-    public function updateFuncionalidade($request = []){
+    public function updateFuncionalidade($id, $request = []){
+        try{
+            DB::beginTransaction();
+            $dbFuncionalidades = $this->find($id);
+            $dbFuncionalidades->fill([
+                'nome' => $request['nome'],
+                'modulo_id' => $request['modulo_id'],
+                'active' => $request['active'],
+            ]);
 
+            $dbFuncionalidades->save();
+            $dbFuncionalidades->funcionalidadesPermissions()->sync($request['permission_id']);
+            $dbFuncionalidades->funcionalidadesRole()->sync($request['role_id']);
 
+            DB::commit();
+            return [
+                'error' => false,
+                'msg' => 'Registro atualizado com sucesso!'
+            ];
+        }catch(\Exception $error){
+            DB::rollback();
+            return [
+                'error' => true,
+                'msg' => 'Não foi atualizar o registro',
+                'code' => $error->getCode(),
+                'error_message' => $error->getMessage()
+            ];
+        }
     }
 
-    public function deleteFuncionalidade(){
+    public function deleteFuncionalidade($id){
+        try{
+            $funcionalidade = $this->find($id);
+            $funcionalidade->funcionalidadesPermissions()->detach();
+            $funcionalidade->funcionalidadesRole()->detach();
+            $funcionalidade->delete();
 
-
+            return [
+                'error' => false,
+                'msg' => 'Registro excluído com sucesso!',
+            ];     
+        }catch(\Exception $error){
+            return [
+                'error' => true,
+                'msg' => 'Não foi possível excluir o registro',
+                'code' => $error->getCode(),
+                'message' => $error->getMessage()
+            ];     
+        }
     }
 }

@@ -1,3 +1,5 @@
+const { default: Swal } = require("sweetalert2");
+
 $(function(){
     habilitaBotoes()
     habilitaEventos()
@@ -13,13 +15,13 @@ const habilitaEventos = function(){
 const habilitaBotoes = function(){
     $("#syncPermissions").on("click", function(e){
         e.preventDefault();
-        let url = '/permissoes/create';
+        const url = '/permissoes/create';
 
         AppUsage.loadModal(url, modalObject, '800px')
     });
 
     $("#gerModules").on("click", function(){
-        let url = "/modulos/"   
+        const url = "/modulos/"   
 
         AppUsage.loadModal(url, modalObject, '500px', function(){
             AppModulos.habilitaBotoes();
@@ -28,12 +30,46 @@ const habilitaBotoes = function(){
     });
 
     $("#cadastrarFuncionalidade").on("click", function(){
-        let url = "/funcionalidades/create";
+        const url = "/funcionalidades/create";
 
         AppUsage.loadModal(url, modalObject, '600px', function(){
             AppFuncionalidades.habilitaBotoes();
             AppFuncionalidades.habilitaEventos();
         });
+    });
+
+    $(".editFuncionalidade").on("click", function(){
+        const id = $(this).attr('id');
+        const url = "/funcionalidades/edit/" + id;
+
+        AppUsage.loadModal(url, modalObject, '600px', function(){
+            AppFuncionalidades.habilitaBotoes();
+            AppFuncionalidades.habilitaEventos(id);
+        })
+    });
+    
+    $(".deleteFuncionalidade").on("click", function(){
+        const element = $(this)
+        const id = element.attr("id")
+        const url = "/funcionalidades/delete/" + id;
+   
+        Swal.fire({
+            title: 'Deseja realmente excluir o registro?',
+            icon: 'warning',
+            text: 'Esta ação é irreversivel!',
+            showCancelButton: true,
+            showConfirmButton: true,
+            reverseButtons: true,
+            confirmButtonText: 'Sim, excluir!',
+            cancelButtonText: 'Cancelar',
+            cancelButtonColor: '#e91313',
+        }).then(result => {
+            if(result.isConfirmed){
+                AppUsage.deleteForGrid(url, function(){
+                    element.parent().parent().parent().remove();
+                })    
+            }
+        })
     });
 }
 
@@ -56,7 +92,6 @@ const loadConsPermissoes = function(){
 }
 
 
-    
 module.exports = {
     habilitaEventos,
     habilitaBotoes,

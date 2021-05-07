@@ -37,7 +37,9 @@ class Modulo extends Model
     }
 
     public function getModulosWithFuncionalidades(){
-        return $this->with('funcionalidades')->get();
+        return $this
+            ->with(['funcionalidades.funcionalidadesPermissions', 'funcionalidades.funcionalidadesRole'])
+            ->get();
     }
 
     public function saveModulo($request = []){  

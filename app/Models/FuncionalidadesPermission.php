@@ -17,4 +17,8 @@ class FuncionalidadesPermission extends Model
     public function permissionsLinked(){
         return $this->distinct()->count('permission_id');
     }
+
+    public function permissionsByFuncionalidade($idFuncionalidade){
+        return $this->where('funcionalidade_id', $idFuncionalidade);
+    }
 }

@@ -50,6 +50,7 @@
                     'class' => 'form-control multiselect',
                     'multiple' => true,
                 ])}}
+                <small> Permissões com (*) são orfãs. </small>
 
                 <div class="error_feedback"> </div>
             </div>

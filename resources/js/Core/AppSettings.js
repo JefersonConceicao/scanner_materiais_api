@@ -45,8 +45,18 @@ const setupAjax = function(){
                  icon: 'error',
                  title: 'Ocorreu um erro interno, tente novamente mais tarde ou abra um chamado',
                  toast: true,
-                 time: 3000,    
-                showConfirmButton: false,
+                 timer: 3000,    
+                 showConfirmButton: false,
+                 timerProgressBar:true,
+                 didOpen:(toast) => {
+                    toast.addEventListener('mouseenter', function(){
+                        Swal.stopTimer();
+                    })
+
+                    toast.addEventListener('mouseleave', function(){
+                        Swal.resumeTimer()
+                    })
+                 }
             })
         }
     });
