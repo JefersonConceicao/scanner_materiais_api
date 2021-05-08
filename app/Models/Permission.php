@@ -44,7 +44,6 @@ class Permission extends Model
             )->pluck('nameOrfa','id')->toArray();
     }
 
-
     public function permissionsAdded(){
         $routes = \Route::getRoutes();
         $routeNames = $this->prepareNameRoutes($routes);
@@ -61,8 +60,17 @@ class Permission extends Model
         return array_diff($dbPermissions, $routeNames);
     }
     
-   public function permissionsNoRelations(){
+    public function permissionsNoRelations(){
         return $this->doesntHave('funcionalidades')->get();
+    }
+
+    public function permissionAuthorized($nameRoute){
+        if(strpos($nameRoute, "::") !== false){
+            $nameRoute = str_replace("::", ".", $nameRoute);
+        }
+
+        $sessionPermissions = \Session::get('user_permissions');
+        return in_array($nameRoute, $sessionPermissions);
     }
 
     public function savePermissions(){
@@ -91,6 +99,7 @@ class Permission extends Model
     public function prepareNameRoutes($routes){
         $routeNames = [];
         
+
         foreach($routes as $route){
             if(!empty($route->getName())){
                 $routeNames[] = str_replace('::','.', $route->getName());

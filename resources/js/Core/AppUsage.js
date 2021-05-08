@@ -131,11 +131,7 @@ const configSelect2 = function(){
  * 
  * @param {Object} params 
  */
-const configDropzone = function(params){
-    Dropzone.options.myDropzone = {
-        
-    }
-}
+const configDropzone = function(params){}
 
 const showMessagesValidator = function(form, errorsRequest){
     if(form.length == 0){

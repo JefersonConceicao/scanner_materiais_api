@@ -2,11 +2,16 @@
 
 namespace App\Models;
 
+//OTHERS NAMESPACES
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Auth;
+
+//MODELS
+use App\Models\FuncionalidadesRole;
 
 class User extends Authenticatable
 {
@@ -209,7 +214,13 @@ class User extends Authenticatable
     }
 
     public function uploadPhotoProfile(){
+         
+    }
 
+    public function permissionsByUser(){
+        $fRoles = new FuncionalidadesRole;
+        $roles = $this->rolesByUser()->pluck('roles.id')->toArray();
         
+        return $fRoles->getPermissionsByRoles($roles);
     }
 }
