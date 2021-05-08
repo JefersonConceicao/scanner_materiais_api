@@ -65,6 +65,10 @@ class PermissoesController extends Controller
         ];
 
         if(Auth::attempt($credentials)){
+            $permission = Auth::user()->permissionsByUser();
+            session()->forget('user_permissions');
+            session()->put('user_permissions', $permission);
+            
             $response['msg'] = "Sessão revalidada com sucesso!";
             $response['error'] = false;
         } 
