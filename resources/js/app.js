@@ -1,4 +1,7 @@
 //CORE Scripts - scripts de estrutura
+import Dropzone from 'dropzone';
+Dropzone.autoDiscover = false;
+
 window.AppNavigation = require('./Core/AppNavigation');
 window.AppUsage = require('./Core/AppUsage');
 window.AppSettings = require('./Core/AppSettings');

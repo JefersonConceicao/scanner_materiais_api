@@ -16,9 +16,17 @@ class Role extends Model
 
     public $timestamps = true;
 
-    public function getRoles(){
-       return $this->all();
-    }
+    public function getRoles($request = []){
+        $conditions = [];
+
+        if(isset($request['name'])  && !empty($request['name'])){
+            $conditions[] = ['name','LIKE', "%".$request['name']."%"];
+        }
+
+       return $this
+            ->where($conditions)
+            ->get();
+    }       
 
     public function setRole($request = []){
         try{

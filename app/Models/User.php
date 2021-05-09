@@ -8,6 +8,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Storage;
 use Auth;
 
 //MODELS
@@ -213,8 +214,24 @@ class User extends Authenticatable
         }
     }
 
-    public function uploadPhotoProfile(){
-         
+    public function changeProfilePicture($file){
+        try{
+            $user = Auth::user();
+            $path = Storage::disk('local')->put('/public/users/'.$user->id, $file);
+
+            $user->url_photo = Storage::url($path);
+            $user->save();
+                
+            return [
+                'error' => false,
+                'file' => Storage::url($path)
+            ];
+        }catch(\Exception $err){
+            return [
+                'error' => true,
+                'msg' => $err->getMessage()
+            ];
+        }
     }
 
     public function permissionsByUser(){

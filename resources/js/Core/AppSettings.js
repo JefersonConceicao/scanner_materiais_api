@@ -20,7 +20,7 @@ const adjustingDropDown = function(){
     $(".table-responsive").on("hide.bs.dropdown", function(){
         $(this).css('padding-bottom', 0)
     })
-
+    
     $(".dropdown-menu > li > a").css('color', 'black');
 }
 
@@ -61,7 +61,6 @@ const setupAjax = function(){
         }
         if(jqXHR.status === 401){
             const url = '/permissoes/methodNotAllowed'
-
             AppUsage.loadModal(url, '#nivel1', '600px');
         }
     });

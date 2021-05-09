@@ -27,6 +27,7 @@
     },
     "dependencies": {
         "datatables": "^1.10.18",
+        "dropzone": "^5.9.2",
         "sweetalert2": "^10.16.6"
     }
 }

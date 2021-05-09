@@ -58,10 +58,10 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"> 
                                 <img 
                                     src="{{ Auth::user()->url_photo 
-                                        ? Storage::url(Auth::user()->url_photo)
+                                        ? Auth::user()->url_photo 
                                         : asset('/assets/default_icon.png')
                                     }}"
-                                    class="user-image"
+                                    class="user-image menuImgProfile"
                                     alt="foto de perfil union"
                                 />
 
@@ -70,8 +70,9 @@
                             <ul class="dropdown-menu">
                                 <li class="user-header bg-bahia">
                                     <img 
+                                        class="subMenuImgProfile"
                                         src="{{ Auth::user()->url_photo 
-                                            ? Storage::url(Auth::user()->url_photo)
+                                            ? Auth::user()->url_photo 
                                             : asset('/assets/default_icon.png')
                                         }}"
                                     />

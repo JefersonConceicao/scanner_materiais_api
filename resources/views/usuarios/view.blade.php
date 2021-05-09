@@ -12,7 +12,7 @@
                 <img 
                     class="profile-user-img img-responsive img-circle"   
                     src="{{ !empty($user->url_photo) 
-                            ? Storage::url($user->url_photo) 
+                            ? $user->url_photo 
                             : asset('assets/default_icon.png')
                         }}" 
                 /> 

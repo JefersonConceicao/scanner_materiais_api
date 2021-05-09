@@ -53,7 +53,7 @@
         <div class="col-md-12">
             <div class="form-group">
                 {{Form::label('perfil', 'Perfis do Usuário')}} <span class="required">  * </span>
-                {{ Form::select('role_user[]', [null => ''] + $roles , $selectedRoles ,[
+                {{ Form::select('role_user[]', $roles , $selectedRoles ,[
                     'class' => 'form-control multiselect',
                     'id' => 'role_create_user',
                     'multiple' => 'multiple',

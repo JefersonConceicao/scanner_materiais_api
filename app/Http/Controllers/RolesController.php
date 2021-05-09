@@ -15,12 +15,12 @@ class RolesController extends Controller
      *  Retorna view index grupos
      * 
      */
-    public function index()
+    public function index(Request $request)
     {   
         $role = new Role;
-    
+        
         $view = view('roles.index')   
-                ->with('roles', $role->getRoles());
+                ->with('roles', $role->getRoles($request->all()));
                     
         return request()->ajax() ? $view->renderSections()['content'] : $view;
     }

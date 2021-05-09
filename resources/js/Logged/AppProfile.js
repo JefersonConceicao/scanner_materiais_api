@@ -3,8 +3,20 @@ $(function(){
     habilitaEventos();
 }); 
 
+const configDropzoneProfile = function(){
+    var myDropzone = new Dropzone(".profilePicture", {
+        url: '/users/uploadPhotoProfile',
+        headers:{
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        acceptedFiles: 'image/*',
+    })
+
+    return myDropzone
+}
+
 const habilitaEventos = function(){
-    $("#changePassword").on("submit", function(e){
+  $("#changePassword").on("submit", function(e){
         e.preventDefault();
         let form = $(this).serialize();
 
@@ -15,12 +27,36 @@ const habilitaEventos = function(){
 }
 
 const habilitaBotoes = function(){
+    const myDropzone = configDropzoneProfile();
+
     $(".profilePicture").on("click", function(){
-        const paramsDrozpone = {
-            url: '/users/changePhoto',
-        }
-        
-        AppUsage.configDropzone(paramsDrozpone);
+        myDropzone.on('success', function(file, response){  
+            if(!response.error){
+                $(".profilePicture").attr("src", response.file) 
+                $(".menuImgProfile").attr("src", response.file)
+                $(".subMenuImgProfile").attr("src", response.file);
+            }else{
+                Swal.fire({
+                    showButtonConfirm: false,
+                    position: 'top-end',
+                    icon: 'error',
+                    toast:true,
+                    title: 'Algo deu errado, tente novamente mais tarde ou abra um chamado',
+                    color: '#ffff',
+                    iconColor: 'red',
+                    timer: 3000,
+                    didOpen:(toast) => {
+                        toast.addEventListener('mouseenter', function(){
+                            timer.stopTimer()
+                        })
+
+                        toast.addEventListener('mouseleave', function(){
+                            timer.resumeTimer()
+                        })
+                    }
+                })
+            }
+        })  
     });
 }
 

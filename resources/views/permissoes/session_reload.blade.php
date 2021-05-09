@@ -11,7 +11,7 @@
                 <img 
                     class="profile-user-img img-responsive img-circle" 
                     src="{{ !empty(Auth::user()->url_photo)
-                        ? Storage::url(Auth::user()->url_photo)
+                        ? Auth::user()->url_photo
                         : asset('/assets/default_icon.png')
                     }}"
                 />

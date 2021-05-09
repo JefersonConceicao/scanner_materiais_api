@@ -148,7 +148,13 @@
                                             Módulo: {{ $modulo->nome }} 
                                         </label>
                                         &nbsp;
-                                        <a href="#" style="color:black;"> <i class="fa fa-edit"> </i> </a>
+                                        <a href="#" 
+                                            id={{ $modulo->id }} 
+                                            style="color:black;"
+                                            class="btnEditarModule"
+                                        > 
+                                            <i class="fa fa-edit"> </i> 
+                                        </a>
                                     </div>
                                 </div>  
                                 <div class="row">

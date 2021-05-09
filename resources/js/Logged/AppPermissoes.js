@@ -11,6 +11,8 @@ const habilitaEventos = function(){
 }
 
 const habilitaBotoes = function(){
+    AppModulos.habilitaBotoes()
+
     $("#syncPermissions").on("click", function(e){
         e.preventDefault();
         const url = '/permissoes/create';

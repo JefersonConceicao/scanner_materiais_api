@@ -115,7 +115,9 @@ class UsersController extends Controller
     }
 
     public function uploadPhotoProfile(Request $request){
-        
+        $user = new User;
+        $data = $user->changeProfilePicture($request->file);
 
+        return response()->json($data);
     }
 }
