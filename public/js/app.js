@@ -15283,7 +15283,10 @@ var habilitaEventos = function habilitaEventos() {
 };
 
 var habilitaBotoes = function habilitaBotoes() {
-  var myDropzone = configDropzoneProfile();
+  if ($(".profilePicture").length > 0) {
+    var myDropzone = configDropzoneProfile();
+  }
+
   $(".profilePicture").on("click", function () {
     myDropzone.on('success', function (file, response) {
       if (!response.error) {

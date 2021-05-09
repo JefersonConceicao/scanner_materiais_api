@@ -27,8 +27,10 @@ const habilitaEventos = function(){
 }
 
 const habilitaBotoes = function(){
-    const myDropzone = configDropzoneProfile();
-
+    if($(".profilePicture").length > 0){
+        var myDropzone = configDropzoneProfile();
+    }
+    
     $(".profilePicture").on("click", function(){
         myDropzone.on('success', function(file, response){  
             if(!response.error){
