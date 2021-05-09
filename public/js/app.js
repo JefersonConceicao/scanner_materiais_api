@@ -4190,8 +4190,8 @@ var loadLibs = function loadLibs() {
 };
 /**
  * 
- * @param {string} url 
- * @param {element} modalObject 
+ * @param {string} url get url http request
+ * @param {element} modalObject string selector do modal ex: "#modal1"
  * @param {string} width pixels 
  * @param {callback} callback função a ser executada dentro do modal
  */
@@ -4309,6 +4309,28 @@ var showMessagesValidator = function showMessagesValidator(form, errorsRequest) 
     _loop();
   }
 };
+
+var paginationForGrid = function paginationForGrid(gridElement) {
+  $(gridElement + " .pagination > li > a").on('click', function (e) {
+    e.preventDefault();
+    var url = $(this).attr("href");
+
+    if (!!url) {
+      $.ajax({
+        type: "GET",
+        url: url,
+        dataType: "HTML",
+        beforeSend: function beforeSend() {
+          loading($(gridElement));
+        },
+        success: function success(response) {
+          $(gridElement).html($(response).find("#nivel1 ".concat(gridElement, " >")));
+          paginationForGrid(gridElement);
+        }
+      });
+    }
+  });
+};
 /**
  * 
  * @param {string} url 
@@ -4383,7 +4405,8 @@ module.exports = {
   initializeDataTable: initializeDataTable,
   showMessagesValidator: showMessagesValidator,
   deleteForGrid: deleteForGrid,
-  configDropzone: configDropzone
+  configDropzone: configDropzone,
+  paginationForGrid: paginationForGrid
 };
 
 /***/ }),
@@ -4404,6 +4427,8 @@ var map = {
 	"./AppPermissoes.js": "./resources/js/Logged/AppPermissoes.js",
 	"./AppProfile": "./resources/js/Logged/AppProfile.js",
 	"./AppProfile.js": "./resources/js/Logged/AppProfile.js",
+	"./AppRoles": "./resources/js/Logged/AppRoles.js",
+	"./AppRoles.js": "./resources/js/Logged/AppRoles.js",
 	"./AppUsers": "./resources/js/Logged/AppUsers.js",
 	"./AppUsers.js": "./resources/js/Logged/AppUsers.js"
 };
@@ -4523,6 +4548,7 @@ $(function () {
   habilitaEventos();
 });
 var modalObject = "#nivel2";
+var grid = "#gridModulos";
 
 var habilitaEventos = function habilitaEventos() {
   $("#addModule").on("click", function () {
@@ -4537,6 +4563,7 @@ var habilitaEventos = function habilitaEventos() {
 };
 
 var habilitaBotoes = function habilitaBotoes() {
+  AppUsage.paginationForGrid(grid);
   $(".btnEditarModule").on("click", function () {
     var id = $(this).attr("id");
     var url = '/modulos/edit/' + id;
@@ -4573,7 +4600,6 @@ var habilitaBotoes = function habilitaBotoes() {
 
 var loadConsModules = function loadConsModules() {
   var url = '/modulos/';
-  var grid = "#gridModulos";
   $.ajax({
     type: "GET",
     url: url,
@@ -4860,6 +4886,138 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./resources/js/Logged/AppRoles.js":
+/*!*****************************************!*\
+  !*** ./resources/js/Logged/AppRoles.js ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var _require = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js"),
+    Swal = _require["default"];
+
+$(function () {
+  habilitaBotoes();
+  habilitaEventos();
+});
+var modalObject = "#nivel1";
+
+var habilitaEventos = function habilitaEventos() {
+  $("#addRole").on("click", function () {
+    var url = '/roles/create';
+    AppUsage.loadModal(url, modalObject, '800px', function () {
+      $("#formAddGroup").on('submit', function (e) {
+        e.preventDefault();
+        formRoles();
+      });
+    });
+  });
+  $("#filterSearchRole").on("submit", function (e) {
+    e.preventDefault();
+    loadConsRoles();
+  });
+};
+
+var habilitaBotoes = function habilitaBotoes() {
+  $(".editRole").on("click", function () {
+    var id = $(this).attr("id");
+    var url = '/roles/edit/' + id;
+    AppUsage.loadModal(url, modalObject, '800px', function () {
+      $("#formEditGroup").on('submit', function (e) {
+        e.preventDefault();
+        formRoles(id);
+      });
+    });
+  });
+  $(".deleteRole").on("click", function () {
+    var id = $(this).attr('id');
+    var url = '/roles/delete/' + id;
+    Swal.fire({
+      title: 'Deseja realmente excluir o registro?',
+      text: 'Esta ação é irreversivel!',
+      icon: 'warning',
+      showCancelButton: true,
+      reverseButtons: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar',
+      timeProgressBar: true
+    }).then(function (result) {
+      if (result.isConfirmed) {
+        AppUsage.deleteForGrid(url, function () {
+          loadConsRoles();
+        });
+      }
+    });
+  });
+};
+
+var loadConsRoles = function loadConsRoles() {
+  var url = "/roles/";
+  var grid = "#gridRoles";
+  var formSearch = "#filterSearchRole";
+  $.ajax({
+    type: "GET",
+    url: url,
+    data: $(formSearch).serialize(),
+    dataType: "HTML",
+    beforeSend: function beforeSend() {
+      AppUsage.loading($(grid));
+    },
+    success: function success(response) {
+      $(grid).html($(response).find("".concat(grid, " >")));
+      habilitaBotoes();
+    }
+  });
+};
+
+var formRoles = function formRoles(id) {
+  var url = typeof id === "undefined" ? "/roles/store" : "/roles/update/".concat(id);
+  var type = typeof id === "undefined" ? "POST" : "PUT";
+  var form = typeof id === "undefined" ? "#formAddGroup" : "#formEditGroup";
+  $.ajax({
+    type: type,
+    url: url,
+    data: $(form).serialize(),
+    dataType: "JSON",
+    beforeSend: function beforeSend() {
+      $(form + " .btnSubmit").prop("disabled", true).html("\n                <i class=\"fa fa-spinner fa-spin\"> </i> Carregando...\n            ");
+    },
+    success: function success(response) {
+      Swal.fire({
+        position: 'top-end',
+        icon: !response.error ? 'success' : 'error',
+        title: "<b style=\"color:#fff\"> ".concat(response.msg, " </b>"),
+        toast: true,
+        showConfirmButton: false,
+        timer: 3500,
+        background: '#337ab7',
+        didOpen: function didOpen() {
+          $(modalObject).modal('hide');
+        }
+      });
+      loadConsRoles();
+    },
+    complete: function complete() {
+      $(form + " .btnSubmit").prop("disabled", false).html("\n                Salvar\n            ");
+    },
+    error: function error(jqXHR, textstatus, _error) {
+      if (!!jqXHR.responseJSON.errors) {
+        var errors = jqXHR.responseJSON.errors;
+        AppUsage.showMessagesValidator(form, errors);
+      }
+    }
+  });
+};
+
+module.exports = {
+  habilitaBotoes: habilitaBotoes,
+  habilitaEventos: habilitaEventos
+};
+
+/***/ }),
+
 /***/ "./resources/js/Logged/AppUsers.js":
 /*!*****************************************!*\
   !*** ./resources/js/Logged/AppUsers.js ***!
@@ -5023,7 +5181,8 @@ window.AppUsers = __webpack_require__(/*! ./Logged/AppUsers */ "./resources/js/L
 window.AppProfile = __webpack_require__(/*! ./Logged/AppProfile */ "./resources/js/Logged/AppProfile.js");
 window.AppPermissoes = __webpack_require__(/*! ./Logged/AppPermissoes */ "./resources/js/Logged/AppPermissoes.js");
 window.AppModulos = __webpack_require__(/*! ./Logged/AppModulos */ "./resources/js/Logged/AppModulos.js");
-window.AppFuncionalidades = __webpack_require__(/*! ./Logged/AppFuncionalidades */ "./resources/js/Logged/AppFuncionalidades.js"); //CONSTANTS Scripts - scripts re-utilizaveis
+window.AppFuncionalidades = __webpack_require__(/*! ./Logged/AppFuncionalidades */ "./resources/js/Logged/AppFuncionalidades.js");
+window.AppRoles = __webpack_require__(/*! ./Logged/AppRoles */ "./resources/js/Logged/AppRoles.js"); //CONSTANTS Scripts - scripts re-utilizaveis
 
 window.languageDataTable = __webpack_require__(/*! ./Constants/language_dataTable */ "./resources/js/Constants/language_dataTable.js"); //LIBS - scripts bibliotecas
 
@@ -5049,8 +5208,8 @@ window.Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\bt\bt_source\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\bt\bt_source\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\BT\bt_source\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\BT\bt_source\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

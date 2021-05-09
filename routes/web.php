@@ -46,6 +46,15 @@ Route::group(['middleware' => ['auth', 'verifyPermission']] , function(){
         Route::put('/update/{id}', 'FuncionalidadesController@update')->name('update');
         Route::delete('/delete/{id}', 'FuncionalidadesController@delete')->name('delete');
     });
+
+    Route::group(['as' => 'roles::', 'prefix' => 'roles'], function(){
+        Route::get('/', 'RolesController@index')->name('index');
+        Route::get('/create', 'RolesController@create')->name('create');
+        Route::post('/store', 'RolesController@store')->name('store');
+        Route::get('/edit/{id}', 'RolesController@edit')->name('edit');
+        Route::put('/update/{id}', 'RolesController@update')->name('update');
+        Route::delete('/delete/{id}', 'RolesController@delete')->name('delete');
+    });
 });
 
 

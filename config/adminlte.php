@@ -278,6 +278,12 @@ return [
                         'requestjs' => 'AppUsers'
                     ],
                     [
+                        'text' => 'Grupos',
+                        'icon' => 'fa fa-angle-right',
+                        'url' => 'roles/',
+                        'requestjs' => 'AppRoles'
+                    ],
+                    [
                         'text' => 'Permissões',
                         'url' => 'permissoes/',
                         'icon' => 'fa fa-angle-right',
@@ -285,11 +291,6 @@ return [
                     ],
                 ]
             ],
-            ['header' => 'Configurações'],
-                [
-                    'text' => 'Configurações',
-                    'icon' => 'fa fa-cog',
-                ],
     ],
 
     /*

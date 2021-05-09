@@ -49,7 +49,11 @@
                                 </tr>
                             @endforeach
                         </tbody>
-                    </table>
+                    </table>  
+                
+                    <div class="indexPagination" style="display:flex; justify-content:center;">
+                        {{ $dados->links() }}
+                    </div>  
                 @else
                     <h4 class="text-center"> Sem módulos cadastrados </h4>
                 @endif

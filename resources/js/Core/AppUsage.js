@@ -22,8 +22,8 @@ const loadLibs = function(){
 
 /**
  * 
- * @param {string} url 
- * @param {element} modalObject 
+ * @param {string} url get url http request
+ * @param {element} modalObject string selector do modal ex: "#modal1"
  * @param {string} width pixels 
  * @param {callback} callback função a ser executada dentro do modal
  */
@@ -47,7 +47,7 @@ const loadModal = function(url, modalObject, width = null, callback = null){
         if(!!callback){
             callback();
         }
-     }) 
+    }) 
 }
 
 //PARAM - ELEMENTO A SER REMOVIDO PARA INSERÇÃO DO LOADING
@@ -131,7 +131,7 @@ const configSelect2 = function(){
  * 
  * @param {Object} params 
  */
-const configDropzone = function(params){}
+const configDropzone = function(params){ }
 
 const showMessagesValidator = function(form, errorsRequest){
     if(form.length == 0){
@@ -170,6 +170,28 @@ const showMessagesValidator = function(form, errorsRequest){
             }) 
         }
     }    
+}
+
+const paginationForGrid = function(gridElement){
+    $(gridElement + " .pagination > li > a").on('click', function(e){
+        e.preventDefault();
+        const url = $(this).attr("href");
+
+        if(!!url){
+           $.ajax({
+               type: "GET",
+               url: url,
+               dataType: "HTML",
+               beforeSend:function(){
+                    loading($(gridElement));
+               },
+               success: function (response) {
+                    $(gridElement).html($(response).find(`#nivel1 ${gridElement} >`));
+                    paginationForGrid(gridElement);
+               },   
+           });
+        }
+    });
 }
 
 /**
@@ -247,4 +269,5 @@ module.exports = {
     showMessagesValidator,
     deleteForGrid,
     configDropzone,
+    paginationForGrid,
 }

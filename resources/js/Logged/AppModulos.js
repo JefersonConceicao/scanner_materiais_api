@@ -6,6 +6,8 @@ $(function(){
 });
 
 const modalObject = "#nivel2"
+const grid = "#gridModulos"
+
 const habilitaEventos = function(){
     $("#addModule").on("click", function(){
         let url = '/modulos/create';
@@ -20,6 +22,8 @@ const habilitaEventos = function(){
 }
 
 const habilitaBotoes = function(){
+    AppUsage.paginationForGrid(grid);
+
     $(".btnEditarModule").on("click", function(){
         let id = $(this).attr("id");
         let url = '/modulos/edit/'+id;
@@ -60,7 +64,6 @@ const habilitaBotoes = function(){
 
 const loadConsModules = function(){
     let url = '/modulos/'
-    let grid = "#gridModulos"
 
     $.ajax({
         type: "GET",
