@@ -242,22 +242,13 @@ return [
                     [
                         'text' => 'Território de Identidade',
                         'icon' => 'fa fa-angle-right',
-                        'url' => '#'
-                    ],
-                    [
-                        'text' => 'Tipo Evento/Festa',
-                        'icon' => 'fa fa-angle-right',
-                        'url' => '#'
-                    ],
-                    [
-                        'text' => 'Tipo Infraestrutura',
-                        'icon' => 'fa fa-angle-right',
-                        'url' => '#'
+                        'url' => '/territoriosTuristicos/'
                     ],
                     [
                         'text' => 'UF',
                         'icon' => 'fa fa-angle-right',
-                        'url' => '#'
+                        'url' => '/uf/',
+                        'requestjs' => 'AppUF'
                     ],
                     [
                         'text' => 'Zona Turística',

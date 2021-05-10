@@ -9,6 +9,7 @@ const configDropzoneProfile = function(){
         headers:{
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
+
         acceptedFiles: 'image/*',
     })
 
@@ -39,12 +40,11 @@ const habilitaBotoes = function(){
                 $(".subMenuImgProfile").attr("src", response.file);
             }else{
                 Swal.fire({
-                    showButtonConfirm: false,
+                    showConfirmButton: false,
                     position: 'top-end',
                     icon: 'error',
                     toast:true,
                     title: 'Algo deu errado, tente novamente mais tarde ou abra um chamado',
-                    color: '#ffff',
                     iconColor: 'red',
                     timer: 3000,
                     didOpen:(toast) => {

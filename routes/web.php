@@ -55,6 +55,24 @@ Route::group(['middleware' => ['auth', 'verifyPermission']] , function(){
         Route::put('/update/{id}', 'RolesController@update')->name('update');
         Route::delete('/delete/{id}', 'RolesController@delete')->name('delete');
     });
+
+    Route::group(['as' => 'uf::', 'prefix' => 'uf'], function(){
+        Route::get('/', 'UFController@index')->name('index');
+        Route::get('/create', 'UFController@create')->name('create');
+        Route::post('/store', 'UFController@store')->name('store');
+        Route::get('/edit/{id}', 'UFController@edit')->name('edit');
+        Route::put('/update/{id}', 'UFController@update')->name('update');
+        Route::delete('/delete/{id}', 'UFController@delete')->name('delete');
+    });
+
+    Route::group(['as' => 'territoriosTuristicos::', 'prefix' => 'territoriosTuristicos'], function(){
+        Route::get('/', 'TerritoriosTuristicosController@index')->name('index');
+        Route::get('/create', 'TerritoriosTuristicosController@create')->name('create');
+        Route::post('/store', 'TerritoriosTuristicosController@store')->name('store');
+        Route::get('/edit/{id}', 'TerritoriosTuristicosController@edit')->name('edit');
+        Route::put('/update/{id}', 'TerritoriosTuristicosController@update')->name('update');
+        Route::delete('/delete/{id}', 'TerritoriosTuristicosController@delete')->name('delete');
+    });
 });
 
 

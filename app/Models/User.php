@@ -85,17 +85,13 @@ class User extends Authenticatable
         }
 
         $data = $this
-            ->leftJoin('role_user','role_user.user_id', 'users.id')
-            ->leftJoin('roles', 'role_user.role_id','roles.id')
             ->leftJoin('setor', 'setor.id', 'users.setor_id')
             ->select(
-                'roles.name as name_role',
-                'role_user.*',
                 'setor.descsetor as descricao_setor',
                 'users.*'
             )
             ->where($conditions)
-            ->orderBy('role_user.id', 'DESC');
+            ->orderBy('users.id', 'DESC');
      
         return $data;
     }

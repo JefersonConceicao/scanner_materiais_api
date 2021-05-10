@@ -1,14 +1,16 @@
 @extends('layouts.modals')
 @section('form_modal','reloadSession')
+
 @section('modal-header')
-    Revalidar Sessão 
+  <i class="fa fa-id-card-o"> </i>  Revalidar Sessão 
 @endsection
 
 @section('modal_content')
     <div class="row">
         <div class="col-md-12 text-center">  
             <div class="box-body box-profile">
-                <img 
+                <img
+                    style="height:100px;" 
                     class="profile-user-img img-responsive img-circle" 
                     src="{{ !empty(Auth::user()->url_photo)
                         ? Auth::user()->url_photo

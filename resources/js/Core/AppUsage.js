@@ -8,7 +8,7 @@ const initializeDataTable = function(){
         buttons:[
             'pdf',
         ],
-        paging: false,
+        paging:false,
         searching: false,
         language: languageDataTable.portugues,
     });  
@@ -189,7 +189,7 @@ const paginationForGrid = function(gridElement){
                     loading($(gridElement));
                },
                success: function (response) {
-                    $(gridElement).html($(response).find(`#nivel1 ${gridElement} >`));
+                    $(gridElement).html($(response).find(`${gridElement} >`));
                     paginationForGrid(gridElement);
                },   
            });

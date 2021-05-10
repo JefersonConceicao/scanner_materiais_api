@@ -14770,7 +14770,7 @@ var paginationForGrid = function paginationForGrid(gridElement) {
           loading($(gridElement));
         },
         success: function success(response) {
-          $(gridElement).html($(response).find("#nivel1 ".concat(gridElement, " >")));
+          $(gridElement).html($(response).find("".concat(gridElement, " >")));
           paginationForGrid(gridElement);
         }
       });
@@ -14875,6 +14875,10 @@ var map = {
 	"./AppProfile.js": "./resources/js/Logged/AppProfile.js",
 	"./AppRoles": "./resources/js/Logged/AppRoles.js",
 	"./AppRoles.js": "./resources/js/Logged/AppRoles.js",
+	"./AppTerritoriosTuristicos": "./resources/js/Logged/AppTerritoriosTuristicos.js",
+	"./AppTerritoriosTuristicos.js": "./resources/js/Logged/AppTerritoriosTuristicos.js",
+	"./AppUF": "./resources/js/Logged/AppUF.js",
+	"./AppUF.js": "./resources/js/Logged/AppUF.js",
 	"./AppUsers": "./resources/js/Logged/AppUsers.js",
 	"./AppUsers.js": "./resources/js/Logged/AppUsers.js"
 };
@@ -15295,12 +15299,11 @@ var habilitaBotoes = function habilitaBotoes() {
         $(".subMenuImgProfile").attr("src", response.file);
       } else {
         Swal.fire({
-          showButtonConfirm: false,
+          showConfirmButton: false,
           position: 'top-end',
           icon: 'error',
           toast: true,
           title: 'Algo deu errado, tente novamente mais tarde ou abra um chamado',
-          color: '#ffff',
           iconColor: 'red',
           timer: 3000,
           didOpen: function didOpen(toast) {
@@ -15502,6 +15505,245 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./resources/js/Logged/AppTerritoriosTuristicos.js":
+/*!*********************************************************!*\
+  !*** ./resources/js/Logged/AppTerritoriosTuristicos.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(function () {
+  habilitaEventos();
+  habilitaBotoes();
+});
+var modalObject = "#nivel1";
+
+var habilitaEventos = function habilitaEventos() {
+  $("#searchFilterTT").on("submit", function (e) {
+    e.preventDefault();
+    getTTFilter();
+  });
+  $("#addTT").on("click", function () {
+    var url = '/territoriosTuristicos/create';
+    AppUsage.loadModal(url, modalObject, '800px', function () {
+      $("#addFormTT").on("submit", function (e) {
+        e.preventDefault();
+        formTT();
+      });
+    });
+  });
+};
+
+var habilitaBotoes = function habilitaBotoes() {
+  $(".editTT").on("click", function () {
+    var id = $(this).attr("id");
+    var url = '/territoriosTuristicos/edit/' + id;
+    AppUsage.loadModal(url, modalObject, '800px', function () {});
+  });
+  $(".delete").on("click", function () {});
+};
+
+var getTTFilter = function getTTFilter() {
+  var form = $("#searchFilterTT").serialize();
+  var grid = "#gridTT";
+  $.ajax({
+    type: "GET",
+    url: typeof url !== "undefined" ? url : "/territoriosTuristicos/",
+    data: form,
+    dataType: "HTML",
+    beforeSend: function beforeSend() {
+      AppUsage.loading($(grid));
+    },
+    success: function success(response) {
+      console.log(response);
+      $(grid).html($(response).find("".concat(grid, " >")));
+      habilitaBotoes();
+    }
+  });
+};
+
+var formTT = function formTT(id) {
+  var form = typeof id == "undefined" ? '#addFormTT' : "#editFormTT";
+  var url = typeof id == "undefined" ? '/territoriosTuristicos/store' : "/territoriosTuristicos/update/".concat(id);
+  var type = typeof id == "undefined" ? 'POST' : 'PUT';
+  $.ajax({
+    type: type,
+    url: url,
+    data: $(form).serialize(),
+    dataType: "JSON",
+    beforeSend: function beforeSend() {
+      $(form + " .btnSubmit").prop("disabled", true).html("\n                <i class=\"fa fa-spinner fa-spin\"> </i> Carregando...\n            ");
+    },
+    success: function success(response) {
+      Swal.fire({
+        position: 'top-end',
+        icon: !response.error ? 'success' : 'error',
+        title: "<b style=\"color:#fff\"> ".concat(response.msg, " </b>"),
+        toast: true,
+        showConfirmButton: false,
+        timer: 3500,
+        background: '#337ab7',
+        didOpen: function didOpen() {
+          $(modalObject).modal('hide');
+        }
+      });
+      getTTFilter();
+    },
+    error: function error(jqXHR, textstatus, _error) {
+      if (!!jqXHR.responseJSON.errors) {
+        var errors = jqXHR.responseJSON.errors;
+        AppUsage.showMessagesValidator(form, errors);
+      }
+    },
+    complete: function complete() {
+      $(form + " .btnSubmit").prop("disabled", true).html("\n                <i class=\"fa fa-spinner fa-spin\"> </i> Carregando...\n            ");
+    }
+  });
+};
+
+module.exports = {
+  habilitaEventos: habilitaEventos,
+  habilitaBotoes: habilitaBotoes
+};
+
+/***/ }),
+
+/***/ "./resources/js/Logged/AppUF.js":
+/*!**************************************!*\
+  !*** ./resources/js/Logged/AppUF.js ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(function () {
+  habilitaEventos();
+  habilitaBotoes();
+});
+var modalObject = "#nivel1";
+
+var habilitaEventos = function habilitaEventos() {
+  $("#formSearchUF").on("submit", function (e) {
+    e.preventDefault();
+    getUFFilter();
+  });
+  $("#addUF").on("click", function () {
+    var url = '/uf/create';
+    AppUsage.loadModal(url, modalObject, '800px', function () {
+      $("#addFormUF").on('submit', function (e) {
+        e.preventDefault();
+        formUF();
+      });
+    });
+  });
+};
+
+var habilitaBotoes = function habilitaBotoes() {
+  $("#gridUF .pagination > li > a").on("click", function (e) {
+    e.preventDefault();
+    var url = $(this).attr("href");
+
+    if (!!url) {
+      getUFFilter(url);
+    }
+  });
+  $(".btnEditUF").on("click", function () {
+    var id = $(this).attr("id");
+    var url = "/uf/edit/" + id;
+    AppUsage.loadModal(url, modalObject, '800px', function () {
+      $("#editFormUF").on("submit", function (e) {
+        e.preventDefault();
+        formUF(id);
+      });
+    });
+  });
+  $(".btnDeleteUF").on("click", function () {
+    var id = $(this).attr("id");
+    var url = "/uf/delete/" + id;
+    Swal.fire({
+      title: 'Deseja realmente excluir o registro?',
+      text: 'Esta ação é irreversivel!',
+      icon: 'warning',
+      showCancelButton: true,
+      reverseButtons: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar',
+      timeProgressBar: true
+    }).then(function (result) {
+      if (result.isConfirmed) {
+        AppUsage.deleteForGrid(url, function () {
+          getUFFilter();
+        });
+      }
+    });
+  });
+};
+
+var getUFFilter = function getUFFilter(url) {
+  var form = $("#formSearchUF").serialize();
+  var gridUF = "#gridUF";
+  $.ajax({
+    type: "GET",
+    url: typeof url !== "undefined" ? url : "/uf/",
+    data: form,
+    dataType: "HTML",
+    beforeSend: function beforeSend() {
+      AppUsage.loading($(gridUF));
+    },
+    success: function success(response) {
+      $(gridUF).html($(response).find("".concat(gridUF, " >")));
+      habilitaBotoes();
+    }
+  });
+};
+
+var formUF = function formUF(id) {
+  var form = typeof id == "undefined" ? '#addFormUF' : "#editFormUF";
+  var url = typeof id == "undefined" ? '/uf/store' : "/uf/update/".concat(id);
+  var type = typeof id == "undefined" ? 'POST' : 'PUT';
+  $.ajax({
+    type: type,
+    url: url,
+    data: $(form).serialize(),
+    dataType: "JSON",
+    beforeSend: function beforeSend() {
+      $(form + " .btnSubmit").prop("disabled", true).html("\n                <i class=\"fa fa-spinner fa-spin\"> </i> Carregando...\n            ");
+    },
+    success: function success(response) {
+      Swal.fire({
+        position: 'top-end',
+        icon: !response.error ? 'success' : 'error',
+        title: "<b style=\"color:#fff\"> ".concat(response.msg, " </b>"),
+        toast: true,
+        showConfirmButton: false,
+        timer: 3500,
+        background: '#337ab7',
+        didOpen: function didOpen() {
+          $(modalObject).modal('hide');
+        }
+      });
+      getUFFilter();
+    },
+    error: function error(jqXHR, textstatus, _error) {
+      if (!!jqXHR.responseJSON.errors) {
+        var errors = jqXHR.responseJSON.errors;
+        AppUsage.showMessagesValidator(form, errors);
+      }
+    },
+    complete: function complete() {
+      $(form + " .btnSubmit").prop("disabled", false).html("\n                Salvar\n            ");
+    }
+  });
+};
+
+module.exports = {
+  habilitaBotoes: habilitaBotoes,
+  habilitaEventos: habilitaEventos
+};
+
+/***/ }),
+
 /***/ "./resources/js/Logged/AppUsers.js":
 /*!*****************************************!*\
   !*** ./resources/js/Logged/AppUsers.js ***!
@@ -15672,7 +15914,9 @@ window.AppProfile = __webpack_require__(/*! ./Logged/AppProfile */ "./resources/
 window.AppPermissoes = __webpack_require__(/*! ./Logged/AppPermissoes */ "./resources/js/Logged/AppPermissoes.js");
 window.AppModulos = __webpack_require__(/*! ./Logged/AppModulos */ "./resources/js/Logged/AppModulos.js");
 window.AppFuncionalidades = __webpack_require__(/*! ./Logged/AppFuncionalidades */ "./resources/js/Logged/AppFuncionalidades.js");
-window.AppRoles = __webpack_require__(/*! ./Logged/AppRoles */ "./resources/js/Logged/AppRoles.js"); //CONSTANTS Scripts - scripts re-utilizaveis
+window.AppRoles = __webpack_require__(/*! ./Logged/AppRoles */ "./resources/js/Logged/AppRoles.js");
+window.AppUF = __webpack_require__(/*! ./Logged/AppUF */ "./resources/js/Logged/AppUF.js");
+window.AppTerritoriosTuristicos = __webpack_require__(/*! ./Logged/AppTerritoriosTuristicos */ "./resources/js/Logged/AppTerritoriosTuristicos.js"); //CONSTANTS Scripts - scripts re-utilizaveis
 
 window.languageDataTable = __webpack_require__(/*! ./Constants/language_dataTable */ "./resources/js/Constants/language_dataTable.js"); //LIBS - scripts bibliotecas
 
@@ -15698,8 +15942,8 @@ window.Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\BT\bt_source\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\BT\bt_source\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\novo_union\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\novo_union\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

@@ -1,7 +1,7 @@
 @extends('layouts.modals')
 
 @section('modal-header')
-    Permissões Adicionadas
+   <i class="fa fa-refresh"> </i> Sincronização de Permissões 
 @endsection
 
 @section('modal_content')

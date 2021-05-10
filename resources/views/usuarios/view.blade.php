@@ -10,6 +10,7 @@
         >
             <div class="box-body box-profile">
                 <img 
+                    style="height:100px; object-fit:contain;"
                     class="profile-user-img img-responsive img-circle"   
                     src="{{ !empty($user->url_photo) 
                             ? $user->url_photo 
