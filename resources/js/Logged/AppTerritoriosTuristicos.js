@@ -36,7 +36,6 @@ const habilitaBotoes = function(){
     })
 
     $(".delete").on("click", function(){
-
         
     })
 }
