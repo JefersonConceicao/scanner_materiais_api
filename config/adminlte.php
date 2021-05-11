@@ -240,7 +240,7 @@ return [
                         'url' => '#'
                     ],
                     [
-                        'text' => 'Território de Identidade',
+                        'text' => 'Território Identidade',
                         'icon' => 'fa fa-angle-right',
                         'url' => '/territoriosTuristicos/',
                         'requestjs' => 'AppTerritoriosTuristicos'
@@ -254,7 +254,8 @@ return [
                     [
                         'text' => 'Zona Turística',
                         'icon' => 'fa fa-angle-right',
-                        'url' => '#'
+                        'url' => '/zonasTuristicas/',
+                        'requestjs' => 'AppZonasTuristicas'
                     ],
                 ],
             ],

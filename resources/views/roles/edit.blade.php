@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
-                {{ Form::label('name', 'Nome') }}
+                {{ Form::label('name', 'Nome') }} <span class="required"> * </span>
                 {{ Form::text('name', $role->name, [
                     'class' => 'form-control',
                     'id' => 'form_name_group',

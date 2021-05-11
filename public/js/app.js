@@ -14476,7 +14476,6 @@ var loadingNavigation = function loadingNavigation(inicio, fim) {
   //Calcula tempo de carregamento;
   var msTimeLoading = fim - inicio; //Configura container body
 
-  $('body').removeClass("fixed");
   $("#containerLoadingBar").show(); //Inicia barra de carregamento
 
   var progressBar = $("#progressLoadingBar");
@@ -14512,6 +14511,7 @@ var getNewScreen = function getNewScreen(url, module) {
     dataType: "HTML",
     start_time: new Date().getTime(),
     beforeSend: function beforeSend(jqXHR, settings) {
+      $("#contentLoading").show();
       loadingNavigation(this.start_time, new Date().getTime());
     },
     success: function success(response) {
@@ -14535,6 +14535,7 @@ var getNewScreen = function getNewScreen(url, module) {
     },
     complete: function complete() {
       loadingNavigation(this.start_time, new Date().getTime(), true);
+      $("#contentLoading").hide();
     }
   });
 };
@@ -14900,7 +14901,9 @@ var map = {
 	"./AppUF": "./resources/js/Logged/AppUF.js",
 	"./AppUF.js": "./resources/js/Logged/AppUF.js",
 	"./AppUsers": "./resources/js/Logged/AppUsers.js",
-	"./AppUsers.js": "./resources/js/Logged/AppUsers.js"
+	"./AppUsers.js": "./resources/js/Logged/AppUsers.js",
+	"./AppZonasTuristicas": "./resources/js/Logged/AppZonasTuristicas.js",
+	"./AppZonasTuristicas.js": "./resources/js/Logged/AppZonasTuristicas.js"
 };
 
 
@@ -15535,10 +15538,7 @@ module.exports = {
   !*** ./resources/js/Logged/AppTerritoriosTuristicos.js ***!
   \*********************************************************/
 /*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var _require = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js"),
-    Swal = _require["default"];
+/***/ (function(module, exports) {
 
 $(function () {
   habilitaEventos();
@@ -15940,6 +15940,114 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./resources/js/Logged/AppZonasTuristicas.js":
+/*!***************************************************!*\
+  !*** ./resources/js/Logged/AppZonasTuristicas.js ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(function () {
+  habilitaBotoes();
+  habilitaEventos();
+});
+var modalObject = "#nivel1";
+var grid = "#gridZT";
+
+var changeTitle = function changeTitle() {
+  document.title = 'BT | Zonas Turísticas';
+};
+
+var habilitaEventos = function habilitaEventos() {
+  $("#formSearchZT").on("submit", function (e) {
+    e.preventDefault();
+    getZTFilter();
+  });
+  $("#addZT").on("click", function () {
+    var url = '/zonasTuristicas/create';
+    AppUsage.loadModal(url, modalObject, '800px', function () {
+      $("#addFormZT").on("submit", function (e) {
+        e.preventDefault();
+        formZT();
+      });
+    });
+  });
+};
+
+var habilitaBotoes = function habilitaBotoes() {
+  $(grid + " .pagination > li > a").on("click", function (e) {
+    e.preventDefault();
+    var url = $(this).attr("href");
+
+    if (!!url) {
+      getZTFilter(url);
+    }
+  });
+};
+
+var getZTFilter = function getZTFilter(url) {
+  var form = $("#formSearchZT").serialize();
+  $.ajax({
+    type: "GET",
+    url: typeof url !== "undefined" ? url : "/zonasTuristicas/",
+    data: form,
+    dataType: "HTML",
+    beforeSend: function beforeSend(jqXHR, settings) {
+      AppUsage.loading($(grid));
+    },
+    success: function success(response) {
+      $(grid).html($(response).find("".concat(grid, " >")));
+      habilitaBotoes();
+    }
+  });
+};
+
+var formZT = function formZT(id) {
+  var form = typeof id == "undefined" ? '#addFormZT' : "#editFormZT";
+  var url = typeof id == "undefined" ? '/zonasTuristicas/store' : "/zonasTuristicas/update/".concat(id);
+  var type = typeof id == "undefined" ? 'POST' : 'PUT';
+  $.ajax({
+    type: type,
+    url: url,
+    data: $(form).serialize(),
+    dataType: "JSON",
+    beforeSend: function beforeSend() {
+      $(form + ".btnSubmit").prop("disabled", true).html("\n                <i class=\"faf a-spinner fa-spin\"> </i> Carregando...\n            ");
+    },
+    success: function success(response) {
+      Swal.fire({
+        position: 'top-end',
+        icon: !response.error ? 'success' : 'error',
+        title: "<b style=\"color:#fff\"> ".concat(response.msg, " </b>"),
+        toast: true,
+        showConfirmButton: false,
+        timer: 3500,
+        background: '#337ab7',
+        didOpen: function didOpen() {
+          $(modalObject).modal('hide');
+        }
+      });
+    },
+    error: function error(jqXHR, textStatus, errorThrown) {
+      if (!!jqXHR.responseJSON) {
+        var errorsRequest = jqXHR.responseJSON.errors;
+        AppUsage.showMessagesValidator(form, errorsRequest);
+      }
+    },
+    complete: function complete() {
+      $(form + ".btnSubmit").prop("disabled", true).html("\n                Salvar\n            ");
+    }
+  });
+};
+
+module.exports = {
+  changeTitle: changeTitle,
+  habilitaBotoes: habilitaBotoes,
+  habilitaEventos: habilitaEventos
+};
+
+/***/ }),
+
 /***/ "./resources/js/app.js":
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
@@ -15967,7 +16075,8 @@ window.AppModulos = __webpack_require__(/*! ./Logged/AppModulos */ "./resources/
 window.AppFuncionalidades = __webpack_require__(/*! ./Logged/AppFuncionalidades */ "./resources/js/Logged/AppFuncionalidades.js");
 window.AppRoles = __webpack_require__(/*! ./Logged/AppRoles */ "./resources/js/Logged/AppRoles.js");
 window.AppUF = __webpack_require__(/*! ./Logged/AppUF */ "./resources/js/Logged/AppUF.js");
-window.AppTerritoriosTuristicos = __webpack_require__(/*! ./Logged/AppTerritoriosTuristicos */ "./resources/js/Logged/AppTerritoriosTuristicos.js"); //CONSTANTS Scripts - scripts re-utilizaveis
+window.AppTerritoriosTuristicos = __webpack_require__(/*! ./Logged/AppTerritoriosTuristicos */ "./resources/js/Logged/AppTerritoriosTuristicos.js");
+window.AppZonasTuristicas = __webpack_require__(/*! ./Logged/AppZonasTuristicas */ "./resources/js/Logged/AppZonasTuristicas.js"); //CONSTANTS Scripts - scripts re-utilizaveis
 
 window.languageDataTable = __webpack_require__(/*! ./Constants/language_dataTable */ "./resources/js/Constants/language_dataTable.js"); //LIBS - scripts bibliotecas
 

@@ -1,5 +1,4 @@
 @extends('adminlte::master')
-
 @section('adminlte_css')
     <link rel="stylesheet"
           href="{{ asset('vendor/adminlte/dist/css/skins/skin-' . config('adminlte.skin', 'blue') . '.min.css')}} ">
@@ -14,6 +13,8 @@
 
 @section('body')
     <div class="wrapper">
+        <div id="contentLoading" style="display:none;"> </div>
+
         <!-- Main Header -->
         <header class="main-header">
             @if(config('adminlte.layout') == 'top-nav')
@@ -91,7 +92,7 @@
                                             </a>  
                                         </div>
                                     </div>
-           
+        
                     
                                 </li> 
                                 <li class="user-footer">
@@ -212,9 +213,8 @@
             <!-- Add the sidebar's background. This div must be placed immediately after the control sidebar -->
             <div class="control-sidebar-bg"></div>
         @endif
-
     </div>
-    <!-- ./wrapper -->
+<!-- ./wrapper -->
 @stop
 
 @section('adminlte_js')

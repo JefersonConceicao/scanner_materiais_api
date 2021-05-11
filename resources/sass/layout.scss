@@ -1,7 +1,21 @@
 //AZUL BAHIA = #337ab7
 //VERMELHO BAHIA = #e91313
 body{
-    background-color: #337ab7  !important;
+    background-color:  #337ab7 !important; 
+}
+
+#contentLoading{
+    position:fixed;
+    width:100%;
+    top:0;bottom:0;
+    background-color: rgba(255,255,255,0.3);
+    z-index:9999;
+}
+
+.body-container{
+    position: fixed;
+    width:100%;
+    background-color: rgba(1,1,1,0.5)
 }
 
 .main-header{
@@ -49,3 +63,6 @@ body{
     border-top: none !important;
     border-left: 3px solid #e91313;
 }
+
+
+

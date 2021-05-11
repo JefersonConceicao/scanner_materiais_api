@@ -31,7 +31,6 @@
                         @endif
                     <div>
                 </form>
-    
             @else
                 <div class="modal-header">
                     <button 

@@ -75,7 +75,7 @@ const loadingNavigation = function(inicio,  fim, isComplete = false){
     const msTimeLoading = fim - inicio; 
 
     //Configura container body
-    $('body').removeClass("fixed");
+
     $("#containerLoadingBar").show(); //Inicia barra de carregamento
 
     let progressBar = $("#progressLoadingBar");
@@ -87,6 +87,7 @@ const loadingNavigation = function(inicio,  fim, isComplete = false){
             width = 1;
             
             $("#containerLoadingBar").hide(); 
+
         }else{
             width++
             progressBar.css({
@@ -114,6 +115,7 @@ const getNewScreen = function(url, module){
         dataType: "HTML",
         start_time: new Date().getTime(),
         beforeSend:function(jqXHR, settings){
+            $("#contentLoading").show();
             loadingNavigation(this.start_time, new Date().getTime());
         },
         success: function (response) {
@@ -138,6 +140,7 @@ const getNewScreen = function(url, module){
         },
         complete:function(){
             loadingNavigation(this.start_time, new Date().getTime(), true);
+            $("#contentLoading").hide();
         },
     });
 }

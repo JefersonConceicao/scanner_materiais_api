@@ -23,7 +23,7 @@
     </head>
 
     <body class="hold-transition @yield('body_class') layout-boxed">
-        @yield('body')
+            @yield('body')
 
         <script src="{{ asset('vendor/adminlte/vendor/jquery/dist/jquery.min.js') }}"></script>
         <script src="{{ asset('vendor/adminlte/vendor/jquery/dist/jquery.slimscroll.min.js') }}"></script>

@@ -108,7 +108,7 @@
                                             <td> {{!empty($dado->email) ? $dado->email : "Não informado"}} </td>
                                             <td> {{!empty($dado->descricao_setor) ? $dado->descricao_setor : "Não informado" }} </td> 
                                             
-                                            <td class="text-center" style="display:flex; justify-content:space-around;">     
+                                            <td class="text-center" style="display:flex; justify-content:space-evenly;">     
                                                 <a
                                                     href="javascript:void(0)" 
                                                     bt_ac="users.edit" 
@@ -119,8 +119,9 @@
                                                 >
                                                      <i class="fa fa-edit"> </i>
                                                 </a>    
-                                                
-                                                <a      
+
+                                                &nbsp;
+                                                <a       
                                                     href="javascript:void(0)" 
                                                     class="btn btn-xs btn-success viewUser"  
                                                     title="Visualizar" 
@@ -131,6 +132,7 @@
                                                     <i class="fa fa-bars"> </i>
                                                 </a>
 
+                                                &nbsp;
                                                 <a 
                                                     href="javascript:void(0)" 
                                                     class="btn btn-xs btn-danger deleteUser" 
