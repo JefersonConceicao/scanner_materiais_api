@@ -69,7 +69,7 @@
                                     <span class="description-text">
                                         @if(!empty($user->rolesByUser))
                                             @foreach($user->rolesByUser as $role)
-                                                {{ !empty($role) ? $role->name : "Não informado"}}
+                                                | <small> {{ !empty($role) ? $role->name : "Não informado"}} </small>
                                             @endforeach
                                         @else 
                                             {{ "Não informado "}}

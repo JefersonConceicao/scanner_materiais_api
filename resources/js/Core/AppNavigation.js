@@ -31,25 +31,46 @@ const setOptionsSubMenu = function(){
 }
 
 const setActive = function(element){
-    //VERIFICA E REMOVE QUALQUER LI ATIVA
     let liSubMenu = listMenuGroups.parent();
 
-    if(liSubMenu.hasClass('active')){
-        liSubMenu.removeClass("active");
-    }
-
-    if(listMenu.hasClass("active")){
-        listMenu.removeClass("active")
-    }
-
     if(element.is('li')){
-        element.addClass("active")
+        if(liSubMenu.hasClass("active")){
+            liSubMenu.removeClass("active");
+        }
+
+        if(!element.hasClass('treeview')){
+           let menuOpen = listMenu.filter((index, valueElement) => {
+                if($(valueElement).hasClass("menu-open")){
+                    return $(valueElement);
+                }
+           })
+
+           menuOpen.removeClass('menu-open');
+           menuOpen.find('.treeview-menu').hide();
+        }
+
+        if(listMenu.hasClass("active")){
+            listMenu.removeClass("active");
+        }
+
+        element.addClass("active");
     }else{
+        let subMenuToRemove = listMenu.filter((index, valueElement) => {
+            if(!$(valueElement).hasClass('treeview active')){
+                return $(valueElement);
+            }
+        })
+
+        subMenuToRemove.removeClass('active');
+        if(liSubMenu.hasClass("active")){
+            liSubMenu.removeClass("active");
+        }
+
         element.parent().addClass("active");
     }
 }
 
-const loadingNavigation = function(inicio, fim, isComplete = false){
+const loadingNavigation = function(inicio,  fim, isComplete = false){
     //Calcula tempo de carregamento;
     const msTimeLoading = fim - inicio; 
 
@@ -66,7 +87,6 @@ const loadingNavigation = function(inicio, fim, isComplete = false){
             width = 1;
             
             $("#containerLoadingBar").hide(); 
-            $('body').addClass('fixed');
         }else{
             width++
             progressBar.css({
@@ -105,8 +125,9 @@ const getNewScreen = function(url, module){
 
             if(module != "no_module"){
                 modulo = require('../Logged/'+module);
-
+        
                 if(!!modulo.habilitaBotoes && !!modulo.habilitaEventos){
+                    !!modulo.changeTitle && modulo.changeTitle() ;
                     modulo.habilitaBotoes();
                     modulo.habilitaEventos();
                 }

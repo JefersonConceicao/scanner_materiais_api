@@ -14433,20 +14433,40 @@ var setOptionsSubMenu = function setOptionsSubMenu() {
 };
 
 var setActive = function setActive(element) {
-  //VERIFICA E REMOVE QUALQUER LI ATIVA
   var liSubMenu = listMenuGroups.parent();
 
-  if (liSubMenu.hasClass('active')) {
-    liSubMenu.removeClass("active");
-  }
-
-  if (listMenu.hasClass("active")) {
-    listMenu.removeClass("active");
-  }
-
   if (element.is('li')) {
+    if (liSubMenu.hasClass("active")) {
+      liSubMenu.removeClass("active");
+    }
+
+    if (!element.hasClass('treeview')) {
+      var menuOpen = listMenu.filter(function (index, valueElement) {
+        if ($(valueElement).hasClass("menu-open")) {
+          return $(valueElement);
+        }
+      });
+      menuOpen.removeClass('menu-open');
+      menuOpen.find('.treeview-menu').hide();
+    }
+
+    if (listMenu.hasClass("active")) {
+      listMenu.removeClass("active");
+    }
+
     element.addClass("active");
   } else {
+    var subMenuToRemove = listMenu.filter(function (index, valueElement) {
+      if (!$(valueElement).hasClass('treeview active')) {
+        return $(valueElement);
+      }
+    });
+    subMenuToRemove.removeClass('active');
+
+    if (liSubMenu.hasClass("active")) {
+      liSubMenu.removeClass("active");
+    }
+
     element.parent().addClass("active");
   }
 };
@@ -14466,7 +14486,6 @@ var loadingNavigation = function loadingNavigation(inicio, fim) {
       clearInterval(idInterval);
       width = 1;
       $("#containerLoadingBar").hide();
-      $('body').addClass('fixed');
     } else {
       width++;
       progressBar.css({
@@ -14505,6 +14524,7 @@ var getNewScreen = function getNewScreen(url, module) {
         modulo = __webpack_require__("./resources/js/Logged sync recursive ^\\.\\/.*$")("./" + module);
 
         if (!!modulo.habilitaBotoes && !!modulo.habilitaEventos) {
+          !!modulo.changeTitle && modulo.changeTitle();
           modulo.habilitaBotoes();
           modulo.habilitaEventos();
         }
@@ -15264,6 +15284,10 @@ $(function () {
   habilitaEventos();
 });
 
+var setTitle = function setTitle() {
+  return document.title = "BT | Perfil";
+};
+
 var configDropzoneProfile = function configDropzoneProfile() {
   var myDropzone = new Dropzone(".profilePicture", {
     url: '/users/uploadPhotoProfile',
@@ -15368,7 +15392,8 @@ var formChangePassword = function formChangePassword(form) {
 
 module.exports = {
   habilitaBotoes: habilitaBotoes,
-  habilitaEventos: habilitaEventos
+  habilitaEventos: habilitaEventos,
+  setTitle: setTitle
 };
 
 /***/ }),

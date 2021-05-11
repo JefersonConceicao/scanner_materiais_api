@@ -22,7 +22,7 @@
         <link rel="stylesheet" href="{{asset('css/app.css')}}">
     </head>
 
-    <body class="hold-transition @yield('body_class') fixed">
+    <body class="hold-transition @yield('body_class') layout-boxed">
         @yield('body')
 
         <script src="{{ asset('vendor/adminlte/vendor/jquery/dist/jquery.min.js') }}"></script>

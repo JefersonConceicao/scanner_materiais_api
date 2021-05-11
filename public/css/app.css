@@ -20,6 +20,10 @@ a {
   margin: 7% auto;
 }
 
+body {
+  background-color: #337ab7 !important;
+}
+
 .main-header {
   border-top: solid 2px #e91313;
 }

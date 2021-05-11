@@ -3,6 +3,10 @@ $(function(){
     habilitaEventos();
 }); 
 
+const setTitle = function(){
+    return document.title = "BT | Perfil"
+}
+
 const configDropzoneProfile = function(){
     var myDropzone = new Dropzone(".profilePicture", {
         url: '/users/uploadPhotoProfile',
@@ -117,4 +121,5 @@ const formChangePassword = function(form){
 module.exports = {
     habilitaBotoes,
     habilitaEventos,
+    setTitle,
 }

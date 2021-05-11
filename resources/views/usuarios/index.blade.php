@@ -108,7 +108,7 @@
                                             <td> {{!empty($dado->email) ? $dado->email : "Não informado"}} </td>
                                             <td> {{!empty($dado->descricao_setor) ? $dado->descricao_setor : "Não informado" }} </td> 
                                             
-                                            <td class="text-center" style="display:flex; justify-content:space-between;">     
+                                            <td class="text-center" style="display:flex; justify-content:space-around;">     
                                                 <a
                                                     href="javascript:void(0)" 
                                                     bt_ac="users.edit" 
