@@ -1,3 +1,5 @@
+const { default: Swal } = require("sweetalert2");
+
 $(function(){
     habilitaEventos()
     habilitaBotoes()
@@ -31,12 +33,34 @@ const habilitaBotoes = function(){
         const url = '/territoriosTuristicos/edit/' + id;
 
         AppUsage.loadModal(url, modalObject, '800px', function(){
+            $("#editFormTT").on("submit", function(e){
+                e.preventDefault();
 
+                formTT(id);
+            })
         })
     })
 
-    $(".delete").on("click", function(){
+    $(".deleteTT").on("click", function(){
+        const id = $(this).attr("id");
+        const url = '/territoriosTuristicos/delete/' + id;
         
+        Swal.fire({
+            title: 'Deseja realmente excluir o registro?',
+            text: 'Esta ação é irreversivel!',
+            icon: 'warning',
+            showCancelButton: true,
+            reverseButtons: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: 'Cancelar',
+            timeProgressBar: true,
+        }).then(result => {
+            if(result.isConfirmed){
+                getTTFilter();
+            }
+        })
     })
 }
 
@@ -53,7 +77,6 @@ const getTTFilter = function(){
             AppUsage.loading($(grid));
         },
         success: function (response) {
-            console.log(response)
            $(grid).html($(response).find(`${grid} >`));
             habilitaBotoes();
         }

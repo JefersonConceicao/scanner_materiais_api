@@ -83,7 +83,7 @@
                                 <li class="user-body">
                                     <div class="row"> 
                                         <div class="col-md-12 text-center">
-                                            <a href="#" class="btn btn-default" style="width:100%;">
+                                            <a href="/users/perfil" class="btn btn-default" style="width:100%;">
                                                 <b> 
                                                     <i class="fa fa-user"> </i> &nbsp; 
                                                     Meu Perfil 

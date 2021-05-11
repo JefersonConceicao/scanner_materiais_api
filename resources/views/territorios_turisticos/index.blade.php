@@ -33,7 +33,7 @@
                         <div class="form-group">
                             {{ Form::label('ativo', 'Ativo' )}}
                             {{ Form::select('ativo', ['S' => 'Sim', 'N' => 'Não'], ['S'], [
-                                'class' => 'form-control',
+                                'class' => 'form-control select2',
                                 'id' => 'search_form_ativo_TT'
                             ])}}
                         </div>

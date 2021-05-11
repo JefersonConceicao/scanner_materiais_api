@@ -53,11 +53,41 @@ class TerritorioTuristico extends Model
         }
     }
 
-    public function updateTT(){
+    public function updateTT($id, $request = []){
+        try{
+            $tt = $this->find($id);
+            $tt->fill([
+                'territorio_turistico' => $request['territorio_turistico'],
+                'ativo' => $request['ativo']
+            ])->save();
 
+            return [
+                'error' => false,
+                'msg' => 'Registro alterado com sucesso!'
+            ];
+        }catch(\Execption $err){
+            return [
+                'error' => true,
+                'msg' => 'Não foi possível alterar o registro'
+            ];
+        }
     }
     
-    public function deleteTT(){
+    public function deleteTT($id){
+        if($this->find($id)->delete()){
+            return [
+                'error' => false,
+                'msg' => 'Registro excluído com sucesso'
+            ];
+        }else{
+            return [
+                'error' => true,
+                'msg' => 'Ocorreu um erro ao excluir o registro, tente novamente'
+            ];
+        }
+    }
 
+    public function getTTById($id){
+        return $this->find($id);
     }
 }
