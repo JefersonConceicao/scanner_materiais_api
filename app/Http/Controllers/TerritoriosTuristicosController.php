@@ -28,18 +28,24 @@ class TerritoriosTuristicosController extends Controller
         return response()->json($data);
     }
 
-    public function edit(){
+    public function edit($id){
+        $tt = new TerritorioTuristico;
 
-        
+        return view('territorios_turisticos.edit')
+            ->with('dataTT', $tt->getTTById($id));
     }
 
-    public function update(){
+    public function update($id, TerritorioTuristicoRequest $request){
+        $tt = new TerritorioTuristico;
 
-        
+        $data = $tt->updateTT($id, $request->all());
+        return response()->json($data);
     }
 
-    public function delete(){
+    public function delete($id){
+        $tt = new TerritorioTuristico;
 
-
+        $data = $tt->deleteTT($id);
+        return response()->json($data);
     }
 }

@@ -36,7 +36,10 @@ class TerritorioTuristicoRequest extends FormRequest
                 ];
             break;
             case 'update':
-                
+                $validate = [
+                    'territorio_turistico' => 'required',
+                    'ativo' => 'required'
+                ]; 
             break;
         }
 

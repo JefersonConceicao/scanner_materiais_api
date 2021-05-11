@@ -15510,7 +15510,10 @@ module.exports = {
   !*** ./resources/js/Logged/AppTerritoriosTuristicos.js ***!
   \*********************************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+var _require = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js"),
+    Swal = _require["default"];
 
 $(function () {
   habilitaEventos();
@@ -15538,9 +15541,33 @@ var habilitaBotoes = function habilitaBotoes() {
   $(".editTT").on("click", function () {
     var id = $(this).attr("id");
     var url = '/territoriosTuristicos/edit/' + id;
-    AppUsage.loadModal(url, modalObject, '800px', function () {});
+    AppUsage.loadModal(url, modalObject, '800px', function () {
+      $("#editFormTT").on("submit", function (e) {
+        e.preventDefault();
+        formTT(id);
+      });
+    });
   });
-  $(".delete").on("click", function () {});
+  $(".deleteTT").on("click", function () {
+    var id = $(this).attr("id");
+    var url = '/territoriosTuristicos/delete/' + id;
+    Swal.fire({
+      title: 'Deseja realmente excluir o registro?',
+      text: 'Esta ação é irreversivel!',
+      icon: 'warning',
+      showCancelButton: true,
+      reverseButtons: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar',
+      timeProgressBar: true
+    }).then(function (result) {
+      if (result.isConfirmed) {
+        getTTFilter();
+      }
+    });
+  });
 };
 
 var getTTFilter = function getTTFilter() {
@@ -15555,7 +15582,6 @@ var getTTFilter = function getTTFilter() {
       AppUsage.loading($(grid));
     },
     success: function success(response) {
-      console.log(response);
       $(grid).html($(response).find("".concat(grid, " >")));
       habilitaBotoes();
     }
@@ -15942,8 +15968,8 @@ window.Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\novo_union\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\novo_union\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\BT\bt_source\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\BT\bt_source\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

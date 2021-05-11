@@ -242,7 +242,8 @@ return [
                     [
                         'text' => 'Território de Identidade',
                         'icon' => 'fa fa-angle-right',
-                        'url' => '/territoriosTuristicos/'
+                        'url' => '/territoriosTuristicos/',
+                        'requestjs' => 'AppTerritoriosTuristicos'
                     ],
                     [
                         'text' => 'UF',
