@@ -30,7 +30,9 @@
         <script src="{{ asset('vendor/adminlte/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('vendor/lou-multi-select/js/jquery.multi-select.js') }}"> </script>
         <script src="{{ asset('vendor/jquery.quick-search/dist/jquery.quicksearch.js') }}"> </script>
-   
+        <script> 
+            var arrayPermissions = '<?php echo json_encode(session()->get("user_permissions")); ?>' 
+        </script>
         @include('adminlte::plugins', ['type' => 'js'])
         @yield('adminlte_js')
         <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/i18n/pt-BR.js">  </script>

@@ -14220,6 +14220,32 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./resources/js/Constants/access_control.js":
+/*!**************************************************!*\
+  !*** ./resources/js/Constants/access_control.js ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+//ESTE SCRIPT TEM COMO RESPONSABILIDADE OCULTAR/REMOVER TODOS OS ELMENTOS QUE NÃO CONTÉM A PERMISSÃO DE ACESSO
+//DO USUÁRIO
+var permissions = JSON.parse(arrayPermissions);
+
+if (!!permissions && permissions.length > 0) {
+  var elementsWithAc;
+  permissions.forEach(function (value, index) {
+    elementsWithAc = $("li[bt_ac]");
+  });
+  elementsWithAc.each(function () {
+    var element = $(this);
+    var acLI = element.attr("bt_ac") !== "zxFQ" ? element.attr("bt_ac") : null;
+
+    if (!!acLI) {}
+  });
+}
+
+/***/ }),
+
 /***/ "./resources/js/Constants/language_dataTable.js":
 /*!******************************************************!*\
   !*** ./resources/js/Constants/language_dataTable.js ***!
@@ -16225,7 +16251,8 @@ window.AppTerritoriosTuristicos = __webpack_require__(/*! ./Logged/AppTerritorio
 window.AppZonasTuristicas = __webpack_require__(/*! ./Logged/AppZonasTuristicas */ "./resources/js/Logged/AppZonasTuristicas.js");
 window.Paises = __webpack_require__(/*! ./Logged/AppPaises */ "./resources/js/Logged/AppPaises.js"); //CONSTANTS Scripts - scripts re-utilizaveis
 
-window.languageDataTable = __webpack_require__(/*! ./Constants/language_dataTable */ "./resources/js/Constants/language_dataTable.js"); //LIBS - scripts bibliotecas
+window.languageDataTable = __webpack_require__(/*! ./Constants/language_dataTable */ "./resources/js/Constants/language_dataTable.js");
+window.AcessControl = __webpack_require__(/*! ./Constants/access_control */ "./resources/js/Constants/access_control.js"); //LIBS - scripts bibliotecas
 
 window.Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 
