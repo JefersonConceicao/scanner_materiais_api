@@ -82,6 +82,15 @@ Route::group(['middleware' => ['auth', 'verifyPermission']] , function(){
         Route::put('/update/{id}', 'ZonasTuristicasController@update')->name('update');
         Route::delete('/delete/{id}', 'ZonasTuristicasController@delete')->name('delete');
     });
+
+    Route::group(['as' => 'paises::', 'prefix' => 'paises'], function(){
+        Route::get('/', 'PaisesController@index')->name('index');
+        Route::get('/create', 'PaisesController@create')->name('create');
+        Route::post('/store', 'PaisesController@store')->name('store');
+        Route::get('/edit/{id}', 'PaisesController@edit')->name('edit');
+        Route::put('/update/{id}', 'PaisesController@update')->name('update');
+        Route::delete('/delete/{id}', 'PaisesController@delete')->name('delete');
+    });
 });
 
 

@@ -52,10 +52,9 @@
                 </div>
             </form>
         @endcomponent
-
         <div class="box"> 
             <div class="box-header with-border">
-                <p class="box-title"> Total de registros: {{ count($dataTT) }} </p>
+                <p class="box-title"> Total de registros: {{ $dataTT->total() }} </p>
 
                 <button class="pull-right btn btn-primary" id="addTT">
                     <i class="fa fa-plus-square"> </i> Novo

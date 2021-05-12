@@ -20,7 +20,7 @@
         @component('components.filtro')
             <form id="formSearchUF">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <div class="form-group">
                             {{ Form::label('uf_sigla', 'Sigla' )}}
                             {{ Form::text('uf_sigla', null, [
@@ -29,7 +29,7 @@
                             ])}}
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group">
                             {{ Form::label('uf_descricao', 'Descrição' )}}
                             {{ Form::text('uf_descricao', null, [
@@ -64,7 +64,7 @@
         @endcomponent
         <div class="box">
             <div class="box-header with-border">
-                <p class="box-title"> Total de registros: {{ count($dataUF )}}  </p>
+                <p class="box-title"> Total de registros: {{ $dataUF->total() }}  </p>
 
                 <button class="pull-right btn btn-primary" id="addUF"> 
                     <i class="fa fa-plus-square"> </i> Novo

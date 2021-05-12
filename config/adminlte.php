@@ -237,13 +237,24 @@ return [
                     [
                         'text' => 'País',
                         'icon' => 'fa fa-angle-right',
-                        'url' => '#'
+                        'url' => '/paises/',
+                        'requestjs' => 'AppPaises'
                     ],
                     [
                         'text' => 'Território Identidade',
                         'icon' => 'fa fa-angle-right',
                         'url' => '/territoriosTuristicos/',
                         'requestjs' => 'AppTerritoriosTuristicos'
+                    ],
+                    [
+                        'text' => 'Tipo Evento/Festa',
+                        'icon' => 'fa fa-angle-right',
+                        'url' => '#',
+                    ],
+                    [
+                        'text' => 'Tipo Infraestrutura',
+                        'icon' => 'fa fa-angle-right',
+                        'url' => '#',
                     ],
                     [
                         'text' => 'UF',

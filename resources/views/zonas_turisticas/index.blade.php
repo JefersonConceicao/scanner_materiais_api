@@ -53,7 +53,7 @@
         @endcomponent
         <div class="box">
             <div class="box-header with-border">
-                <p class="box-title"> Total de registros </p>
+                <p class="box-title"> Total de registros: {{ $dataZT->total() }} </p>
 
                 <button class="btn btn-primary pull-right" id="addZT"> 
                     <i class="fa fa-plus-square"> </i> Novo

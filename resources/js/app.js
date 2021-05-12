@@ -19,6 +19,7 @@ window.AppRoles = require('./Logged/AppRoles');
 window.AppUF = require('./Logged/AppUF');
 window.AppTerritoriosTuristicos = require('./Logged/AppTerritoriosTuristicos');
 window.AppZonasTuristicas = require('./Logged/AppZonasTuristicas');
+window.Paises = require('./Logged/AppPaises');
 
 //CONSTANTS Scripts - scripts re-utilizaveis
 window.languageDataTable = require('./Constants/language_dataTable');
