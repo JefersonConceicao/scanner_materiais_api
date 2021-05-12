@@ -1,0 +1,67 @@
+//AZUL BAHIA = #337ab7
+//VERMELHO BAHIA = #e91313
+body{
+    background-color:  #337ab7 !important; 
+}
+
+#contentLoading{
+    position:fixed;
+    width:100%;
+    top:0;bottom:0;
+    background-color: rgba(255,255,255,0.3);
+    z-index:9999;
+}
+
+.body-container{
+    position: fixed;
+    width:100%;
+    background-color: rgba(1,1,1,0.5)
+}
+
+.main-header{
+    border-top:solid 2px #e91313;
+}
+
+#containerLoadingBar{
+    width:100%;
+    background-color: grey;
+}
+
+#progressLoadingBar{    
+    height: 4px;
+    background-color: #e91313;
+    width: 1%;
+}
+
+.ms-container{
+    width:100% !important;
+}
+
+.content-wrapper{
+    background-color:#e5e6e6;
+}
+
+.box{
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 33%) !important;
+}
+
+.bg-bahia{
+    background-color: #337ab7 !important;
+}
+
+.profilePicture{
+    cursor:pointer;
+}
+
+.box-bt-blue{
+    border-top: none !important;
+    border-left: 3px solid #337ab7;
+}
+
+.box-bt-red{
+    border-top: none !important;
+    border-left: 3px solid #e91313;
+}
+
+
+
