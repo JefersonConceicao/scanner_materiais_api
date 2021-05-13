@@ -16279,7 +16279,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var dropzone__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(dropzone__WEBPACK_IMPORTED_MODULE_0__);
 //CORE Scripts - scripts de estrutura
 
-dropzone__WEBPACK_IMPORTED_MODULE_0___default.a.autoDiscover = false;
+dropzone__WEBPACK_IMPORTED_MODULE_0___default.a.autoDiscover = false; //CORE Scripts - scripts com funções genericas para toda a aplicação
+
 window.AppNavigation = __webpack_require__(/*! ./Core/AppNavigation */ "./resources/js/Core/AppNavigation.js");
 window.AppUsage = __webpack_require__(/*! ./Core/AppUsage */ "./resources/js/Core/AppUsage.js");
 window.AppSettings = __webpack_require__(/*! ./Core/AppSettings */ "./resources/js/Core/AppSettings.js"); //AUTH Scripts - scripts em telas de authenticação/recuperação de senha
@@ -16322,8 +16323,8 @@ window.Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\BT\bt_source\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\BT\bt_source\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\novo_union\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\novo_union\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

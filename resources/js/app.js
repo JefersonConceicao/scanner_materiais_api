@@ -2,6 +2,7 @@
 import Dropzone from 'dropzone';
 Dropzone.autoDiscover = false;
 
+//CORE Scripts - scripts com funções genericas para toda a aplicação
 window.AppNavigation = require('./Core/AppNavigation');
 window.AppUsage = require('./Core/AppUsage');
 window.AppSettings = require('./Core/AppSettings');
@@ -24,5 +25,6 @@ window.Paises = require('./Logged/AppPaises');
 //CONSTANTS Scripts - scripts re-utilizaveis
 window.languageDataTable = require('./Constants/language_dataTable');
 window.AcessControl = require('./Constants/access_control');
+
 //LIBS - scripts bibliotecas
 window.Swal = require('sweetalert2');        

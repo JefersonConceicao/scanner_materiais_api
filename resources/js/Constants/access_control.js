@@ -19,9 +19,9 @@ const setPermissionsElements = function(){
             let acLI = element.attr("bt_ac") !== "zxFQ" ? element.attr("bt_ac") : null;
 
             if(!!acLI){ 
-            if($.inArray(acLI, permissions) == -1){
-                $(this).remove();
-            }
+                if($.inArray(acLI, permissions) == -1){
+                    $(this).remove();
+                }
             }
         })
     }
