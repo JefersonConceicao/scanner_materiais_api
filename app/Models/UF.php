@@ -33,7 +33,7 @@ class UF extends Model
         return $this
             ->where($conditions)
             ->orderBy('id', 'DESC')
-            ->paginate(10);
+            ->paginate(6);
     }
 
     public function setUF($request = []){

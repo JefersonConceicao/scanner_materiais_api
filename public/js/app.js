@@ -14220,6 +14220,32 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./resources/js/Constants/access_control.js":
+/*!**************************************************!*\
+  !*** ./resources/js/Constants/access_control.js ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+//ESTE SCRIPT TEM COMO RESPONSABILIDADE OCULTAR/REMOVER TODOS OS ELMENTOS QUE NÃO CONTÉM A PERMISSÃO DE ACESSO
+//DO USUÁRIO
+var permissions = JSON.parse(arrayPermissions);
+
+if (!!permissions && permissions.length > 0) {
+  var elementsWithAc;
+  permissions.forEach(function (value, index) {
+    elementsWithAc = $("li[bt_ac]");
+  });
+  elementsWithAc.each(function () {
+    var element = $(this);
+    var acLI = element.attr("bt_ac") !== "zxFQ" ? element.attr("bt_ac") : null;
+
+    if (!!acLI) {}
+  });
+}
+
+/***/ }),
+
 /***/ "./resources/js/Constants/language_dataTable.js":
 /*!******************************************************!*\
   !*** ./resources/js/Constants/language_dataTable.js ***!
@@ -14890,6 +14916,8 @@ var map = {
 	"./AppFuncionalidades.js": "./resources/js/Logged/AppFuncionalidades.js",
 	"./AppModulos": "./resources/js/Logged/AppModulos.js",
 	"./AppModulos.js": "./resources/js/Logged/AppModulos.js",
+	"./AppPaises": "./resources/js/Logged/AppPaises.js",
+	"./AppPaises.js": "./resources/js/Logged/AppPaises.js",
 	"./AppPermissoes": "./resources/js/Logged/AppPermissoes.js",
 	"./AppPermissoes.js": "./resources/js/Logged/AppPermissoes.js",
 	"./AppProfile": "./resources/js/Logged/AppProfile.js",
@@ -15127,6 +15155,150 @@ var formModule = function formModule(id) {
 };
 
 module.exports = {
+  habilitaBotoes: habilitaBotoes,
+  habilitaEventos: habilitaEventos
+};
+
+/***/ }),
+
+/***/ "./resources/js/Logged/AppPaises.js":
+/*!******************************************!*\
+  !*** ./resources/js/Logged/AppPaises.js ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var _require = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js"),
+    Swal = _require["default"];
+
+$(function () {
+  habilitaBotoes();
+  habilitaEventos();
+});
+var modalObject = "#nivel1";
+var grid = "#gridPais";
+
+var changeTitle = function changeTitle() {
+  document.title = 'BT | País';
+};
+
+var habilitaEventos = function habilitaEventos() {
+  $("#addPais").on("click", function () {
+    var url = '/paises/create';
+    AppUsage.loadModal(url, modalObject, '800px', function () {
+      $("#addFormPais").on("submit", function (e) {
+        e.preventDefault();
+        formPaises();
+      });
+    });
+  });
+  $("#searchFilterPaises").on("submit", function (e) {
+    e.preventDefault();
+    getPaisesFilter();
+  });
+};
+
+var habilitaBotoes = function habilitaBotoes() {
+  $(grid + " .pagination > li > a").on("click", function (e) {
+    e.preventDefault();
+    var url = $(this).attr("href");
+
+    if (!!url) {
+      getPaisesFilter(url);
+    }
+  });
+  $(".editPais").on("click", function () {
+    var id = $(this).attr("id");
+    var url = '/paises/edit/' + id;
+    AppUsage.loadModal(url, modalObject, '800px', function () {
+      $("#editFormPais").on("submit", function (e) {
+        e.preventDefault();
+        formPaises(id);
+      });
+    });
+  });
+  $(".deletePais").on("click", function () {
+    var id = $(this).attr("id");
+    var url = '/paises/delete/' + id;
+    Swal.fire({
+      title: 'Deseja realmente excluir o registro?',
+      text: 'Esta ação é irreversivel!',
+      icon: 'warning',
+      showCancelButton: true,
+      reverseButtons: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar',
+      timeProgressBar: true
+    }).then(function (result) {
+      if (result.isConfirmed) {
+        AppUsage.deleteForGrid(url, function () {
+          getPaisesFilter();
+        });
+      }
+    });
+  });
+};
+
+var getPaisesFilter = function getPaisesFilter(url) {
+  var form = $("#searchFilterPaises").serialize();
+  $.ajax({
+    type: "GET",
+    url: typeof url !== "undefined" ? url : "/paises/",
+    data: form,
+    dataType: "HTML",
+    beforeSend: function beforeSend() {
+      AppUsage.loading($(grid));
+    },
+    success: function success(response) {
+      $(grid).html($(response).find("".concat(grid, " >")));
+      habilitaBotoes();
+    }
+  });
+};
+
+var formPaises = function formPaises(id) {
+  var form = typeof id == "undefined" ? '#addFormPais' : "#editFormPais";
+  var url = typeof id == "undefined" ? '/paises/store' : "/paises/update/".concat(id);
+  var type = typeof id == "undefined" ? 'POST' : 'PUT';
+  $.ajax({
+    type: type,
+    url: url,
+    data: $(form).serialize(),
+    dataType: "JSON",
+    beforeSend: function beforeSend() {
+      $(form + " .btnSubmit").prop("disabled", true).html("\n                <i class=\"fa fa-spinner fa-spin\"> </i> Carregando...\n            ");
+    },
+    success: function success(response) {
+      Swal.fire({
+        position: 'top-end',
+        icon: !response.error ? 'success' : 'error',
+        title: "<b style=\"color:#fff\"> ".concat(response.msg, " </b>"),
+        toast: true,
+        showConfirmButton: false,
+        timer: 3500,
+        background: '#337ab7',
+        didOpen: function didOpen() {
+          $(modalObject).modal('hide');
+        }
+      });
+      getPaisesFilter();
+    },
+    error: function error(jqXHR, textstatus, _error) {
+      if (!!jqXHR.responseJSON.errors) {
+        var errors = jqXHR.responseJSON.errors;
+        AppUsage.showMessagesValidator(form, errors);
+      }
+    },
+    complete: function complete() {
+      $(form + " .btnSubmit").prop("disabled", false).html("\n                Salvar\n            ");
+    }
+  });
+};
+
+module.exports = {
+  changeTitle: changeTitle,
   habilitaBotoes: habilitaBotoes,
   habilitaEventos: habilitaEventos
 };
@@ -16112,9 +16284,11 @@ window.AppFuncionalidades = __webpack_require__(/*! ./Logged/AppFuncionalidades 
 window.AppRoles = __webpack_require__(/*! ./Logged/AppRoles */ "./resources/js/Logged/AppRoles.js");
 window.AppUF = __webpack_require__(/*! ./Logged/AppUF */ "./resources/js/Logged/AppUF.js");
 window.AppTerritoriosTuristicos = __webpack_require__(/*! ./Logged/AppTerritoriosTuristicos */ "./resources/js/Logged/AppTerritoriosTuristicos.js");
-window.AppZonasTuristicas = __webpack_require__(/*! ./Logged/AppZonasTuristicas */ "./resources/js/Logged/AppZonasTuristicas.js"); //CONSTANTS Scripts - scripts re-utilizaveis
+window.AppZonasTuristicas = __webpack_require__(/*! ./Logged/AppZonasTuristicas */ "./resources/js/Logged/AppZonasTuristicas.js");
+window.Paises = __webpack_require__(/*! ./Logged/AppPaises */ "./resources/js/Logged/AppPaises.js"); //CONSTANTS Scripts - scripts re-utilizaveis
 
-window.languageDataTable = __webpack_require__(/*! ./Constants/language_dataTable */ "./resources/js/Constants/language_dataTable.js"); //LIBS - scripts bibliotecas
+window.languageDataTable = __webpack_require__(/*! ./Constants/language_dataTable */ "./resources/js/Constants/language_dataTable.js");
+window.AcessControl = __webpack_require__(/*! ./Constants/access_control */ "./resources/js/Constants/access_control.js"); //LIBS - scripts bibliotecas
 
 window.Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 

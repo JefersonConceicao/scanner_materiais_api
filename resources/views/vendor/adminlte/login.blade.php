@@ -11,9 +11,7 @@
         <!-- /.login-logo -->
         <div class="login-box-body pull-right">
             <div class="login-logo">
-                <a href="{{ url(config('adminlte.dashboard_url', 'home')) }}">
-                    {!! config('adminlte.logo', '<b>Admin</b>LTE') !!}
-                </a>
+                {!! config('adminlte.logo', '<b>Admin</b>LTE') !!}
             </div>
             
             <p class="login-box-msg"> Inicie uma nova sessão </p>
