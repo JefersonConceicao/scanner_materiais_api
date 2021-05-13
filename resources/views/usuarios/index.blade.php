@@ -115,6 +115,7 @@
                                                     class="btn btn-xs btn-primary editaUser" 
                                                     data-toggle="tooltip" 
                                                     title="Editar"
+                                                    bt_ac="users.edit"
                                                     id={{$dado->id}}
                                                 >
                                                      <i class="fa fa-edit"> </i>
@@ -138,6 +139,7 @@
                                                     class="btn btn-xs btn-danger deleteUser" 
                                                     title="Excluir" 
                                                     data-toggle="Excluir"
+                                                    bt_ac="users.delete"
                                                     id={{$dado->id}}
                                                 >
                                                     <i class="fa fa-trash"> </i>

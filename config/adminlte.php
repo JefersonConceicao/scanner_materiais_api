@@ -288,7 +288,7 @@ return [
                         'icon' => 'fa fa-angle-right',
                         'url' => '/zonasTuristicas/',
                         'requestjs' => 'AppZonasTuristicas',
-                        'bt_ac' => 'zonasTuristicas'
+                        'bt_ac' => 'zonasTuristicas.index'
                     ],
                 ],
             ],

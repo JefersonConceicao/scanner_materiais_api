@@ -14229,20 +14229,33 @@ module.exports = {
 
 //ESTE SCRIPT TEM COMO RESPONSABILIDADE OCULTAR/REMOVER TODOS OS ELMENTOS QUE NÃO CONTÉM A PERMISSÃO DE ACESSO
 //DO USUÁRIO
+$(function () {
+  setPermissionsElements();
+});
 var permissions = JSON.parse(arrayPermissions);
 
-if (!!permissions && permissions.length > 0) {
-  var elementsWithAc;
-  permissions.forEach(function (value, index) {
-    elementsWithAc = $("li[bt_ac]");
-  });
-  elementsWithAc.each(function () {
-    var element = $(this);
-    var acLI = element.attr("bt_ac") !== "zxFQ" ? element.attr("bt_ac") : null;
+var setPermissionsElements = function setPermissionsElements() {
+  if (!!permissions && permissions.length > 0) {
+    var elementsWithAc;
+    permissions.forEach(function (value, index) {
+      elementsWithAc = $("[bt_ac]");
+    });
+    elementsWithAc.each(function () {
+      var element = $(this);
+      var acLI = element.attr("bt_ac") !== "zxFQ" ? element.attr("bt_ac") : null;
 
-    if (!!acLI) {}
-  });
-}
+      if (!!acLI) {
+        if ($.inArray(acLI, permissions) == -1) {
+          $(this).remove();
+        }
+      }
+    });
+  }
+};
+
+$(document).ajaxSuccess(function () {
+  setPermissionsElements();
+});
 
 /***/ }),
 
@@ -14961,10 +14974,7 @@ webpackContext.id = "./resources/js/Logged sync recursive ^\\.\\/.*$";
   !*** ./resources/js/Logged/AppFuncionalidades.js ***!
   \***************************************************/
 /*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var _require = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js"),
-    Swal = _require["default"];
+/***/ (function(module, exports) {
 
 $(function () {
   habilitaBotoes();
