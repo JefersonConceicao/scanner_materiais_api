@@ -21,6 +21,8 @@ window.AppUF = require('./Logged/AppUF');
 window.AppTerritoriosTuristicos = require('./Logged/AppTerritoriosTuristicos');
 window.AppZonasTuristicas = require('./Logged/AppZonasTuristicas');
 window.Paises = require('./Logged/AppPaises');
+window.AppTiposEventosFestas = require('./Logged/AppTiposEventosFestas');
+
 
 //CONSTANTS Scripts - scripts re-utilizaveis
 window.languageDataTable = require('./Constants/language_dataTable');

@@ -127,6 +127,7 @@
                                                     class="btn btn-xs btn-success viewUser"  
                                                     title="Visualizar" 
                                                     data-toggle="Visualizar"
+                                                    bt_ac="users.view"
                                                     id={{$dado->id}}
                                                 > 
 

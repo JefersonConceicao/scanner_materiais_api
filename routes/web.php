@@ -91,6 +91,15 @@ Route::group(['middleware' => ['auth', 'verifyPermission']] , function(){
         Route::put('/update/{id}', 'PaisesController@update')->name('update');
         Route::delete('/delete/{id}', 'PaisesController@delete')->name('delete');
     });
+
+    Route::group(['as' => 'tiposEventosFestas::', 'prefix' => 'tiposEventosFestas'], function(){
+        Route::get('/', 'TiposEventosFestasController@index')->name('index');
+        Route::get('/create', 'TiposEventosFestasController@create')->name('create');
+        Route::post('/store', 'TiposEventosFestasController@store')->name('store');
+        Route::get('/edit/{id}', 'TiposEventosFestasController@edit')->name('edit');
+        Route::put('/update/{id}', 'TiposEventosFestasController@update')->name('update');
+        Route::delete('/delete/{id}', 'TiposEventosFestasController@delete')->name('delete');
+    });
 });
 
 

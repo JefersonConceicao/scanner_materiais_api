@@ -267,8 +267,8 @@ return [
                     [
                         'text' => 'Tipo Evento/Festa',
                         'icon' => 'fa fa-angle-right',
-                        'url' => '#',
-                        'bt_ac' => 'tiposEventos.index'
+                        'url' => '/tiposEventosFestas/',
+                        'bt_ac' => 'tiposEventosFestas.index'
                     ],
                     [
                         'text' => 'Tipo Infraestrutura',

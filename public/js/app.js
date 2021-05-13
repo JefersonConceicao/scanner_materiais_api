@@ -14231,6 +14231,7 @@ module.exports = {
 //DO USUÁRIO
 $(function () {
   setPermissionsElements();
+  verifyContainSubmenu();
 });
 var permissions = JSON.parse(arrayPermissions);
 
@@ -14253,8 +14254,20 @@ var setPermissionsElements = function setPermissionsElements() {
   }
 };
 
+var verifyContainSubmenu = function verifyContainSubmenu() {
+  var menuWithSubMenu = $(".sidebar  li.treeview");
+  menuWithSubMenu.each(function (index, element) {
+    var $thisElement = $(element);
+
+    if ($(element).find('.treeview-menu >').length == 0) {
+      $thisElement.remove();
+    }
+  });
+};
+
 $(document).ajaxSuccess(function () {
   setPermissionsElements();
+  verifyContainSubmenu();
 });
 
 /***/ }),
@@ -14939,6 +14952,8 @@ var map = {
 	"./AppRoles.js": "./resources/js/Logged/AppRoles.js",
 	"./AppTerritoriosTuristicos": "./resources/js/Logged/AppTerritoriosTuristicos.js",
 	"./AppTerritoriosTuristicos.js": "./resources/js/Logged/AppTerritoriosTuristicos.js",
+	"./AppTiposEventosFestas": "./resources/js/Logged/AppTiposEventosFestas.js",
+	"./AppTiposEventosFestas.js": "./resources/js/Logged/AppTiposEventosFestas.js",
 	"./AppUF": "./resources/js/Logged/AppUF.js",
 	"./AppUF.js": "./resources/js/Logged/AppUF.js",
 	"./AppUsers": "./resources/js/Logged/AppUsers.js",
@@ -15841,6 +15856,62 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./resources/js/Logged/AppTiposEventosFestas.js":
+/*!******************************************************!*\
+  !*** ./resources/js/Logged/AppTiposEventosFestas.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(function () {
+  habilitaBotoes();
+  habilitaEventos();
+});
+var modalObject = '#nivel1';
+var grid = "#gridTiposEventosFestas";
+
+var changeTitle = function changeTitle() {
+  document.title = "BT | Tipos Eventos/Festas";
+};
+
+var habilitaEventos = function habilitaEventos() {
+  $("#formSearchEventoTipoFesta").on("submit", function (e) {
+    e.preventDefault();
+    getTiposEventosFestas();
+  });
+  $("#addTiposEventosFesta").on("click", function () {
+    var url = '/tiposEventosFestas/create';
+    AppUsage.loadModal(url, modalObject, '800px', function () {});
+  });
+};
+
+var habilitaBotoes = function habilitaBotoes() {};
+
+var getTiposEventosFestas = function getTiposEventosFestas(url) {
+  var form = $("#formSearchEventoTipoFesta").serialize();
+  $.ajax({
+    type: "GET",
+    url: typeof url !== "undefined" ? url : "/tiposEventosFestas/",
+    data: form,
+    dataType: "HTML",
+    beforeSend: function beforeSend() {
+      AppUsage.loading($(grid));
+    },
+    success: function success(response) {
+      $(grid).html($(response).find("".concat(grid, " >")));
+      habilitaBotoes();
+    }
+  });
+};
+
+module.exports = {
+  habilitaBotoes: habilitaBotoes,
+  habilitaEventos: habilitaEventos,
+  changeTitle: changeTitle
+};
+
+/***/ }),
+
 /***/ "./resources/js/Logged/AppUF.js":
 /*!**************************************!*\
   !*** ./resources/js/Logged/AppUF.js ***!
@@ -16296,7 +16367,8 @@ window.AppRoles = __webpack_require__(/*! ./Logged/AppRoles */ "./resources/js/L
 window.AppUF = __webpack_require__(/*! ./Logged/AppUF */ "./resources/js/Logged/AppUF.js");
 window.AppTerritoriosTuristicos = __webpack_require__(/*! ./Logged/AppTerritoriosTuristicos */ "./resources/js/Logged/AppTerritoriosTuristicos.js");
 window.AppZonasTuristicas = __webpack_require__(/*! ./Logged/AppZonasTuristicas */ "./resources/js/Logged/AppZonasTuristicas.js");
-window.Paises = __webpack_require__(/*! ./Logged/AppPaises */ "./resources/js/Logged/AppPaises.js"); //CONSTANTS Scripts - scripts re-utilizaveis
+window.Paises = __webpack_require__(/*! ./Logged/AppPaises */ "./resources/js/Logged/AppPaises.js");
+window.AppTiposEventosFestas = __webpack_require__(/*! ./Logged/AppTiposEventosFestas */ "./resources/js/Logged/AppTiposEventosFestas.js"); //CONSTANTS Scripts - scripts re-utilizaveis
 
 window.languageDataTable = __webpack_require__(/*! ./Constants/language_dataTable */ "./resources/js/Constants/language_dataTable.js");
 window.AcessControl = __webpack_require__(/*! ./Constants/access_control */ "./resources/js/Constants/access_control.js"); //LIBS - scripts bibliotecas
