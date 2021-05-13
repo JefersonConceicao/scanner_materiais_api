@@ -12,7 +12,6 @@ class ZonasTuristicasController extends Controller
      * @param string zona_turistica
      * @param string 'ativo | S ou N
      */
-
     public function index(Request $request){
         $zt = new ZonaTuristica;
 
@@ -33,6 +32,28 @@ class ZonasTuristicasController extends Controller
         $zt = new ZonaTuristica;
 
         $data = $zt->setZT($request->all());
+        return response()->json($data);
+    }
+
+    public function edit($id){
+        $zt = new ZonaTuristica;
+
+        return view('zonas_turisticas.edit')
+            ->with('optionsZTPai', $zt->getListZT())
+            ->with('zt', $zt->getZTById($id));
+    }
+
+    public function update($id, ZonaTuristicaRequest $request){
+        $zt = new ZonaTuristica;
+
+        $data = $zt->updateZT($id, $request->all());
+        return response()->json($data);
+    }
+
+    public function delete($id){
+        $zt = new ZonaTuristica; 
+
+        $data = $zt->deleteZT($id);
         return response()->json($data);
     }
 

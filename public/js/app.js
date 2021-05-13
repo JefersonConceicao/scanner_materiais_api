@@ -15945,7 +15945,10 @@ module.exports = {
   !*** ./resources/js/Logged/AppZonasTuristicas.js ***!
   \***************************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+var _require = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js"),
+    Swal = _require["default"];
 
 $(function () {
   habilitaBotoes();
@@ -15983,6 +15986,38 @@ var habilitaBotoes = function habilitaBotoes() {
       getZTFilter(url);
     }
   });
+  $(".btnEditZT").on("click", function () {
+    var id = $(this).attr("id");
+    var url = "/zonasTuristicas/edit/" + id;
+    AppUsage.loadModal(url, modalObject, '800px', function () {
+      $("#editFormZT").on("submit", function (e) {
+        e.preventDefault();
+        formZT(id);
+      });
+    });
+  });
+  $(".btnDeleteZT").on("click", function () {
+    var id = $(this).attr("id");
+    var url = '/zonasTuristicas/delete/' + id;
+    Swal.fire({
+      title: 'Deseja realmente excluir o registro?',
+      text: 'Esta ação é irreversivel!',
+      icon: 'warning',
+      showCancelButton: true,
+      reverseButtons: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar',
+      timeProgressBar: true
+    }).then(function (result) {
+      if (result.isConfirmed) {
+        AppUsage.deleteForGrid(url, function () {
+          getZTFilter();
+        });
+      }
+    });
+  });
 };
 
 var getZTFilter = function getZTFilter(url) {
@@ -16012,7 +16047,7 @@ var formZT = function formZT(id) {
     data: $(form).serialize(),
     dataType: "JSON",
     beforeSend: function beforeSend() {
-      $(form + ".btnSubmit").prop("disabled", true).html("\n                <i class=\"faf a-spinner fa-spin\"> </i> Carregando...\n            ");
+      $(form + " .btnSubmit").prop("disabled", true).html("\n                <i class=\"faf a-spinner fa-spin\"> </i> Carregando...\n            ");
     },
     success: function success(response) {
       Swal.fire({
@@ -16027,15 +16062,16 @@ var formZT = function formZT(id) {
           $(modalObject).modal('hide');
         }
       });
+      getZTFilter();
     },
-    error: function error(jqXHR, textStatus, errorThrown) {
+    error: function error(jqXHR, textStatus, _error) {
       if (!!jqXHR.responseJSON) {
         var errorsRequest = jqXHR.responseJSON.errors;
         AppUsage.showMessagesValidator(form, errorsRequest);
       }
     },
     complete: function complete() {
-      $(form + ".btnSubmit").prop("disabled", true).html("\n                Salvar\n            ");
+      $(form + " .btnSubmit").prop("disabled", false).html("\n                Salvar\n            ");
     }
   });
 };
@@ -16102,8 +16138,8 @@ window.Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\novo_union\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\novo_union\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\BT\bt_source\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\BT\bt_source\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 class ZonaTuristicaRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * Determina se o usuário da sessão tem permissão para a requisição
      *
      * @return bool
      */
@@ -18,7 +18,7 @@ class ZonaTuristicaRequest extends FormRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Gera regras de validação para a requisição.
      *
      * @return array
      */
@@ -35,7 +35,7 @@ class ZonaTuristicaRequest extends FormRequest
                     'ativo' => 'required'
                 ];
             break;
-            case:'update':
+            case 'update':
                 $validate = [
                     'name' => 'required',
                     'ativo' => 'required'

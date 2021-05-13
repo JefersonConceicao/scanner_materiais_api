@@ -57,17 +57,43 @@ class ZonaTuristica extends Model
         }
     }
 
-    public function updateZT(){
-
-
+    public function updateZT($id, $request = []){
+        try{
+            $zt = $this->find($id);
+            $zt->fill([
+                'zona_turistica' => $request['name'],
+                'ativo' => $request['ativo'],
+                'zona_turistica_pai_id' => $request['zona_turistica_pai']
+            ])->save();
+                
+            return [
+                'error' => false,
+                'msg' => 'Registro alterado com sucesso!'
+            ];
+        }catch(\Exception $error){
+            return [
+                'error' => true,
+                'msg' => 'Não foi possível atualizar o registro'
+            ];
+        }
     }
 
-    public function deleteZT(){
-
+    public function deleteZT($id){
+        if($this->find($id)->delete()){
+            return [ 
+                'error' => false,
+                'msg' => 'Registro excluído com sucesso!'
+            ];
+        }else{
+            return [ 
+                'error' => true,
+                'msg' => 'Não foi possível excluir o registro'
+            ];  
+        }
     }
 
     public function getZTById($id){
-
+        return $this->find($id);
     }
 
     public function getListZT(){

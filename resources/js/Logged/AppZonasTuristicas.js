@@ -1,3 +1,5 @@
+const { default: Swal } = require("sweetalert2");
+
 $(function(){
     habilitaBotoes();
     habilitaEventos();
@@ -24,7 +26,7 @@ const habilitaEventos = function(){
             $("#addFormZT").on("submit", function(e){
                 e.preventDefault();
 
-                formZT()
+                formZT();
             });
         })
     })
@@ -39,6 +41,43 @@ const habilitaBotoes = function(){
             getZTFilter(url);
         }
     })
+
+    $(".btnEditZT").on("click", function(){
+        const id = $(this).attr("id");
+        const url = "/zonasTuristicas/edit/" + id;
+
+        AppUsage.loadModal(url, modalObject, '800px', function(){
+            $("#editFormZT").on("submit", function(e){
+                e.preventDefault()
+
+                formZT(id);
+            })
+        })
+    })      
+
+    $(".btnDeleteZT").on("click", function(){
+        const id = $(this).attr("id");
+        const url = '/zonasTuristicas/delete/' + id;
+
+        Swal.fire({
+            title: 'Deseja realmente excluir o registro?',
+            text: 'Esta ação é irreversivel!',
+            icon: 'warning',
+            showCancelButton: true,
+            reverseButtons: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: 'Cancelar',
+            timeProgressBar: true,
+        }).then(result => {
+            if(result.isConfirmed){
+                AppUsage.deleteForGrid(url, function(){
+                    getZTFilter();
+                })
+            }
+        });
+    });
 }
 
 const getZTFilter = function(url){
@@ -70,7 +109,7 @@ const formZT = function(id){
         data: $(form).serialize(),
         dataType: "JSON",
         beforeSend:function(){
-            $(form + ".btnSubmit").prop("disabled", true).html(`
+            $(form + " .btnSubmit").prop("disabled", true).html(`
                 <i class="faf a-spinner fa-spin"> </i> Carregando...
             `)
         },
@@ -87,15 +126,17 @@ const formZT = function(id){
                    $(modalObject).modal('hide');
                 }
             }); 
+
+            getZTFilter();
         },
-        error:function(jqXHR, textStatus, errorThrown){
+        error:function(jqXHR, textStatus, error){
             if(!!jqXHR.responseJSON){
                 let errorsRequest = jqXHR.responseJSON.errors;
                 AppUsage.showMessagesValidator(form, errorsRequest)
             }
         },
         complete:function(){
-            $(form + ".btnSubmit").prop("disabled", true).html(`
+            $(form + " .btnSubmit").prop("disabled", false).html(`
                 Salvar
             `)
         }

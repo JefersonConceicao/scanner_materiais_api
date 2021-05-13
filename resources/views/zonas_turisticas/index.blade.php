@@ -53,7 +53,7 @@
         @endcomponent
         <div class="box">
             <div class="box-header with-border">
-                <p class="box-title"> Total de registros </p>
+                <p class="box-title"> Total de registros: {{ count($dataZT) }}  </p>
 
                 <button class="btn btn-primary pull-right" id="addZT"> 
                     <i class="fa fa-plus-square"> </i> Novo
@@ -80,10 +80,16 @@
                                 </td>
                                 <td> 
                                     <div style="display:flex; justify-content:space-around;"> 
-                                        <button class="btn btn-primary btn-xs btnEditZT"> 
+                                        <button 
+                                            class="btn btn-primary btn-xs btnEditZT"
+                                            id="{{ $zt->id }}"
+                                        > 
                                             <i class="fa fa-edit"> </i>
                                         </button>   
-                                        <button class="btn btn-danger btn-xs btnDeleteZT"> 
+                                        <button 
+                                            class="btn btn-danger btn-xs btnDeleteZT"
+                                            id="{{ $zt->id }}"
+                                        > 
                                             <i class="fa fa-trash"> </i>
                                         </button>
                                     </div>
