@@ -51,22 +51,43 @@ class TiposEventosFesta extends Model
         }catch(\Exception $error){
             return [
                 'error' => true,
-                'msg' => 'Não foi possível excluir o registro',
+                'msg' => 'Não foi possível inserir o registro',
                 'code' => $error->getCode()
             ];
         }
     }
 
     public function updateEventoFesta($id, $request = []){
+        try{
+            $tef = $this->find($id);
+            $tef->fill($request)->save();
 
+            return [
+                'error' => false,
+                'msg' => 'Registro alterado com sucesso!'
+            ];
 
-        
+        }catch(\Exception $error){
+            return [
+                'error' => true,
+                'msg' => 'Não foi possível alterar o registro',
+                'code' => $error->getCode()
+            ];
+        }
     }
 
     public function deleteEventoFesta($id){
-
-
-        
+        if($this->find($id)->delete()){
+            return [
+                'error' => false,
+                'msg' => 'Registro excluído com sucesso'
+            ];
+        }else{
+            return [
+                'error' => false,
+                'msg' => 'Não foi possível inserir o registro'
+            ];
+        }   
     }
 
 }

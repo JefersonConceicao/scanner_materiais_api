@@ -83,7 +83,7 @@
                         @foreach($dataTEF as $tef)
                             <tr>
                                 <td> {{ !empty($tef->nome_tipo) ? $tef->nome_tipo : "Não informado" }} </td>
-                                <td> {{ !empty($tef->classificacao) ? $tef->classificacao : "Não informado" }}</td>
+                                <td> {{ $tef->classificacao === "E" ? "Evento" : "Festa" }}</td>
                                 <td> 
                                     <label class="label label-{{ $tef->ativo === "S" ? "success" : "danger" }}"> 
                                         {{ $tef->ativo == "S" ? "Sim" : "Não" }} 
@@ -93,14 +93,14 @@
                                 <td> 
                                     <div style="display:flex; justify-content:space-between;"> 
                                         <button 
-                                            class="btn btn-xs btn-primary" 
+                                            class="btn btn-xs btn-primary btnTefEdit" 
                                             id="{{ $tef->id }}"
                                             bt_ac="tiposEventosFestas.edit"
                                         > 
                                             <i class="fa fa-edit"> </i>
                                         </button>
                                         <button
-                                            class="btn btn-xs btn-danger" 
+                                            class="btn btn-xs btn-danger btnTefDelete" 
                                             id="{{ $tef->id }}"
                                             bt_ac="tiposEventosFestas.delete"
                                         >

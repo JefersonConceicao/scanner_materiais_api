@@ -8,7 +8,6 @@ use App\Http\Requests\TiposEventosFestaRequest;
 //MODELS
 use App\Models\TiposEventosFesta;
 
-
 class TiposEventosFestasController extends Controller
 {
     public function index(Request $request)
@@ -38,22 +37,22 @@ class TiposEventosFestasController extends Controller
     {
         $tef = new TiposEventosFesta;
         return view('tipos_eventos_festas.edit')
-            ->with('tef', $tef->getEventosFestaById($id));
+            ->with('tef', $tef->getEventoFestaById($id));
     }
 
-    public function update(Request $request, $id)
+    public function update($id, Request $request)
     {
         $tef = new TiposEventosFesta;
 
-        $data = $tef->updateEventoFesta($request->all());
+        $data = $tef->updateEventoFesta($id, $request->all());
         return response()->json($data);
     }
 
-    public function destroy($id)
+    public function delete($id)
     {
         $tef = new TiposEventosFesta;
 
-        $data = $tef->deleteEventoFesta($request->all());
+        $data = $tef->deleteEventoFesta($id);
         return response()->json($data);
     }
 }

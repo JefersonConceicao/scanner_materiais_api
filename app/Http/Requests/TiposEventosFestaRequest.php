@@ -18,7 +18,7 @@ class TiposEventosFestaRequest extends FormRequest
         $atualRoute = end($atualGroupRoute);
         $validate = [];
        
-        switch ($variable) {
+        switch ($atualRoute) {
             case 'store':
                 $validate = [
                     'nome_tipo' => 'required',

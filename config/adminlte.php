@@ -268,6 +268,7 @@ return [
                         'text' => 'Tipo Evento/Festa',
                         'icon' => 'fa fa-angle-right',
                         'url' => '/tiposEventosFestas/',
+                        'requestjs' => 'AppTiposEventosFestas',
                         'bt_ac' => 'tiposEventosFestas.index'
                     ],
                     [

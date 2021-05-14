@@ -15861,7 +15861,10 @@ module.exports = {
   !*** ./resources/js/Logged/AppTiposEventosFestas.js ***!
   \******************************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+var _require = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js"),
+    Swal = _require["default"];
 
 $(function () {
   habilitaBotoes();
@@ -15881,11 +15884,49 @@ var habilitaEventos = function habilitaEventos() {
   });
   $("#addTiposEventosFesta").on("click", function () {
     var url = '/tiposEventosFestas/create';
-    AppUsage.loadModal(url, modalObject, '800px', function () {});
+    AppUsage.loadModal(url, modalObject, '800px', function () {
+      $("#addFormTiposEventosFestas").on("submit", function (e) {
+        e.preventDefault();
+        formTiposEventosFestas();
+      });
+    });
   });
 };
 
-var habilitaBotoes = function habilitaBotoes() {};
+var habilitaBotoes = function habilitaBotoes() {
+  $(".btnTefEdit").on("click", function () {
+    var id = $(this).attr("id");
+    var url = '/tiposEventosFestas/edit/' + id;
+    AppUsage.loadModal(url, modalObject, '800px', function () {
+      $("#editFormTiposEventosFestas").on("submit", function (e) {
+        e.preventDefault();
+        formTiposEventosFestas(id);
+      });
+    });
+  });
+  $(".btnTefDelete").on("click", function () {
+    var id = $(this).attr("id");
+    var url = "/tiposEventosFestas/delete/" + id;
+    Swal.fire({
+      title: 'Deseja realmente excluir o registro?',
+      text: 'Esta ação é irreversivel!',
+      icon: 'warning',
+      showCancelButton: true,
+      reverseButtons: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar',
+      timeProgressBar: true
+    }).then(function (result) {
+      if (result.isConfirmed) {
+        AppUsage.deleteForGrid(url, function () {
+          getTiposEventosFestas();
+        });
+      }
+    });
+  });
+};
 
 var getTiposEventosFestas = function getTiposEventosFestas(url) {
   var form = $("#formSearchEventoTipoFesta").serialize();
@@ -15900,6 +15941,45 @@ var getTiposEventosFestas = function getTiposEventosFestas(url) {
     success: function success(response) {
       $(grid).html($(response).find("".concat(grid, " >")));
       habilitaBotoes();
+    }
+  });
+};
+
+var formTiposEventosFestas = function formTiposEventosFestas(id) {
+  var form = typeof id == "undefined" ? '#addFormTiposEventosFestas' : "#editFormTiposEventosFestas";
+  var url = typeof id == "undefined" ? '/tiposEventosFestas/store' : "/tiposEventosFestas/update/".concat(id);
+  var type = typeof id == "undefined" ? 'POST' : 'PUT';
+  $.ajax({
+    type: type,
+    url: url,
+    data: $(form).serialize(),
+    dataType: "JSON",
+    beforeSend: function beforeSend() {
+      $(form + " .btnSubmit").prop("disabled", true).html("\n                <i class=\"fa fa-spinner fa-spin\"> </i> Carregando...\n            ");
+    },
+    success: function success(response) {
+      Swal.fire({
+        position: 'top-end',
+        icon: !response.error ? 'success' : 'error',
+        title: "<b style=\"color:#fff\"> ".concat(response.msg, " </b>"),
+        toast: true,
+        showConfirmButton: false,
+        timer: 3500,
+        background: '#337ab7',
+        didOpen: function didOpen() {
+          $(modalObject).modal('hide');
+        }
+      });
+      getTiposEventosFestas();
+    },
+    error: function error(jqXHR, textstatus, _error) {
+      if (!!jqXHR.responseJSON.errors) {
+        var errors = jqXHR.responseJSON.errors;
+        AppUsage.showMessagesValidator(form, errors);
+      }
+    },
+    complete: function complete() {
+      $(form + " .btnSubmit").prop("disabled", false).html("\n                Salvar\n            ");
     }
   });
 };
@@ -16395,8 +16475,8 @@ window.Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\novo_union\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\novo_union\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\BT\bt_source\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\BT\bt_source\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
