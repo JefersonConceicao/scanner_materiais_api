@@ -20,6 +20,7 @@ Route::group(['middleware' => ['auth', 'verifyPermission']] , function(){
         Route::get('/perfil', 'UsersController@profile')->name('profile');
         Route::put('/changePassword', 'UsersController@changePassword')->name('changePassword');
         Route::post('/uploadPhotoProfile', 'UsersController@uploadPhotoProfile')->name('uploadPhotoProfile');
+        Route::delete('/deleteAll', 'UsersController@deleteAll')->name('deleteAll');
     });
 
     Route::group(['as' => 'permissoes::', 'prefix' => 'permissoes'], function(){
@@ -99,6 +100,16 @@ Route::group(['middleware' => ['auth', 'verifyPermission']] , function(){
         Route::get('/edit/{id}', 'TiposEventosFestasController@edit')->name('edit');
         Route::put('/update/{id}', 'TiposEventosFestasController@update')->name('update');
         Route::delete('/delete/{id}', 'TiposEventosFestasController@delete')->name('delete');
+    });
+
+    Route::group(['as' => 'tiposInfraestruturas::', 'prefix' => 'tiposInfraestruturas'], function(){
+        Route::get('/', 'TiposInfraestruturasController@index')->name('index');
+        Route::get('/create', 'TiposInfraestruturasController@create')->name('create');
+        Route::post('/store', 'TiposInfraestruturasController@store')->name('store');
+        Route::get('/edit/{id}', 'TiposInfraestruturasController@edit')->name('edit');
+        Route::put('/update/{id}', 'TiposInfraestruturasController@update')->name('update');
+        Route::delete('/delete/{id}', 'TiposInfraestruturasController@delete')->name('delete');
+        Route::delete('/deleteAll', 'TiposInfraestruturasController@deleteAll')->name('deleteAll');
     });
 });
 

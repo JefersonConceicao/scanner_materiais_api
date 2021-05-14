@@ -1,11 +1,13 @@
-const { default: Swal } = require("sweetalert2")
-
 $(function(){
     habilitaBotoes()
     habilitaEventos()
 })
 
 const modalObject = "#nivel1"
+
+const changeTitle = function(){
+    document.title = "BT | Grupos";
+}
 
 const habilitaEventos = function(){
     $("#addRole").on("click", function(){       
@@ -25,7 +27,6 @@ const habilitaEventos = function(){
         
         loadConsRoles();
     })
-
 }   
 
 const habilitaBotoes = function(){
@@ -139,4 +140,5 @@ const formRoles = function(id){
 module.exports = {
     habilitaBotoes,
     habilitaEventos,
+    changeTitle,
 }

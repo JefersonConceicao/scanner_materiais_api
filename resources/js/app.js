@@ -22,6 +22,7 @@ window.AppTerritoriosTuristicos = require('./Logged/AppTerritoriosTuristicos');
 window.AppZonasTuristicas = require('./Logged/AppZonasTuristicas');
 window.Paises = require('./Logged/AppPaises');
 window.AppTiposEventosFestas = require('./Logged/AppTiposEventosFestas');
+window.AppTiposInfraestruturas = require('./Logged/AppTiposInfraestruturas');
 
 
 //CONSTANTS Scripts - scripts re-utilizaveis

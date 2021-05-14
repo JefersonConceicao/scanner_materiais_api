@@ -4,6 +4,12 @@ $(function(){
 })
 
 const modalObject = "#nivel1";
+
+const changeTitle = function(){
+    document.title = "BT | Permissões";
+}
+
+
 const habilitaEventos = function(){
     $(".refreshDash").on("click", function(){
         loadConsPermissoes();
@@ -149,4 +155,5 @@ const formReloadSession = function(){
 module.exports = {
     habilitaEventos,
     habilitaBotoes,
+    changeTitle,
 }

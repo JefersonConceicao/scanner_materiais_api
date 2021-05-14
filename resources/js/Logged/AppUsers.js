@@ -1,9 +1,16 @@
+const { default: Swal } = require("sweetalert2");
+
 $(function(){
     habilitaBotoes()
     habilitaEventos()
 });
 
 const modalObject = "#nivel1";
+const grid = "#gridUsers";
+
+const changeTitle = function(){
+    document.title = 'BT | Usuários';
+}
 
 const habilitaEventos = function(){
     $("#searchUser").on('submit', function(e){
@@ -19,6 +26,36 @@ const habilitaEventos = function(){
 }
 
 const habilitaBotoes = function(){
+    AppUsage.deleteMultipleRowsHelper(function(){
+        $(".deleteALL").on("click", function(){
+            const url = '/users/deleteAll'
+
+            Swal.fire({
+                title: 'Deseja realmente excluir o registro?',
+                text: 'Esta ação é irreversivel!',
+                icon: 'warning',
+                showCancelButton: true,
+                reverseButtons: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: 'Cancelar',
+                timeProgressBar: true,
+            }).then(result => {
+                const ids = $("tr.row-selected").map(function(index, element){
+                    return $(element).attr("key");
+                });
+                console.log(Array.from(ids));
+            
+
+                if(result.isConfirmed){
+
+                }
+            })
+
+        });
+    })
+
     $("#cadastrarUser").on("click", function(){
         let url = '/users/create'
         AppUsage.loadModal(url, modalObject, '800px', function(){
@@ -149,4 +186,5 @@ const eventShowPassword = function(){
 module.exports = {
     habilitaEventos,
     habilitaBotoes,
+    changeTitle,
 }

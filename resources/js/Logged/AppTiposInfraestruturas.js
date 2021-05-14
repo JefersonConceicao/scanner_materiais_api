@@ -1,52 +1,61 @@
 $(function(){
-    habilitaEventos()
-    habilitaBotoes()
+    habilitaBotoes();
+    habilitaEventos();
 })
 
 const modalObject = "#nivel1";
-
-const changeTitle = function(){
-    document.title = " BT | Territórios Turísticos"; 
-}
+const grid = "#gridTiposIE";
+let urlDeleteAllRows = 'tiposInfraestruturas/deleteAll'
 
 const habilitaEventos = function(){
-    $("#searchFilterTT").on("submit", function(e){
+    $("#formSearchTiposIE").on("submit", function(e){
         e.preventDefault()
 
-        getTTFilter()
+        getTiposIEFilter();
     })
 
-    $("#addTT").on("click", function(){
-        const url = '/territoriosTuristicos/create'
+    $("#addTipoIE").on("click", function(){
+        const url = '/tiposInfraestruturas/create'
 
         AppUsage.loadModal(url, modalObject, '800px', function(){
-            $("#addFormTT").on("submit", function(e){
-                e.preventDefault()
+            $("#addFormTipoInfraestrutura").on("submit", function(e){
+                e.preventDefault();
 
-                formTT()
-            })
+                formTiposIE();
+            });
         });
     })
 }
 
 const habilitaBotoes = function(){
-    $(".editTT").on("click", function(){
-        const id = $(this).attr("id")
-        const url = '/territoriosTuristicos/edit/' + id;
+    
 
-        AppUsage.loadModal(url, modalObject, '800px', function(){
-            $("#editFormTT").on("submit", function(e){
-                e.preventDefault();
+    $(grid + " .pagination > li > a").on("click", function(e){
+        e.preventDefault();
+        const url = $(this).attr("href");
 
-                formTT(id);
-            })
-        })
+        if(!!url){
+            getTiposIEFilter(url);
+        }
     })
 
-    $(".deleteTT").on("click", function(){
+    $(".btnEditTiposIE").on("click", function(){
         const id = $(this).attr("id");
-        const url = '/territoriosTuristicos/delete/' + id;
-        
+        const url = '/tiposInfraestruturas/edit/' + id;
+
+        AppUsage.loadModal(url, modalObject, '800px', function(){
+            $("#editFormTipoInfraestrutura").on("submit", function(e){
+                e.preventDefault();
+
+                formTiposIE(id);
+            });
+        }); 
+    });
+
+    $(".btnDeleteTiposIE").on("click", function(){
+        const id = $(this).attr("id");
+        const url = '/tiposInfraestruturas/delete/' + id;
+
         Swal.fire({
             title: 'Deseja realmente excluir o registro?',
             text: 'Esta ação é irreversivel!',
@@ -60,19 +69,20 @@ const habilitaBotoes = function(){
             timeProgressBar: true,
         }).then(result => {
             if(result.isConfirmed){
-                getTTFilter();
+                AppUsage.deleteForGrid(url, function(){
+                    getTiposIEFilter();
+                })
             }
         })
     })
 }
 
-const getTTFilter = function(){
-    let form = $("#searchFilterTT").serialize();
-    let grid = "#gridTT";
+const getTiposIEFilter = function(url){
+    let form = $("#formSearchTiposIE").serialize();
 
     $.ajax({
         type: "GET",
-        url: typeof url !== "undefined" ? url : "/territoriosTuristicos/",
+        url: typeof url !== "undefined" ? url : "/tiposInfraestruturas/",
         data: form,
         dataType: "HTML",
         beforeSend:function(){
@@ -85,9 +95,9 @@ const getTTFilter = function(){
     });
 }
 
-const formTT = function(id){
-    let form = typeof id == "undefined" ? '#addFormTT' : "#editFormTT";
-    let url =  typeof id == "undefined" ? '/territoriosTuristicos/store' : `/territoriosTuristicos/update/${id}`
+const formTiposIE = function(id){
+    let form = typeof id == "undefined" ? '#addFormTipoInfraestrutura' : "#editFormTipoInfraestrutura";
+    let url =  typeof id == "undefined" ? '/tiposInfraestruturas/store' : `/tiposInfraestruturas/update/${id}`
     let type = typeof id == "undefined" ? 'POST' : 'PUT';
 
     $.ajax({
@@ -113,8 +123,8 @@ const formTT = function(id){
                    $(modalObject).modal('hide');
                 }
             });
-
-            getTTFilter()
+            
+            getTiposIEFilter()
         },
         error:function(jqXHR, textstatus, error){
             if(!!jqXHR.responseJSON.errors){
@@ -122,18 +132,18 @@ const formTT = function(id){
 
                 AppUsage.showMessagesValidator(form, errors);
             }
-
         },
         complete:function(){
-            $(form + " .btnSubmit").prop("disabled", true).html(`
-                <i class="fa fa-spinner fa-spin"> </i> Carregando...
-            `)   
-        },
+            $(form + " .btnSubmit").prop("disabled", false).html(`
+                Salvar
+            `)      
+        }
     });
+
+
 }
 
 module.exports = {
-    habilitaEventos,
     habilitaBotoes,
-    changeTitle,
+    habilitaEventos
 }

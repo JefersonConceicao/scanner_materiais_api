@@ -177,6 +177,21 @@ class User extends Authenticatable
         }
     }
 
+    public function deleteAllRowsUser($request = []){
+        if($this->whereIn('id', $request['ids'])->delete()){
+            return [
+                'error' => false,
+                'msg' => count($request['ids']).' registros excluidos com sucesso!'
+            ];
+        }else{
+            return [
+                'error' => true,
+                'msg' => 'Não foi possível excluir os registros'
+            ];
+        }     
+
+    }
+
     public function changePassword($request = [], $user){
         try{
             $sessionUser = $this->find($user->id);

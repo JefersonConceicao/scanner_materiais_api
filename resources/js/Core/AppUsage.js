@@ -17,9 +17,7 @@ const initializeDataTable = function(){
 const loadLibs = function(){
     configSelect2();
     configMultiSelect();
-    configDropzone();
 }
-
 /**
  * 
  * @param {string} url get url http request
@@ -125,15 +123,6 @@ const configSelect2 = function(){
         allowClear:true,
         width:'100%',
     });  
-}
-
-/**
- * 
- * @param {Object} params 
- */
-const configDropzone = function(params){ 
-
-    
 }
 
 const showMessagesValidator = function(form, errorsRequest){
@@ -264,6 +253,50 @@ const deleteForGrid = function(url, onSuccess = null, onError = null){
     });
 }
 
+const deleteMultipleRowsHelper = function(callback = null){
+    let selecteds = [];
+
+    $(".table tbody > tr").on("click", function(e){
+        if(e.target.tagName == "BUTTON" || e.target.tagName == "I" || e.target.tagName == "A"){
+            return
+        }
+
+        let key = $(this).attr("key");     
+        
+        if(!!key){
+            let indiceInArray = $.inArray(key, selecteds);
+
+            if(indiceInArray > -1){ //SE O INDICE EXISTE NO ARRAY ENTÃO A LINHA JA ESTÁ SELECIONADA
+                $(this).removeClass("row-selected");
+                selecteds.splice(indiceInArray , 1);
+            }else{
+                $(this).addClass("row-selected");
+                selecteds.push(key);
+            }
+        }   
+        
+        if($(".deleteALL").length == 1){
+            $(".deleteALL").remove();
+        }
+
+        if(!!selecteds.length){
+            $(".table").parent().prepend(`
+                <a 
+                    class="deleteALL btn btn-danger  btn-xs pull-right"
+                > 
+                    <i class="fa fa-trash"> </i> Excluir (${selecteds.length}) 
+                </a>
+            `);
+
+            if(!!callback){
+                callback();
+            }
+        }else{
+            $(".deleteALL").remove();
+        }
+    });
+}
+
 module.exports = {
     loadModal,
     loadLibs,
@@ -271,6 +304,6 @@ module.exports = {
     initializeDataTable,
     showMessagesValidator,
     deleteForGrid,
-    configDropzone,
     paginationForGrid,
+    deleteMultipleRowsHelper,
 }

@@ -14705,7 +14705,6 @@ var initializeDataTable = function initializeDataTable() {
 var loadLibs = function loadLibs() {
   configSelect2();
   configMultiSelect();
-  configDropzone();
 };
 /**
  * 
@@ -14784,13 +14783,6 @@ var configSelect2 = function configSelect2() {
     width: '100%'
   });
 };
-/**
- * 
- * @param {Object} params 
- */
-
-
-var configDropzone = function configDropzone(params) {};
 
 var showMessagesValidator = function showMessagesValidator(form, errorsRequest) {
   if (form.length == 0) {
@@ -14917,6 +14909,45 @@ var deleteForGrid = function deleteForGrid(url) {
   });
 };
 
+var deleteMultipleRowsHelper = function deleteMultipleRowsHelper() {
+  var callback = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+  var selecteds = [];
+  $(".table tbody > tr").on("click", function (e) {
+    if (e.target.tagName == "BUTTON" || e.target.tagName == "I" || e.target.tagName == "A") {
+      return;
+    }
+
+    var key = $(this).attr("key");
+
+    if (!!key) {
+      var indiceInArray = $.inArray(key, selecteds);
+
+      if (indiceInArray > -1) {
+        //SE O INDICE EXISTE NO ARRAY ENTÃO A LINHA JA ESTÁ SELECIONADA
+        $(this).removeClass("row-selected");
+        selecteds.splice(indiceInArray, 1);
+      } else {
+        $(this).addClass("row-selected");
+        selecteds.push(key);
+      }
+    }
+
+    if ($(".deleteALL").length == 1) {
+      $(".deleteALL").remove();
+    }
+
+    if (!!selecteds.length) {
+      $(".table").parent().prepend("\n                <a \n                    class=\"deleteALL btn btn-danger  btn-xs pull-right\"\n                > \n                    <i class=\"fa fa-trash\"> </i> Excluir (".concat(selecteds.length, ") \n                </a>\n            "));
+
+      if (!!callback) {
+        callback();
+      }
+    } else {
+      $(".deleteALL").remove();
+    }
+  });
+};
+
 module.exports = {
   loadModal: loadModal,
   loadLibs: loadLibs,
@@ -14924,8 +14955,8 @@ module.exports = {
   initializeDataTable: initializeDataTable,
   showMessagesValidator: showMessagesValidator,
   deleteForGrid: deleteForGrid,
-  configDropzone: configDropzone,
-  paginationForGrid: paginationForGrid
+  paginationForGrid: paginationForGrid,
+  deleteMultipleRowsHelper: deleteMultipleRowsHelper
 };
 
 /***/ }),
@@ -14954,6 +14985,8 @@ var map = {
 	"./AppTerritoriosTuristicos.js": "./resources/js/Logged/AppTerritoriosTuristicos.js",
 	"./AppTiposEventosFestas": "./resources/js/Logged/AppTiposEventosFestas.js",
 	"./AppTiposEventosFestas.js": "./resources/js/Logged/AppTiposEventosFestas.js",
+	"./AppTiposInfraestruturas": "./resources/js/Logged/AppTiposInfraestruturas.js",
+	"./AppTiposInfraestruturas.js": "./resources/js/Logged/AppTiposInfraestruturas.js",
 	"./AppUF": "./resources/js/Logged/AppUF.js",
 	"./AppUF.js": "./resources/js/Logged/AppUF.js",
 	"./AppUsers": "./resources/js/Logged/AppUsers.js",
@@ -15343,6 +15376,10 @@ $(function () {
 });
 var modalObject = "#nivel1";
 
+var changeTitle = function changeTitle() {
+  document.title = "BT | Permissões";
+};
+
 var habilitaEventos = function habilitaEventos() {
   $(".refreshDash").on("click", function () {
     loadConsPermissoes();
@@ -15467,7 +15504,8 @@ var formReloadSession = function formReloadSession() {
 
 module.exports = {
   habilitaEventos: habilitaEventos,
-  habilitaBotoes: habilitaBotoes
+  habilitaBotoes: habilitaBotoes,
+  changeTitle: changeTitle
 };
 
 /***/ }),
@@ -15603,16 +15641,17 @@ module.exports = {
   !*** ./resources/js/Logged/AppRoles.js ***!
   \*****************************************/
 /*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var _require = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js"),
-    Swal = _require["default"];
+/***/ (function(module, exports) {
 
 $(function () {
   habilitaBotoes();
   habilitaEventos();
 });
 var modalObject = "#nivel1";
+
+var changeTitle = function changeTitle() {
+  document.title = "BT | Grupos";
+};
 
 var habilitaEventos = function habilitaEventos() {
   $("#addRole").on("click", function () {
@@ -15725,7 +15764,8 @@ var formRoles = function formRoles(id) {
 
 module.exports = {
   habilitaBotoes: habilitaBotoes,
-  habilitaEventos: habilitaEventos
+  habilitaEventos: habilitaEventos,
+  changeTitle: changeTitle
 };
 
 /***/ }),
@@ -15742,6 +15782,10 @@ $(function () {
   habilitaBotoes();
 });
 var modalObject = "#nivel1";
+
+var changeTitle = function changeTitle() {
+  document.title = " BT | Territórios Turísticos";
+};
 
 var habilitaEventos = function habilitaEventos() {
   $("#searchFilterTT").on("submit", function (e) {
@@ -15851,7 +15895,8 @@ var formTT = function formTT(id) {
 
 module.exports = {
   habilitaEventos: habilitaEventos,
-  habilitaBotoes: habilitaBotoes
+  habilitaBotoes: habilitaBotoes,
+  changeTitle: changeTitle
 };
 
 /***/ }),
@@ -15992,6 +16037,143 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./resources/js/Logged/AppTiposInfraestruturas.js":
+/*!********************************************************!*\
+  !*** ./resources/js/Logged/AppTiposInfraestruturas.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(function () {
+  habilitaBotoes();
+  habilitaEventos();
+});
+var modalObject = "#nivel1";
+var grid = "#gridTiposIE";
+var urlDeleteAllRows = 'tiposInfraestruturas/deleteAll';
+
+var habilitaEventos = function habilitaEventos() {
+  $("#formSearchTiposIE").on("submit", function (e) {
+    e.preventDefault();
+    getTiposIEFilter();
+  });
+  $("#addTipoIE").on("click", function () {
+    var url = '/tiposInfraestruturas/create';
+    AppUsage.loadModal(url, modalObject, '800px', function () {
+      $("#addFormTipoInfraestrutura").on("submit", function (e) {
+        e.preventDefault();
+        formTiposIE();
+      });
+    });
+  });
+};
+
+var habilitaBotoes = function habilitaBotoes() {
+  $(grid + " .pagination > li > a").on("click", function (e) {
+    e.preventDefault();
+    var url = $(this).attr("href");
+
+    if (!!url) {
+      getTiposIEFilter(url);
+    }
+  });
+  $(".btnEditTiposIE").on("click", function () {
+    var id = $(this).attr("id");
+    var url = '/tiposInfraestruturas/edit/' + id;
+    AppUsage.loadModal(url, modalObject, '800px', function () {
+      $("#editFormTipoInfraestrutura").on("submit", function (e) {
+        e.preventDefault();
+        formTiposIE(id);
+      });
+    });
+  });
+  $(".btnDeleteTiposIE").on("click", function () {
+    var id = $(this).attr("id");
+    var url = '/tiposInfraestruturas/delete/' + id;
+    Swal.fire({
+      title: 'Deseja realmente excluir o registro?',
+      text: 'Esta ação é irreversivel!',
+      icon: 'warning',
+      showCancelButton: true,
+      reverseButtons: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar',
+      timeProgressBar: true
+    }).then(function (result) {
+      if (result.isConfirmed) {
+        AppUsage.deleteForGrid(url, function () {
+          getTiposIEFilter();
+        });
+      }
+    });
+  });
+};
+
+var getTiposIEFilter = function getTiposIEFilter(url) {
+  var form = $("#formSearchTiposIE").serialize();
+  $.ajax({
+    type: "GET",
+    url: typeof url !== "undefined" ? url : "/tiposInfraestruturas/",
+    data: form,
+    dataType: "HTML",
+    beforeSend: function beforeSend() {
+      AppUsage.loading($(grid));
+    },
+    success: function success(response) {
+      $(grid).html($(response).find("".concat(grid, " >")));
+      habilitaBotoes();
+    }
+  });
+};
+
+var formTiposIE = function formTiposIE(id) {
+  var form = typeof id == "undefined" ? '#addFormTipoInfraestrutura' : "#editFormTipoInfraestrutura";
+  var url = typeof id == "undefined" ? '/tiposInfraestruturas/store' : "/tiposInfraestruturas/update/".concat(id);
+  var type = typeof id == "undefined" ? 'POST' : 'PUT';
+  $.ajax({
+    type: type,
+    url: url,
+    data: $(form).serialize(),
+    dataType: "JSON",
+    beforeSend: function beforeSend() {
+      $(form + " .btnSubmit").prop("disabled", true).html("\n                <i class=\"fa fa-spinner fa-spin\"> </i> Carregando...\n            ");
+    },
+    success: function success(response) {
+      Swal.fire({
+        position: 'top-end',
+        icon: !response.error ? 'success' : 'error',
+        title: "<b style=\"color:#fff\"> ".concat(response.msg, " </b>"),
+        toast: true,
+        showConfirmButton: false,
+        timer: 3500,
+        background: '#337ab7',
+        didOpen: function didOpen() {
+          $(modalObject).modal('hide');
+        }
+      });
+      getTiposIEFilter();
+    },
+    error: function error(jqXHR, textstatus, _error) {
+      if (!!jqXHR.responseJSON.errors) {
+        var errors = jqXHR.responseJSON.errors;
+        AppUsage.showMessagesValidator(form, errors);
+      }
+    },
+    complete: function complete() {
+      $(form + " .btnSubmit").prop("disabled", false).html("\n                Salvar\n            ");
+    }
+  });
+};
+
+module.exports = {
+  habilitaBotoes: habilitaBotoes,
+  habilitaEventos: habilitaEventos
+};
+
+/***/ }),
+
 /***/ "./resources/js/Logged/AppUF.js":
 /*!**************************************!*\
   !*** ./resources/js/Logged/AppUF.js ***!
@@ -16004,6 +16186,10 @@ $(function () {
   habilitaBotoes();
 });
 var modalObject = "#nivel1";
+
+var changeTitle = function changeTitle() {
+  document.title = "BT | Unidades Federativas";
+};
 
 var habilitaEventos = function habilitaEventos() {
   $("#formSearchUF").on("submit", function (e) {
@@ -16123,7 +16309,8 @@ var formUF = function formUF(id) {
 
 module.exports = {
   habilitaBotoes: habilitaBotoes,
-  habilitaEventos: habilitaEventos
+  habilitaEventos: habilitaEventos,
+  changeTitle: changeTitle
 };
 
 /***/ }),
@@ -16133,13 +16320,21 @@ module.exports = {
   !*** ./resources/js/Logged/AppUsers.js ***!
   \*****************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+var _require = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js"),
+    Swal = _require["default"];
 
 $(function () {
   habilitaBotoes();
   habilitaEventos();
 });
 var modalObject = "#nivel1";
+var grid = "#gridUsers";
+
+var changeTitle = function changeTitle() {
+  document.title = 'BT | Usuários';
+};
 
 var habilitaEventos = function habilitaEventos() {
   $("#searchUser").on('submit', function (e) {
@@ -16153,6 +16348,30 @@ var habilitaEventos = function habilitaEventos() {
 };
 
 var habilitaBotoes = function habilitaBotoes() {
+  AppUsage.deleteMultipleRowsHelper(function () {
+    $(".deleteALL").on("click", function () {
+      var url = '/users/deleteAll';
+      Swal.fire({
+        title: 'Deseja realmente excluir o registro?',
+        text: 'Esta ação é irreversivel!',
+        icon: 'warning',
+        showCancelButton: true,
+        reverseButtons: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Confirmar',
+        cancelButtonText: 'Cancelar',
+        timeProgressBar: true
+      }).then(function (result) {
+        var ids = $("tr.row-selected").map(function (index, element) {
+          return $(element).attr("key");
+        });
+        console.log(Array.from(ids));
+
+        if (result.isConfirmed) {}
+      });
+    });
+  });
   $("#cadastrarUser").on("click", function () {
     var url = '/users/create';
     AppUsage.loadModal(url, modalObject, '800px', function () {
@@ -16268,7 +16487,8 @@ var eventShowPassword = function eventShowPassword() {
 
 module.exports = {
   habilitaEventos: habilitaEventos,
-  habilitaBotoes: habilitaBotoes
+  habilitaBotoes: habilitaBotoes,
+  changeTitle: changeTitle
 };
 
 /***/ }),
@@ -16448,7 +16668,8 @@ window.AppUF = __webpack_require__(/*! ./Logged/AppUF */ "./resources/js/Logged/
 window.AppTerritoriosTuristicos = __webpack_require__(/*! ./Logged/AppTerritoriosTuristicos */ "./resources/js/Logged/AppTerritoriosTuristicos.js");
 window.AppZonasTuristicas = __webpack_require__(/*! ./Logged/AppZonasTuristicas */ "./resources/js/Logged/AppZonasTuristicas.js");
 window.Paises = __webpack_require__(/*! ./Logged/AppPaises */ "./resources/js/Logged/AppPaises.js");
-window.AppTiposEventosFestas = __webpack_require__(/*! ./Logged/AppTiposEventosFestas */ "./resources/js/Logged/AppTiposEventosFestas.js"); //CONSTANTS Scripts - scripts re-utilizaveis
+window.AppTiposEventosFestas = __webpack_require__(/*! ./Logged/AppTiposEventosFestas */ "./resources/js/Logged/AppTiposEventosFestas.js");
+window.AppTiposInfraestruturas = __webpack_require__(/*! ./Logged/AppTiposInfraestruturas */ "./resources/js/Logged/AppTiposInfraestruturas.js"); //CONSTANTS Scripts - scripts re-utilizaveis
 
 window.languageDataTable = __webpack_require__(/*! ./Constants/language_dataTable */ "./resources/js/Constants/language_dataTable.js");
 window.AcessControl = __webpack_require__(/*! ./Constants/access_control */ "./resources/js/Constants/access_control.js"); //LIBS - scripts bibliotecas
@@ -16475,8 +16696,8 @@ window.Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\BT\bt_source\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\BT\bt_source\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\novo_union\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\novo_union\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

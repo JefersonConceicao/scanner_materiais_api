@@ -5,6 +5,10 @@ $(function(){
 
 const modalObject = "#nivel1";
 
+const changeTitle = function(){
+    document.title = "BT | Unidades Federativas";
+}
+
 const habilitaEventos = function(){
     $("#formSearchUF").on("submit", function(e){
         e.preventDefault();
@@ -144,4 +148,5 @@ const formUF = function(id){
 module.exports = {
     habilitaBotoes, 
     habilitaEventos,
+    changeTitle,
 }

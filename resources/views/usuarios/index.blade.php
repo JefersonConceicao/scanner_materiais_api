@@ -87,7 +87,7 @@
                     </div>
                     @if(count($dados) > 0)
                         <div class="box-body table-responsive" style="overflow:auto;">
-                            <table class="table table-hover table-striped dataTable">
+                            <table class="table dataTable">
                                 <thead> 
                                     <tr> 
                                         <th> Nome </th>
@@ -102,7 +102,7 @@
                                 </thead>
                                 <tbody>
                                     @foreach($dados as $dado) 
-                                        <tr> 
+                                        <tr  key={{  $dado->id }}> 
                                             <td> {{!empty($dado->name) ? $dado->name : "Não informado"}} </td>
                                             <td> {{!empty($dado->username) ? $dado->username : "Não informado"}} </td>
                                             <td> {{!empty($dado->email) ? $dado->email : "Não informado"}} </td>

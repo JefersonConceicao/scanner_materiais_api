@@ -274,8 +274,9 @@ return [
                     [
                         'text' => 'Tipo Infraestrutura',
                         'icon' => 'fa fa-angle-right',
-                        'url' => '#',
-                        'bt_ac' => 'tipoInfraestrutura.index'
+                        'url' => '/tiposInfraestruturas/',
+                        'requestjs' => 'AppTiposInfraestruturas',
+                        'bt_ac' => 'tiposInfraestruturas.index'
                     ],
                     [
                         'text' => 'UF',
