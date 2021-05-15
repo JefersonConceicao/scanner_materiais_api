@@ -14648,15 +14648,18 @@ var setupAjax = function setupAjax() {
     }
   });
   $(document).ajaxError(function (event, jqXHR, ajaxSettings, error) {
-    if (jqXHR.status == 500) {
+    console.log(event, jqXHR, ajaxSettings, error);
+
+    if (jqXHR.status == 500, jqXHR.responseJSON.code !== "23000") {
       Swal.fire({
         position: 'top-end',
         icon: 'error',
-        title: 'Ocorreu um erro interno, tente novamente mais tarde ou abra um chamado',
+        title: "<p style=\"color:#ffff\"> Ocorreu um erro interno, tente novamente mais tarde ou abra um chamado </p>",
         toast: true,
         timer: 3000,
         showConfirmButton: false,
         timerProgressBar: true,
+        background: '#e91313',
         didOpen: function didOpen(toast) {
           toast.addEventListener('mouseenter', function () {
             Swal.stopTimer();
@@ -14948,6 +14951,53 @@ var deleteMultipleRowsHelper = function deleteMultipleRowsHelper() {
   });
 };
 
+var deleteMultipleRowsGrid = function deleteMultipleRowsGrid(url, ids) {
+  var callback = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+  Swal.fire({
+    title: "Deseja realmente excluir os ".concat(ids.length, " registros?"),
+    text: 'Esta ação é irreversivel!',
+    icon: 'warning',
+    showCancelButton: true,
+    reverseButtons: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Confirmar',
+    cancelButtonText: 'Cancelar'
+  }).then(function (result) {
+    if (result.isConfirmed) {
+      $.ajax({
+        type: "DELETE",
+        url: url,
+        data: {
+          ids: Array.from(ids)
+        },
+        dataType: "JSON",
+        success: function success(response) {
+          Swal.fire({
+            position: 'top-end',
+            icon: !response.error ? 'success' : 'error',
+            title: "<b style=\"color:#fff\"> ".concat(response.msg, " </b>"),
+            toast: true,
+            showConfirmButton: false,
+            timer: 3500,
+            background: '#337ab7',
+            didOpen: function didOpen() {
+              $(modalObject).modal('hide');
+            }
+          });
+
+          if (!response.error && !!callback) {
+            callback();
+          }
+        },
+        error: function error(jqXHR, textstatus, _error) {
+          console.log(_error);
+        }
+      });
+    }
+  });
+};
+
 module.exports = {
   loadModal: loadModal,
   loadLibs: loadLibs,
@@ -14956,7 +15006,8 @@ module.exports = {
   showMessagesValidator: showMessagesValidator,
   deleteForGrid: deleteForGrid,
   paginationForGrid: paginationForGrid,
-  deleteMultipleRowsHelper: deleteMultipleRowsHelper
+  deleteMultipleRowsHelper: deleteMultipleRowsHelper,
+  deleteMultipleRowsGrid: deleteMultipleRowsGrid
 };
 
 /***/ }),
@@ -16208,6 +16259,17 @@ var habilitaEventos = function habilitaEventos() {
 };
 
 var habilitaBotoes = function habilitaBotoes() {
+  AppUsage.deleteMultipleRowsHelper(function () {
+    $(".deleteALL").on("click", function () {
+      var url = '/uf/deleteAll';
+      var ids = $("tr.row-selected").map(function (index, element) {
+        return $(element).attr("key");
+      });
+      AppUsage.deleteMultipleRowsGrid(url, ids, function () {
+        getUFFilter();
+      });
+    });
+  });
   $("#gridUF .pagination > li > a").on("click", function (e) {
     e.preventDefault();
     var url = $(this).attr("href");
@@ -16351,24 +16413,11 @@ var habilitaBotoes = function habilitaBotoes() {
   AppUsage.deleteMultipleRowsHelper(function () {
     $(".deleteALL").on("click", function () {
       var url = '/users/deleteAll';
-      Swal.fire({
-        title: 'Deseja realmente excluir o registro?',
-        text: 'Esta ação é irreversivel!',
-        icon: 'warning',
-        showCancelButton: true,
-        reverseButtons: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Confirmar',
-        cancelButtonText: 'Cancelar',
-        timeProgressBar: true
-      }).then(function (result) {
-        var ids = $("tr.row-selected").map(function (index, element) {
-          return $(element).attr("key");
-        });
-        console.log(Array.from(ids));
-
-        if (result.isConfirmed) {}
+      var ids = $("tr.row-selected").map(function (index, element) {
+        return $(element).attr("key");
+      });
+      AppUsage.deleteMultipleRowsGrid(url, ids, function () {
+        getUsersFilter();
       });
     });
   });
@@ -16389,7 +16438,7 @@ var habilitaBotoes = function habilitaBotoes() {
   $(".viewUser").on('click', function () {
     var id = $(this).attr('id');
     var url = "/users/view/".concat(id);
-    AppUsage.loadModal(url, modalObject, '800px', function () {});
+    AppUsage.loadModal(url, modalObject, '800px');
   });
   $(".deleteUser").on('click', function (e) {
     e.preventDefault();
@@ -16500,8 +16549,11 @@ module.exports = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-var _require = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js"),
-    Swal = _require["default"];
+var _require = __webpack_require__(/*! dropzone */ "./node_modules/dropzone/dist/dropzone.js"),
+    elementInside = _require.elementInside;
+
+var _require2 = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js"),
+    Swal = _require2["default"];
 
 $(function () {
   habilitaBotoes();
@@ -16531,6 +16583,17 @@ var habilitaEventos = function habilitaEventos() {
 };
 
 var habilitaBotoes = function habilitaBotoes() {
+  AppUsage.deleteMultipleRowsHelper(function () {
+    $(".deleteALL").on("click", function () {
+      var url = '/zonasTuristicas/deleteAll';
+      var ids = $("tr.row-selected").map(function (index, element) {
+        return $(element).attr("key");
+      });
+      AppUsage.deleteMultipleRowsGrid(url, ids, function () {
+        getZTFilter();
+      });
+    });
+  });
   $(grid + " .pagination > li > a").on("click", function (e) {
     e.preventDefault();
     var url = $(this).attr("href");
@@ -16696,8 +16759,8 @@ window.Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\novo_union\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\novo_union\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\BT\bt_source\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\BT\bt_source\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

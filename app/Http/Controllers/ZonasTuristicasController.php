@@ -57,4 +57,11 @@ class ZonasTuristicasController extends Controller
         return response()->json($data);
     }
 
+    public function deleteAll(Request $request){
+        $zt = new ZonaTuristica; 
+
+        $data = $zt->deleteRowsZT($request->all());
+        return response()->json($data);
+    }
+
 }

@@ -29,30 +29,13 @@ const habilitaBotoes = function(){
     AppUsage.deleteMultipleRowsHelper(function(){
         $(".deleteALL").on("click", function(){
             const url = '/users/deleteAll'
+            const ids = $("tr.row-selected").map(function(index, element){
+                return $(element).attr("key");
+            });
 
-            Swal.fire({
-                title: 'Deseja realmente excluir o registro?',
-                text: 'Esta ação é irreversivel!',
-                icon: 'warning',
-                showCancelButton: true,
-                reverseButtons: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Confirmar',
-                cancelButtonText: 'Cancelar',
-                timeProgressBar: true,
-            }).then(result => {
-                const ids = $("tr.row-selected").map(function(index, element){
-                    return $(element).attr("key");
-                });
-                console.log(Array.from(ids));
-            
-
-                if(result.isConfirmed){
-
-                }
+            AppUsage.deleteMultipleRowsGrid(url, ids, function(){
+                getUsersFilter();  
             })
-
         });
     })
 
@@ -77,9 +60,7 @@ const habilitaBotoes = function(){
         let id = $(this).attr('id');
         let url = `/users/view/${id}`;
 
-        AppUsage.loadModal(url, modalObject, '800px', function(){
-
-        });
+        AppUsage.loadModal(url, modalObject, '800px');
     })
 
     $(".deleteUser").on('click', function(e){

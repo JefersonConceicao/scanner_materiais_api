@@ -76,7 +76,7 @@
             </div>
  
             <div class="box-body table-responsive" id="gridUF">
-                <table class="table table-hover dataTable"> 
+                <table class="table dataTable"> 
                     <thead> 
                         <tr> 
                             <th> Sigla </th>
@@ -87,7 +87,7 @@
                     </thead>
                     <tbody> 
                         @foreach($dataUF as $uf)
-                            <tr> 
+                            <tr key={{ $uf->id }}> 
                                 <td> {{ !empty($uf->uf_sigla) ? $uf->uf_sigla : "Não informado" }} </td>
                                 <td> {{ !empty($uf->uf_descricao) ? $uf->uf_descricao : "Não informado" }}   </td>
                                 <td> 

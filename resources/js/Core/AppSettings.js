@@ -25,7 +25,6 @@ const adjustingDropDown = function(){
 }
 
 const setupAjax = function(){   
-
     $.ajaxSetup({
         headers:{
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -39,15 +38,17 @@ const setupAjax = function(){
     })
 
     $(document).ajaxError(function(event, jqXHR, ajaxSettings, error){
-         if(jqXHR.status == 500){
+        console.log(event, jqXHR, ajaxSettings, error);
+         if(jqXHR.status == 500, jqXHR.responseJSON.code !== "23000"){
             Swal.fire({
                 position:'top-end',
                  icon: 'error',
-                 title: 'Ocorreu um erro interno, tente novamente mais tarde ou abra um chamado',
+                 title: `<p style="color:#ffff"> Ocorreu um erro interno, tente novamente mais tarde ou abra um chamado </p>`,
                  toast: true,
                  timer: 3000,    
                  showConfirmButton: false,
                  timerProgressBar:true,
+                 background: '#e91313', 
                  didOpen:(toast) => {
                     toast.addEventListener('mouseenter', function(){
                         Swal.stopTimer();
@@ -56,9 +57,10 @@ const setupAjax = function(){
                     toast.addEventListener('mouseleave', function(){
                         Swal.resumeTimer()
                     })
-                 }
+                }
             })
         }
+        
         if(jqXHR.status === 401){
             const url = '/permissoes/methodNotAllowed'
             AppUsage.loadModal(url, '#nivel1', '600px');

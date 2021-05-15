@@ -92,6 +92,21 @@ class ZonaTuristica extends Model
         }
     }
 
+    public function deleteRowsZT($request = []){
+        if($this->whereIn('id', $request['ids'])->delete()){
+            return [
+                'error' => false,
+                'msg' => count($request['ids']). " registros excluído(s)"
+            ];
+        }else{
+            return [
+                'error' => true,
+                'msg' => "Não foi possível excluir os registros"
+            ];
+        }
+    }
+
+
     public function getZTById($id){
         return $this->find($id);
     }

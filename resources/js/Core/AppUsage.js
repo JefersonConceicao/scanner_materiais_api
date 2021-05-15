@@ -297,6 +297,51 @@ const deleteMultipleRowsHelper = function(callback = null){
     });
 }
 
+const deleteMultipleRowsGrid = function(url, ids, callback = null){
+    Swal.fire({
+        title: `Deseja realmente excluir os ${ids.length} registros?`,
+        text: 'Esta ação é irreversivel!',
+        icon: 'warning',
+        showCancelButton: true,
+        reverseButtons: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Confirmar',
+        cancelButtonText: 'Cancelar',
+    }).then((result) => {
+        if(result.isConfirmed){
+            $.ajax({
+                type: "DELETE",
+                url: url,
+                data: { ids: Array.from(ids)},
+                dataType: "JSON",
+                success: function (response) {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: !response.error ? 'success' : 'error',
+                        title: `<b style="color:#fff"> ${response.msg} </b>`,
+                        toast: true,
+                        showConfirmButton: false,
+                        timer: 3500,
+                        background: '#337ab7',
+                        didOpen:() => {
+                           $(modalObject).modal('hide');
+                        }
+                    });
+
+                    if(!response.error && !!callback){
+                        callback()
+                    }
+
+                },
+                error:function(jqXHR, textstatus, error){
+                    console.log(error);
+                }
+            });
+        }       
+    })
+}
+
 module.exports = {
     loadModal,
     loadLibs,
@@ -306,4 +351,5 @@ module.exports = {
     deleteForGrid,
     paginationForGrid,
     deleteMultipleRowsHelper,
+    deleteMultipleRowsGrid,
 }

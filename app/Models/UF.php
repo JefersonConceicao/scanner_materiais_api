@@ -92,4 +92,18 @@ class UF extends Model
         return $this->find($id);
     }
 
+    public function deleteAllRowsUF($request = []){
+        if($this->whereIn('id', $request['ids'])->delete()){
+            return [
+                'error' => false,
+                'msg' => count($request['ids']). " registros excluido(s)"
+            ];
+        }else{
+            return [
+                'error' => false,
+                'msg' => "Não foi possível excluir o registro"
+            ];
+        }
+    }
+
 }

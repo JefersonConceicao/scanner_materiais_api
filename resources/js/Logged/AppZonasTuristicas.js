@@ -1,3 +1,4 @@
+const { elementInside } = require("dropzone");
 const { default: Swal } = require("sweetalert2");
 
 $(function(){
@@ -33,6 +34,20 @@ const habilitaEventos = function(){
 }   
 
 const habilitaBotoes = function(){
+    AppUsage.deleteMultipleRowsHelper(function(){
+        $(".deleteALL").on("click", function(){
+            const url = '/zonasTuristicas/deleteAll'
+            const ids = $("tr.row-selected").map(function(index, element){
+                return $(element).attr("key")
+            });
+
+            AppUsage.deleteMultipleRowsGrid(url, ids, function(){
+                getZTFilter();  
+            })
+        })
+    })
+
+
     $(grid + " .pagination > li > a").on("click", function(e){
         e.preventDefault()
         const url = $(this).attr("href");
