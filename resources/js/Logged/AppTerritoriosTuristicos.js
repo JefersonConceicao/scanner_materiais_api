@@ -5,6 +5,10 @@ $(function(){
 
 const modalObject = "#nivel1";
 
+const changeTitle = function(){
+    document.title = " BT | Territórios Turísticos"; 
+}
+
 const habilitaEventos = function(){
     $("#searchFilterTT").on("submit", function(e){
         e.preventDefault()
@@ -131,4 +135,5 @@ const formTT = function(id){
 module.exports = {
     habilitaEventos,
     habilitaBotoes,
+    changeTitle,
 }

@@ -60,7 +60,7 @@
                 </button>
             </div>
             <div class="box-body table-responsive" id="gridZT"> 
-                <table class="table table-hover table-striped dataTable"> 
+                <table class="table dataTable"> 
                     <thead> 
                         <tr> 
                             <th> Nome </th>
@@ -71,7 +71,7 @@
                     </thead>
                     <tbody> 
                         @foreach($dataZT as $zt)
-                            <tr> 
+                            <tr key={{ $zt->id }}> 
                                 <td> {{ !empty($zt->zona_turistica) ? $zt->zona_turistica : "Não informado" }} </td>      
                                 <td> {{ !empty($zt->zonaTuristicaPai) ? $zt->zonaTuristicaPai->zona_turistica : "Sem região" }}       </td>
                                 <td> <label class="label label-{{ $zt->ativo == 'S' ? 'success' : 'danger' }}"> 
@@ -80,10 +80,16 @@
                                 </td>
                                 <td> 
                                     <div style="display:flex; justify-content:space-around;"> 
-                                        <button class="btn btn-primary btn-xs btnEditZT"> 
+                                        <button 
+                                            class="btn btn-primary btn-xs btnEditZT"
+                                            id="{{ $zt->id }}"
+                                        > 
                                             <i class="fa fa-edit"> </i>
                                         </button>   
-                                        <button class="btn btn-danger btn-xs btnDeleteZT"> 
+                                        <button 
+                                            class="btn btn-danger btn-xs btnDeleteZT"
+                                            id="{{ $zt->id }}"
+                                        > 
                                             <i class="fa fa-trash"> </i>
                                         </button>
                                     </div>

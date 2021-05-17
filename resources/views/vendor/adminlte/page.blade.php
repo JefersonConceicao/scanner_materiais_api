@@ -69,7 +69,7 @@
                                 <span class="hidden-xs"> {{ Auth::user()->name }} </span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li class="user-header bg-bahia">
+                                <li class="user-header">
                                     <img 
                                         class="subMenuImgProfile"
                                         src="{{ Auth::user()->url_photo 

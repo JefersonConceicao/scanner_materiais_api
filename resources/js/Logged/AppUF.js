@@ -5,6 +5,10 @@ $(function(){
 
 const modalObject = "#nivel1";
 
+const changeTitle = function(){
+    document.title = "BT | Unidades Federativas";
+}
+
 const habilitaEventos = function(){
     $("#formSearchUF").on("submit", function(e){
         e.preventDefault();
@@ -26,6 +30,19 @@ const habilitaEventos = function(){
 }
 
 const habilitaBotoes = function(){
+    AppUsage.deleteMultipleRowsHelper(function(){
+        $(".deleteALL").on("click", function(){
+            const url = '/uf/deleteAll'
+            const ids = $("tr.row-selected").map(function(index, element){
+                return $(element).attr("key");
+            });
+
+            AppUsage.deleteMultipleRowsGrid(url, ids, function(){
+                getUFFilter();  
+            })
+        });
+    });
+
     $("#gridUF .pagination > li > a").on("click", function(e){
         e.preventDefault()
         const url = $(this).attr("href");
@@ -34,7 +51,6 @@ const habilitaBotoes = function(){
             getUFFilter(url);
         }
     })
-
 
     $(".btnEditUF").on("click", function(){
         const id = $(this).attr("id");
@@ -144,4 +160,5 @@ const formUF = function(id){
 module.exports = {
     habilitaBotoes, 
     habilitaEventos,
+    changeTitle,
 }

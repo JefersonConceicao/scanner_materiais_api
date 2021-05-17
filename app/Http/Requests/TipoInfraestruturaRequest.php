@@ -5,25 +5,15 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Route;
 
-class ZonaTuristicaRequest extends FormRequest
+class TipoInfraestruturaRequest extends FormRequest
 {
-    /**
-     * Determina se o usuário da sessão tem permissão para a requisição
-     *
-     * @return bool
-     */
     public function authorize()
     {
         return true;
     }
 
-    /**
-     * Gera regras de validação para a requisição.
-     *
-     * @return array
-     */
     public function rules()
-    {   
+    {
         $atualGroupRoute = explode("::", Route::currentRouteName());
         $atualRoute = end($atualGroupRoute);
         $validate = [];
@@ -31,16 +21,17 @@ class ZonaTuristicaRequest extends FormRequest
         switch ($atualRoute) {
             case 'store':
                 $validate = [
-                    'name' => 'required',
+                    'nome_tipo' => 'required',
                     'ativo' => 'required'
                 ];
             break;
             case 'update':
                 $validate = [
-                    'name' => 'required',
+                    'nome_tipo' => 'required',
                     'ativo' => 'required'
                 ];
             break;
+    
         }
 
         return $validate;
@@ -48,9 +39,9 @@ class ZonaTuristicaRequest extends FormRequest
 
     public function messages(){
         return [
-            'name.required' => 'O campo nome é obrigatório',
-            'name.unique' => 'Este nome já existe em nossa base de dados',
+            'nome_tipo.required' => 'O campo nome é obrigatório',
             'ativo.required' => 'O campo ativo é obrigatório'
         ];
     }
+
 }

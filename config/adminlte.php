@@ -137,6 +137,7 @@ return [
                 'text' => 'Painel de Controle',
                 'url' => 'home/',
                 'icon' => 'fa fa-tachometer',
+                'bt_ac' => 'home'
             ],
 
         ['header' => ''],
@@ -145,6 +146,7 @@ return [
                 'icon' => 'fas fa-fw fa-user',
                 'url' => '/users/perfil',
                 'requestjs' => 'AppProfile',
+                'bt_ac' => 'users.profile'
             ],
         ['header' => ''],
             [
@@ -153,7 +155,8 @@ return [
                 'submenu' => [
                     [
                         'text' => 'Projetos',
-                        'icon' => 'fa fa-angle-right'
+                        'icon' => 'fa fa-angle-right',
+                        'bt_ac' => 'projetos.index'
                     ],
                 ],
             ],
@@ -165,62 +168,74 @@ return [
                     [
                       'text' => 'Categoria do instrumento',
                       'icon' => 'fa fa-angle-right',
-                      'url' => '#'  
+                      'url' => '#',
+                      'bt_ac' => 'categoriaInstrumento.index'
                     ],
                     [
                         'text' => 'Checklist de Estrutura',
                         'icon' => 'fa fa-angle-right',
-                        'url' => '#'     
+                        'url' => '#',
+                        'bt_ac' => 'checkListEstrutura.index'
                     ],
                     [
                         'text' => 'Checklist de Itens',
                         'icon' => 'fa fa-angle-right',
-                        'url' => '#'  
+                        'url' => '#',
+                        'bt_ac' => 'checkListItens.index'
                     ],
                     [
                         'text' => 'Checklist de Modelos',
                         'icon' => 'fa fa-angle-right',
-                        'url' =>'#'      
+                        'url' =>'#',
+                        'bt_ac' => 'checkListModelos.index'    
                     ],
                     [
                         'text' => 'Elemento de Despesa',
                         'icon' => 'fa fa-angle-right',
-                        'url' =>'#'       
+                        'url' =>'#',
+                        'bt_ac' => 'elementoDespesa.index'      
                     ],
                     [
                         'text' => 'Fonte de Recurso',
                         'icon' => 'fa fa-angle-right',
-                        'url' =>'#'     
+                        'url' =>'#',
+                        'bt_ac' => 'fonteRecurso.index'       
                     ],
                     [
                         'text' => 'Modalidade de Apoio',
                         'icon' => 'fa fa-angle-right',
-                        'url' => '#'
+                        'url' => '#',
+                        'bt_ac' => 'modalidadeApoio.index'      
                     ],
                     [
                         'text' => 'Modalidade de Licitação',
                         'icon' => 'fa fa-angle-right',
-                        'url' => '#'  
+                        'url' => '#',
+                        'bt_ac' => 'modalidadesLicitacoes.index'
                     ],
                     [
                         'text' => 'Projeto de Atividade',
                         'icon' => 'fa fa-angle-right',
-                        'url' => '#' 
+                        'url' => '#',
+                        'bt_ac' => 'projetoAtividades.index'
                     ],
                     [
                         'text' => 'Proponente',
                         'icon' => 'fa fa-angle-right',
-                        'url' => '#' 
+                        'url' => '#',
+                        'bt_ac' => 'proponente.index' 
                     ],
                     [
                         'text' => 'Setor',
                         'icon' => 'fa fa-angle-right',
-                        'url' => '#'
+                        'url' => '#',
+                        'bt_ac' => 'setores.index'
                     ],
                     [
                         'text' => 'Tipo de Projetos (Eventos)',
                         'icon' => 'fa fa-angle-right',
-                        'url' => '#'
+                        'url' => '#',
+                        'bt_ac' => 'tiposProjetos.index'
                     ],
                 ],
             ],
@@ -232,41 +247,50 @@ return [
                     [
                         'text' => 'Localidades',
                         'icon' => 'fa fa-angle-right',
-                        'url' => '#'
+                        'url' => '#',
+                        'bt_ac' => 'localidades.index'
                     ],
                     [
                         'text' => 'País',
                         'icon' => 'fa fa-angle-right',
                         'url' => '/paises/',
-                        'requestjs' => 'AppPaises'
+                        'requestjs' => 'AppPaises',
+                        'bt_ac' => 'paises.index'
                     ],
                     [
                         'text' => 'Território Identidade',
                         'icon' => 'fa fa-angle-right',
                         'url' => '/territoriosTuristicos/',
-                        'requestjs' => 'AppTerritoriosTuristicos'
+                        'requestjs' => 'AppTerritoriosTuristicos',
+                        'bt_ac' => 'territoriosTuristicos.index'
                     ],
                     [
                         'text' => 'Tipo Evento/Festa',
                         'icon' => 'fa fa-angle-right',
-                        'url' => '#',
+                        'url' => '/tiposEventosFestas/',
+                        'requestjs' => 'AppTiposEventosFestas',
+                        'bt_ac' => 'tiposEventosFestas.index'
                     ],
                     [
                         'text' => 'Tipo Infraestrutura',
                         'icon' => 'fa fa-angle-right',
-                        'url' => '#',
+                        'url' => '/tiposInfraestruturas/',
+                        'requestjs' => 'AppTiposInfraestruturas',
+                        'bt_ac' => 'tiposInfraestruturas.index'
                     ],
                     [
                         'text' => 'UF',
                         'icon' => 'fa fa-angle-right',
                         'url' => '/uf/',
-                        'requestjs' => 'AppUF'
+                        'requestjs' => 'AppUF',
+                        'bt_ac' => 'uf.index' 
                     ],
                     [
                         'text' => 'Zona Turística',
                         'icon' => 'fa fa-angle-right',
                         'url' => '/zonasTuristicas/',
-                        'requestjs' => 'AppZonasTuristicas'
+                        'requestjs' => 'AppZonasTuristicas',
+                        'bt_ac' => 'zonasTuristicas.index'
                     ],
                 ],
             ],
@@ -279,19 +303,22 @@ return [
                         'text' => 'Usuários',
                         'url' => 'users/',
                         'icon' => 'fa fa-angle-right',
-                        'requestjs' => 'AppUsers'
+                        'requestjs' => 'AppUsers',
+                        'bt_ac' => 'users.index'
                     ],
                     [
                         'text' => 'Grupos',
                         'icon' => 'fa fa-angle-right',
                         'url' => 'roles/',
-                        'requestjs' => 'AppRoles'
+                        'requestjs' => 'AppRoles',
+                        'bt_ac' => 'roles.index'
                     ],
                     [
                         'text' => 'Permissões',
                         'url' => 'permissoes/',
                         'icon' => 'fa fa-angle-right',
-                        'requestjs' => 'AppPermissoes'
+                        'requestjs' => 'AppPermissoes',
+                        'bt_ac' => 'permissoes.index'
                     ],
                 ]
             ],

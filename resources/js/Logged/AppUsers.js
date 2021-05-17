@@ -1,9 +1,16 @@
+const { default: Swal } = require("sweetalert2");
+
 $(function(){
     habilitaBotoes()
     habilitaEventos()
 });
 
 const modalObject = "#nivel1";
+const grid = "#gridUsers";
+
+const changeTitle = function(){
+    document.title = 'BT | Usuários';
+}
 
 const habilitaEventos = function(){
     $("#searchUser").on('submit', function(e){
@@ -19,6 +26,19 @@ const habilitaEventos = function(){
 }
 
 const habilitaBotoes = function(){
+    AppUsage.deleteMultipleRowsHelper(function(){
+        $(".deleteALL").on("click", function(){
+            const url = '/users/deleteAll'
+            const ids = $("tr.row-selected").map(function(index, element){
+                return $(element).attr("key");
+            });
+
+            AppUsage.deleteMultipleRowsGrid(url, ids, function(){
+                getUsersFilter();  
+            })
+        });
+    })
+
     $("#cadastrarUser").on("click", function(){
         let url = '/users/create'
         AppUsage.loadModal(url, modalObject, '800px', function(){
@@ -40,9 +60,7 @@ const habilitaBotoes = function(){
         let id = $(this).attr('id');
         let url = `/users/view/${id}`;
 
-        AppUsage.loadModal(url, modalObject, '800px', function(){
-
-        });
+        AppUsage.loadModal(url, modalObject, '800px');
     })
 
     $(".deleteUser").on('click', function(e){
@@ -149,4 +167,5 @@ const eventShowPassword = function(){
 module.exports = {
     habilitaEventos,
     habilitaBotoes,
+    changeTitle,
 }

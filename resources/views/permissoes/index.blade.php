@@ -119,7 +119,7 @@
                         <div class="box-header with-border">
                             <span class="box-title"> Sessão  </span>
 
-                            <button type="button" class="btn btn-xs btn-primary pull-right" id="reSession">
+                            <button type="button" class="btn btn-xs btn-primary pull-right" bt_ac="permissoes.revalidSession" id="reSession">
                                 Revalidar Sessão
                             </button>
                         </div> 

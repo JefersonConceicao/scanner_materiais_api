@@ -62,4 +62,11 @@ class UFController extends Controller
 
         return response()->json($data);
     }
+
+    public function deleteAll(Request $request){
+        $uf = new UF;
+        
+        $data = $uf->deleteAllRowsUF($request->all());
+        return response()->json($data);
+    }
 }

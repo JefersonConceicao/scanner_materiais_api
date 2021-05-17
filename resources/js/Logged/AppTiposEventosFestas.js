@@ -1,4 +1,3 @@
-const { elementInside } = require("dropzone");
 const { default: Swal } = require("sweetalert2");
 
 $(function(){
@@ -6,73 +5,50 @@ $(function(){
     habilitaEventos();
 })
 
-const modalObject = "#nivel1";
-const grid = "#gridZT";
+const modalObject = '#nivel1';
+const grid = "#gridTiposEventosFestas";
 
 const changeTitle = function(){
-    document.title = 'BT | Zonas Turísticas';
+    document.title = "BT | Tipos Eventos/Festas";
 }
 
 const habilitaEventos = function(){
-    $("#formSearchZT").on("submit", function(e){
+    $("#formSearchEventoTipoFesta").on("submit", function(e){
         e.preventDefault();
 
-        getZTFilter();
+        getTiposEventosFestas();
     });
 
-    $("#addZT").on("click", function(){
-        const url = '/zonasTuristicas/create';
+    $("#addTiposEventosFesta").on("click", function(){
+        const url = '/tiposEventosFestas/create';
 
         AppUsage.loadModal(url, modalObject, '800px', function(){
-            $("#addFormZT").on("submit", function(e){
+            $("#addFormTiposEventosFestas").on("submit", function(e){
                 e.preventDefault();
 
-                formZT();
-            });
-        })
-    })
-}   
+                formTiposEventosFestas()
+            }); 
+        });
+    });
+}
 
 const habilitaBotoes = function(){
-    AppUsage.deleteMultipleRowsHelper(function(){
-        $(".deleteALL").on("click", function(){
-            const url = '/zonasTuristicas/deleteAll'
-            const ids = $("tr.row-selected").map(function(index, element){
-                return $(element).attr("key")
-            });
-
-            AppUsage.deleteMultipleRowsGrid(url, ids, function(){
-                getZTFilter();  
-            })
-        })
-    })
-
-
-    $(grid + " .pagination > li > a").on("click", function(e){
-        e.preventDefault()
-        const url = $(this).attr("href");
-
-        if(!!url){
-            getZTFilter(url);
-        }
-    })
-
-    $(".btnEditZT").on("click", function(){
+    $(".btnTefEdit").on("click", function(){
         const id = $(this).attr("id");
-        const url = "/zonasTuristicas/edit/" + id;
+        const url = '/tiposEventosFestas/edit/' + id;
 
         AppUsage.loadModal(url, modalObject, '800px', function(){
-            $("#editFormZT").on("submit", function(e){
-                e.preventDefault()
+            $("#editFormTiposEventosFestas").on("submit", function(e){
+                e.preventDefault();
 
-                formZT(id);
-            })
-        })
-    })      
+                formTiposEventosFestas(id)
+            });
+        });
+    })
 
-    $(".btnDeleteZT").on("click", function(){
+    $(".btnTefDelete").on("click", function(){
         const id = $(this).attr("id");
-        const url = '/zonasTuristicas/delete/' + id;
+        const url = "/tiposEventosFestas/delete/" + id;
 
         Swal.fire({
             title: 'Deseja realmente excluir o registro?',
@@ -88,22 +64,22 @@ const habilitaBotoes = function(){
         }).then(result => {
             if(result.isConfirmed){
                 AppUsage.deleteForGrid(url, function(){
-                    getZTFilter();
+                    getTiposEventosFestas(); 
                 })
             }
-        });
-    });
+        })
+    })
 }
 
-const getZTFilter = function(url){
-    let form = $("#formSearchZT").serialize();
+const getTiposEventosFestas = function(url){
+    let form = $("#formSearchEventoTipoFesta").serialize();
 
     $.ajax({
         type: "GET",
-        url: typeof url !== "undefined" ? url : "/zonasTuristicas/",
+        url: typeof url !== "undefined" ? url : "/tiposEventosFestas/",
         data: form,
         dataType: "HTML",
-        beforeSend:function(jqXHR, settings){
+        beforeSend:function(){
             AppUsage.loading($(grid));
         },
         success: function (response) {
@@ -113,9 +89,9 @@ const getZTFilter = function(url){
     });
 }
 
-const formZT = function(id){
-    let form = typeof id == "undefined" ? '#addFormZT' : "#editFormZT";
-    let url =  typeof id == "undefined" ? '/zonasTuristicas/store' : `/zonasTuristicas/update/${id}`
+const formTiposEventosFestas = function(id){
+    let form = typeof id == "undefined" ? '#addFormTiposEventosFestas' : "#editFormTiposEventosFestas";
+    let url =  typeof id == "undefined" ? '/tiposEventosFestas/store' : `/tiposEventosFestas/update/${id}`
     let type = typeof id == "undefined" ? 'POST' : 'PUT';
 
     $.ajax({
@@ -125,8 +101,8 @@ const formZT = function(id){
         dataType: "JSON",
         beforeSend:function(){
             $(form + " .btnSubmit").prop("disabled", true).html(`
-                <i class="faf a-spinner fa-spin"> </i> Carregando...
-            `)
+                <i class="fa fa-spinner fa-spin"> </i> Carregando...
+            `)      
         },
         success: function (response) {
             Swal.fire({
@@ -140,26 +116,28 @@ const formZT = function(id){
                 didOpen:() => {
                    $(modalObject).modal('hide');
                 }
-            }); 
-
-            getZTFilter();
+            });
+            
+            getTiposEventosFestas()
         },
-        error:function(jqXHR, textStatus, error){
-            if(!!jqXHR.responseJSON){
-                let errorsRequest = jqXHR.responseJSON.errors;
-                AppUsage.showMessagesValidator(form, errorsRequest)
+        error:function(jqXHR, textstatus, error){
+            if(!!jqXHR.responseJSON.errors){
+                const errors = jqXHR.responseJSON.errors;
+
+                AppUsage.showMessagesValidator(form, errors);
             }
+
         },
         complete:function(){
             $(form + " .btnSubmit").prop("disabled", false).html(`
                 Salvar
-            `)
+            `)      
         }
     });
 }
 
 module.exports = {
-    changeTitle,
     habilitaBotoes,
     habilitaEventos,
+    changeTitle,
 }

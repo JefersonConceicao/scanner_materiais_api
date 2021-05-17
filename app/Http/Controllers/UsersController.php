@@ -120,4 +120,11 @@ class UsersController extends Controller
 
         return response()->json($data);
     }
+
+    public function deleteAll(Request $request){
+        $user = new User;
+        $data = $user->deleteAllRowsUser($request->all());
+
+        return response()->json($data);
+    }   
 }

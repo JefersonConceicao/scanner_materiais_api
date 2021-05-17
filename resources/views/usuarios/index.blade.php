@@ -87,7 +87,7 @@
                     </div>
                     @if(count($dados) > 0)
                         <div class="box-body table-responsive" style="overflow:auto;">
-                            <table class="table table-hover table-striped dataTable">
+                            <table class="table dataTable">
                                 <thead> 
                                     <tr> 
                                         <th> Nome </th>
@@ -102,7 +102,7 @@
                                 </thead>
                                 <tbody>
                                     @foreach($dados as $dado) 
-                                        <tr> 
+                                        <tr  key={{  $dado->id }}> 
                                             <td> {{!empty($dado->name) ? $dado->name : "Não informado"}} </td>
                                             <td> {{!empty($dado->username) ? $dado->username : "Não informado"}} </td>
                                             <td> {{!empty($dado->email) ? $dado->email : "Não informado"}} </td>
@@ -115,6 +115,7 @@
                                                     class="btn btn-xs btn-primary editaUser" 
                                                     data-toggle="tooltip" 
                                                     title="Editar"
+                                                    bt_ac="users.edit"
                                                     id={{$dado->id}}
                                                 >
                                                      <i class="fa fa-edit"> </i>
@@ -126,6 +127,7 @@
                                                     class="btn btn-xs btn-success viewUser"  
                                                     title="Visualizar" 
                                                     data-toggle="Visualizar"
+                                                    bt_ac="users.view"
                                                     id={{$dado->id}}
                                                 > 
 
@@ -138,6 +140,7 @@
                                                     class="btn btn-xs btn-danger deleteUser" 
                                                     title="Excluir" 
                                                     data-toggle="Excluir"
+                                                    bt_ac="users.delete"
                                                     id={{$dado->id}}
                                                 >
                                                     <i class="fa fa-trash"> </i>

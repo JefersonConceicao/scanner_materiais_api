@@ -66,13 +66,17 @@
             <div class="box-header with-border">
                 <p class="box-title"> Total de registros: {{ $dataUF->total() }}  </p>
 
-                <button class="pull-right btn btn-primary" id="addUF"> 
+                <button 
+                    class="pull-right btn btn-primary" 
+                    id="addUF" 
+                    bt_ac="uf.create"
+                > 
                     <i class="fa fa-plus-square"> </i> Novo
                 </button>
             </div>
  
             <div class="box-body table-responsive" id="gridUF">
-                <table class="table table-hover dataTable"> 
+                <table class="table dataTable"> 
                     <thead> 
                         <tr> 
                             <th> Sigla </th>
@@ -83,27 +87,29 @@
                     </thead>
                     <tbody> 
                         @foreach($dataUF as $uf)
-                            <tr> 
+                            <tr key={{ $uf->id }}> 
                                 <td> {{ !empty($uf->uf_sigla) ? $uf->uf_sigla : "Não informado" }} </td>
                                 <td> {{ !empty($uf->uf_descricao) ? $uf->uf_descricao : "Não informado" }}   </td>
                                 <td> 
                                     <label 
                                         class="label label-{{ $uf->ativo === "S" ? "success" : "danger" }}">
-                                        {{ $uf->ativo === "S" ? "Sim" : "Não"}}
+                                        {{ $uf->ativo === "S" ? "Sim" : "Não" }}
                                     </label>
                                 </td>
                                 <td> 
                                     <div style="display:flex;">
                                         <button 
                                             class="btn btn-xs btn btn-primary btnEditUF" 
-                                            id="{{ $uf->id }} "
+                                            id="{{ $uf->id }}"
+                                            bt_ac="uf.edit"
                                         > 
                                             <i class="fa fa-edit"> </i> 
                                         </button>
                                         &nbsp;
                                         <button 
                                             class="btn btn-xs btn btn-danger btnDeleteUF"
-                                            id="{{ $uf->id }} "
+                                            id="{{ $uf->id }}"
+                                            bt_ac="uf.delete"
                                         > 
                                             <i class="fa fa-trash"> </i>
                                         </button>
@@ -113,7 +119,6 @@
                         @endforeach
                     </tbody>
                 </table>
-
                 <div class="indexPagination" style="display:flex; justify-content:center;">
                     {{ $dataUF->links() }}
                 </div>  

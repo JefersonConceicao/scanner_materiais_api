@@ -1,78 +1,60 @@
-const { elementInside } = require("dropzone");
-const { default: Swal } = require("sweetalert2");
-
 $(function(){
     habilitaBotoes();
     habilitaEventos();
 })
 
 const modalObject = "#nivel1";
-const grid = "#gridZT";
-
-const changeTitle = function(){
-    document.title = 'BT | Zonas Turísticas';
-}
+const grid = "#gridTiposIE";
+let urlDeleteAllRows = 'tiposInfraestruturas/deleteAll'
 
 const habilitaEventos = function(){
-    $("#formSearchZT").on("submit", function(e){
-        e.preventDefault();
+    $("#formSearchTiposIE").on("submit", function(e){
+        e.preventDefault()
 
-        getZTFilter();
-    });
+        getTiposIEFilter();
+    })
 
-    $("#addZT").on("click", function(){
-        const url = '/zonasTuristicas/create';
+    $("#addTipoIE").on("click", function(){
+        const url = '/tiposInfraestruturas/create'
 
         AppUsage.loadModal(url, modalObject, '800px', function(){
-            $("#addFormZT").on("submit", function(e){
+            $("#addFormTipoInfraestrutura").on("submit", function(e){
                 e.preventDefault();
 
-                formZT();
+                formTiposIE();
             });
-        })
+        });
     })
-}   
+}
 
 const habilitaBotoes = function(){
-    AppUsage.deleteMultipleRowsHelper(function(){
-        $(".deleteALL").on("click", function(){
-            const url = '/zonasTuristicas/deleteAll'
-            const ids = $("tr.row-selected").map(function(index, element){
-                return $(element).attr("key")
-            });
-
-            AppUsage.deleteMultipleRowsGrid(url, ids, function(){
-                getZTFilter();  
-            })
-        })
-    })
-
+    
 
     $(grid + " .pagination > li > a").on("click", function(e){
-        e.preventDefault()
+        e.preventDefault();
         const url = $(this).attr("href");
 
         if(!!url){
-            getZTFilter(url);
+            getTiposIEFilter(url);
         }
     })
 
-    $(".btnEditZT").on("click", function(){
+    $(".btnEditTiposIE").on("click", function(){
         const id = $(this).attr("id");
-        const url = "/zonasTuristicas/edit/" + id;
+        const url = '/tiposInfraestruturas/edit/' + id;
 
         AppUsage.loadModal(url, modalObject, '800px', function(){
-            $("#editFormZT").on("submit", function(e){
-                e.preventDefault()
+            $("#editFormTipoInfraestrutura").on("submit", function(e){
+                e.preventDefault();
 
-                formZT(id);
-            })
-        })
-    })      
+                formTiposIE(id);
+            });
+        }); 
+    });
 
-    $(".btnDeleteZT").on("click", function(){
+    $(".btnDeleteTiposIE").on("click", function(){
         const id = $(this).attr("id");
-        const url = '/zonasTuristicas/delete/' + id;
+        const url = '/tiposInfraestruturas/delete/' + id;
 
         Swal.fire({
             title: 'Deseja realmente excluir o registro?',
@@ -88,22 +70,22 @@ const habilitaBotoes = function(){
         }).then(result => {
             if(result.isConfirmed){
                 AppUsage.deleteForGrid(url, function(){
-                    getZTFilter();
+                    getTiposIEFilter();
                 })
             }
-        });
-    });
+        })
+    })
 }
 
-const getZTFilter = function(url){
-    let form = $("#formSearchZT").serialize();
+const getTiposIEFilter = function(url){
+    let form = $("#formSearchTiposIE").serialize();
 
     $.ajax({
         type: "GET",
-        url: typeof url !== "undefined" ? url : "/zonasTuristicas/",
+        url: typeof url !== "undefined" ? url : "/tiposInfraestruturas/",
         data: form,
         dataType: "HTML",
-        beforeSend:function(jqXHR, settings){
+        beforeSend:function(){
             AppUsage.loading($(grid));
         },
         success: function (response) {
@@ -113,9 +95,9 @@ const getZTFilter = function(url){
     });
 }
 
-const formZT = function(id){
-    let form = typeof id == "undefined" ? '#addFormZT' : "#editFormZT";
-    let url =  typeof id == "undefined" ? '/zonasTuristicas/store' : `/zonasTuristicas/update/${id}`
+const formTiposIE = function(id){
+    let form = typeof id == "undefined" ? '#addFormTipoInfraestrutura' : "#editFormTipoInfraestrutura";
+    let url =  typeof id == "undefined" ? '/tiposInfraestruturas/store' : `/tiposInfraestruturas/update/${id}`
     let type = typeof id == "undefined" ? 'POST' : 'PUT';
 
     $.ajax({
@@ -125,8 +107,8 @@ const formZT = function(id){
         dataType: "JSON",
         beforeSend:function(){
             $(form + " .btnSubmit").prop("disabled", true).html(`
-                <i class="faf a-spinner fa-spin"> </i> Carregando...
-            `)
+                <i class="fa fa-spinner fa-spin"> </i> Carregando...
+            `)     
         },
         success: function (response) {
             Swal.fire({
@@ -140,26 +122,28 @@ const formZT = function(id){
                 didOpen:() => {
                    $(modalObject).modal('hide');
                 }
-            }); 
-
-            getZTFilter();
+            });
+            
+            getTiposIEFilter()
         },
-        error:function(jqXHR, textStatus, error){
-            if(!!jqXHR.responseJSON){
-                let errorsRequest = jqXHR.responseJSON.errors;
-                AppUsage.showMessagesValidator(form, errorsRequest)
+        error:function(jqXHR, textstatus, error){
+            if(!!jqXHR.responseJSON.errors){
+                const errors = jqXHR.responseJSON.errors;
+
+                AppUsage.showMessagesValidator(form, errors);
             }
         },
         complete:function(){
             $(form + " .btnSubmit").prop("disabled", false).html(`
                 Salvar
-            `)
+            `)      
         }
     });
+
+
 }
 
 module.exports = {
-    changeTitle,
     habilitaBotoes,
-    habilitaEventos,
+    habilitaEventos
 }

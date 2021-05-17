@@ -4,7 +4,7 @@ $(function(){
 })
 
 const habilitaEventos = function() {
-    $("#seePass").on('click',function(){
+    $("#seePass").on('click', function(){
         let passwordInputElement = $("input[name='password']");
         let openEyedIcon = "glyphicon-eye-open"
         let closeEyedIcon = "glyphicon-eye-close";

@@ -17,7 +17,7 @@
         </div>
       </form>
 @else
-    <li class="{{ $item['class']}}" >
+    <li class="{{ $item['class']}}"   bt_ac="{{ isset($item['bt_ac']) ?  $item['bt_ac'] : "zxFQ" }}"  >
         <a href="{{ $item['href'] }}" module={{ isset($item['requestjs']) ? $item['requestjs'] : "no_module"}} 
            @if (isset($item['target'])) target="{{ $item['target'] }}" @endif
         >
