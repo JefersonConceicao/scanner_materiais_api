@@ -34,7 +34,7 @@ const habilitaEventos = function(){
 }   
 
 const habilitaBotoes = function(){
-    AppUsage.deleteMultipleRowsHelper(function(){
+    AppUsage.deleteMultipleRowsHelper(grid, function(){
         $(".deleteALL").on("click", function(){
             const url = '/zonasTuristicas/deleteAll'
             const ids = $("tr.row-selected").map(function(index, element){

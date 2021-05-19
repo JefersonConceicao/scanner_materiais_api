@@ -61,7 +61,7 @@
                 </button>
             </div>
             <div class="box-body table-responsive" id="gridTT">
-                <table class="table table-hover dataTable">
+                <table class="table dataTable">
                     <thead>  
                         <tr> 
                             <th> Nome </th>
@@ -71,7 +71,7 @@
                     </thead>
                     <tbody> 
                         @foreach($dataTT as $tt)
-                            <tr> 
+                            <tr key="{{ $tt->id }}"> 
                                 <td> {{ !empty($tt->territorio_turistico) ? $tt->territorio_turistico : "Não informado" }}  </td>
                                 <td> 
                                     <label class="label label-{{ $tt->ativo == "S" ? "success" : "danger"}}"> 

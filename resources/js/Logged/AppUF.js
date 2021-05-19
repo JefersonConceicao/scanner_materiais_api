@@ -4,6 +4,7 @@ $(function(){
 })
 
 const modalObject = "#nivel1";
+const grid = "#gridUF";
 
 const changeTitle = function(){
     document.title = "BT | Unidades Federativas";
@@ -12,7 +13,6 @@ const changeTitle = function(){
 const habilitaEventos = function(){
     $("#formSearchUF").on("submit", function(e){
         e.preventDefault();
-
         getUFFilter()
     })  
 
@@ -22,7 +22,6 @@ const habilitaEventos = function(){
         AppUsage.loadModal(url, modalObject, '800px', function(){
             $("#addFormUF").on('submit', function(e){
                 e.preventDefault();
-
                 formUF()
             })
         });
@@ -30,7 +29,7 @@ const habilitaEventos = function(){
 }
 
 const habilitaBotoes = function(){
-    AppUsage.deleteMultipleRowsHelper(function(){
+    AppUsage.deleteMultipleRowsHelper(grid, function(){
         $(".deleteALL").on("click", function(){
             const url = '/uf/deleteAll'
             const ids = $("tr.row-selected").map(function(index, element){
@@ -93,7 +92,6 @@ const habilitaBotoes = function(){
 
 const getUFFilter = function(url){
     let form = $("#formSearchUF").serialize();
-    let gridUF = "#gridUF";
 
     $.ajax({
         type: "GET",
@@ -101,10 +99,10 @@ const getUFFilter = function(url){
         data: form,
         dataType: "HTML",
         beforeSend:function(){
-            AppUsage.loading($(gridUF));
+            AppUsage.loading($(grid));
         },
         success: function (response) {
-           $(gridUF).html($(response).find(`${gridUF} >`));
+           $(grid).html($(response).find(`${grid} >`));
             habilitaBotoes();
         }
     });

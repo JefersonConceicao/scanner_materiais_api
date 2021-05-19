@@ -1,4 +1,5 @@
 <?php
+
 Route::get('/', function () {
     return view('auth.login');
 });
@@ -74,6 +75,7 @@ Route::group(['middleware' => ['auth', 'verifyPermission']] , function(){
         Route::get('/edit/{id}', 'TerritoriosTuristicosController@edit')->name('edit');
         Route::put('/update/{id}', 'TerritoriosTuristicosController@update')->name('update');
         Route::delete('/delete/{id}', 'TerritoriosTuristicosController@delete')->name('delete');
+        Route::delete('/deleteAll', 'TerritoriosTuristicosController@deleteAll')->name('deleteAll');
     });
 
     Route::group(['as' => 'zonasTuristicas::', 'prefix' => 'zonasTuristicas'], function(){
@@ -93,6 +95,7 @@ Route::group(['middleware' => ['auth', 'verifyPermission']] , function(){
         Route::get('/edit/{id}', 'PaisesController@edit')->name('edit');
         Route::put('/update/{id}', 'PaisesController@update')->name('update');
         Route::delete('/delete/{id}', 'PaisesController@delete')->name('delete');
+        Route::delete('/deleteAll', 'PaisesController@deleteAll')->name('deleteAll');
     });
 
     Route::group(['as' => 'tiposEventosFestas::', 'prefix' => 'tiposEventosFestas'], function(){
@@ -102,6 +105,7 @@ Route::group(['middleware' => ['auth', 'verifyPermission']] , function(){
         Route::get('/edit/{id}', 'TiposEventosFestasController@edit')->name('edit');
         Route::put('/update/{id}', 'TiposEventosFestasController@update')->name('update');
         Route::delete('/delete/{id}', 'TiposEventosFestasController@delete')->name('delete');
+        Route::delete('/deleteAll', 'TiposEventosFestasController@deleteAll')->name('deleteAll');
     });
 
     Route::group(['as' => 'tiposInfraestruturas::', 'prefix' => 'tiposInfraestruturas'], function(){
@@ -112,6 +116,11 @@ Route::group(['middleware' => ['auth', 'verifyPermission']] , function(){
         Route::put('/update/{id}', 'TiposInfraestruturasController@update')->name('update');
         Route::delete('/delete/{id}', 'TiposInfraestruturasController@delete')->name('delete');
         Route::delete('/deleteAll', 'TiposInfraestruturasController@deleteAll')->name('deleteAll');
+    });
+
+    Route::group(['as' => 'localidades::', 'prefix' => 'localidades'], function(){
+        Route::get('/', 'LocalidadesController@index')->name('index');
+        
     });
 });
 

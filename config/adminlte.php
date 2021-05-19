@@ -30,30 +30,20 @@ return [
     'logo' => '<img 
                     class="img-responsive"
                     src="/assets/logo_union.png" 
-                    width="300px" 
-                    height="120px" 
+                    style="width:300px; height:180px; object-fit:contain;"
                     alt="unionLogoType"
-                    object-fit="contain"
+                    
                 />',
 
     'logo_mini' => '<img 
                         class="img-responsive"
-                        height="50px"
-                        width="50px"
+                        style="width:50px; height:50px";
                         src="/assets/union_mini_icon.png" 
                         object-fit="contain"
                         />
                     ',
-    /*
-    |--------------------------------------------------------------------------
-    | Skin Color
-    |--------------------------------------------------------------------------
-    |
-    | Choose a skin color for your admin panel. The available skin colors:
-    | blue, black, purple, yellow, red, and green. Each skin also has a
-    | light variant: blue-light, purple-light, purple-light, etc.
-    |
-    */
+
+                    
     'skin' => 'black-light',
     /*
     |--------------------------------------------------------------------------
@@ -247,7 +237,7 @@ return [
                     [
                         'text' => 'Localidades',
                         'icon' => 'fa fa-angle-right',
-                        'url' => '#',
+                        'url' => '/localidades/',
                         'bt_ac' => 'localidades.index'
                     ],
                     [

@@ -4,6 +4,7 @@ $(function(){
 })
 
 const modalObject = "#nivel1";
+const grid = "#gridTT"
 
 const changeTitle = function(){
     document.title = " BT | Territórios Turísticos"; 
@@ -12,7 +13,6 @@ const changeTitle = function(){
 const habilitaEventos = function(){
     $("#searchFilterTT").on("submit", function(e){
         e.preventDefault()
-
         getTTFilter()
     })
 
@@ -30,6 +30,19 @@ const habilitaEventos = function(){
 }
 
 const habilitaBotoes = function(){
+    AppUsage.deleteMultipleRowsHelper(grid, function(){
+        $(".deleteALL").on("click", function(){
+            const url = '/territoriosTuristicos/deleteAll'
+            const ids = $("tr.row-selected").map(function(index, element){
+                return $(element).attr("key");
+            });
+
+            AppUsage.deleteMultipleRowsGrid(url, ids, function(){
+                getTTFilter()
+            })
+        });
+    });
+
     $(".editTT").on("click", function(){
         const id = $(this).attr("id")
         const url = '/territoriosTuristicos/edit/' + id;
@@ -60,7 +73,9 @@ const habilitaBotoes = function(){
             timeProgressBar: true,
         }).then(result => {
             if(result.isConfirmed){
-                getTTFilter();
+                AppUsage.deleteForGrid(url, function(){
+                    getTTFilter();
+                })
             }
         })
     })
@@ -68,7 +83,6 @@ const habilitaBotoes = function(){
 
 const getTTFilter = function(){
     let form = $("#searchFilterTT").serialize();
-    let grid = "#gridTT";
 
     $.ajax({
         type: "GET",

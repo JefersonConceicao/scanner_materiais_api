@@ -253,10 +253,10 @@ const deleteForGrid = function(url, onSuccess = null, onError = null){
     });
 }
 
-const deleteMultipleRowsHelper = function(callback = null){
+const deleteMultipleRowsHelper = function(grid, callback = null){
     let selecteds = [];
 
-    $(".table tbody > tr").on("click", function(e){
+    $(grid + " .table tbody > tr").on("click", function(e){
         if(e.target.tagName == "BUTTON" || e.target.tagName == "I" || e.target.tagName == "A"){
             return
         }
@@ -324,9 +324,6 @@ const deleteMultipleRowsGrid = function(url, ids, callback = null){
                         showConfirmButton: false,
                         timer: 3500,
                         background: '#337ab7',
-                        didOpen:() => {
-                           $(modalObject).modal('hide');
-                        }
                     });
 
                     if(!response.error && !!callback){

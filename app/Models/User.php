@@ -97,11 +97,9 @@ class User extends Authenticatable
     }
 
     public function getUserById($id){
-        $data = $this
-                ->with('rolesByUser', 'userSetor')
-                ->find($id);
-
-        return $data;
+        return $this
+            ->with('rolesByUser', 'userSetor')
+            ->find($id);
     }
 
     public function saveUser($request = []){
@@ -228,7 +226,14 @@ class User extends Authenticatable
     public function changeProfilePicture($file){
         try{
             $user = Auth::user();
-            $path = Storage::disk('local')->put('/public/users/'.$user->id, $file);
+            $fileInStorage = str_replace('/storage', '/public', $user->url_photo);
+
+            //Verifica se existe foto anterior
+            if(Storage::disk('local')->has($fileInStorage)){
+                Storage::delete($fileInStorage);
+            }
+
+            $path = Storage::disk('local')->put('/public/users/'.$user->id.'/profile_pics', $file);
 
             $user->url_photo = Storage::url($path);
             $user->save();
@@ -240,7 +245,7 @@ class User extends Authenticatable
         }catch(\Exception $err){
             return [
                 'error' => true,
-                'msg' => $err->getMessage()
+                'code' => $err->getCode()
             ];
         }
     }

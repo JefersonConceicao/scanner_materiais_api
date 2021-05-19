@@ -78,7 +78,7 @@
                     </thead>
                     <tbody> 
                         @foreach($dataPais as $pais)
-                            <tr> 
+                            <tr key="{{ $pais->id }}"> 
                                 <td> {{ !empty($pais->pais_sigla) ? $pais->pais_sigla : "Não informado" }}  </td>
                                 <td> {{ !empty($pais->pais) ? $pais->pais : "Não informado" }} </td>
                                 <td> <label class="label label-{{ $pais->ativo === "S" ? "success" : "danger"}}"> 

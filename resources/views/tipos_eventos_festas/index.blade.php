@@ -70,7 +70,7 @@
                 </button>
             </div>
             <div class="box-body table-responsive" id="gridTiposEventosFestas">
-                <table class="table table-hover dataTable"> 
+                <table class="table dataTable"> 
                     <thead> 
                         <tr> 
                             <th> Nome </th>
@@ -81,7 +81,7 @@
                     </thead>
                     <tbody>
                         @foreach($dataTEF as $tef)
-                            <tr>
+                            <tr key="{{ $tef->id }}">
                                 <td> {{ !empty($tef->nome_tipo) ? $tef->nome_tipo : "Não informado" }} </td>
                                 <td> {{ $tef->classificacao === "E" ? "Evento" : "Festa" }}</td>
                                 <td> 

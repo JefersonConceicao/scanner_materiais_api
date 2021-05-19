@@ -1,5 +1,3 @@
-const { default: Swal } = require("sweetalert2");
-
 $(function(){
     setupAjax();
     adjustingDropDown();
@@ -38,18 +36,17 @@ const setupAjax = function(){
     })
 
     $(document).ajaxError(function(event, jqXHR, ajaxSettings, error){
-        console.log(event, jqXHR, ajaxSettings, error);
-         if(jqXHR.status == 500, jqXHR.responseJSON.code !== "23000"){
+         if(jqXHR.status == 500){
             Swal.fire({
                 position:'top-end',
-                 icon: 'error',
-                 title: `<p style="color:#ffff"> Ocorreu um erro interno, tente novamente mais tarde ou abra um chamado </p>`,
-                 toast: true,
-                 timer: 3000,    
-                 showConfirmButton: false,
-                 timerProgressBar:true,
-                 background: '#e91313', 
-                 didOpen:(toast) => {
+                icon: 'error',
+                title: `<p style="color:#ffff"> Ocorreu um erro interno, tente novamente mais tarde ou abra um chamado </p>`,
+                toast: true,
+                timer: 3000,    
+                showConfirmButton: false,
+                timerProgressBar:true,
+                background: '#e91313', 
+                didOpen:(toast) => {
                     toast.addEventListener('mouseenter', function(){
                         Swal.stopTimer();
                     })

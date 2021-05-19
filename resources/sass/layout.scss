@@ -1,14 +1,16 @@
 //AZUL BAHIA = #337ab7
 //VERMELHO BAHIA = #e91313
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
 
 body{
-    background-color: #337ab7 !important;  
+    background-color: #090e11 !important;  
 } 
 
 #contentLoading{
     position:fixed;
     width:100%;
-    top:0;bottom:0;
+    top:0;
+    bottom:0;
     background-color: rgba(255,255,255,0.3);
     z-index:9999;
 }
@@ -47,7 +49,16 @@ body{
 }
 
 .bg-bahia{
-    background-color: #337ab7 !important;
+    background-color: #c4c4c4 !important;
+}
+
+.bg-bahia .widget-user-username{
+    color:#333;
+    font-family: 'Roboto', sans-serif;
+}
+
+.bg-bahia .widget-user-desc{
+    color:#333;
 }
 
 .profilePicture{
@@ -65,7 +76,7 @@ body{
 }
 
 .wrapper{
-    max-width: 1350px !important;
+    max-width: 1400px !important;
 }
 
 tr.row-selected{

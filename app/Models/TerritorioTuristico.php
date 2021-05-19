@@ -90,4 +90,18 @@ class TerritorioTuristico extends Model
     public function getTTById($id){
         return $this->find($id);
     }
+
+    public function deleteAllRowsTT($request = []){
+        if($this->whereIn('id', $request['ids'])->delete()){
+            return [
+                'error' => false,
+                'msg' => count($request['ids']). " registros excluido(s)"
+            ];
+        }else{
+            return [
+                'error' => true,
+                'msg' => "Não foi possível excluir o(s) registro(s), o mesmo pode está sendo utilizado em outro lugar"
+            ];
+        }
+    }
 }

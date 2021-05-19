@@ -58,26 +58,31 @@
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"> 
                                 <img 
-                                    src="{{ Auth::user()->url_photo 
+                                    src="{{ !empty(Auth::user()->url_photo) && Storage::disk('local')->exists(
+                                        str_replace('/storage', '/public', Auth::user()->url_photo)   
+                                    ) 
                                         ? Auth::user()->url_photo 
                                         : asset('/assets/default_icon.png')
                                     }}"
                                     class="user-image menuImgProfile"
                                     alt="foto de perfil union"
+                                    style="object-fit: contain;"
                                 />
 
                                 <span class="hidden-xs"> {{ Auth::user()->name }} </span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li class="user-header">
+                                <li class="user-header bg-bahia">
                                     <img 
-                                        class="subMenuImgProfile"
-                                        src="{{ Auth::user()->url_photo 
+                                        class="subMenuImgProfile img-circle"
+                                        src="{{ !empty(Auth::user()->url_photo) && Storage::disk('local')->exists(
+                                            str_replace("/storage", "/public", Auth::user()->url_photo)
+                                        ) 
                                             ? Auth::user()->url_photo 
                                             : asset('/assets/default_icon.png')
                                         }}"
                                     />
-                                    <p> 
+                                    <p class="widget-user-desc" style="color:black;"> 
                                         {{ Auth::user()->name }}   
                                     </p>
                                 </li>
