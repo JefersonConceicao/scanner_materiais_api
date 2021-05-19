@@ -74,8 +74,6 @@ const loadingNavigation = function(inicio,  fim, isComplete = false){
     //Calcula tempo de carregamento;
     const msTimeLoading = fim - inicio; 
 
-    //Configura container body
-
     $("#containerLoadingBar").show(); //Inicia barra de carregamento
 
     let progressBar = $("#progressLoadingBar");
