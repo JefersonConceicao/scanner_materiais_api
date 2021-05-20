@@ -120,7 +120,12 @@ Route::group(['middleware' => ['auth', 'verifyPermission']] , function(){
 
     Route::group(['as' => 'localidades::', 'prefix' => 'localidades'], function(){
         Route::get('/', 'LocalidadesController@index')->name('index');
-        
+        Route::get('/create', 'TiposInfraestruturasController@create')->name('create');
+        Route::post('/store', 'TiposInfraestruturasController@store')->name('store');
+        Route::get('/edit/{id}', 'TiposInfraestruturasController@edit')->name('edit');
+        Route::put('/update/{id}', 'TiposInfraestruturasController@update')->name('update');
+        Route::delete('/delete/{id}', 'TiposInfraestruturasController@delete')->name('delete');
+        Route::delete('/deleteAll', 'TiposInfraestruturasController@deleteAll')->name('deleteAll');
     });
 });
 

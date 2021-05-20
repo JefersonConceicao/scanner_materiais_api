@@ -18,8 +18,32 @@
         @component('components.filtro')
             <form id="formSearchFilterLocalidades">
                 <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            {{ Form::label('localidade', 'Localidade') }}
+                            {{ Form::text('localidade', null, [
+                                'class' => 'form-control',
+                                'id' => 'search_form_localidade'
+                            ])}}
+                        </div>
+                    </div>
                     <div class="col-md-2">
-            
+                        <div class="form-group">
+                            {{ Form::label('uf', 'UF') }}
+                            {{ Form::select('uf', $comboUF, null, [
+                                'class' => 'form-control select2',
+                                'id' => 'serach_form_uf',
+                            ])}}
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {{ Form::label('pais', 'País') }}
+                            {{ Form::select('pais', $comboPais, null, [
+                                'class' => 'form-control select2',
+                                'id' => 'serach_form_pais',
+                            ])}}
+                        </div>
                     </div>
                 </div>
             </form>
