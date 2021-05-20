@@ -15,6 +15,7 @@
         <link rel="stylesheet" href="{{ asset('vendor/adminlte/vendor/font-awesome/css/all.min.css') }}">
         <link rel="stylesheet" href="{{ asset('vendor/adminlte/vendor/Ionicons/css/ionicons.min.css') }}">
         <link rel="stylesheet" href="{{ asset('vendor/lou-multi-select/css/multi-select.css') }}">
+        <link rel="stylesheet" href="{{ asset('libs/datetimepicker/jquery.datetimepicker.css') }}" />
         @include('adminlte::plugins', ['type' => 'css'])
         <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/AdminLTE.min.css') }}"/>
         @yield('adminlte_css')
@@ -30,6 +31,7 @@
         <script src="{{ asset('vendor/adminlte/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('vendor/lou-multi-select/js/jquery.multi-select.js') }}"> </script>
         <script src="{{ asset('vendor/jquery.quick-search/dist/jquery.quicksearch.js') }}"> </script>
+        <script src="{{ asset('libs/datetimepicker/build/jquery.datetimepicker.full.min.js') }}"> </script>
         <script> 
             var arrayPermissions = '<?php echo json_encode(session()->get("user_permissions")); ?>' 
         </script>

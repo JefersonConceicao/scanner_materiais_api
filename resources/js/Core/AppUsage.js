@@ -17,6 +17,8 @@ const initializeDataTable = function(){
 const loadLibs = function(){
     configSelect2();
     configMultiSelect();
+    configMasks();
+    configDateTimePicker();
 }
 /**
  * 
@@ -123,6 +125,15 @@ const configSelect2 = function(){
         allowClear:true,
         width:'100%',
     });  
+}
+
+const configDateTimePicker = function(){
+    //$.datetimepicker.setLocale('pt-BR');
+    $(".datetimepicker").datetimepicker();
+}
+
+const configMasks = function(){
+
 }
 
 const showMessagesValidator = function(form, errorsRequest){

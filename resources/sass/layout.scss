@@ -1,9 +1,10 @@
 //AZUL BAHIA = #337ab7
 //VERMELHO BAHIA = #e91313
+
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
 
 body{
-    background-color: #090e11 !important;  
+    background-color: #D2D2D2 !important;  
 } 
 
 #contentLoading{
@@ -76,11 +77,12 @@ body{
 }
 
 .wrapper{
-    max-width: 1400px !important;
+    max-width: 1450px !important;
 }
 
 tr.row-selected{
     background-color:#e5e6e6;
     border-color: 1px solid #e91313
 }
+
 

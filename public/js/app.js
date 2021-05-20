@@ -14703,6 +14703,8 @@ var initializeDataTable = function initializeDataTable() {
 var loadLibs = function loadLibs() {
   configSelect2();
   configMultiSelect();
+  configMasks();
+  configDateTimePicker();
 };
 /**
  * 
@@ -14781,6 +14783,13 @@ var configSelect2 = function configSelect2() {
     width: '100%'
   });
 };
+
+var configDateTimePicker = function configDateTimePicker() {
+  //$.datetimepicker.setLocale('pt-BR');
+  $(".datetimepicker").datetimepicker();
+};
+
+var configMasks = function configMasks() {};
 
 var showMessagesValidator = function showMessagesValidator(form, errorsRequest) {
   if (form.length == 0) {
@@ -15144,8 +15153,57 @@ module.exports = {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-$(function () {});
-module.exports = {};
+$(function () {
+  habilitaEventos();
+  habilitaBotoes();
+});
+var modalObject = "#nivel1";
+var grid = "#gridLocalidade";
+
+var changeTitle = function changeTitle() {
+  window.title = "BT | Localidades";
+};
+
+var habilitaEventos = function habilitaEventos() {
+  $("#formSearchFilterLocalidades").on("submit", function (e) {
+    e.preventDefault();
+    getLocalidadesFilter();
+  });
+};
+
+var habilitaBotoes = function habilitaBotoes() {
+  $(grid + " .pagination > li > a").on("click", function (e) {
+    e.preventDefault();
+    var url = $(this).attr("href");
+
+    if (!!url) {
+      getLocalidadesFilter(url);
+    }
+  });
+};
+
+var getLocalidadesFilter = function getLocalidadesFilter(url) {
+  var form = $("#formSearchFilterLocalidades").serialize();
+  $.ajax({
+    type: "GET",
+    url: typeof url !== "undefined" ? url : "/localidades/",
+    data: form,
+    dataType: "HTML",
+    beforeSend: function beforeSend() {
+      AppUsage.loading($(grid));
+    },
+    success: function success(response) {
+      $(grid).html($(response).find("".concat(grid, " >")));
+      habilitaBotoes();
+    }
+  });
+};
+
+module.exports = {
+  changeTitle: changeTitle,
+  habilitaEventos: habilitaEventos,
+  habilitaBotoes: habilitaBotoes
+};
 
 /***/ }),
 
@@ -16756,9 +16814,10 @@ module.exports = {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var dropzone__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! dropzone */ "./node_modules/dropzone/dist/dropzone.js");
 /* harmony import */ var dropzone__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(dropzone__WEBPACK_IMPORTED_MODULE_0__);
-//CORE Scripts - scripts de estrutura
+//LIBS - scripts bibliotecas
 
-dropzone__WEBPACK_IMPORTED_MODULE_0___default.a.autoDiscover = false; //CORE Scripts - scripts com funções genericas para toda a aplicação
+dropzone__WEBPACK_IMPORTED_MODULE_0___default.a.autoDiscover = false;
+window.Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js"); //CORE Scripts - scripts com funções genericas para toda a aplicação
 
 window.AppNavigation = __webpack_require__(/*! ./Core/AppNavigation */ "./resources/js/Core/AppNavigation.js");
 window.AppUsage = __webpack_require__(/*! ./Core/AppUsage */ "./resources/js/Core/AppUsage.js");
@@ -16777,12 +16836,11 @@ window.AppTerritoriosTuristicos = __webpack_require__(/*! ./Logged/AppTerritorio
 window.AppZonasTuristicas = __webpack_require__(/*! ./Logged/AppZonasTuristicas */ "./resources/js/Logged/AppZonasTuristicas.js");
 window.Paises = __webpack_require__(/*! ./Logged/AppPaises */ "./resources/js/Logged/AppPaises.js");
 window.AppTiposEventosFestas = __webpack_require__(/*! ./Logged/AppTiposEventosFestas */ "./resources/js/Logged/AppTiposEventosFestas.js");
-window.AppTiposInfraestruturas = __webpack_require__(/*! ./Logged/AppTiposInfraestruturas */ "./resources/js/Logged/AppTiposInfraestruturas.js"); //CONSTANTS Scripts - scripts re-utilizaveis
+window.AppTiposInfraestruturas = __webpack_require__(/*! ./Logged/AppTiposInfraestruturas */ "./resources/js/Logged/AppTiposInfraestruturas.js");
+window.AppLocalidades = __webpack_require__(/*! ./Logged/AppLocalidades */ "./resources/js/Logged/AppLocalidades.js"); //CONSTANTS Scripts - scripts re-utilizaveis
 
 window.languageDataTable = __webpack_require__(/*! ./Constants/language_dataTable */ "./resources/js/Constants/language_dataTable.js");
-window.AcessControl = __webpack_require__(/*! ./Constants/access_control */ "./resources/js/Constants/access_control.js"); //LIBS - scripts bibliotecas
-
-window.Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+window.AcessControl = __webpack_require__(/*! ./Constants/access_control */ "./resources/js/Constants/access_control.js");
 
 /***/ }),
 
@@ -16804,8 +16862,8 @@ window.Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\BT\bt_source\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\BT\bt_source\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\novo_union\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\novo_union\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

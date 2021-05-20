@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 //MODELS
+use App\Models\Localidade;
 use App\Models\UF;
 use App\Models\Pais;
 use App\Models\TerritorioTuristico;
@@ -13,20 +14,22 @@ use App\Models\ZonaTuristica;
 
 class LocalidadesController extends Controller
 {
-    public function index()
-    {
+    public function index(Request $request)
+    {   
+        $localidade = new Localidade;
         $uf = new UF;
         $pais = new Pais;
         $tt = new TerritorioTuristico;
         $zt = new ZonaTuristica;
-
+        
         $view = view('localidades.index')
                 ->with('comboUF', $uf->pluck('uf_sigla','id')->toArray())
                 ->with('comboTT', $tt->pluck('territorio_turistico', 'id')->toArray())
                 ->with('comboPais', $pais->pluck('pais','id')->toArray())
-                ->with('comboZT', $zt->pluck('zona_turistica','id')->toArray());
+                ->with('comboZT', $zt->pluck('zona_turistica','id')->toArray())
+                ->with('dadosLocalidades', $localidade->getLocalidades($request->all())->paginate(7));
 
-        return request()->ajax() ? $view->renderSections()['content'] : $view;
+        return $request->ajax() ? $view->renderSections()['content'] : $view;
     }
 
     public function create()

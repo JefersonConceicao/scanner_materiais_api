@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Models;
-
 use Illuminate\Database\Eloquent\Model;
 
 class Localidade extends Model
@@ -57,20 +56,36 @@ class Localidade extends Model
     public $timestamps = false;
 
     public function territorioTuristico(){
-
+        return $this->belongsTo(TerritorioTuristico::class);
     }
 
-    public function localidadePai(){
-
+    public function zonaTuristica(){
+        return $this->belongsTo(ZonaTuristica::class);
     }
     
     public function pais(){
-        return $this->hasOne(Pais::class);
+        return $this->belongsTo(Pais::class);
     }
 
     public function uf(){
-        return $this->hasOne(UF::class);
+        return $this->belongsTo(UF::class);
     }
 
+    public function getLocalidades($searchParams = []){
+        $conditions = [];
 
+        return $this
+            ->select(
+                'tt.territorio_turistico as territorio_turistico', 
+                'pais.pais as pais',
+                \DB::raw("(SELECT localidade FROM localidade WHERE localidade.localidade_pai_id = localidade.id) as nome_localidade_pai"),
+                'uf.uf_sigla as uf',
+                'zt.zona_turistica as zona_turistica',
+                'localidade.*'
+            )
+            ->leftJoin('territorio_turistico as tt', 'localidade.territorio_turistico_id', 'tt.id')
+            ->join('pais','localidade.pais_id', 'pais.id')
+            ->join('uf', 'localidade.uf_id', 'uf.id')
+            ->leftJoin('zona_turistica as zt', 'localidade.zona_turistica_id', 'zt.id');
+    }
 }
