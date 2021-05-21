@@ -33,7 +33,7 @@
                                 str_replace("/storage/","/public/", $user->url_photo)
                             )
                                 ?  $user->url_photo 
-                                :  asset('assets/default_icon.png') 
+                                :  asset('img/default_icon.png') 
                             }}" 
                             alt="User Avatar"
                             data-toggle="tooltip"

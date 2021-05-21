@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="shortcut icon" href="{{ asset("assets/favicon.ico") }}"/>
+        <link rel="shortcut icon" href="{{ asset("img/favicon.ico") }}"/>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title> 
@@ -23,7 +23,7 @@
         <link rel="stylesheet" href="{{asset('css/app.css')}}">
     </head>
 
-    <body class="hold-transition @yield('body_class') layout-boxed">
+    <body class="hold-transition @yield('body_class') fixed">
             @yield('body')
 
         <script src="{{ asset('vendor/adminlte/vendor/jquery/dist/jquery.min.js') }}"></script>
@@ -32,6 +32,7 @@
         <script src="{{ asset('vendor/lou-multi-select/js/jquery.multi-select.js') }}"> </script>
         <script src="{{ asset('vendor/jquery.quick-search/dist/jquery.quicksearch.js') }}"> </script>
         <script src="{{ asset('libs/datetimepicker/build/jquery.datetimepicker.full.min.js') }}"> </script>
+        <script src="{{ asset('libs/inputmask/dist/jquery.inputmask.min.js')}}"> </script>
         <script> 
             var arrayPermissions = '<?php echo json_encode(session()->get("user_permissions")); ?>' 
         </script>

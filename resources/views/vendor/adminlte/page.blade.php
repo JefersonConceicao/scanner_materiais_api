@@ -62,7 +62,7 @@
                                         str_replace('/storage', '/public', Auth::user()->url_photo)   
                                     ) 
                                         ? Auth::user()->url_photo 
-                                        : asset('/assets/default_icon.png')
+                                        : asset('/img/default_icon.png')
                                     }}"
                                     class="user-image menuImgProfile"
                                     alt="foto de perfil union"
@@ -79,7 +79,7 @@
                                             str_replace("/storage", "/public", Auth::user()->url_photo)
                                         ) 
                                             ? Auth::user()->url_photo 
-                                            : asset('/assets/default_icon.png')
+                                            : asset('/img/default_icon.png')
                                         }}"
                                     />
                                     <p class="widget-user-desc" style="color:black;"> 

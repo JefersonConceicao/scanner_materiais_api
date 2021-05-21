@@ -21,13 +21,13 @@ class LocalidadesController extends Controller
         $pais = new Pais;
         $tt = new TerritorioTuristico;
         $zt = new ZonaTuristica;
-        
+    
         $view = view('localidades.index')
                 ->with('comboUF', $uf->pluck('uf_sigla','id')->toArray())
                 ->with('comboTT', $tt->pluck('territorio_turistico', 'id')->toArray())
                 ->with('comboPais', $pais->pluck('pais','id')->toArray())
                 ->with('comboZT', $zt->pluck('zona_turistica','id')->toArray())
-                ->with('dadosLocalidades', $localidade->getLocalidades($request->all())->paginate(7));
+                ->with('dadosLocalidades', $localidade->getLocalidades($request->all())->paginate(20));
 
         return $request->ajax() ? $view->renderSections()['content'] : $view;
     }

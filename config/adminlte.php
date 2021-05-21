@@ -29,7 +29,7 @@ return [
 
     'logo' => '<img 
                     class="img-responsive"
-                    src="/assets/logo_union.png" 
+                    src="/img/logo_union.png" 
                     style="width:300px; height:180px; object-fit:contain;"
                     alt="unionLogoType"
                     
@@ -38,7 +38,7 @@ return [
     'logo_mini' => '<img 
                         class="img-responsive"
                         style="width:50px; height:50px";
-                        src="/assets/union_mini_icon.png" 
+                        src="/img/union_mini_icon.png" 
                         object-fit="contain"
                         />
                     ',
@@ -238,6 +238,7 @@ return [
                         'text' => 'Localidades',
                         'icon' => 'fa fa-angle-right',
                         'url' => '/localidades/',
+                        'requestjs' => 'AppLocalidades',
                         'bt_ac' => 'localidades.index'
                     ],
                     [

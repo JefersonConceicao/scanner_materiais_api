@@ -128,12 +128,28 @@ const configSelect2 = function(){
 }
 
 const configDateTimePicker = function(){
-    //$.datetimepicker.setLocale('pt-BR');
-    $(".datetimepicker").datetimepicker();
+    $.datetimepicker.setLocale('pt-BR');
+    $(".datetimepicker").datetimepicker({   
+        closeOnDateSelect: true,
+        format: 'd/m/Y H:i:s',
+    });
+
+    $(".datepicker").datetimepicker({
+        closeOnDateSelect: true,
+        format: 'd/m/Y',
+        timepicker:false,
+    })
+
+    $(".date-month-year").datetimepicker({
+        closeOnDateSelect: true,
+        format: 'm/Y',
+        timepicker: false,
+    })
 }
 
 const configMasks = function(){
-
+    $(".phone").inputmask('(99) 9999[9]-9999');
+    $(".month-year").inputmask('99/99');
 }
 
 const showMessagesValidator = function(form, errorsRequest){

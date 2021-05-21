@@ -19,6 +19,14 @@ const habilitaEventos = function(){
 }
 
 const habilitaBotoes = function(){
+    $("#addLocalidade").on("click", function(){
+        const url = "/localidades/create";
+    
+        AppUsage.loadModal(url, modalObject, '1600px', function(){
+
+        });
+    });
+
     $(grid + " .pagination > li > a").on("click", function(e){
         e.preventDefault();
         const url = $(this).attr("href");

@@ -101,6 +101,7 @@
                             ])}}
                         </div>
                     </div>
+                    
                     <div class="col-md-2">
                         <div class="form-group">
                             {{ Form::label('embasa', 'Embasa') }}
@@ -116,9 +117,10 @@
                         <div class="form-group">
                             {{ Form::label('aniversario', 'Aniversário') }}
                             {{ Form::text('aniversario', null, [
-                                'class' => 'form-control',
+                                'class' => 'form-control month-year',
                                 'id' => 'search_form_aniversario',
-                                'placeholder' => 'MM/YY'
+                                'placeholder' => 'DD/MM',
+                                'autocomplete' => "off",
                             ])}}
                         </div>
                     </div>
@@ -127,11 +129,13 @@
                         <div class="form-group">
                             {{ Form::label('fundacao', 'Fundação' )}}
                             {{ Form::text('fundacao', null, [
-                                'class' => 'form-control datetimepicker',
-                                'id' => 'search_form_fundacao'
+                                'class' => 'form-control datepicker',
+                                'id' => 'search_form_fundacao',
+                                'autocomplete' => "off",
                             ])}}
                         </div>
                     </div>
+
                     <div class="col-md-3">
                         <div class="form-group">
                             {{ Form::label('nome_padroeiro', 'Nome Padroeiro') }}
@@ -141,12 +145,14 @@
                             ])}}
                         </div>
                     </div>
+
                     <div class="col-md-2">
                         <div class="form-group">
                             {{ Form::label('dia_padroeiro', 'Dia Padroeiro') }}
                             {{ Form::text('dia_padroeiro', null, [
-                                'class' => 'form-control datetimepicker',
-                                'id' => 'search_form_dia_padroeiro'
+                                'class' => 'form-control datepicker',
+                                'id' => 'search_form_dia_padroeiro',
+                                'autocomplete' => 'off',
                             ])}}
                         </div>
                     </div>
@@ -185,14 +191,14 @@
                 </div>
             </form>
         @endcomponent
-        <div class="box">
+        <div class="box" id="gridLocalidade">
             <div class="box-header with-border">
                 <p class="box-title"> Total de registros: {{ $dadosLocalidades->total() }} </p>
                 <button class="btn btn-primary pull-right" id="addLocalidade"> 
                     <i class="fa fa-plus-square"> </i> Novo
                 </button>
             </div>
-            <div class="box-body table-responsive" id="gridLocalidade">
+            <div class="box-body table-responsive">
                 <table class="table dataTable"> 
                     <thead>
                         <tr> 
@@ -214,7 +220,7 @@
                                 <td> {{ $localidade->localidade }} </td>
                                 <td> {{ $localidade->uf }} </td>
                                 <td> {{ $localidade->pais }} </td>
-                                <td> {{ $localidade->territorio_turistico }} </td>
+                                <td> {{ !empty($localidade->territorio_turistico) ? $localidade->territorio_turistico : "N\A" }} </td>
                                 <td> {{ !empty($localidade->zona_turistica) ? $localidade->zona_turistica : "N/A" }} </td>
                                 <td> {{ !empty($localidade->populacao) ? number_format($localidade->populacao, 2) : "N\A" }}   </td>
                                 <td> {{ !empty($localidade->area)  ? number_format($localidade->area, 2) : "N\A" }}     </td>
@@ -226,18 +232,22 @@
                                 </td>
                                 <td> 
                                     <div style="display:flex; justify-content:space-between;">
-                                        <button type="button" class="btn btn-xs btn-primary btnEditLocalidade"> 
+                                        <button 
+                                            type="button" 
+                                            class="btn btn-xs btn-primary btnEditLocalidade"
+                                            data-toggle="tooltip"
+                                            ttile="Ver Mais"
+                                        > 
                                             <i class="fa fa-edit"> </i>
-                                        </button>
-                                        &nbsp;
-                                        <button type="button" class="btn btn-danger btn-xs btnDeleteLocalidade">  
-                                            <i class="fa fa-trash"> </i>
                                         </button>
                                         &nbsp;
                                         <button type="button" class="btn btn-success btn-xs btnDetailsLocalidade"> 
                                             <i class="fa fa-list"> </i>
                                         </button>
-                                        
+                                        &nbsp;
+                                        <button type="button" class="btn btn-danger btn-xs btnDeleteLocalidade">  
+                                            <i class="fa fa-trash"> </i>
+                                        </button>
                                     </div>
                                 </td>
                             </tr>

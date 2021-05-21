@@ -14785,11 +14785,27 @@ var configSelect2 = function configSelect2() {
 };
 
 var configDateTimePicker = function configDateTimePicker() {
-  //$.datetimepicker.setLocale('pt-BR');
-  $(".datetimepicker").datetimepicker();
+  $.datetimepicker.setLocale('pt-BR');
+  $(".datetimepicker").datetimepicker({
+    closeOnDateSelect: true,
+    format: 'd/m/Y H:i:s'
+  });
+  $(".datepicker").datetimepicker({
+    closeOnDateSelect: true,
+    format: 'd/m/Y',
+    timepicker: false
+  });
+  $(".date-month-year").datetimepicker({
+    closeOnDateSelect: true,
+    format: 'm/Y',
+    timepicker: false
+  });
 };
 
-var configMasks = function configMasks() {};
+var configMasks = function configMasks() {
+  $(".phone").inputmask('(99) 9999[9]-9999');
+  $(".month-year").inputmask('99/99');
+};
 
 var showMessagesValidator = function showMessagesValidator(form, errorsRequest) {
   if (form.length == 0) {
@@ -15172,6 +15188,10 @@ var habilitaEventos = function habilitaEventos() {
 };
 
 var habilitaBotoes = function habilitaBotoes() {
+  $("#addLocalidade").on("click", function () {
+    var url = "/localidades/create";
+    AppUsage.loadModal(url, modalObject, '1600px', function () {});
+  });
   $(grid + " .pagination > li > a").on("click", function (e) {
     e.preventDefault();
     var url = $(this).attr("href");

@@ -1,7 +1,6 @@
 //LIBS - scripts bibliotecas
 import Dropzone from 'dropzone'
 Dropzone.autoDiscover = false;
-
 window.Swal = require('sweetalert2');
 
 //CORE Scripts - scripts com funções genericas para toda a aplicação

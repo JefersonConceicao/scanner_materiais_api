@@ -11,7 +11,7 @@
                 {{ Form::label('territorio_turistico', 'Nome Território')}} <span class="required"> * </span>
                 {{ Form::text('territorio_turistico', $dataTT->territorio_turistico , [
                     'class' => 'form-control',
-                    'id' => 'form_add_tt'
+                    'id' => 'form_edit_tt'
                 ]) }}
 
                 <div class="error_feedback"> </div>
@@ -23,7 +23,7 @@
                 {{ Form::label('ativo', 'Ativo')}} <span class="required"> * </span>
                 {{ Form::select('ativo', ['S' => 'Sim', 'N' => 'Não'], $dataTT->ativo , [
                     'class' => 'form-control',
-                    'id' => 'form_add_tt'
+                    'id' => 'form_edit_tt'
                 ]) }}
 
                 <div class="error_feedback"> </div>
