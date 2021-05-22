@@ -15190,7 +15190,7 @@ var habilitaEventos = function habilitaEventos() {
 var habilitaBotoes = function habilitaBotoes() {
   $("#addLocalidade").on("click", function () {
     var url = "/localidades/create";
-    AppUsage.loadModal(url, modalObject, '1600px', function () {});
+    AppUsage.loadModal(url, modalObject, '80%', function () {});
   });
   $(grid + " .pagination > li > a").on("click", function (e) {
     e.preventDefault();
@@ -16882,8 +16882,8 @@ window.AcessControl = __webpack_require__(/*! ./Constants/access_control */ "./r
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\novo_union\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\novo_union\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\bt\bt_source\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\bt\bt_source\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

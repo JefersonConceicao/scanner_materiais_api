@@ -48,7 +48,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12 pull-left btnEdit">
-                        <button class="btn btn-primary">  
+                        <button type="button" class="btn btn-primary">  
                             <i class="fa fa-eraser"> </i> Limpar Pesquisa
                         </button> 
                         <button class="btn btn-primary btnDelete"> 

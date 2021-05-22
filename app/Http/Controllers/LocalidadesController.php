@@ -34,7 +34,7 @@ class LocalidadesController extends Controller
 
     public function create()
     {
-        //
+        return view('localidades.create');
     }
 
     public function store(Request $request)

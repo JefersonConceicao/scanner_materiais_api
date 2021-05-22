@@ -22,7 +22,7 @@ const habilitaBotoes = function(){
     $("#addLocalidade").on("click", function(){
         const url = "/localidades/create";
     
-        AppUsage.loadModal(url, modalObject, '1600px', function(){
+        AppUsage.loadModal(url, modalObject, '80%', function(){
 
         });
     });
