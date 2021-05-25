@@ -24,8 +24,8 @@ const loadLibs = function(){
  * 
  * @param {string} url get url http request
  * @param {element} modalObject string selector do modal ex: "#modal1"
- * @param {string} width pixels 
- * @param {callback} callback função a ser executada dentro do modal
+ * @param {string} width pixels ou porcentagem
+ * @param {callback} callback função a ser executada dentro do modal ( geralmente utilizado p/ gerenciar eventos no modal)
  */
 
 const loadModal = function(url, modalObject, width = null, callback = null){
@@ -150,6 +150,12 @@ const configDateTimePicker = function(){
 const configMasks = function(){
     $(".phone").inputmask('(99) 9999[9]-9999');
     $(".month-year").inputmask('99/99');
+    $(".decimal-numeric").inputmask({
+        mask:"decimal",
+        greedy: false,
+        groupSeparator: '.',
+        autoGroup:true
+    })
 }
 
 const showMessagesValidator = function(form, errorsRequest){

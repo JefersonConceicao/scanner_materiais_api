@@ -119,7 +119,6 @@
                             {{ Form::text('aniversario', null, [
                                 'class' => 'form-control month-year',
                                 'id' => 'search_form_aniversario',
-                                'placeholder' => 'DD/MM',
                                 'autocomplete' => "off",
                             ])}}
                         </div>
@@ -194,7 +193,7 @@
         <div class="box" id="gridLocalidade">
             <div class="box-header with-border">
                 <p class="box-title"> Total de registros: {{ $dadosLocalidades->total() }} </p>
-                <button class="btn btn-primary pull-right" id="addLocalidade"> 
+                <button class="btn btn-primary pull-right" id="addLocalidade" bt_ac="localidades.create"> 
                     <i class="fa fa-plus-square"> </i> Novo
                 </button>
             </div>
@@ -202,6 +201,7 @@
                 <table class="table dataTable"> 
                     <thead>
                         <tr> 
+                            <th> Código </th>
                             <th> Localidade </th>
                             <th> UF </th>
                             <th> País </th>
@@ -217,6 +217,7 @@
                     <tbody>
                         @foreach($dadosLocalidades as $localidade)
                             <tr>
+                                <td> {{ $localidade->id }} </td>
                                 <td> {{ $localidade->localidade }} </td>
                                 <td> {{ $localidade->uf }} </td>
                                 <td> {{ $localidade->pais }} </td>
@@ -236,16 +237,26 @@
                                             type="button" 
                                             class="btn btn-xs btn-primary btnEditLocalidade"
                                             data-toggle="tooltip"
-                                            ttile="Ver Mais"
+                                            title="Ver Mais"
+                                            data-placement="top"
+                                            id="{{ $localidade->id }}"
                                         > 
                                             <i class="fa fa-edit"> </i>
                                         </button>
                                         &nbsp;
-                                        <button type="button" class="btn btn-success btn-xs btnDetailsLocalidade"> 
+                                        <button 
+                                            type="button" 
+                                            class="btn btn-success btn-xs btnDetailsLocalidade"
+                                            id={{ $localidade->id }}
+                                        > 
                                             <i class="fa fa-list"> </i>
                                         </button>
                                         &nbsp;
-                                        <button type="button" class="btn btn-danger btn-xs btnDeleteLocalidade">  
+                                        <button 
+                                            type="button" 
+                                            class="btn btn-danger btn-xs btnDeleteLocalidade"
+                                            id={{ $localidade->id }}
+                                        >  
                                             <i class="fa fa-trash"> </i>
                                         </button>
                                     </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 //OTHER'S NAMESPACES
 use Illuminate\Http\Request;
+use App\Http\Requests\LocalidadeRequest;
 
 //MODELS
 use App\Models\Localidade;
@@ -34,35 +35,63 @@ class LocalidadesController extends Controller
 
     public function create()
     {
-        
-        
+        $uf = new UF;
+        $pais = new Pais;
+        $localidade = new Localidade;
+        $tt = new TerritorioTuristico;
+        $zt = new ZonaTuristica; 
 
-
-
+        return view('localidades.create')
+            ->with('comboUF', $uf->pluck('uf_sigla', 'id')->toArray())
+            ->with('comboPais', $pais->pluck('pais', 'id')->toArray())
+            ->with('comboLocalidade', $localidade->plucK('localidade','id')->toArray())
+            ->with('comboTT', $tt->pluck('territorio_turistico', 'id')->toArray())
+            ->with('comboZT', $zt->pluck('zona_turistica', 'id')->toArray());
     }
 
-    public function store(Request $request)
+    public function store(LocalidadeRequest $request)
     {
-        //
+        $localidade = new Localidade;
+        $data = $localidade->saveLocalidade($request->all());
+
+        return response()->json($data);
     }
 
-    public function show($id)
-    {
-        //
-    }
-
+    
     public function edit($id)
     {
-        //
+        $uf = new UF;
+        $pais = new Pais;
+        $tt = new TerritorioTuristico;
+        $zt = new ZonaTuristica;
+        $localidade = new Localidade;
+
+        return view('localidades.edit')
+            ->with('dataLocalidade', $localidade->find($id))
+            ->with('comboUF', $uf->pluck('uf_sigla', 'id')->toArray())
+            ->with('comboPais', $pais->pluck('pais', 'id')->toArray())
+            ->with('comboLocalidade', $localidade->plucK('localidade','id')->toArray())
+            ->with('comboTT', $tt->pluck('territorio_turistico', 'id')->toArray())
+            ->with('comboZT', $zt->pluck('zona_turistica', 'id')->toArray());
     }
 
     public function update(Request $request, $id)
     {
-        //
+        $localidade = new Localidade;
+        
+        $data = $localidade->updateLocalidade($id, $request->all());
+        return response()->json($data);
     }
 
     public function destroy($id)
     {
         //
     }
+
+
+    public function show($id)
+    {
+        //
+    }
+
 }

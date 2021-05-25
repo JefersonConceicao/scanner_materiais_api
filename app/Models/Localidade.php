@@ -155,4 +155,69 @@ class Localidade extends Model
             ->where($conditions)
             ->orderBy('localidade.id', 'DESC');
     }
+
+    public function saveLocalidade($request = []){
+        try{
+            if(isset($request['Aniversario']) && !empty($request['Aniversario'])){
+                $splitDate = explode('-', str_replace("/","-", $request['Aniversario']));
+                $request['Aniversario'] = "0001-".$splitDate[1]."-".$splitDate[0];
+            }     
+
+            if(isset($request['dia_padroeiro']) && !empty($request['dia_padroeiro'])){
+                $splitDate = explode('-', str_replace("/","-", $request['dia_padroeiro']));
+                $request['dia_padroeiro'] = "0001-".$splitDate[1]."-".$splitDate[0];
+            }
+
+            if(isset($request['fundacao']) && !empty($request['fundacao'])){
+                $request['fundacao'] = converteData(str_replace('/','-',$request['fundacao']), 'Y-m-d');
+            }
+
+            $this->fill($request)->save();
+            return [
+                'error' => false,
+                'msg' => 'Registro salvo com sucesso!'
+            ];
+        }catch(\Exception $err){
+            return [
+                'error' => true,
+                'msg' => 'Não foi possível salvar o registro',
+                'error_msg' => $err->getMessage()
+            ];
+        }   
+    }
+
+    public function updateLocalidade($id, $request = []){
+        try{
+            if(isset($request['Aniversario']) && !empty($request['Aniversario'])){
+                $splitDate = explode('-', str_replace("/","-", $request['Aniversario']));
+                $request['Aniversario'] = "0001-".$splitDate[1]."-".$splitDate[0];
+            }     
+
+            if(isset($request['dia_padroeiro']) && !empty($request['dia_padroeiro'])){
+                $splitDate = explode('-', str_replace("/","-", $request['dia_padroeiro']));
+                $request['dia_padroeiro'] = "0001-".$splitDate[1]."-".$splitDate[0];
+            }
+
+            if(isset($request['fundacao']) && !empty($request['fundacao'])){
+                $request['fundacao'] = converteData(str_replace('/','-',$request['fundacao']), 'Y-m-d');
+            }
+
+            $localidade = $this->find($id);
+            $localidade->fill($request)->save();
+
+            return [
+                'error' => false,
+                'msg' => 'Registro alterado com sucesso'
+            ];
+        }catch(\Exception $err){
+            return [
+                'error' => true,
+                'msg' => 'Não foi possível salvar o regsitro'
+            ];
+        }
+    }
+
+    public function deleteLocalidade($id){
+
+    }
 }

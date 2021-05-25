@@ -66,34 +66,38 @@ class User extends Authenticatable
      * @return collection users
      */
     public function getUsers($request = []){
-        $conditions = [];
+        try{
+            $conditions = [];
+            
+            if(isset($request['nome']) && !empty($request['nome'])){
+                $conditions[] = ['users.name', 'like', "%".$request['nome']."%"];
+            }
+
+            if(isset($request['email']) && !empty($request['email'])){
+                $conditions[] = ['users.email','like', "%".$request['email']."%"];
+            }
+
+            if(isset($request['role']) && !empty($request['role'])){
+                $conditions[] = ['role_user.role_id','=',$request['role']];
+            }
+
+            if(isset($request['setor']) && !empty($request['setor'])){
+                $conditions[] = ['users.setor_id', '=', $request['setor']];
+            }
+
+            $data = $this
+                ->leftJoin('setor', 'setor.id', 'users.setor_id')
+                ->select(
+                    'setor.descsetor as descricao_setor',
+                    'users.*'
+                )
+                ->where($conditions)
+                ->orderBy('users.id', 'DESC');
         
-        if(isset($request['nome']) && !empty($request['nome'])){
-            $conditions[] = ['users.name', 'like', "%".$request['nome']."%"];
+            return $data;
+        }catch(\Exception $err){
+           return []; 
         }
-
-        if(isset($request['email']) && !empty($request['email'])){
-            $conditions[] = ['users.email','like', "%".$request['email']."%"];
-        }
-
-        if(isset($request['role']) && !empty($request['role'])){
-            $conditions[] = ['role_user.role_id','=',$request['role']];
-        }
-
-        if(isset($request['setor']) && !empty($request['setor'])){
-            $conditions[] = ['users.setor_id', '=', $request['setor']];
-        }
-
-        $data = $this
-            ->leftJoin('setor', 'setor.id', 'users.setor_id')
-            ->select(
-                'setor.descsetor as descricao_setor',
-                'users.*'
-            )
-            ->where($conditions)
-            ->orderBy('users.id', 'DESC');
-     
-        return $data;
     }
 
     public function getUserById($id){

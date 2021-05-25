@@ -13,7 +13,11 @@
 
 @section('body')
     <div class="wrapper">
-        <div id="contentLoading" style="display:none;"> </div>
+        <div id="contentLoading" style="display:none;">
+            <div class="body-loading">
+                <h3> <i class="fa fa-spinner fa-spin"> </i> Carregando... </h3>
+            </div>
+        </div>
 
         <!-- Main Header -->
         <header class="main-header">

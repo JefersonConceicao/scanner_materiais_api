@@ -116,11 +116,9 @@ const getNewScreen = function(url, module){
         start_time: new Date().getTime(),
         beforeSend:function(jqXHR, settings){
             $("#contentLoading").show();
-            loadingNavigation(this.start_time, new Date().getTime());
         },
         success: function (response) {
             changeURL(url);
-
             elementWrapper.html(response);
             AppUsage.initializeDataTable();
             AppUsage.loadLibs();
@@ -139,7 +137,6 @@ const getNewScreen = function(url, module){
             console.log(err);
         },
         complete:function(){
-            loadingNavigation(this.start_time, new Date().getTime(), true);
             $("#contentLoading").hide();
         },
     });

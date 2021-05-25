@@ -2,6 +2,7 @@
 import Dropzone from 'dropzone'
 Dropzone.autoDiscover = false;
 window.Swal = require('sweetalert2');
+window.moment = require('moment');
 
 //CORE Scripts - scripts com funções genericas para toda a aplicação
 window.AppNavigation = require('./Core/AppNavigation');

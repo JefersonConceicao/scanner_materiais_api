@@ -36,6 +36,10 @@ body {
   z-index: 9999;
 }
 
+.body-loading {
+  text-align: center;
+}
+
 .body-container {
   position: fixed;
   width: 100%;
