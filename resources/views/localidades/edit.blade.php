@@ -1,7 +1,7 @@
 @extends("layouts.modals")
 @section('form_modal', 'editFormLocalidade')
 @section('modal-header')
-    <i class="fa fa-edit"> </i> Alterar Localidade
+    <i class="fa fa-edit"> </i> <b> Alterar Localidade </b>
 @endsection
 
 @section('modal_content')
@@ -278,7 +278,7 @@
         </div>  
         <div class="panel-body">
             <div class="row">
-                <?php for($i = 2007; $i <= 2022; $i++ ){ ?>
+                <?php for($i = 2007; $i <= 2022; $i++){ ?>
                     <div class="col-md-1">
                         <div class="input-group">
                             <span class="input-group-addon">
@@ -286,12 +286,11 @@
                                     type="checkbox" 
                                     aria-label="São João da Bahia" 
                                     name="sj_{{$i}}" 
-                                    value="S" 
-                                    @if($dataLocalidade["sj_$i"])
+                                    value="S"
+                                    @if($dataLocalidade["sj_$i"] == "S")
                                         checked
                                     @endif
                                 />
-                                
                                 {{ $i }}
                             </span>
                         </div>

@@ -216,7 +216,7 @@
                     </thead>
                     <tbody>
                         @foreach($dadosLocalidades as $localidade)
-                            <tr>
+                            <tr key="{{ $localidade->id }}">
                                 <td> {{ $localidade->id }} </td>
                                 <td> {{ $localidade->localidade }} </td>
                                 <td> {{ $localidade->uf }} </td>
@@ -237,7 +237,7 @@
                                             type="button" 
                                             class="btn btn-xs btn-primary btnEditLocalidade"
                                             data-toggle="tooltip"
-                                            title="Ver Mais"
+                                            title="Editar"
                                             data-placement="top"
                                             id="{{ $localidade->id }}"
                                         > 
@@ -247,6 +247,8 @@
                                         <button 
                                             type="button" 
                                             class="btn btn-success btn-xs btnDetailsLocalidade"
+                                            data-toogle="tooltip"
+                                            title="Mais Detalhes"
                                             id={{ $localidade->id }}
                                         > 
                                             <i class="fa fa-list"> </i>
@@ -255,6 +257,8 @@
                                         <button 
                                             type="button" 
                                             class="btn btn-danger btn-xs btnDeleteLocalidade"
+                                            data-toogle="tooltip"
+                                            title="Excluir"
                                             id={{ $localidade->id }}
                                         >  
                                             <i class="fa fa-trash"> </i>
@@ -270,6 +274,5 @@
                 </div>  
             </div>
         </div>
-        
     </section>
 @endsection

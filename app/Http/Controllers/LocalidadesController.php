@@ -57,7 +57,6 @@ class LocalidadesController extends Controller
         return response()->json($data);
     }
 
-    
     public function edit($id)
     {
         $uf = new UF;
@@ -83,15 +82,26 @@ class LocalidadesController extends Controller
         return response()->json($data);
     }
 
+    public function details($id)
+    {
+        $localidade = new Localidade;
+
+        return view('localidades.details')
+            ->with('dadosLocalidade',  $localidade->getLocalidadeById($id))
+            ->with('distancia', $localidade->getLocalidadeDistancia($id))
+            ->with('infraestrutura', $localidade->getLocalidadeInfraestrutura($id))
+            ->with('eventoFesta', $localidade->getLocalidadeEventoFesta($id));
+    }
+
+    public function createDistanciaLocalidades(){
+        $localidade = new Localidade;
+
+        return view('localidade_distancias.create')
+            ->with('comboLocalidadeDist', $localidade->pluck('localidade', 'id')->toArray());
+    }
+
     public function destroy($id)
     {
-        //
+        
     }
-
-
-    public function show($id)
-    {
-        //
-    }
-
 }

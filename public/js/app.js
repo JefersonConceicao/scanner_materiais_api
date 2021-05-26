@@ -36851,6 +36851,13 @@ var habilitaBotoes = function habilitaBotoes() {
       });
     });
   });
+  $(".btnDetailsLocalidade").on("click", function () {
+    var id = $(this).attr("id");
+    var url = "/localidades/details/".concat(id);
+    AppUsage.loadModal(url, "#nivel1", '85%', function () {
+      habilitaBotoesInModal(id);
+    });
+  });
   $(grid + " .pagination > li > a").on("click", function (e) {
     e.preventDefault();
     var url = $(this).attr("href");
@@ -36858,6 +36865,13 @@ var habilitaBotoes = function habilitaBotoes() {
     if (!!url) {
       getLocalidadesFilter(url);
     }
+  });
+};
+
+var habilitaBotoesInModal = function habilitaBotoesInModal(id) {
+  $("#addDistanciaLocalidade").on("click", function () {
+    var url = '/localidades/createDistLocalidades/' + id;
+    AppUsage.loadModal(url, "#nivel2", '60%', function () {});
   });
 };
 

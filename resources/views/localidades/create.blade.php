@@ -1,7 +1,7 @@
 @extends("layouts.modals")
 @section('form_modal', 'addFormLocalidade')
 @section('modal-header')
-    <i class="fa fa-plus-square-o"> </i> Nova Localidade
+    <i class="fa fa-plus-square-o"> </i> <b> Nova Localidade </b>
 @endsection
 
 @section('modal_content')

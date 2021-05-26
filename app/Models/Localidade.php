@@ -55,6 +55,32 @@ class Localidade extends Model
 
     public $timestamps = false;
 
+    public $nullables = [
+        'mp_2009',
+        'mp_2013',
+        'mp_2016',
+        'mp_2017',
+        'mp_2019',
+        'mp_2021',
+        'mp_2023',
+        'sj_2007',
+        'sj_2008',
+        'sj_2009',
+        'sj_2010',
+        'sj_2011',
+        'sj_2012',
+        'sj_2013',
+        'sj_2014',
+        'sj_2015',
+        'sj_2016',
+        'sj_2017',
+        'sj_2018',
+        'sj_2019',
+        'sj_2020',
+        'sj_2021',
+        'sj_2022'
+    ];
+
     public function territorioTuristico(){
         return $this->belongsTo(TerritorioTuristico::class);
     }
@@ -69,6 +95,18 @@ class Localidade extends Model
 
     public function uf(){
         return $this->belongsTo(UF::class);
+    }
+
+    public function localidadeDistancia(){
+        return $this->hasMany(LocalidadeDistancia::class);
+    }
+
+    public function localidadeInfraEstrutura(){
+        return $this->hasMany(LocalidadeInfraestrutura::class);
+    }
+
+    public function localidadeEventoFesta(){
+        return $this->hasMany(LocalidadeEventoFesta::class);
     }
 
     public function getLocalidades($searchParams = []){
@@ -201,6 +239,13 @@ class Localidade extends Model
             if(isset($request['fundacao']) && !empty($request['fundacao'])){
                 $request['fundacao'] = converteData(str_replace('/','-',$request['fundacao']), 'Y-m-d');
             }
+            
+            //SUBSTITUI CAMPOS NULOS POR VALOR PADRÃO N (NÃO/NEGATIVO)
+            foreach($this->nullables as $k => $v){
+                if(!isset($request[$v])){
+                    $request[$v] = "N";
+                }
+            }
 
             $localidade = $this->find($id);
             $localidade->fill($request)->save();
@@ -219,5 +264,46 @@ class Localidade extends Model
 
     public function deleteLocalidade($id){
 
+    }
+
+    public function getLocalidadeById($id){
+        return $this
+            ->find($id);
+    }
+
+    public function getLocalidadeDistancia($id){
+        return $this
+            ->find($id)
+            ->localidadeDistancia()
+            ->select(
+                'localidade_distancias.*', 
+                \DB::raw(
+                        '(select localidade from localidade where id = localidade_distancias.localidade_distancia_id)
+                         as loc_distancia'
+                        )
+            )
+            ->paginate(5);
+    }   
+
+    public function getLocalidadeInfraestrutura($id){
+        return $this
+            ->find($id)
+            ->localidadeInfraEstrutura()
+            ->select(
+                    'localidade_infraestrutura.*',
+                    \DB::raw('(select nome_tipo from tipo_infraestrutura where id = localidade_infraestrutura.tipo_id) as nome_tipo_projeto') 
+                )
+            ->paginate(5);
+    }
+
+    public function getLocalidadeEventoFesta($id){
+        return $this
+            ->find($id)
+            ->localidadeEventoFesta()
+            ->select(
+                'localidade_evento_festa.*',
+                \DB::raw('(select nome_tipo from tipo_evento_festa where id = localidade_evento_festa.tipo_evento_festa_id) as nome_tp_festa')
+            )
+            ->paginate(5);
     }
 }

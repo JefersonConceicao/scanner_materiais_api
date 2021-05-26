@@ -91,6 +91,14 @@ const habilitaBotoes = function(){
         });
     });
 
+    $(".btnDetailsLocalidade").on("click", function(){
+        const id = $(this).attr("id");
+        const url = `/localidades/details/${id}`
+
+        AppUsage.loadModal(url, "#nivel1", '85%', function(){
+            habilitaBotoesInModal(id);
+        });
+    })
 
     $(grid + " .pagination > li > a").on("click", function(e){
         e.preventDefault();
@@ -100,6 +108,16 @@ const habilitaBotoes = function(){
             getLocalidadesFilter(url);
         }
     })
+}
+
+const habilitaBotoesInModal = function(id){
+    $("#addDistanciaLocalidade").on("click", function(){
+        const url = '/localidades/createDistLocalidades/' + id;
+
+        AppUsage.loadModal(url, "#nivel2", '60%', function(){
+            
+        })
+    });
 }
 
 const getLocalidadesFilter = function(url){
