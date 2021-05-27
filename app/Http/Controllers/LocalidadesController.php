@@ -12,6 +12,7 @@ use App\Models\UF;
 use App\Models\Pais;
 use App\Models\TerritorioTuristico;
 use App\Models\ZonaTuristica;
+use App\Models\LocalidadeDistancia;
 
 class LocalidadesController extends Controller
 {
@@ -93,6 +94,12 @@ class LocalidadesController extends Controller
             ->with('eventoFesta', $localidade->getLocalidadeEventoFesta($id));
     }
 
+    
+    public function destroy($id)
+    {
+        
+    }
+
     public function createDistanciaLocalidades(){
         $localidade = new Localidade;
 
@@ -100,8 +107,27 @@ class LocalidadesController extends Controller
             ->with('comboLocalidadeDist', $localidade->pluck('localidade', 'id')->toArray());
     }
 
-    public function destroy($id)
-    {
-        
+    public function storeDistanciaLocalidades(LocalidadeRequest $request){
+        $locDistancia = new LocalidadeDistancia;
+
+        $data = $locDistancia->saveLocalidadeDistancia($request->all());
+        return response()->json($data);
     }
+
+    public function editDistanciaLocalidades(){
+
+    }
+
+    public function updateDistanciaLocalidades(){
+
+
+    }
+
+    public function deleteDistanciaLocalidades(){
+
+
+    }
+
+
+
 }

@@ -36269,6 +36269,10 @@ var setupAjax = function setupAjax() {
     }
 
     if (jqXHR.status === 401) {
+      if ($("#nivel2").hasClass("in")) {
+        $("#nivel2").modal('hide');
+      }
+
       var url = '/permissoes/methodNotAllowed';
       AppUsage.loadModal(url, '#nivel1', '600px');
     }
@@ -36411,7 +36415,8 @@ var configMasks = function configMasks() {
     mask: "decimal",
     greedy: false,
     groupSeparator: '.',
-    autoGroup: true
+    autoGroup: true,
+    placeholder: '0'
   });
 };
 
@@ -36871,7 +36876,12 @@ var habilitaBotoes = function habilitaBotoes() {
 var habilitaBotoesInModal = function habilitaBotoesInModal(id) {
   $("#addDistanciaLocalidade").on("click", function () {
     var url = '/localidades/createDistLocalidades/' + id;
-    AppUsage.loadModal(url, "#nivel2", '60%', function () {});
+    AppUsage.loadModal(url, "#nivel2", '60%', function () {
+      $("#addLocalidadeDistancia").on("submit", function (e) {
+        e.preventDefault();
+        formLocalidadeDistancia(id, "save");
+      });
+    });
   });
 };
 
@@ -36927,6 +36937,45 @@ var formLocalidade = function formLocalidade(id) {
     },
     complete: function complete() {
       $(form + " .btnSubmit").prop("disabled", false).html("\n                Salvar\n            ");
+    }
+  });
+};
+
+var formLocalidadeDistancia = function formLocalidadeDistancia(id, action) {
+  var modalObject = "#nivel2";
+  var form = action == "save" ? '#addLocalidadeDistancia' : "#editLocalidadeDistancia";
+  var url = action == "save" ? '/localidades/storeDistLocalidades' : "/localidades/update/".concat(id);
+  var type = action == "save" ? 'POST' : 'PUT';
+  $.ajax({
+    type: type,
+    url: url,
+    data: $(form).serialize() + "&id=".concat(id),
+    dataType: "JSON",
+    beforeSend: function beforeSend() {
+      $(form + " .btnSubmit").prop("disabled", true).html("<i class=\"fa fa-spinner fa-spin\"> </i> Carregando...");
+    },
+    success: function success(response) {
+      Swal.fire({
+        position: 'top-end',
+        icon: !response.error ? 'success' : 'error',
+        title: "<b style=\"color:#fff\"> ".concat(response.msg, " </b>"),
+        toast: true,
+        showConfirmButton: false,
+        timer: 3500,
+        background: '#337ab7',
+        didOpen: function didOpen() {
+          $(modalObject).modal('hide');
+        }
+      });
+    },
+    error: function error(jqXHR, textstatus, _error2) {
+      if (!!jqXHR.responseJSON.errors) {
+        var errors = jqXHR.responseJSON.errors;
+        AppUsage.showMessagesValidator(form, errors);
+      }
+    },
+    complete: function complete() {
+      $(form + " .btnSubmit").prop("disabled", false).html("Salvar");
     }
   });
 };
@@ -38595,8 +38644,8 @@ window.AcessControl = __webpack_require__(/*! ./Constants/access_control */ "./r
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\novo_union\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\novo_union\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\bt\bt_source\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\bt\bt_source\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

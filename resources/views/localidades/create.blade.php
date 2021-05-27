@@ -105,7 +105,7 @@
                     <div class="form-group">
                         {{ Form::label('populacao', 'População (Qtd)') }} 
                         {{ Form::text('populacao', null, [
-                            'class' => 'form-control decimal-numeric',
+                            'class' => 'form-control',
                             'id' => 'form_add_localidade_populacao'
                         ])}}
 
@@ -117,7 +117,7 @@
                     <div class="form-group">
                         {{ Form::label('area', 'Área (km²)') }}
                         {{ Form::text('area', null, [
-                            'class' => 'form-control decimal-numeric',
+                            'class' => 'form-control',
                             'id' => 'form_add_localidade_area'
                         ])}}
 
@@ -129,7 +129,7 @@
                     <div class="form-group">
                         {{ Form::label('altitude', 'Altitude(m)') }}
                         {{ Form::text('altitude', null, [
-                            'class' => 'form-control decimal-numeric',
+                            'class' => 'form-control',
                             'id' => 'form_add_localidade_altitude'
                         ])}}
 

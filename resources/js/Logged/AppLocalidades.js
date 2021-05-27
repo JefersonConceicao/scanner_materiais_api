@@ -115,7 +115,11 @@ const habilitaBotoesInModal = function(id){
         const url = '/localidades/createDistLocalidades/' + id;
 
         AppUsage.loadModal(url, "#nivel2", '60%', function(){
-            
+            $("#addLocalidadeDistancia").on("submit", function(e){
+                e.preventDefault()
+
+                formLocalidadeDistancia(id, "save");
+            });
         })
     });
 }
@@ -184,6 +188,53 @@ const formLocalidade = function(id){
         }
     });     
 }
+
+const formLocalidadeDistancia = function(id, action){
+    let modalObject = "#nivel2"
+    let form =  action == "save" ? '#addLocalidadeDistancia' : "#editLocalidadeDistancia";
+    let url =  action == "save" ? '/localidades/storeDistLocalidades' : `/localidades/update/${id}`
+    let type = action == "save" ? 'POST' : 'PUT';
+
+    $.ajax({
+        type,
+        url,
+        data: $(form).serialize()+`&id=${id}`,   
+        dataType: "JSON",   
+        beforeSend:function(){
+            $(form + " .btnSubmit").prop("disabled", true).html(
+                `<i class="fa fa-spinner fa-spin"> </i> Carregando...`
+            )
+        },
+        success:function(response){
+            Swal.fire({
+                position: 'top-end',
+                icon: !response.error ? 'success' : 'error',
+                title: `<b style="color:#fff"> ${response.msg} </b>`,
+                toast: true,
+                showConfirmButton: false,
+                timer: 3500,
+                background: '#337ab7',
+                didOpen:() => {
+                   $(modalObject).modal('hide');
+                }
+            });
+        },
+        error:function(jqXHR, textstatus, error){
+            if(!!jqXHR.responseJSON.errors){
+                const errors = jqXHR.responseJSON.errors;
+
+                AppUsage.showMessagesValidator(form, errors);
+            }
+        },
+        complete:function(){
+            $(form + " .btnSubmit").prop("disabled", false).html(
+                `Salvar`
+            )
+        }
+    });
+}
+
+
 
 module.exports = {
     changeTitle,

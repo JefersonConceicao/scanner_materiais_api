@@ -59,6 +59,10 @@ const setupAjax = function(){
         }
         
         if(jqXHR.status === 401){
+            if($("#nivel2").hasClass("in")){
+                $("#nivel2").modal('hide');
+            }
+    
             const url = '/permissoes/methodNotAllowed'
             AppUsage.loadModal(url, '#nivel1', '600px');
         }

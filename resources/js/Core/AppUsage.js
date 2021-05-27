@@ -151,10 +151,11 @@ const configMasks = function(){
     $(".phone").inputmask('(99) 9999[9]-9999');
     $(".month-year").inputmask('99/99');
     $(".decimal-numeric").inputmask({
-        mask:"decimal",
+        mask: "decimal",
         greedy: false,
         groupSeparator: '.',
-        autoGroup:true
+        autoGroup:true,
+        placeholder: '0'
     })
 }
 

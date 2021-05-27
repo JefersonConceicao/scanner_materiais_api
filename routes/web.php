@@ -126,8 +126,11 @@ Route::group(['middleware' => ['auth', 'verifyPermission']] , function(){
         Route::put('/update/{id}', 'LocalidadesController@update')->name('update');
         Route::delete('/delete/{id}', 'LocalidadesController@delete')->name('delete');
         Route::get('/details/{id}', 'LocalidadesController@details')->name('details');
-        Route::get('/createDistLocalidades/{id}', 'LocalidadesController@createDistanciaLocalidades')->name('createDistLocalidades');
         Route::delete('/deleteAll', 'LocalidadesController@deleteAll')->name('deleteAll');
+
+        //LOCALIDADES DISTANCIA
+        Route::get('/createDistLocalidades/{id}', 'LocalidadesController@createDistanciaLocalidades')->name('createDistLocalidades');
+        Route::post('/storeDistLocalidades', 'LocalidadesController@storeDistanciaLocalidades')->name('storeDistLocalidades');
     });
 });
 

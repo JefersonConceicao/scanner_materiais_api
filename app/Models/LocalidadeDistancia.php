@@ -15,4 +15,26 @@ class LocalidadeDistancia extends Model
     ];
 
     public $timestamps = false;
+
+    public function saveLocalidadeDistancia($request = []){
+        try{
+            $this->fill([
+                'localidade_id' => $request['id'],
+                'distancia' => $request['distancia'],
+                'localidade_distancia_id' => $request['localidade_distancia_id'],
+                'unidade' => $request['unidade']
+            ])->save();
+
+            return [    
+                'error' => false,
+                'msg' => 'Registro salvo com sucesso!'
+            ];
+        }catch(\Exception $err){
+            return [
+                'error' => true,
+                'msg' => 'Não foi possível salvar o registro, tente novamente mais tarde.'
+            ];
+        }
+    }
+
 }

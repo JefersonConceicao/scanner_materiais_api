@@ -12,7 +12,9 @@
                 <img
                     style="height:100px;" 
                     class="profile-user-img img-responsive img-circle" 
-                    src="{{ !empty(Auth::user()->url_photo)
+                    src="{{ !empty(Auth::user()->url_photo) && Storage::disk('local')->exists(
+                        str_replace('/storage', '/public', Auth::user()->url_photo)   
+                    )   
                         ? Auth::user()->url_photo
                         : asset('/img/default_icon.png')
                     }}"
