@@ -16,7 +16,22 @@ class LocalidadeDistancia extends Model
 
     public $timestamps = false;
 
-    public function saveLocalidadeDistancia($request = []){
+    public function getDistanciaById($id){
+        return $this
+            ->where('id', $id)
+            ->select(
+                'localidade_distancias.*',    
+                \DB::raw(
+                    "(select
+                        localidade 
+                        from localidade where id = localidade_distancias.localidade_distancia_id  
+                    ) AS localidade_distancia"
+                )
+            )
+            ->first();
+    }
+
+    public function saveDistancia($request = []){
         try{
             $this->fill([
                 'localidade_id' => $request['id'],
@@ -29,6 +44,7 @@ class LocalidadeDistancia extends Model
                 'error' => false,
                 'msg' => 'Registro salvo com sucesso!'
             ];
+
         }catch(\Exception $err){
             return [
                 'error' => true,
@@ -37,4 +53,34 @@ class LocalidadeDistancia extends Model
         }
     }
 
+    public function updateDistancia($id, $request = []){
+        try{
+            $distLocalidade = $this->find($id);
+            $distLocalidade->fill($request)->save();
+
+            return [
+                'error' => false,
+                'msg' => 'Registro alterado com sucesso!'
+            ];
+        }catch(\Exception $error){
+            return [
+                'error' => true,
+                'msg' => 'Não foi possível alterar o registro'
+            ];
+        }
+    }
+
+    public function deleteDistancia($id){
+        if($this->find($id)->delete()){
+            return [
+                'error' => false,
+                'msg' => 'Registro excluído com sucesso!'
+            ];
+        }else{
+            return [
+                'error' => true,
+                'msg' => 'Não foi possível excluir o registro'
+            ];
+        }
+    }
 }

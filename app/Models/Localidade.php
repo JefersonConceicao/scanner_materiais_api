@@ -133,7 +133,7 @@ class Localidade extends Model
         }
 
         if(isset($searchParams['populacao']) && !empty($searchParams['populacao'])){
-            $conditions[] = ['localidae.populacao', 'LIKE', "%".$searchParams['populacao']."%"];
+            $conditions[] = ['localidade.populacao', 'LIKE', "%".$searchParams['populacao']."%"];
         }
 
         if(isset($searchParams['area']) && !empty($searchParams['area'])){

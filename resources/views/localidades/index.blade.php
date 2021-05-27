@@ -238,7 +238,6 @@
                                             class="btn btn-xs btn-primary btnEditLocalidade"
                                             data-toggle="tooltip"
                                             title="Editar"
-                                            data-placement="top"
                                             id="{{ $localidade->id }}"
                                         > 
                                             <i class="fa fa-edit"> </i>

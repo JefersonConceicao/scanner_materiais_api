@@ -66,6 +66,20 @@ class LocalidadeRequest extends FormRequest
                     'unidade' => 'required',
                 ];
             break;
+            case 'updateDistLocalidades':
+                $validate = [
+                    'localidade_distancia_id' => 'required',
+                    'distancia' => 'required',
+                    'unidade' => 'required'
+                ];
+            break;
+            case 'storeInfraLocalidades':
+                $validate = [
+                    'tipo_id' => 'required',
+                    'descricao' => 'required',
+                    'quantidade' => 'required',
+                ];
+            break;
         }
 
         return $validate;
@@ -86,7 +100,10 @@ class LocalidadeRequest extends FormRequest
             'altitude.numeric' => 'Este campo deve conter apenas números',
             'localidade_distancia_id.required' => 'Campo localidade é obrigatório',
             'distancia.required' => 'Campo distância é obrigatório',
-            'unidade.required' => 'Campo unidade é obrigatório'
+            'unidade.required' => 'Campo unidade é obrigatório',
+            'tipo_id.required' => 'Campo tipo infraestrutura é obrigatório',
+            'descricao.required' => 'Campo descrição é obrigatório',
+            'quantidade.required' => 'Campo quantidade é obrigatório'
         ];
     }
 }

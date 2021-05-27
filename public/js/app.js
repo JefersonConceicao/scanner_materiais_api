@@ -36344,7 +36344,9 @@ var loadModal = function loadModal(url, modalObject) {
 
 
 var loading = function loading(element) {
-  element.closest(element).html("\n        <div class=\"alert alert-danger\">\n            <div class=\"text-center\">    \n                <b> \n                    <i \n                        class=\"fa fa-circle-o-notch fa-spin\" aria-hidden=\"true\"\n                        style=\"font-size:30px;\"\n                    >  \n                    </i>   \n                </b>\n            </div>\n        </div>\n    ");
+  element.find('>').css({
+    opacity: '0.5'
+  });
 };
 
 var configMultiSelect = function configMultiSelect() {
@@ -36654,6 +36656,12 @@ var map = {
 	"./AppFuncionalidades.js": "./resources/js/Logged/AppFuncionalidades.js",
 	"./AppLocalidades": "./resources/js/Logged/AppLocalidades.js",
 	"./AppLocalidades.js": "./resources/js/Logged/AppLocalidades.js",
+	"./AppLocalidadesDistancia": "./resources/js/Logged/AppLocalidadesDistancia.js",
+	"./AppLocalidadesDistancia.js": "./resources/js/Logged/AppLocalidadesDistancia.js",
+	"./AppLocalidadesEventoFesta": "./resources/js/Logged/AppLocalidadesEventoFesta.js",
+	"./AppLocalidadesEventoFesta.js": "./resources/js/Logged/AppLocalidadesEventoFesta.js",
+	"./AppLocalidadesInfraestrutura": "./resources/js/Logged/AppLocalidadesInfraestrutura.js",
+	"./AppLocalidadesInfraestrutura.js": "./resources/js/Logged/AppLocalidadesInfraestrutura.js",
 	"./AppModulos": "./resources/js/Logged/AppModulos.js",
 	"./AppModulos.js": "./resources/js/Logged/AppModulos.js",
 	"./AppPaises": "./resources/js/Logged/AppPaises.js",
@@ -36780,9 +36788,7 @@ module.exports = {
   !*** ./resources/js/Logged/AppLocalidades.js ***!
   \***********************************************/
 /*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/***/ (function(module, exports) {
 
 $(function () {
   habilitaEventos();
@@ -36803,6 +36809,7 @@ var habilitaEventos = function habilitaEventos() {
 };
 
 var habilitaBotoes = function habilitaBotoes() {
+  //FUNÇÃO RESPONSÁVEL DE HABILITAR OS EVENTOS DO MÓDULO
   $("#addLocalidade").on("click", function () {
     var url = "/localidades/create";
     AppUsage.loadModal(url, modalObject, '92%', function () {
@@ -36860,7 +36867,13 @@ var habilitaBotoes = function habilitaBotoes() {
     var id = $(this).attr("id");
     var url = "/localidades/details/".concat(id);
     AppUsage.loadModal(url, "#nivel1", '85%', function () {
-      habilitaBotoesInModal(id);
+      //Executa eventos de modulos dentro do modal
+      AppLocalidadesDistancia.habilitaEventos(id);
+      AppLocalidadesDistancia.habilitaBotoes(id);
+      AppLocalidadesInfraestrutura.habilitaEventos(id);
+      AppLocalidadesInfraestrutura.habilitaBotoes(id);
+      AppLocalidadesEventoFesta.habilitaEventos(id);
+      AppLocalidadesEventoFesta.habilitaBotoes(id);
     });
   });
   $(grid + " .pagination > li > a").on("click", function (e) {
@@ -36870,18 +36883,6 @@ var habilitaBotoes = function habilitaBotoes() {
     if (!!url) {
       getLocalidadesFilter(url);
     }
-  });
-};
-
-var habilitaBotoesInModal = function habilitaBotoesInModal(id) {
-  $("#addDistanciaLocalidade").on("click", function () {
-    var url = '/localidades/createDistLocalidades/' + id;
-    AppUsage.loadModal(url, "#nivel2", '60%', function () {
-      $("#addLocalidadeDistancia").on("submit", function (e) {
-        e.preventDefault();
-        formLocalidadeDistancia(id, "save");
-      });
-    });
   });
 };
 
@@ -36941,10 +36942,90 @@ var formLocalidade = function formLocalidade(id) {
   });
 };
 
+module.exports = {
+  changeTitle: changeTitle,
+  habilitaEventos: habilitaEventos,
+  habilitaBotoes: habilitaBotoes
+};
+
+/***/ }),
+
+/***/ "./resources/js/Logged/AppLocalidadesDistancia.js":
+/*!********************************************************!*\
+  !*** ./resources/js/Logged/AppLocalidadesDistancia.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var _require = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js"),
+    Swal = _require["default"];
+
+$(function () {
+  habilitaEventos();
+  habilitaBotoes();
+});
+
+var habilitaEventos = function habilitaEventos(id) {};
+
+var habilitaBotoes = function habilitaBotoes(id) {
+  $("#addDistanciaLocalidade").on("click", function () {
+    var url = '/localidades/createDistLocalidades/' + id;
+    AppUsage.loadModal(url, "#nivel2", '60%', function () {
+      $("#addLocalidadeDistancia").on("submit", function (e) {
+        e.preventDefault();
+        formLocalidadeDistancia(id, "save");
+      });
+    });
+  });
+  $("#gridLocalidadesDistancia .pagination > li > a").on("click", function (e) {
+    e.preventDefault();
+    var url = $(this).attr("href");
+
+    if (!!url) {
+      loadGridLocalidadeDistancia(id, url);
+    }
+  });
+  $(".btnEditLocalidadeDistancia").on("click", function () {
+    var idLocDist = $(this).attr("id");
+    var url = '/localidades/editDistLocalidades/' + idLocDist;
+    AppUsage.loadModal(url, "#nivel2", '60%', function () {
+      $("#editLocalidadeDistancia").on("submit", function (e) {
+        e.preventDefault();
+        formLocalidadeDistancia(id, "update", {
+          idUpdate: idLocDist
+        });
+      });
+    });
+  });
+  $(".btnDeleteLocalidadeDistancia").on("click", function () {
+    var idLocDist = $(this).attr("id");
+    var url = "/localidades/deleteDistlocalidades/" + idLocDist;
+    Swal.fire({
+      title: 'Deseja realmente excluir o registro?',
+      text: 'Esta ação é irreversivel!',
+      icon: 'warning',
+      showCancelButton: true,
+      reverseButtons: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar',
+      timeProgressBar: true
+    }).then(function (result) {
+      if (result.isConfirmed) {
+        AppUsage.deleteForGrid(url, function () {
+          loadGridLocalidadeDistancia(id);
+        });
+      }
+    });
+  });
+};
+
 var formLocalidadeDistancia = function formLocalidadeDistancia(id, action) {
+  var params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
   var modalObject = "#nivel2";
   var form = action == "save" ? '#addLocalidadeDistancia' : "#editLocalidadeDistancia";
-  var url = action == "save" ? '/localidades/storeDistLocalidades' : "/localidades/update/".concat(id);
+  var url = action == "save" ? '/localidades/storeDistLocalidades' : "/localidades/updateDistLocalidades/".concat(params.idUpdate);
   var type = action == "save" ? 'POST' : 'PUT';
   $.ajax({
     type: type,
@@ -36967,8 +37048,9 @@ var formLocalidadeDistancia = function formLocalidadeDistancia(id, action) {
           $(modalObject).modal('hide');
         }
       });
+      loadGridLocalidadeDistancia(id);
     },
-    error: function error(jqXHR, textstatus, _error2) {
+    error: function error(jqXHR, textstatus, _error) {
       if (!!jqXHR.responseJSON.errors) {
         var errors = jqXHR.responseJSON.errors;
         AppUsage.showMessagesValidator(form, errors);
@@ -36980,8 +37062,138 @@ var formLocalidadeDistancia = function formLocalidadeDistancia(id, action) {
   });
 };
 
+var loadGridLocalidadeDistancia = function loadGridLocalidadeDistancia(id, urlPaginate) {
+  var url = typeof urlPaginate === "undefined" ? '/localidades/details/' + id : urlPaginate;
+  var grid = "#gridLocalidadesDistancia";
+  $.ajax({
+    type: 'GET',
+    url: url,
+    beforeSend: function beforeSend() {
+      AppUsage.loading($(grid));
+    },
+    success: function success(response) {
+      $(grid).html($(response).find("#nivel1 ".concat(grid, " >")));
+      habilitaBotoes(id);
+    }
+  });
+};
+
 module.exports = {
-  changeTitle: changeTitle,
+  habilitaEventos: habilitaEventos,
+  habilitaBotoes: habilitaBotoes
+};
+
+/***/ }),
+
+/***/ "./resources/js/Logged/AppLocalidadesEventoFesta.js":
+/*!**********************************************************!*\
+  !*** ./resources/js/Logged/AppLocalidadesEventoFesta.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(function () {
+  habilitaEventos();
+  habilitaBotoes();
+});
+
+var habilitaEventos = function habilitaEventos() {};
+
+var habilitaBotoes = function habilitaBotoes() {};
+
+module.exports = {
+  habilitaBotoes: habilitaBotoes,
+  habilitaEventos: habilitaEventos
+};
+
+/***/ }),
+
+/***/ "./resources/js/Logged/AppLocalidadesInfraestrutura.js":
+/*!*************************************************************!*\
+  !*** ./resources/js/Logged/AppLocalidadesInfraestrutura.js ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(function () {
+  habilitaEventos();
+  habilitaBotoes();
+});
+
+var habilitaEventos = function habilitaEventos(id) {};
+
+var habilitaBotoes = function habilitaBotoes(id) {
+  $("#addInfraLocalidade").on("click", function () {
+    var url = '/localidades/createInfraLocalidades/' + id;
+    AppUsage.loadModal(url, "#nivel2", "60%", function () {
+      $("#addInfraLocalidades").on("submit", function (e) {
+        e.preventDefault();
+        formLocalidadeInfraestrutura(id, "save");
+      });
+    });
+  });
+  $(".btnEditLocalidadeInfraestrutura").on("click", function () {});
+  $(".btnDeleteLocalidadeInfraestrutura").on("click", function () {});
+};
+
+var formLocalidadeInfraestrutura = function formLocalidadeInfraestrutura(id, action) {
+  var params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+  var modalObject = "#nivel2";
+  var form = action == "save" ? '#addInfraLocalidades' : "#editInfraLocalidades";
+  var url = action == "save" ? '/localidades/storeInfraLocalidades' : "/localidades/updateInfraLocalidades/".concat(params.idUpdate);
+  var type = action == "save" ? 'POST' : 'PUT';
+  $.ajax({
+    type: type,
+    url: url,
+    data: $(form).serialize() + "&id=".concat(id),
+    dataType: "JSON",
+    beforeSend: function beforeSend() {
+      $(form + " .btnSubmit").prop("disabled", true).html("<i class=\"fa fa-spinner fa-spin\"> </i> Carregando...");
+    },
+    success: function success(response) {
+      Swal.fire({
+        position: 'top-end',
+        icon: !response.error ? 'success' : 'error',
+        title: "<b style=\"color:#fff\"> ".concat(response.msg, " </b>"),
+        toast: true,
+        showConfirmButton: false,
+        timer: 3500,
+        background: '#337ab7',
+        didOpen: function didOpen() {
+          $(modalObject).modal('hide');
+        }
+      });
+      loadGridLocalidadeInfraestrutura(id);
+    },
+    error: function error(jqXHR, textstatus, _error) {
+      if (!!jqXHR.responseJSON.errors) {
+        var errors = jqXHR.responseJSON.errors;
+        AppUsage.showMessagesValidator(form, errors);
+      }
+    },
+    complete: function complete() {
+      $(form + " .btnSubmit").prop("disabled", false).html("Salvar");
+    }
+  });
+};
+
+var loadGridLocalidadeInfraestrutura = function loadGridLocalidadeInfraestrutura(id, urlPaginate) {
+  var url = typeof urlPaginate === "undefined" ? '/localidades/details/' + id : urlPaginate;
+  var grid = "#gridLocalidadesInfraestrutura";
+  $.ajax({
+    type: 'GET',
+    url: url,
+    beforeSend: function beforeSend() {
+      AppUsage.loading($(grid));
+    },
+    success: function success(response) {
+      $(grid).html($(response).find("#nivel1 ".concat(grid, " >")));
+      habilitaBotoes(id);
+    }
+  });
+};
+
+module.exports = {
   habilitaEventos: habilitaEventos,
   habilitaBotoes: habilitaBotoes
 };
@@ -38619,7 +38831,10 @@ window.AppZonasTuristicas = __webpack_require__(/*! ./Logged/AppZonasTuristicas 
 window.Paises = __webpack_require__(/*! ./Logged/AppPaises */ "./resources/js/Logged/AppPaises.js");
 window.AppTiposEventosFestas = __webpack_require__(/*! ./Logged/AppTiposEventosFestas */ "./resources/js/Logged/AppTiposEventosFestas.js");
 window.AppTiposInfraestruturas = __webpack_require__(/*! ./Logged/AppTiposInfraestruturas */ "./resources/js/Logged/AppTiposInfraestruturas.js");
-window.AppLocalidades = __webpack_require__(/*! ./Logged/AppLocalidades */ "./resources/js/Logged/AppLocalidades.js"); //CONSTANTS Scripts - scripts re-utilizaveis
+window.AppLocalidades = __webpack_require__(/*! ./Logged/AppLocalidades */ "./resources/js/Logged/AppLocalidades.js");
+window.AppLocalidadesDistancia = __webpack_require__(/*! ./Logged/AppLocalidadesDistancia */ "./resources/js/Logged/AppLocalidadesDistancia.js");
+window.AppLocalidadesInfraestrutura = __webpack_require__(/*! ./Logged/AppLocalidadesInfraestrutura */ "./resources/js/Logged/AppLocalidadesInfraestrutura.js");
+window.AppLocalidadesEventoFesta = __webpack_require__(/*! ./Logged/AppLocalidadesEventoFesta */ "./resources/js/Logged/AppLocalidadesEventoFesta.js"); //CONSTANTS métodos e propriedades constantes
 
 window.languageDataTable = __webpack_require__(/*! ./Constants/language_dataTable */ "./resources/js/Constants/language_dataTable.js");
 window.AcessControl = __webpack_require__(/*! ./Constants/access_control */ "./resources/js/Constants/access_control.js");
@@ -38644,8 +38859,8 @@ window.AcessControl = __webpack_require__(/*! ./Constants/access_control */ "./r
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\bt\bt_source\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\bt\bt_source\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\novo_union\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\novo_union\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

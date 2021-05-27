@@ -179,7 +179,8 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         {{ Form::label('fundacao', 'Fundação') }}
-                        {{ Form::text('fundacao', converteData($dataLocalidade->fundacao, 'd/m/Y'), [
+                        {{ Form::text('fundacao', 
+                            !empty($dataLocalidade->fundacao) ? converteData($dataLocalidade->fundacao, 'd/m/Y') : null, [
                             'class' => 'form-control datepicker',
                             'id' => 'form_edit_localidade_fundacao',
                             'autocomplete' => 'off',

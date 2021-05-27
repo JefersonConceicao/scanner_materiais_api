@@ -1,5 +1,3 @@
-const moment = require("moment");
-
 $(function(){
     habilitaEventos()
     habilitaBotoes()
@@ -15,12 +13,11 @@ const changeTitle = function(){
 const habilitaEventos = function(){
     $("#formSearchFilterLocalidades").on("submit", function(e){
         e.preventDefault();
-
         getLocalidadesFilter();
     });
 }
 
-const habilitaBotoes = function(){
+const habilitaBotoes = function(){ //FUNÇÃO RESPONSÁVEL DE HABILITAR OS EVENTOS DO MÓDULO
     $("#addLocalidade").on("click", function(){
         const url = "/localidades/create";
     
@@ -85,7 +82,6 @@ const habilitaBotoes = function(){
                     
                     return false;
                 };
-
                 formLocalidade(id);
             });
         });
@@ -96,7 +92,15 @@ const habilitaBotoes = function(){
         const url = `/localidades/details/${id}`
 
         AppUsage.loadModal(url, "#nivel1", '85%', function(){
-            habilitaBotoesInModal(id);
+            //Executa eventos de modulos dentro do modal
+            AppLocalidadesDistancia.habilitaEventos(id);
+            AppLocalidadesDistancia.habilitaBotoes(id);
+
+            AppLocalidadesInfraestrutura.habilitaEventos(id);
+            AppLocalidadesInfraestrutura.habilitaBotoes(id);
+
+            AppLocalidadesEventoFesta.habilitaEventos(id);
+            AppLocalidadesEventoFesta.habilitaBotoes(id);
         });
     })
 
@@ -108,20 +112,6 @@ const habilitaBotoes = function(){
             getLocalidadesFilter(url);
         }
     })
-}
-
-const habilitaBotoesInModal = function(id){
-    $("#addDistanciaLocalidade").on("click", function(){
-        const url = '/localidades/createDistLocalidades/' + id;
-
-        AppUsage.loadModal(url, "#nivel2", '60%', function(){
-            $("#addLocalidadeDistancia").on("submit", function(e){
-                e.preventDefault()
-
-                formLocalidadeDistancia(id, "save");
-            });
-        })
-    });
 }
 
 const getLocalidadesFilter = function(url){
@@ -179,7 +169,6 @@ const formLocalidade = function(id){
 
                 AppUsage.showMessagesValidator(form, errors);
             }
-
         },
         complete:function(){
             $(form + " .btnSubmit").prop("disabled", false).html(`
@@ -188,53 +177,6 @@ const formLocalidade = function(id){
         }
     });     
 }
-
-const formLocalidadeDistancia = function(id, action){
-    let modalObject = "#nivel2"
-    let form =  action == "save" ? '#addLocalidadeDistancia' : "#editLocalidadeDistancia";
-    let url =  action == "save" ? '/localidades/storeDistLocalidades' : `/localidades/update/${id}`
-    let type = action == "save" ? 'POST' : 'PUT';
-
-    $.ajax({
-        type,
-        url,
-        data: $(form).serialize()+`&id=${id}`,   
-        dataType: "JSON",   
-        beforeSend:function(){
-            $(form + " .btnSubmit").prop("disabled", true).html(
-                `<i class="fa fa-spinner fa-spin"> </i> Carregando...`
-            )
-        },
-        success:function(response){
-            Swal.fire({
-                position: 'top-end',
-                icon: !response.error ? 'success' : 'error',
-                title: `<b style="color:#fff"> ${response.msg} </b>`,
-                toast: true,
-                showConfirmButton: false,
-                timer: 3500,
-                background: '#337ab7',
-                didOpen:() => {
-                   $(modalObject).modal('hide');
-                }
-            });
-        },
-        error:function(jqXHR, textstatus, error){
-            if(!!jqXHR.responseJSON.errors){
-                const errors = jqXHR.responseJSON.errors;
-
-                AppUsage.showMessagesValidator(form, errors);
-            }
-        },
-        complete:function(){
-            $(form + " .btnSubmit").prop("disabled", false).html(
-                `Salvar`
-            )
-        }
-    });
-}
-
-
 
 module.exports = {
     changeTitle,

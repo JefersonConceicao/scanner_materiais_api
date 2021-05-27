@@ -20,6 +20,7 @@ const loadLibs = function(){
     configMasks();
     configDateTimePicker();
 }
+
 /**
  * 
  * @param {string} url get url http request
@@ -51,20 +52,10 @@ const loadModal = function(url, modalObject, width = null, callback = null){
 }
 
 //PARAM - ELEMENTO A SER REMOVIDO PARA INSERÇÃO DO LOADING
-const loading = function(element){
-    element.closest(element).html(`
-        <div class="alert alert-danger">
-            <div class="text-center">    
-                <b> 
-                    <i 
-                        class="fa fa-circle-o-notch fa-spin" aria-hidden="true"
-                        style="font-size:30px;"
-                    >  
-                    </i>   
-                </b>
-            </div>
-        </div>
-    `)
+const loading = function(element){  
+    element.find('>').css({
+        opacity: '0.5',
+    })
 }
 
 const configMultiSelect = function(){

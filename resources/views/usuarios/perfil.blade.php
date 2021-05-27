@@ -1,5 +1,5 @@
 @extends('adminlte::page')
-@section('title', 'BT_Source | Meu Perfil')
+@section('title', 'BT | Meu Perfil')
 
 @section('content')
     <section class="content-header">

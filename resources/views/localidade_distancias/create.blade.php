@@ -33,8 +33,7 @@
                 {{ Form::label('unidade', 'Unidade' )}} <span class="required"> </span>   
                 {{ Form::text('unidade', 'KM', [
                     'class' => 'form-control',
-                    'id' => 'form_add_localidade_distancia_distancia',
-              
+                    'id' => 'form_add_localidade_distancia_unidade',
                 ])}}
 
                 <div class="error_feedback"> </div>

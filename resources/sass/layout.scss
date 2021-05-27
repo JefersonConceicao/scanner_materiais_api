@@ -16,8 +16,21 @@ body{
     z-index:9999;
 }
 
-.body-loading{
+.loadingTable{
+    background-color: rgba(255,255,255,0.3);
+    z-index:9999;
+}
+
+.loading-transbox{
+    color: black;
+    z-index:9999;
+}
+
+.body-loading {
+    line-height: 50vh;
     text-align: center;
+    font-size: 4em;
+    color: #e91313;
 }
 
 .body-container{

@@ -13,6 +13,8 @@ use App\Models\Pais;
 use App\Models\TerritorioTuristico;
 use App\Models\ZonaTuristica;
 use App\Models\LocalidadeDistancia;
+use App\Models\LocalidadeInfraestrutura;
+use App\Models\TipoInfraestrutura;
 
 class LocalidadesController extends Controller
 {
@@ -110,24 +112,63 @@ class LocalidadesController extends Controller
     public function storeDistanciaLocalidades(LocalidadeRequest $request){
         $locDistancia = new LocalidadeDistancia;
 
-        $data = $locDistancia->saveLocalidadeDistancia($request->all());
+        $data = $locDistancia->saveDistancia($request->all());
         return response()->json($data);
     }
 
-    public function editDistanciaLocalidades(){
+    public function editDistanciaLocalidades($id){
+        $localidade = new Localidade;
+        $locDistancia = new LocalidadeDistancia;
+
+        return view('localidade_distancias.edit')
+            ->with('localidadeDistancia', $locDistancia->getDistanciaById($id))
+            ->with('comboLocalidadeDist', $localidade->pluck('localidade', 'id')->toArray());
+    }
+
+    public function updateDistanciaLocalidades($id, LocalidadeRequest $request){
+        $locDistancia = new LocalidadeDistancia;
+        
+        $data = $locDistancia->updateDistancia($id, $request->all());
+        return response()->json($data);
+    }
+
+    public function deleteDistanciaLocalidades($id){
+        $locDistancia = new LocalidadeDistancia;
+
+        $data = $locDistancia->deleteDistancia($id);
+        return response()->json($data);
+    }
+
+    public function createInfraLocalidades(){
+        $localidade = new Localidade;
+        $tipoInfra = new TipoInfraestrutura;
+
+        return view('localidade_infraestruturas.create')
+            ->with('comboTI', $tipoInfra->pluck('nome_tipo', 'id')->toArray());
+    }
+
+    public function storeInfraLocalidades(LocalidadeRequest $request){
+        $locInfra = new LocalidadeInfraestrutura;
+        $tipoInfra = new TipoInfraestrutura;
+
+        $data = $locInfra->saveInfraLocalidade($request->all());
+        return response()->json($data);
+    }
+
+    public function editInfraLocalidades($id, LocalidadeRequest $request){
+        $locInfra = new LocalidadeInfraestrutura;
+        $tipoinfra = new TipoInfraestrutura;
+
+        
 
     }
 
-    public function updateDistanciaLocalidades(){
+    public function updateInfraLocalidades(){
 
 
     }
 
-    public function deleteDistanciaLocalidades(){
-
+    public function deleteInfraLocalidades(){
 
     }
-
-
-
 }

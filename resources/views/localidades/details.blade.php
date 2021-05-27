@@ -20,7 +20,7 @@
                     </div>
                     </h4>
                 </div>
-                <div class="panel-body table-responsive">
+                <div class="panel-body table-responsive" id="gridLocalidadesDistancia">
                     @if(count($distancia) > 0 )
                         <table class="table">
                             <thead> 
@@ -46,7 +46,10 @@
                                                 <i class="fa fa-edit"> </i>
                                             </button>
                                             &nbsp;
-                                            <button class="btn btn-danger btn-xs"> 
+                                            <button 
+                                                class="btn btn-danger btn-xs btnDeleteLocalidadeDistancia"
+                                                id={{ $dist->id }}
+                                            > 
                                                 <i class="fa fa-trash"> </i>
                                             </button>
                                         </div>
@@ -65,7 +68,7 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="panel panel-default">
+            <div class="panel panel-default" id="gridLocalidadesInfraestrutura">
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-md-6">
@@ -73,7 +76,7 @@
                         </div>
                         
                         <div class="col-md-6">
-                            <button type="button" class="btn btn-xs btn-primary pull-right">
+                            <button type="button" class="btn btn-xs btn-primary pull-right" id="addInfraLocalidade">
                                 Adicionar infraestrutura &nbsp; <i class="fa fa-plus-square"> </i>
                             </button>
                         </div>
@@ -142,7 +145,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="panel-body table-responsive">
+                <div class="panel-body table-responsive" id="gridLocalidadesEventoFesta">
                     @if(count($eventoFesta) > 0)
                         <table class="table">
                             <thead> 

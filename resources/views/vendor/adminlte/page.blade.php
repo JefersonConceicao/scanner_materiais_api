@@ -15,8 +15,8 @@
     <div class="wrapper">
         <div id="contentLoading" style="display:none;">
             <div class="body-loading">
-                <h3> Carregando... </h3>
-            </div>
+               <i class="fa fa-circle-o-notch fa-spin"> </i> 
+            </div>  
         </div>
 
         <!-- Main Header -->

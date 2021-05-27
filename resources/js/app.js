@@ -26,8 +26,11 @@ window.Paises = require('./Logged/AppPaises');
 window.AppTiposEventosFestas = require('./Logged/AppTiposEventosFestas');
 window.AppTiposInfraestruturas = require('./Logged/AppTiposInfraestruturas');
 window.AppLocalidades = require('./Logged/AppLocalidades');
+window.AppLocalidadesDistancia = require('./Logged/AppLocalidadesDistancia');
+window.AppLocalidadesInfraestrutura = require('./Logged/AppLocalidadesInfraestrutura');
+window.AppLocalidadesEventoFesta = require('./Logged/AppLocalidadesEventoFesta');
 
-//CONSTANTS Scripts - scripts re-utilizaveis
+//CONSTANTS métodos e propriedades constantes
 window.languageDataTable = require('./Constants/language_dataTable');
 window.AcessControl = require('./Constants/access_control');
       

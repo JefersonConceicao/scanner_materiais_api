@@ -131,6 +131,21 @@ Route::group(['middleware' => ['auth', 'verifyPermission']] , function(){
         //LOCALIDADES DISTANCIA
         Route::get('/createDistLocalidades/{id}', 'LocalidadesController@createDistanciaLocalidades')->name('createDistLocalidades');
         Route::post('/storeDistLocalidades', 'LocalidadesController@storeDistanciaLocalidades')->name('storeDistLocalidades');
+        Route::get('/editDistLocalidades/{id}', 'LocalidadesController@editDistanciaLocalidades')->name('editDistLocalidades');
+        Route::put('/updateDistLocalidades/{id}', 'LocalidadesController@updateDistanciaLocalidades')->name('updateDistLocalidades');
+        Route::delete('/deleteDistlocalidades/{id}', 'LocalidadesController@deleteDistanciaLocalidades')->name('deleteDistLocalidades');
+        
+        //LOCALIDADES INFRAESTRUTURA
+        Route::get('/createInfraLocalidades/{id}', 'LocalidadesController@createInfraLocalidades')->name('createInfraLocalidades');
+        Route::post('/storeInfraLocalidades', 'LocalidadesController@storeInfraLocalidades')->name('storeInfraLocalidades');
+        Route::get('/editInfraLocalidades/{id}', 'LocalidadesController@editInfraLocalidades')->name('editInfraLocalidades');
+        Route::put('/updateInfraLocalidades/{id}', 'LocalidadesController@updateInfraLocalidades')->name('updateInfraLocalidades');
+        Route::delete('/deleteInfraLocalidades/{id}', 'LocalidadesController@deleteInfraLocalidades')->name('deleteInfraLocalidades');
+        
+        //LOCALIDADES EVENTO/FESTA
+        Route::get('/createEFLocalidades', 'LocalidadesController@createEFLocalidades')->name('createEFLocalidades');
+        Route::post('storeEFLocalidades', 'LocalidadesController@storeEFLocalidades')->name('storeEFLocalidades');
+        
     });
 });
 
