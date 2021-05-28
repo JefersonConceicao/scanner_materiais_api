@@ -91,7 +91,7 @@ const habilitaBotoes = function(){ //FUNÇÃO RESPONSÁVEL DE HABILITAR OS EVENT
         const id = $(this).attr("id");
         const url = `/localidades/details/${id}`
 
-        AppUsage.loadModal(url, "#nivel1", '85%', function(){
+        AppUsage.loadModal(url, "#nivel1", '95%', function(){
             //Executa eventos de modulos dentro do modal
             AppLocalidadesDistancia.habilitaEventos(id);
             AppLocalidadesDistancia.habilitaBotoes(id);

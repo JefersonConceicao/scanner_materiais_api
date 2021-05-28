@@ -134,6 +134,7 @@ return [
     'providers' => [
         /*
          * Laravel Framework Service Providers...
+         * Providers do framework Laravel
          */
         Collective\Html\HtmlServiceProvider::class,
         Illuminate\Auth\AuthServiceProvider::class,
@@ -164,6 +165,7 @@ return [
         /*
          * Package Service Providers...
          */
+
 
         /*
          * Application Service Providers...

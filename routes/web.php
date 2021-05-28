@@ -143,9 +143,11 @@ Route::group(['middleware' => ['auth', 'verifyPermission']] , function(){
         Route::delete('/deleteInfraLocalidades/{id}', 'LocalidadesController@deleteInfraLocalidades')->name('deleteInfraLocalidades');
         
         //LOCALIDADES EVENTO/FESTA
-        Route::get('/createEFLocalidades', 'LocalidadesController@createEFLocalidades')->name('createEFLocalidades');
-        Route::post('storeEFLocalidades', 'LocalidadesController@storeEFLocalidades')->name('storeEFLocalidades');
-        
+        Route::get('/createEFLocalidade', 'LocalidadesController@createEFLocalidades')->name('createEFLocalidades');
+        Route::post('/storeEFLocalidade', 'LocalidadesController@storeEFLocalidades')->name('storeEFLocalidades');
+        Route::get('/editEFLocalidade/{id}', 'LocalidadesController@editEFLocalidades')->name('editEFLocalidades');
+        Route::put('/updateEFLocalidade/{id}', 'LocalidadesController@updateEFLocalidades')->name('updateEFLocalidades');
+        Route::delete('/deleteEFLocalidade/{id}', 'LocalidadesController@deleteEFLocalidade')->name('deleteEFLocalidades');
     });
 });
 

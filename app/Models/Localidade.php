@@ -112,6 +112,10 @@ class Localidade extends Model
     public function getLocalidades($searchParams = []){
         $conditions = [];
 
+        if(isset($searchParams['codigo']) && !empty($searchParams['codigo'])){
+            $conditions[] = ['localidade.id', '=', $searchParams['codigo']];
+        }
+
         if(isset($searchParams['localidade']) && !empty($searchParams['localidade'])){
             $conditions[] = ['localidade.localidade', 'LIKE', "%".$searchParams['localidade']."%"];
         }
@@ -282,7 +286,7 @@ class Localidade extends Model
                          as loc_distancia'
                         )
             )
-            ->paginate(5);
+            ->paginate(4);
     }   
 
     public function getLocalidadeInfraestrutura($id){
@@ -293,7 +297,7 @@ class Localidade extends Model
                     'localidade_infraestrutura.*',
                     \DB::raw('(select nome_tipo from tipo_infraestrutura where id = localidade_infraestrutura.tipo_id) as nome_tipo_projeto') 
                 )
-            ->paginate(5);
+            ->paginate(4);
     }
 
     public function getLocalidadeEventoFesta($id){
@@ -304,6 +308,6 @@ class Localidade extends Model
                 'localidade_evento_festa.*',
                 \DB::raw('(select nome_tipo from tipo_evento_festa where id = localidade_evento_festa.tipo_evento_festa_id) as nome_tp_festa')
             )
-            ->paginate(5);
+            ->paginate(1);
     }
 }

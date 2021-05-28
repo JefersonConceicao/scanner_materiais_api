@@ -36866,7 +36866,7 @@ var habilitaBotoes = function habilitaBotoes() {
   $(".btnDetailsLocalidade").on("click", function () {
     var id = $(this).attr("id");
     var url = "/localidades/details/".concat(id);
-    AppUsage.loadModal(url, "#nivel1", '85%', function () {
+    AppUsage.loadModal(url, "#nivel1", '95%', function () {
       //Executa eventos de modulos dentro do modal
       AppLocalidadesDistancia.habilitaEventos(id);
       AppLocalidadesDistancia.habilitaBotoes(id);
@@ -37096,10 +37096,99 @@ $(function () {
   habilitaEventos();
   habilitaBotoes();
 });
+var grid = "#gridLocalidadesEventoFesta";
 
-var habilitaEventos = function habilitaEventos() {};
+var habilitaEventos = function habilitaEventos(id) {};
 
-var habilitaBotoes = function habilitaBotoes() {};
+var habilitaBotoes = function habilitaBotoes(id) {
+  $(grid + " .pagination > li > a").on("click", function (e) {
+    e.preventDefault();
+    var url = $(this).attr("href");
+
+    if (!!url) {
+      loadGridLocalidadeEventoFesta(id, url);
+    }
+  });
+  $("#createEFLocalidade").on("click", function () {
+    var url = '/localidades/createEFLocalidade';
+    AppUsage.loadModal(url, "#nivel2", "60%", function () {
+      $("#addEFLocalidade").on("submit", function (e) {
+        e.preventDefault();
+        formLocalidadeEventoFesta(id, "save");
+      });
+    });
+  });
+  $(".btnEditLocalidadeEventoFesta").on("click", function () {
+    var idUpdate = $(this).attr("id");
+    var url = '/localidades/editEFLocalidade/' + idUpdate;
+    AppUsage.loadModal(url, "#nivel2", "60%", function () {
+      $("#editEFLocalidade").on("submit", function (e) {
+        e.preventDefault();
+        formLocalidadeEventoFesta(id, "update", {
+          idUpdate: idUpdate
+        });
+      });
+    });
+  });
+  $(".deleteEFLocalidade").on("click", function () {});
+};
+
+var formLocalidadeEventoFesta = function formLocalidadeEventoFesta(id, action) {
+  var params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+  var modalObject = "#nivel2";
+  var form = action == "save" ? '#addEFLocalidade' : "#editEFLocalidade";
+  var url = action == "save" ? '/localidades/storeEFLocalidade' : "/localidades/updateEFLocalidade/".concat(params.idUpdate);
+  var type = action == "save" ? 'POST' : 'PUT';
+  $.ajax({
+    type: type,
+    url: url,
+    data: $(form).serialize() + "&id=".concat(id),
+    dataType: "JSON",
+    beforeSend: function beforeSend() {
+      $(form + " .btnSubmit").prop("disabled", true).html("<i class=\"fa fa-spinner fa-spin\"> </i> Carregando...");
+    },
+    success: function success(response) {
+      Swal.fire({
+        position: 'top-end',
+        icon: !response.error ? 'success' : 'error',
+        title: "<b style=\"color:#fff\"> ".concat(response.msg, " </b>"),
+        toast: true,
+        showConfirmButton: false,
+        timer: 3500,
+        background: '#337ab7',
+        didOpen: function didOpen() {
+          $(modalObject).modal('hide');
+        }
+      });
+      loadGridLocalidadeEventoFesta(id);
+    },
+    error: function error(jqXHR, textstatus, _error) {
+      if (!!jqXHR.responseJSON.errors) {
+        var errors = jqXHR.responseJSON.errors;
+        AppUsage.showMessagesValidator(form, errors);
+      }
+    },
+    complete: function complete() {
+      $(form + " .btnSubmit").prop("disabled", false).html("Salvar");
+    }
+  });
+};
+
+var loadGridLocalidadeEventoFesta = function loadGridLocalidadeEventoFesta(id, urlPaginate) {
+  var url = typeof urlPaginate === "undefined" ? '/localidades/details/' + id : urlPaginate;
+  var grid = "#gridLocalidadesEventoFesta";
+  $.ajax({
+    type: 'GET',
+    url: url,
+    beforeSend: function beforeSend() {
+      AppUsage.loading($(grid));
+    },
+    success: function success(response) {
+      $(grid).html($(response).find("#nivel1 ".concat(grid, " >")));
+      habilitaBotoes(id);
+    }
+  });
+};
 
 module.exports = {
   habilitaBotoes: habilitaBotoes,
@@ -37119,10 +37208,19 @@ $(function () {
   habilitaEventos();
   habilitaBotoes();
 });
+var grid = "#gridLocalidadesInfraestrutura";
 
 var habilitaEventos = function habilitaEventos(id) {};
 
 var habilitaBotoes = function habilitaBotoes(id) {
+  $(grid + " .pagination > li > a").on("click", function (e) {
+    e.preventDefault();
+    var url = $(this).attr("href");
+
+    if (!!url) {
+      loadGridLocalidadeInfraestrutura(id, url);
+    }
+  });
   $("#addInfraLocalidade").on("click", function () {
     var url = '/localidades/createInfraLocalidades/' + id;
     AppUsage.loadModal(url, "#nivel2", "60%", function () {
@@ -37132,8 +37230,40 @@ var habilitaBotoes = function habilitaBotoes(id) {
       });
     });
   });
-  $(".btnEditLocalidadeInfraestrutura").on("click", function () {});
-  $(".btnDeleteLocalidadeInfraestrutura").on("click", function () {});
+  $(".btnEditLocalidadeInfraestrutura").on("click", function () {
+    var idLocInfra = $(this).attr("id");
+    var url = '/localidades/editInfraLocalidades/' + idLocInfra;
+    AppUsage.loadModal(url, "#nivel2", "60%", function () {
+      $("#editInfraLocalidades").on("submit", function (e) {
+        e.preventDefault();
+        formLocalidadeInfraestrutura(id, "update", {
+          idUpdate: idLocInfra
+        });
+      });
+    });
+  });
+  $(".btnDeleteLocalidadeInfraestrutura").on("click", function () {
+    var idLocInfra = $(this).attr("id");
+    var url = '/localidades/deleteInfraLocalidades/' + idLocInfra;
+    Swal.fire({
+      title: 'Deseja realmente excluir o registro?',
+      text: 'Esta ação é irreversivel!',
+      icon: 'warning',
+      showCancelButton: true,
+      reverseButtons: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar',
+      timeProgressBar: true
+    }).then(function (result) {
+      if (result.isConfirmed) {
+        AppUsage.deleteForGrid(url, function () {
+          loadGridLocalidadeInfraestrutura(id);
+        });
+      }
+    });
+  });
 };
 
 var formLocalidadeInfraestrutura = function formLocalidadeInfraestrutura(id, action) {
