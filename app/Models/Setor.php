@@ -20,7 +20,37 @@ class Setor extends Model
 
     public $timestamps = false;
 
-    public function getSetores(){
-        return $this->all();
+    public function getSetores($request = []){
+        $conditions = [];
+
+        if(isset($request['sigla']) && !empty($request['sigla'])){
+            $conditions[] = ['sigla', 'LIKE', "%".$request['sigla']."%"];
+        }   
+
+        if(isset($request['descsetor']) && !empty($request['descsetor'])){
+            $conditions[] = ['descsetor', $request['descsetor']];
+        }   
+
+        if(isset($request['ativo']) && !empty($request['ativo'])){
+            $conditions[] = ['ativo', $request['ativo']];
+        }
+
+        return $this
+            ->where($conditions)
+            ->paginate(7);
+    }
+
+    public function saveSetor(){
+
+
+    }
+
+    public function updateSetor(){
+
+    }
+
+    public function deleteSetor(){
+
+        
     }
 }

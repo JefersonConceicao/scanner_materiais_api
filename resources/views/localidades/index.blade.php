@@ -18,7 +18,17 @@
         @component('components.filtro')
             <form id="formSearchFilterLocalidades">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-1">
+                        <div class="form-group">
+                            {{ Form::label('codigo', 'Código') }}
+                            {{ Form::number('codigo', null, [
+                                'class' => 'form-control',
+                                'id' => 'search_form_codigo',
+                                'min' => 0,
+                            ])}}
+                        </div>
+                    </div>
+                    <div class="col-md-3">
                         <div class="form-group">
                             {{ Form::label('localidade', 'Localidade') }}
                             {{ Form::text('localidade', null, [

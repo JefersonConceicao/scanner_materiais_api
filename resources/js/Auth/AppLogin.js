@@ -22,7 +22,7 @@ const habilitaEventos = function() {
         }
     }); 
 }
-const habilitaBotoes = () => {} 
+const habilitaBotoes = function(){} 
 
 module.exports = {  
     habilitaBotoes,

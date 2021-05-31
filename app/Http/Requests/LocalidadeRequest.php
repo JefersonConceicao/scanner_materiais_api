@@ -18,7 +18,7 @@ class LocalidadeRequest extends FormRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Contém e retorna um array de regras de validação para a requisição
      *
      * @return array
      */
@@ -27,7 +27,7 @@ class LocalidadeRequest extends FormRequest
         $atualGroupRoute = explode("::", Route::currentRouteName());
         $atualRoute = end($atualGroupRoute);
         $validate = [];
-
+      
         switch ($atualRoute) {
             case 'store':
                 $validate = [
@@ -44,6 +44,7 @@ class LocalidadeRequest extends FormRequest
                     'altitude' => 'numeric',
                 ];
             break;
+
             case 'update':
                 $validate = [
                     'localidade' => 'required',
@@ -59,13 +60,16 @@ class LocalidadeRequest extends FormRequest
                     'altitude' => 'numeric', 
                 ];
             break;
-            case 'storeDistLocalidades': 
+
+            case 'storeDistLocalidades':
+     
                 $validate = [
                     'localidade_distancia_id' => 'required',
                     'distancia' => 'required',
                     'unidade' => 'required',
                 ];
             break;
+
             case 'updateDistLocalidades':
                 $validate = [
                     'localidade_distancia_id' => 'required',
@@ -73,6 +77,7 @@ class LocalidadeRequest extends FormRequest
                     'unidade' => 'required'
                 ];
             break;
+
             case 'storeInfraLocalidades':
                 $validate = [
                     'tipo_id' => 'required',
@@ -80,6 +85,49 @@ class LocalidadeRequest extends FormRequest
                     'quantidade' => 'required',
                 ];
             break;
+
+            case 'updateInfraLocalidades':
+                $validate = [
+                    'tipo_id' => 'required',
+                    'descricao' => 'required',
+                    'quantidade' => 'required',
+                ];
+            break;
+
+            case 'storeEFLocalidades':  
+                $validate = [
+                    'tipo_evento_festa_id' => 'required',
+                    'nome' => 'required',
+                    'tipo_data' => 'required',
+                    'data_inicial' => [
+                        'required',
+                        'date_format: "d/m/Y"',
+                        'before:data_final'
+                    ],
+                    'data_final' => [
+                        'date_format: "d/m/Y"',
+                        'required',
+                        'after:data_inicial' 
+                    ]
+                ];
+            break;
+            case 'updateEFLocalidades':
+                $validate = [
+                    'tipo_evento_festa_id' => 'required',
+                    'nome' => 'required',
+                    'tipo_data' => 'required',
+                    'data_inicial' => [
+                        'required',
+                        'date_format: "d/m/Y"',
+                        'before:data_final'
+                    ],
+                    'data_final' => [
+                        'date_format: "d/m/Y"',
+                        'required',
+                        'after:data_inicial' 
+                    ]
+                ];
+            break;    
         }
 
         return $validate;
@@ -103,7 +151,16 @@ class LocalidadeRequest extends FormRequest
             'unidade.required' => 'Campo unidade é obrigatório',
             'tipo_id.required' => 'Campo tipo infraestrutura é obrigatório',
             'descricao.required' => 'Campo descrição é obrigatório',
-            'quantidade.required' => 'Campo quantidade é obrigatório'
+            'quantidade.required' => 'Campo quantidade é obrigatório',
+            'tipo_evento_festa_id.required' => 'O tipo do evento é obrigatório',
+            'nome.required' => 'O nome do evento é obrigatório',
+            'tipo_data.required' => 'O tipo da data é obrigatório',
+            'data_inicial.required' => 'A data inicial é obrigatória',
+            'data_final.required' => 'A data final é obrigatória',
+            'data_inicial.before' => 'Data inicial deve ser anterior a data final',
+            'data_final.after' => 'Data final deve ser posterior a data inicial',
+            'data_inicial.date_format' => 'Esta não é uma data válida',
+            'data_final.date_format' => 'Esta não é uma data válida'
         ];
     }
 }

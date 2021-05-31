@@ -2,6 +2,7 @@
 
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
 class Localidade extends Model
 {
@@ -55,7 +56,7 @@ class Localidade extends Model
 
     public $timestamps = false;
 
-    public $nullables = [
+    protected $nullables = [
         'mp_2009',
         'mp_2013',
         'mp_2016',
@@ -111,6 +112,10 @@ class Localidade extends Model
 
     public function getLocalidades($searchParams = []){
         $conditions = [];
+
+        if(isset($searchParams['codigo']) && !empty($searchParams['codigo'])){
+            $conditions[] = ['localidade.id', '=', $searchParams['codigo']];
+        }
 
         if(isset($searchParams['localidade']) && !empty($searchParams['localidade'])){
             $conditions[] = ['localidade.localidade', 'LIKE', "%".$searchParams['localidade']."%"];
@@ -213,7 +218,8 @@ class Localidade extends Model
             $this->fill($request)->save();
             return [
                 'error' => false,
-                'msg' => 'Registro salvo com sucesso!'
+                'msg' => 'Registro salvo com sucesso!',
+                'register' => $this->id
             ];
         }catch(\Exception $err){
             return [
@@ -249,7 +255,7 @@ class Localidade extends Model
 
             $localidade = $this->find($id);
             $localidade->fill($request)->save();
-
+            
             return [
                 'error' => false,
                 'msg' => 'Registro alterado com sucesso'
@@ -263,7 +269,25 @@ class Localidade extends Model
     }
 
     public function deleteLocalidade($id){
+        try{
+            DB::beginTransaction();
+            $this->find($id)->localidadeDistancia()->delete();
+            $this->find($id)->localidadeInfraEstrutura()->delete();
+            $this->find($id)->localidadeEventoFesta()->delete();
+            $this->find($id)->delete();
 
+            DB::commit();
+            return [
+                'error' => false,
+                'msg' => 'Registro excluído com sucesso!'
+            ];
+        }catch(\Exception $err){
+            DB::rollback();
+            return [
+                'error' => true,
+                'msg' => 'Não foi possível excluir o registro, pois o mesmo ainda está sendo utilizado',
+            ];
+        }
     }
 
     public function getLocalidadeById($id){

@@ -20,6 +20,7 @@
                         <div class="error_feedback"> </div>
                     </div>
                 </div>
+                
                 <div class="col-md-2">
                     <div class="form-group">
                         {{ Form::label('uf_id', 'UF') }}  <span class="required"> * </span>
@@ -104,7 +105,7 @@
                 <div class="col-md-2">
                     <div class="form-group">
                         {{ Form::label('populacao', 'População (Qtd)') }} 
-                        {{ Form::text('populacao', null, [
+                        {{ Form::number('populacao', null, [
                             'class' => 'form-control',
                             'id' => 'form_add_localidade_populacao'
                         ])}}
@@ -116,7 +117,7 @@
                 <div class="col-md-2">
                     <div class="form-group">
                         {{ Form::label('area', 'Área (km²)') }}
-                        {{ Form::text('area', null, [
+                        {{ Form::number('area', null, [
                             'class' => 'form-control',
                             'id' => 'form_add_localidade_area'
                         ])}}
@@ -128,7 +129,7 @@
                 <div class="col-md-2">  
                     <div class="form-group">
                         {{ Form::label('altitude', 'Altitude(m)') }}
-                        {{ Form::text('altitude', null, [
+                        {{ Form::number('altitude', null, [
                             'class' => 'form-control',
                             'id' => 'form_add_localidade_altitude'
                         ])}}

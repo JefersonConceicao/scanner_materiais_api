@@ -14,7 +14,9 @@ use App\Models\TerritorioTuristico;
 use App\Models\ZonaTuristica;
 use App\Models\LocalidadeDistancia;
 use App\Models\LocalidadeInfraestrutura;
+use App\Models\LocalidadeEventoFesta;
 use App\Models\TipoInfraestrutura;
+use App\Models\TiposEventosFesta;
 
 class LocalidadesController extends Controller
 {
@@ -96,11 +98,21 @@ class LocalidadesController extends Controller
             ->with('eventoFesta', $localidade->getLocalidadeEventoFesta($id));
     }
 
-    
-    public function destroy($id)
+    public function delete($id)
     {
-        
+        $localidade = new Localidade;
+        $data = $localidade->deleteLocalidade($id);
+
+        return response()->json($data);
     }
+
+    public function deleteAll(Request $request){
+        $localidade = new Localidade;
+
+        $data = $localidade->deleteAllLocalidades($request->all());
+        return response()->json($data);
+    }
+
 
     public function createDistanciaLocalidades(){
         $localidade = new Localidade;
@@ -155,20 +167,64 @@ class LocalidadesController extends Controller
         return response()->json($data);
     }
 
-    public function editInfraLocalidades($id, LocalidadeRequest $request){
+    public function editInfraLocalidades($id){
         $locInfra = new LocalidadeInfraestrutura;
-        $tipoinfra = new TipoInfraestrutura;
+        $tipoInfra = new TipoInfraestrutura;
 
+        $data = $locInfra->getInfraestruturaById($id);
+        return view('localidade_infraestruturas.edit')
+            ->with('comboTI', $tipoInfra->pluck('nome_tipo', 'id'))
+            ->with('dataInfraLocalidade', $data);
+    }
+
+    public function updateInfraLocalidades($id, LocalidadeRequest $request){
+        $tipoInfra = new LocalidadeInfraestrutura;
+
+        $data = $tipoInfra->updateInfraLocalidade($id, $request->all());
+        return response()->json($data);
+    }
+
+    public function deleteInfraLocalidades($id){
+        $tipoInfra = new LocalidadeInfraestrutura;
+
+        $data = $tipoInfra->deleteInfraLocalidade($id);
+        return response()->json($data);
+    }   
+
+    public function createEFLocalidades(){
+        $tef = new TiposEventosFesta;
+
+        return view('localidade_evento_festa.create')
+            ->with('comboTEF', $tef->pluck('nome_tipo', 'id')->toArray());
+    }
+
+    public function storeEFLocalidades(LocalidadeRequest $request){
+        $lef = new LocalidadeEventoFesta;
+
+        $data = $lef->saveEFLocalidade($request->all());
+        return response()->json($data);
+    }
+
+    public function editEFLocalidades($id){
+        $tef = new TiposEventosFesta;
+        $lef = new LocalidadeEventoFesta;
         
-
+        return view('localidade_evento_festa.edit')
+            ->with('comboTEF', $tef->pluck('nome_tipo', 'id')->toArray())
+            ->with('dataLEF', $lef->find($id));
     }
 
-    public function updateInfraLocalidades(){
+    public function updateEFLocalidades($id, LocalidadeRequest $request){
+        $lef = new LocalidadeEventoFesta;
 
-
+        $data = $lef->updateEFLocalidade($id, $request->all());
+        return response()->json($data);
     }
 
-    public function deleteInfraLocalidades(){
+    public function deleteEFLocalidades($id){
+        $lef = new LocalidadeEventoFesta;
 
-    }
+        $data = $lef->deleteEFLocalidade($id);
+        return response()->json($data);
+    }   
 }

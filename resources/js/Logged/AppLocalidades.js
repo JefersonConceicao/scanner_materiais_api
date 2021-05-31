@@ -1,3 +1,5 @@
+const { default: Swal } = require("sweetalert2");
+
 $(function(){
     habilitaEventos()
     habilitaBotoes()
@@ -87,11 +89,33 @@ const habilitaBotoes = function(){ //FUNÇÃO RESPONSÁVEL DE HABILITAR OS EVENT
         });
     });
 
+    $(".btnDeleteLocalidade").on("click", function(){
+        const idLocalidade = $(this).attr("id");
+        const url = "/localidades/delete/" + idLocalidade;
+
+        Swal.fire({
+            title: 'Deseja realmente excluir o registro?',
+            text: 'Esta ação é irreversivel!',
+            icon: 'warning',
+            showCancelButton: true,
+            reverseButtons: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: 'Cancelar', 
+        }).then(result => {
+            AppUsage.deleteForGrid(url, function(){
+                getLocalidadesFilter();
+            });
+        });
+    });
+
+
     $(".btnDetailsLocalidade").on("click", function(){
         const id = $(this).attr("id");
         const url = `/localidades/details/${id}`
 
-        AppUsage.loadModal(url, "#nivel1", '85%', function(){
+        AppUsage.loadModal(url, "#nivel1", '95%', function(){
             //Executa eventos de modulos dentro do modal
             AppLocalidadesDistancia.habilitaEventos(id);
             AppLocalidadesDistancia.habilitaBotoes(id);
@@ -157,10 +181,26 @@ const formLocalidade = function(id){
                 timer: 3500,
                 background: '#337ab7',
                 didOpen:() => {
-                   $(modalObject).modal('hide');
+                    //Abre programaticamente o modal de detalhes após salvar
+                    if(form == "#addFormLocalidade" && response.error == false){
+                        const urlPosSave = '/localidades/details/' + response.register;
+                    
+                        AppUsage.loadModal(urlPosSave, "#nivel1", '92%', function(){
+                            AppLocalidadesDistancia.habilitaEventos(id);
+                            AppLocalidadesDistancia.habilitaBotoes(id);
+                
+                            AppLocalidadesInfraestrutura.habilitaEventos(id);
+                            AppLocalidadesInfraestrutura.habilitaBotoes(id);
+                
+                            AppLocalidadesEventoFesta.habilitaEventos(id);
+                            AppLocalidadesEventoFesta.habilitaBotoes(id);
+                        });
+                    }else{
+                        $(modalObject).modal('hide');
+                    }
                 }
             });
-            
+
             getLocalidadesFilter()
         },
         error:function(jqXHR, textstatus, error){
