@@ -70,42 +70,6 @@ const setActive = function(element){
     }
 }
 
-const loadingNavigation = function(inicio,  fim, isComplete = false){
-    //Calcula tempo de carregamento;
-    const msTimeLoading = fim - inicio; 
-
-    //Configura container body
-
-    $("#containerLoadingBar").show(); //Inicia barra de carregamento
-
-    let progressBar = $("#progressLoadingBar");
-    let width = !isComplete ? 1 : 93;
-
-    let idInterval = setInterval(function(){
-        if(width >= 100){
-            clearInterval(idInterval);  
-            width = 1;
-            
-            $("#containerLoadingBar").hide(); 
-
-        }else{
-            width++
-            progressBar.css({
-                width:`${width}%`,
-                backgroundColor: width > 80 ? '#337ab7' : '#e91313'  
-            })
-
-            if(!isComplete && width == 93){
-                clearInterval(idInterval);
-            }
-
-            if(isComplete){
-                width++;
-            }
-        }
-    }, msTimeLoading)   
-}
-
 const getNewScreen = function(url, module){
     const elementWrapper = $('.content-wrapper');
 
@@ -148,5 +112,4 @@ const changeURL = function(url){ //void
 
 module.exports = {
     setOptionsSubMenu,
-    loadingNavigation,
 }

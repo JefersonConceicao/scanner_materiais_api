@@ -36127,38 +36127,6 @@ var setActive = function setActive(element) {
   }
 };
 
-var loadingNavigation = function loadingNavigation(inicio, fim) {
-  var isComplete = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-  //Calcula tempo de carregamento;
-  var msTimeLoading = fim - inicio; //Configura container body
-
-  $("#containerLoadingBar").show(); //Inicia barra de carregamento
-
-  var progressBar = $("#progressLoadingBar");
-  var width = !isComplete ? 1 : 93;
-  var idInterval = setInterval(function () {
-    if (width >= 100) {
-      clearInterval(idInterval);
-      width = 1;
-      $("#containerLoadingBar").hide();
-    } else {
-      width++;
-      progressBar.css({
-        width: "".concat(width, "%"),
-        backgroundColor: width > 80 ? '#337ab7' : '#e91313'
-      });
-
-      if (!isComplete && width == 93) {
-        clearInterval(idInterval);
-      }
-
-      if (isComplete) {
-        width++;
-      }
-    }
-  }, msTimeLoading);
-};
-
 var getNewScreen = function getNewScreen(url, module) {
   var elementWrapper = $('.content-wrapper');
   $.ajax({
@@ -36200,8 +36168,7 @@ var changeURL = function changeURL(url) {
 };
 
 module.exports = {
-  setOptionsSubMenu: setOptionsSubMenu,
-  loadingNavigation: loadingNavigation
+  setOptionsSubMenu: setOptionsSubMenu
 };
 
 /***/ }),
@@ -38859,8 +38826,8 @@ window.AcessControl = __webpack_require__(/*! ./Constants/access_control */ "./r
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\novo_union\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\novo_union\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\BT\bt_source\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\BT\bt_source\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

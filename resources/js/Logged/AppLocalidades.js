@@ -126,7 +126,7 @@ const getLocalidadesFilter = function(url){
             AppUsage.loading($(grid));
         },
         success: function (response) {
-           $(grid).html($(response).find(`${grid} >`));
+            $(grid).html($(response).find(`${grid} >`));
             habilitaBotoes();
         }
     });
