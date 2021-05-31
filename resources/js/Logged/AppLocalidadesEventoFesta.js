@@ -1,3 +1,6 @@
+const { default: Swal } = require("sweetalert2")
+const { color } = require("../Constants/constants");
+
 $(function(){
     habilitaEventos()
     habilitaBotoes()
@@ -7,7 +10,6 @@ const grid = "#gridLocalidadesEventoFesta"
 const habilitaEventos = function(id){}
 
 const habilitaBotoes = function(id){
-
     $(grid + " .pagination > li > a").on("click", function(e){
         e.preventDefault();
         const url = $(this).attr("href");
@@ -41,8 +43,28 @@ const habilitaBotoes = function(id){
         });
     });
 
-    $(".deleteEFLocalidade").on("click", function(){
-  
+    $(".btnDeleteLocalidadeEventoFesta").on("click", function(){
+        const idDelete = $(this).attr("id");
+        const url = '/localidades/deleteEFLocalidade/' + idDelete;
+
+        Swal.fire({
+            title: 'Tem certeza?',
+            text: 'Esta ação é irreversível',
+            icon: 'warning',
+            showCancelButton: true,
+            showConfirmButton: true,
+            reverseButtons:true,
+            cancelButtonText: 'Cancelar',
+            cancelButtonColor: color().vermelhoBahia,
+            confirmButtonText: 'Sim, excluir!',
+            confirmButtonColor: color().azulBahia
+        }).then(result => {
+            if(result.isConfirmed){
+                AppUsage.deleteForGrid(url, function(){
+                    loadGridLocalidadeEventoFesta(id);
+                });
+            }
+        })
     });
 }
 

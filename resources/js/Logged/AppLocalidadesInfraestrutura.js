@@ -54,8 +54,7 @@ const habilitaBotoes = function(id){
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Confirmar',
-            cancelButtonText: 'Cancelar',
-            timeProgressBar: true, 
+            cancelButtonText: 'Cancelar', 
         }).then(result => {
             if(result.isConfirmed){
                 AppUsage.deleteForGrid(url, function(){

@@ -29,6 +29,7 @@ window.AppLocalidades = require('./Logged/AppLocalidades');
 window.AppLocalidadesDistancia = require('./Logged/AppLocalidadesDistancia');
 window.AppLocalidadesInfraestrutura = require('./Logged/AppLocalidadesInfraestrutura');
 window.AppLocalidadesEventoFesta = require('./Logged/AppLocalidadesEventoFesta');
+window.AppTiposProjetos = require('./Logged/AppTiposProjetos');
 
 //CONSTANTS métodos e propriedades constantes
 window.languageDataTable = require('./Constants/language_dataTable');

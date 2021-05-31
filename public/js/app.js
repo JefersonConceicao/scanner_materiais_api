@@ -35876,6 +35876,25 @@ $(document).ajaxSuccess(function () {
 
 /***/ }),
 
+/***/ "./resources/js/Constants/constants.js":
+/*!*********************************************!*\
+  !*** ./resources/js/Constants/constants.js ***!
+  \*********************************************/
+/*! exports provided: color */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "color", function() { return color; });
+var color = function color() {
+  return {
+    azulBahia: '#337ab7',
+    vermelhoBahia: '#e91313'
+  };
+};
+
+/***/ }),
+
 /***/ "./resources/js/Constants/language_dataTable.js":
 /*!******************************************************!*\
   !*** ./resources/js/Constants/language_dataTable.js ***!
@@ -36672,12 +36691,16 @@ var map = {
 	"./AppProfile.js": "./resources/js/Logged/AppProfile.js",
 	"./AppRoles": "./resources/js/Logged/AppRoles.js",
 	"./AppRoles.js": "./resources/js/Logged/AppRoles.js",
+	"./AppSetores": "./resources/js/Logged/AppSetores.js",
+	"./AppSetores.js": "./resources/js/Logged/AppSetores.js",
 	"./AppTerritoriosTuristicos": "./resources/js/Logged/AppTerritoriosTuristicos.js",
 	"./AppTerritoriosTuristicos.js": "./resources/js/Logged/AppTerritoriosTuristicos.js",
 	"./AppTiposEventosFestas": "./resources/js/Logged/AppTiposEventosFestas.js",
 	"./AppTiposEventosFestas.js": "./resources/js/Logged/AppTiposEventosFestas.js",
 	"./AppTiposInfraestruturas": "./resources/js/Logged/AppTiposInfraestruturas.js",
 	"./AppTiposInfraestruturas.js": "./resources/js/Logged/AppTiposInfraestruturas.js",
+	"./AppTiposProjetos": "./resources/js/Logged/AppTiposProjetos.js",
+	"./AppTiposProjetos.js": "./resources/js/Logged/AppTiposProjetos.js",
 	"./AppUF": "./resources/js/Logged/AppUF.js",
 	"./AppUF.js": "./resources/js/Logged/AppUF.js",
 	"./AppUsers": "./resources/js/Logged/AppUsers.js",
@@ -36788,7 +36811,10 @@ module.exports = {
   !*** ./resources/js/Logged/AppLocalidades.js ***!
   \***********************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+var _require = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js"),
+    Swal = _require["default"];
 
 $(function () {
   habilitaEventos();
@@ -36863,6 +36889,25 @@ var habilitaBotoes = function habilitaBotoes() {
       });
     });
   });
+  $(".btnDeleteLocalidade").on("click", function () {
+    var idLocalidade = $(this).attr("id");
+    var url = "/localidades/delete/" + idLocalidade;
+    Swal.fire({
+      title: 'Deseja realmente excluir o registro?',
+      text: 'Esta ação é irreversivel!',
+      icon: 'warning',
+      showCancelButton: true,
+      reverseButtons: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar'
+    }).then(function (result) {
+      AppUsage.deleteForGrid(url, function () {
+        getLocalidadesFilter();
+      });
+    });
+  });
   $(".btnDetailsLocalidade").on("click", function () {
     var id = $(this).attr("id");
     var url = "/localidades/details/".concat(id);
@@ -36925,7 +36970,20 @@ var formLocalidade = function formLocalidade(id) {
         timer: 3500,
         background: '#337ab7',
         didOpen: function didOpen() {
-          $(modalObject).modal('hide');
+          //Abre programaticamente o modal de detalhes após salvar
+          if (form == "#addFormLocalidade" && response.error == false) {
+            var urlPosSave = '/localidades/details/' + response.register;
+            AppUsage.loadModal(urlPosSave, "#nivel1", '92%', function () {
+              AppLocalidadesDistancia.habilitaEventos(id);
+              AppLocalidadesDistancia.habilitaBotoes(id);
+              AppLocalidadesInfraestrutura.habilitaEventos(id);
+              AppLocalidadesInfraestrutura.habilitaBotoes(id);
+              AppLocalidadesEventoFesta.habilitaEventos(id);
+              AppLocalidadesEventoFesta.habilitaBotoes(id);
+            });
+          } else {
+            $(modalObject).modal('hide');
+          }
         }
       });
       getLocalidadesFilter();
@@ -37009,8 +37067,7 @@ var habilitaBotoes = function habilitaBotoes(id) {
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Confirmar',
-      cancelButtonText: 'Cancelar',
-      timeProgressBar: true
+      cancelButtonText: 'Cancelar'
     }).then(function (result) {
       if (result.isConfirmed) {
         AppUsage.deleteForGrid(url, function () {
@@ -37090,7 +37147,13 @@ module.exports = {
   !*** ./resources/js/Logged/AppLocalidadesEventoFesta.js ***!
   \**********************************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+var _require = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js"),
+    Swal = _require["default"];
+
+var _require2 = __webpack_require__(/*! ../Constants/constants */ "./resources/js/Constants/constants.js"),
+    color = _require2.color;
 
 $(function () {
   habilitaEventos();
@@ -37130,7 +37193,28 @@ var habilitaBotoes = function habilitaBotoes(id) {
       });
     });
   });
-  $(".deleteEFLocalidade").on("click", function () {});
+  $(".btnDeleteLocalidadeEventoFesta").on("click", function () {
+    var idDelete = $(this).attr("id");
+    var url = '/localidades/deleteEFLocalidade/' + idDelete;
+    Swal.fire({
+      title: 'Tem certeza?',
+      text: 'Esta ação é irreversível',
+      icon: 'warning',
+      showCancelButton: true,
+      showConfirmButton: true,
+      reverseButtons: true,
+      cancelButtonText: 'Cancelar',
+      cancelButtonColor: color().vermelhoBahia,
+      confirmButtonText: 'Sim, excluir!',
+      confirmButtonColor: color().azulBahia
+    }).then(function (result) {
+      if (result.isConfirmed) {
+        AppUsage.deleteForGrid(url, function () {
+          loadGridLocalidadeEventoFesta(id);
+        });
+      }
+    });
+  });
 };
 
 var formLocalidadeEventoFesta = function formLocalidadeEventoFesta(id, action) {
@@ -37254,8 +37338,7 @@ var habilitaBotoes = function habilitaBotoes(id) {
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Confirmar',
-      cancelButtonText: 'Cancelar',
-      timeProgressBar: true
+      cancelButtonText: 'Cancelar'
     }).then(function (result) {
       if (result.isConfirmed) {
         AppUsage.deleteForGrid(url, function () {
@@ -38019,6 +38102,53 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./resources/js/Logged/AppSetores.js":
+/*!*******************************************!*\
+  !*** ./resources/js/Logged/AppSetores.js ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(function () {
+  habilitaBotoes();
+  habilitaEventos();
+});
+var grid = "#gridSetores";
+var modalObject = "#nivel1";
+
+var habilitaEventos = function habilitaEventos() {
+  $("#formSearchSetores").on("submit", function (e) {
+    e.preventDefault();
+    getSetoresFilter();
+  });
+};
+
+var habilitaBotoes = function habilitaBotoes() {};
+
+var getSetoresFilter = function getSetoresFilter() {
+  var form = $("#formSearchSetores").serialize();
+  $.ajax({
+    type: "GET",
+    url: typeof url !== "undefined" ? url : "/setores/",
+    data: form,
+    dataType: "HTML",
+    beforeSend: function beforeSend() {
+      AppUsage.loading($(grid));
+    },
+    success: function success(response) {
+      $(grid).html($(response).find("".concat(grid, " >")));
+      habilitaBotoes();
+    }
+  });
+};
+
+module.exports = {
+  habilitaEventos: habilitaEventos,
+  habilitaBotoes: habilitaBotoes
+};
+
+/***/ }),
+
 /***/ "./resources/js/Logged/AppTerritoriosTuristicos.js":
 /*!*********************************************************!*\
   !*** ./resources/js/Logged/AppTerritoriosTuristicos.js ***!
@@ -38454,6 +38584,148 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./resources/js/Logged/AppTiposProjetos.js":
+/*!*************************************************!*\
+  !*** ./resources/js/Logged/AppTiposProjetos.js ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var _require = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js"),
+    Swal = _require["default"];
+
+var _require2 = __webpack_require__(/*! ../Constants/constants */ "./resources/js/Constants/constants.js"),
+    color = _require2.color;
+
+$(function () {
+  habilitaEventos();
+  habilitaBotoes();
+});
+var grid = "#gridTiposProjetos";
+var modalObject = '#nivel1';
+
+var habilitaEventos = function habilitaEventos() {
+  $("#searchFormTipoProjeto").on("submit", function (e) {
+    e.preventDefault();
+    getTiposProjetosFilter();
+  });
+};
+
+var habilitaBotoes = function habilitaBotoes() {
+  $(grid + " .pagination > li > a").on("click", function (e) {
+    e.preventDefault();
+    var url = $(this).attr("href");
+
+    if (!!url) {
+      getTiposProjetosFilter(url);
+    }
+  });
+  $("#addTiposProjeto").on("click", function () {
+    var url = '/tiposProjetos/create';
+    AppUsage.loadModal(url, modalObject, '60%', function () {
+      $("#addFormTiposProjetos").on("submit", function (e) {
+        e.preventDefault();
+        formTiposProjetos();
+      });
+    });
+  });
+  $(".btnEditTipoProjeto").on("click", function () {
+    var id = $(this).attr("id");
+    var url = '/tiposProjetos/edit/' + id;
+    AppUsage.loadModal(url, modalObject, '60%', function () {
+      $("#editFormTiposProjetos").on("submit", function (e) {
+        e.preventDefault();
+        formTiposProjetos(id);
+      });
+    });
+  });
+  $(".btnDeleteTipoProjeto").on("click", function () {
+    var id = $(this).attr("id");
+    var url = '/tiposProjetos/delete/' + id;
+    Swal.fire({
+      title: 'Tem certeza?',
+      text: 'Esta ação é irreversível',
+      icon: 'warning',
+      showCancelButton: true,
+      showConfirmButton: true,
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Confirmar',
+      cancelButtonColor: color().vermelhoBahia,
+      confirmButtonColor: color().azulBahia,
+      reverseButtons: true
+    }).then(function (result) {
+      if (result.isConfirmed) {
+        AppUsage.deleteForGrid(url, function () {
+          getTiposProjetosFilter();
+        });
+      }
+    });
+  });
+};
+
+var formTiposProjetos = function formTiposProjetos(id) {
+  var form = typeof id == "undefined" ? '#addFormTiposProjetos' : "#editFormTiposProjetos";
+  var url = typeof id == "undefined" ? '/tiposProjetos/store' : "/tiposProjetos/update/".concat(id);
+  var type = typeof id == "undefined" ? 'POST' : 'PUT';
+  $.ajax({
+    type: type,
+    url: url,
+    data: $(form).serialize(),
+    dataType: "JSON",
+    beforeSend: function beforeSend() {
+      $(form + " .btnSubmit").prop("disabled", true).html("\n                <i class=\"fa fa-spinner fa-spin\"> </i> Carregando...\n            ");
+    },
+    success: function success(response) {
+      Swal.fire({
+        position: 'top-end',
+        icon: !response.error ? 'success' : 'error',
+        title: "<b style=\"color:#fff\"> ".concat(response.msg, " </b>"),
+        toast: true,
+        showConfirmButton: false,
+        timer: 3500,
+        background: '#337ab7',
+        didOpen: function didOpen() {
+          $(modalObject).modal('hide');
+        }
+      });
+      getTiposProjetosFilter();
+    },
+    error: function error(jqXHR, textstatus, _error) {
+      if (!!jqXHR.responseJSON.errors) {
+        var errors = jqXHR.responseJSON.errors;
+        AppUsage.showMessagesValidator(form, errors);
+      }
+    },
+    complete: function complete() {
+      $(form + " .btnSubmit").prop("disabled", false).html("\n                Salvar\n            ");
+    }
+  });
+};
+
+var getTiposProjetosFilter = function getTiposProjetosFilter(url) {
+  var form = $("#searchFormTipoProjeto").serialize();
+  $.ajax({
+    type: "GET",
+    url: typeof url !== "undefined" ? url : "/tiposProjetos/",
+    data: form,
+    dataType: "HTML",
+    beforeSend: function beforeSend() {
+      AppUsage.loading($(grid));
+    },
+    success: function success(response) {
+      $(grid).html($(response).find("".concat(grid, " >")));
+      habilitaBotoes();
+    }
+  });
+};
+
+module.exports = {
+  habilitaEventos: habilitaEventos,
+  habilitaBotoes: habilitaBotoes
+};
+
+/***/ }),
+
 /***/ "./resources/js/Logged/AppUF.js":
 /*!**************************************!*\
   !*** ./resources/js/Logged/AppUF.js ***!
@@ -38530,8 +38802,7 @@ var habilitaBotoes = function habilitaBotoes() {
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Confirmar',
-      cancelButtonText: 'Cancelar',
-      timeProgressBar: true
+      cancelButtonText: 'Cancelar'
     }).then(function (result) {
       if (result.isConfirmed) {
         AppUsage.deleteForGrid(url, function () {
@@ -38964,7 +39235,8 @@ window.AppTiposInfraestruturas = __webpack_require__(/*! ./Logged/AppTiposInfrae
 window.AppLocalidades = __webpack_require__(/*! ./Logged/AppLocalidades */ "./resources/js/Logged/AppLocalidades.js");
 window.AppLocalidadesDistancia = __webpack_require__(/*! ./Logged/AppLocalidadesDistancia */ "./resources/js/Logged/AppLocalidadesDistancia.js");
 window.AppLocalidadesInfraestrutura = __webpack_require__(/*! ./Logged/AppLocalidadesInfraestrutura */ "./resources/js/Logged/AppLocalidadesInfraestrutura.js");
-window.AppLocalidadesEventoFesta = __webpack_require__(/*! ./Logged/AppLocalidadesEventoFesta */ "./resources/js/Logged/AppLocalidadesEventoFesta.js"); //CONSTANTS métodos e propriedades constantes
+window.AppLocalidadesEventoFesta = __webpack_require__(/*! ./Logged/AppLocalidadesEventoFesta */ "./resources/js/Logged/AppLocalidadesEventoFesta.js");
+window.AppTiposProjetos = __webpack_require__(/*! ./Logged/AppTiposProjetos */ "./resources/js/Logged/AppTiposProjetos.js"); //CONSTANTS métodos e propriedades constantes
 
 window.languageDataTable = __webpack_require__(/*! ./Constants/language_dataTable */ "./resources/js/Constants/language_dataTable.js");
 window.AcessControl = __webpack_require__(/*! ./Constants/access_control */ "./resources/js/Constants/access_control.js");

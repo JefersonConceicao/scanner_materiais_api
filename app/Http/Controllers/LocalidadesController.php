@@ -98,10 +98,21 @@ class LocalidadesController extends Controller
             ->with('eventoFesta', $localidade->getLocalidadeEventoFesta($id));
     }
 
-    public function destroy($id)
+    public function delete($id)
     {
-        
+        $localidade = new Localidade;
+        $data = $localidade->deleteLocalidade($id);
+
+        return response()->json($data);
     }
+
+    public function deleteAll(Request $request){
+        $localidade = new Localidade;
+
+        $data = $localidade->deleteAllLocalidades($request->all());
+        return response()->json($data);
+    }
+
 
     public function createDistanciaLocalidades(){
         $localidade = new Localidade;
@@ -210,7 +221,10 @@ class LocalidadesController extends Controller
         return response()->json($data);
     }
 
-    public function deleteEFLocalidades(){
+    public function deleteEFLocalidades($id){
+        $lef = new LocalidadeEventoFesta;
 
-    }
+        $data = $lef->deleteEFLocalidade($id);
+        return response()->json($data);
+    }   
 }

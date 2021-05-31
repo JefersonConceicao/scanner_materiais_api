@@ -26,7 +26,7 @@ class UsersController extends Controller
         
         //ARRAYS FOR COMBOBOX SEARCH
         $dataRoles = $role->getRoles()->pluck('name', 'id');
-        $dataSetores = $setor->getSetores()->pluck('descsetor', 'id');
+        $dataSetores = $setor->pluck('descsetor', 'id');
 
         $view = view('usuarios.index')
             ->with('dados', $data)
@@ -42,7 +42,7 @@ class UsersController extends Controller
         $setor = new Setor;
 
         $optionsRoles = $role->getRoles()->pluck('name', 'id')->toArray();
-        $optionsSetores = $setor->getSetores()->pluck('descsetor', 'id')->toArray();
+        $optionsSetores = $setor->pluck('descsetor', 'id')->toArray();
         
         return view('usuarios.create')
             ->with('roles', $optionsRoles)
@@ -68,7 +68,7 @@ class UsersController extends Controller
         return view('usuarios.edit')
             ->with('user', $user->find($id))
             ->with('roles', $role->getRoles()->pluck('name', 'id')->toArray())
-            ->with('setores', $setor->getSetores()->pluck('descsetor', 'id')->toArray())
+            ->with('setores', $setor->pluck('descsetor', 'id')->toArray())
             ->with('selectedRoles', $userRole->getRolesByUser($id)->pluck('role_id')->toArray());
     }
 

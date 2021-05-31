@@ -1,31 +1,9 @@
 <?php
 
 return [
-    /*
-    |--------------------------------------------------------------------------
-    | Title
-    |--------------------------------------------------------------------------
-    |
-    | The default title of your admin panel, this goes into the title tag
-    | of your page. You can override it per page with the title section.
-    | You can optionally also specify a title prefix and/or postfix.
-    |
-    */
-
     'title' => 'source_BT',
     'title_prefix' => '',
     'title_postfix' => '',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Logo
-    |--------------------------------------------------------------------------
-    |
-    | This logo is displayed at the upper left corner of your admin panel.
-    | You can use basic HTML here if you want. The logo has also a mini
-    | variant, used for the mini side bar. Make it 3 letters or so
-    |
-    */
 
     'logo' => '<img 
                     class="img-responsive"
@@ -86,6 +64,7 @@ return [
     | The right Sidebar can only be used if layout is not top-nav.
     |
     */
+    
     'right_sidebar' => false,
     'right_sidebar_icon' => 'fas fa-cogs',
     'right_sidebar_theme' => 'dark',
@@ -218,13 +197,15 @@ return [
                     [
                         'text' => 'Setor',
                         'icon' => 'fa fa-angle-right',
-                        'url' => '#',
+                        'url' => '/setores/',
+                        'requestjs' => 'AppSetores',
                         'bt_ac' => 'setores.index'
                     ],
                     [
                         'text' => 'Tipo de Projetos (Eventos)',
                         'icon' => 'fa fa-angle-right',
-                        'url' => '#',
+                        'url' => '/tiposProjetos/',
+                        'requestjs' => 'AppTiposProjetos',
                         'bt_ac' => 'tiposProjetos.index'
                     ],
                 ],

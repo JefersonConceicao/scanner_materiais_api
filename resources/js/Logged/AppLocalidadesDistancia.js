@@ -5,9 +5,7 @@ $(function(){
     habilitaBotoes()
 })
 
-const habilitaEventos = function(id){
-
-}
+const habilitaEventos = function(id){}
 
 const habilitaBotoes = function(id){
     $("#addDistanciaLocalidade").on("click", function(){
@@ -57,8 +55,7 @@ const habilitaBotoes = function(id){
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Confirmar',
-            cancelButtonText: 'Cancelar',
-            timeProgressBar: true,  
+            cancelButtonText: 'Cancelar',  
         }).then(result => {
             if(result.isConfirmed){
                 AppUsage.deleteForGrid(url, function(){

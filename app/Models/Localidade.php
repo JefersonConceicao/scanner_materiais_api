@@ -2,6 +2,7 @@
 
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
 class Localidade extends Model
 {
@@ -55,7 +56,7 @@ class Localidade extends Model
 
     public $timestamps = false;
 
-    public $nullables = [
+    protected $nullables = [
         'mp_2009',
         'mp_2013',
         'mp_2016',
@@ -217,7 +218,8 @@ class Localidade extends Model
             $this->fill($request)->save();
             return [
                 'error' => false,
-                'msg' => 'Registro salvo com sucesso!'
+                'msg' => 'Registro salvo com sucesso!',
+                'register' => $this->id
             ];
         }catch(\Exception $err){
             return [
@@ -253,7 +255,7 @@ class Localidade extends Model
 
             $localidade = $this->find($id);
             $localidade->fill($request)->save();
-
+            
             return [
                 'error' => false,
                 'msg' => 'Registro alterado com sucesso'
@@ -267,7 +269,25 @@ class Localidade extends Model
     }
 
     public function deleteLocalidade($id){
+        try{
+            DB::beginTransaction();
+            $this->find($id)->localidadeDistancia()->delete();
+            $this->find($id)->localidadeInfraEstrutura()->delete();
+            $this->find($id)->localidadeEventoFesta()->delete();
+            $this->find($id)->delete();
 
+            DB::commit();
+            return [
+                'error' => false,
+                'msg' => 'Registro excluído com sucesso!'
+            ];
+        }catch(\Exception $err){
+            DB::rollback();
+            return [
+                'error' => true,
+                'msg' => 'Não foi possível excluir o registro, pois o mesmo ainda está sendo utilizado',
+            ];
+        }
     }
 
     public function getLocalidadeById($id){
@@ -286,7 +306,7 @@ class Localidade extends Model
                          as loc_distancia'
                         )
             )
-            ->paginate(4);
+            ->paginate(5);
     }   
 
     public function getLocalidadeInfraestrutura($id){
@@ -297,7 +317,7 @@ class Localidade extends Model
                     'localidade_infraestrutura.*',
                     \DB::raw('(select nome_tipo from tipo_infraestrutura where id = localidade_infraestrutura.tipo_id) as nome_tipo_projeto') 
                 )
-            ->paginate(4);
+            ->paginate(5);
     }
 
     public function getLocalidadeEventoFesta($id){
@@ -308,6 +328,6 @@ class Localidade extends Model
                 'localidade_evento_festa.*',
                 \DB::raw('(select nome_tipo from tipo_evento_festa where id = localidade_evento_festa.tipo_evento_festa_id) as nome_tp_festa')
             )
-            ->paginate(1);
+            ->paginate(5);
     }
 }
