@@ -90,4 +90,17 @@ class TiposEventosFesta extends Model
         }   
     }
 
+    public function deleteAllEventoFesta($request = []){
+        if($this->whereIn('id', $request['ids'])->delete()){
+            return [
+                'error' => false,
+                'msg' => count($request['ids']). " registros excluido(s) com sucesso!" 
+            ];
+        }else{
+            return [
+                'error' => true,
+                'msg' => "Não foi possível excluir o registro"
+            ];
+        }   
+    }
 }

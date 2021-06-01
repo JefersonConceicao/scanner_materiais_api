@@ -17,13 +17,16 @@ const initializeDataTable = function(){
 const loadLibs = function(){
     configSelect2();
     configMultiSelect();
+    configMasks();
+    configDateTimePicker();
 }
+
 /**
  * 
  * @param {string} url get url http request
  * @param {element} modalObject string selector do modal ex: "#modal1"
- * @param {string} width pixels 
- * @param {callback} callback função a ser executada dentro do modal
+ * @param {string} width pixels ou porcentagem
+ * @param {callback} callback função a ser executada dentro do modal ( geralmente utilizado p/ gerenciar eventos no modal)
  */
 
 const loadModal = function(url, modalObject, width = null, callback = null){
@@ -49,20 +52,10 @@ const loadModal = function(url, modalObject, width = null, callback = null){
 }
 
 //PARAM - ELEMENTO A SER REMOVIDO PARA INSERÇÃO DO LOADING
-const loading = function(element){
-    element.closest(element).html(`
-        <div class="alert alert-danger">
-            <div class="text-center">    
-                <b> 
-                    <i 
-                        class="fa fa-circle-o-notch fa-spin" aria-hidden="true"
-                        style="font-size:30px;"
-                    >  
-                    </i>   
-                </b>
-            </div>
-        </div>
-    `)
+const loading = function(element){  
+    element.find('>').css({
+        opacity: '0.5',
+    })
 }
 
 const configMultiSelect = function(){
@@ -123,6 +116,38 @@ const configSelect2 = function(){
         allowClear:true,
         width:'100%',
     });  
+}
+
+const configDateTimePicker = function(){
+    $.datetimepicker.setLocale('pt-BR');
+    $(".datetimepicker").datetimepicker({   
+        closeOnDateSelect: true,
+        format: 'd/m/Y H:i:s',
+    });
+
+    $(".datepicker").datetimepicker({
+        closeOnDateSelect: true,
+        format: 'd/m/Y',
+        timepicker:false,
+    })
+
+    $(".date-month-year").datetimepicker({
+        closeOnDateSelect: true,
+        format: 'm/Y',
+        timepicker: false,
+    })
+}
+
+const configMasks = function(){
+    $(".phone").inputmask('(99) 9999[9]-9999');
+    $(".month-year").inputmask('99/99');
+    $(".decimal-numeric").inputmask({
+        mask: "decimal",
+        greedy: false,
+        groupSeparator: '.',
+        autoGroup:true,
+        placeholder: '0'
+    })
 }
 
 const showMessagesValidator = function(form, errorsRequest){
@@ -253,10 +278,10 @@ const deleteForGrid = function(url, onSuccess = null, onError = null){
     });
 }
 
-const deleteMultipleRowsHelper = function(callback = null){
+const deleteMultipleRowsHelper = function(grid, callback = null){
     let selecteds = [];
 
-    $(".table tbody > tr").on("click", function(e){
+    $(grid + " .table tbody > tr").on("click", function(e){
         if(e.target.tagName == "BUTTON" || e.target.tagName == "I" || e.target.tagName == "A"){
             return
         }
@@ -324,9 +349,6 @@ const deleteMultipleRowsGrid = function(url, ids, callback = null){
                         showConfirmButton: false,
                         timer: 3500,
                         background: '#337ab7',
-                        didOpen:() => {
-                           $(modalObject).modal('hide');
-                        }
                     });
 
                     if(!response.error && !!callback){

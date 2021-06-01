@@ -1,59 +1,27 @@
 <?php
 
 return [
-    /*
-    |--------------------------------------------------------------------------
-    | Title
-    |--------------------------------------------------------------------------
-    |
-    | The default title of your admin panel, this goes into the title tag
-    | of your page. You can override it per page with the title section.
-    | You can optionally also specify a title prefix and/or postfix.
-    |
-    */
-
     'title' => 'source_BT',
     'title_prefix' => '',
     'title_postfix' => '',
 
-    /*
-    |--------------------------------------------------------------------------
-    | Logo
-    |--------------------------------------------------------------------------
-    |
-    | This logo is displayed at the upper left corner of your admin panel.
-    | You can use basic HTML here if you want. The logo has also a mini
-    | variant, used for the mini side bar. Make it 3 letters or so
-    |
-    */
-
     'logo' => '<img 
                     class="img-responsive"
-                    src="/assets/logo_union.png" 
-                    width="300px" 
-                    height="120px" 
+                    src="/img/logo_union.png" 
+                    style="width:300px; height:180px; object-fit:contain;"
                     alt="unionLogoType"
-                    object-fit="contain"
+                    
                 />',
 
     'logo_mini' => '<img 
                         class="img-responsive"
-                        height="50px"
-                        width="50px"
-                        src="/assets/union_mini_icon.png" 
+                        style="width:50px; height:50px";
+                        src="/img/union_mini_icon.png" 
                         object-fit="contain"
                         />
                     ',
-    /*
-    |--------------------------------------------------------------------------
-    | Skin Color
-    |--------------------------------------------------------------------------
-    |
-    | Choose a skin color for your admin panel. The available skin colors:
-    | blue, black, purple, yellow, red, and green. Each skin also has a
-    | light variant: blue-light, purple-light, purple-light, etc.
-    |
-    */
+
+                    
     'skin' => 'black-light',
     /*
     |--------------------------------------------------------------------------
@@ -96,6 +64,7 @@ return [
     | The right Sidebar can only be used if layout is not top-nav.
     |
     */
+    
     'right_sidebar' => false,
     'right_sidebar_icon' => 'fas fa-cogs',
     'right_sidebar_theme' => 'dark',
@@ -228,13 +197,15 @@ return [
                     [
                         'text' => 'Setor',
                         'icon' => 'fa fa-angle-right',
-                        'url' => '#',
+                        'url' => '/setores/',
+                        'requestjs' => 'AppSetores',
                         'bt_ac' => 'setores.index'
                     ],
                     [
                         'text' => 'Tipo de Projetos (Eventos)',
                         'icon' => 'fa fa-angle-right',
-                        'url' => '#',
+                        'url' => '/tiposProjetos/',
+                        'requestjs' => 'AppTiposProjetos',
                         'bt_ac' => 'tiposProjetos.index'
                     ],
                 ],
@@ -247,7 +218,8 @@ return [
                     [
                         'text' => 'Localidades',
                         'icon' => 'fa fa-angle-right',
-                        'url' => '#',
+                        'url' => '/localidades/',
+                        'requestjs' => 'AppLocalidades',
                         'bt_ac' => 'localidades.index'
                     ],
                     [

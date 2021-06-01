@@ -12,7 +12,6 @@ const changeTitle = function(){
     document.title = 'BT | País';
 }
 
-
 const habilitaEventos = function(){
     $("#addPais").on("click", function(){
         const url = '/paises/create';
@@ -20,7 +19,6 @@ const habilitaEventos = function(){
         AppUsage.loadModal(url, modalObject, '800px', function(){
             $("#addFormPais").on("submit", function(e){
                 e.preventDefault();
-
                 formPaises();
             })
         });
@@ -28,12 +26,24 @@ const habilitaEventos = function(){
 
     $("#searchFilterPaises").on("submit", function(e){
         e.preventDefault();
-
         getPaisesFilter()
     });
 }
 
 const habilitaBotoes = function(){
+    AppUsage.deleteMultipleRowsHelper(grid, function(){
+        $(".deleteALL").on("click", function(){
+            const url = '/paises/deleteAll'
+            const ids = $("tr.row-selected").map(function(index, element){
+                return $(element).attr("key");
+            });
+
+            AppUsage.deleteMultipleRowsGrid(url, ids, function(){
+                getPaisesFilter();
+            });
+        });
+    });
+
     $(grid + " .pagination > li > a").on("click", function(e){
         e.preventDefault();
         const url = $(this).attr("href");

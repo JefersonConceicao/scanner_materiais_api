@@ -144,9 +144,11 @@
                             @foreach($moduloWithFuncionalidades as $modulo)
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <label class="label label-primary pull-left text-uppercase"> 
-                                            Módulo: {{ $modulo->nome }} 
-                                        </label>
+                                        <p style="font-size:1.5em;">
+                                            <label class="label label-primary pull-left text-uppercase"> 
+                                                Módulo: {{ $modulo->nome }} 
+                                            </label>
+                                        </p>
                                         &nbsp;
                                         <a href="#" 
                                             id={{ $modulo->id }} 
@@ -162,7 +164,7 @@
                                         <div class="table-responsive">
                                             <table class="table table-hover">
                                                 <thead> 
-                                                    <th width="50%"> Funcionalidade </th>
+                                                    <th width="50%"> Funcionalidades </th>
                                                     <th> Perfis Associados </th>
                                                     <th> Rotas/Permissões Associadas </th>
                                                     <th> Status </th>

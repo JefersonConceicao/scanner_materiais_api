@@ -1,8 +1,8 @@
 <?php
+
 Route::get('/', function () {
     return view('auth.login');
 });
-
 Route::get('/permissoes/methodNotAllowed', 'PermissoesController@renderNotAllowed')->name('methodNotAllowed');
 
 Auth::routes();
@@ -74,6 +74,7 @@ Route::group(['middleware' => ['auth', 'verifyPermission']] , function(){
         Route::get('/edit/{id}', 'TerritoriosTuristicosController@edit')->name('edit');
         Route::put('/update/{id}', 'TerritoriosTuristicosController@update')->name('update');
         Route::delete('/delete/{id}', 'TerritoriosTuristicosController@delete')->name('delete');
+        Route::delete('/deleteAll', 'TerritoriosTuristicosController@deleteAll')->name('deleteAll');
     });
 
     Route::group(['as' => 'zonasTuristicas::', 'prefix' => 'zonasTuristicas'], function(){
@@ -93,6 +94,7 @@ Route::group(['middleware' => ['auth', 'verifyPermission']] , function(){
         Route::get('/edit/{id}', 'PaisesController@edit')->name('edit');
         Route::put('/update/{id}', 'PaisesController@update')->name('update');
         Route::delete('/delete/{id}', 'PaisesController@delete')->name('delete');
+        Route::delete('/deleteAll', 'PaisesController@deleteAll')->name('deleteAll');
     });
 
     Route::group(['as' => 'tiposEventosFestas::', 'prefix' => 'tiposEventosFestas'], function(){
@@ -102,6 +104,7 @@ Route::group(['middleware' => ['auth', 'verifyPermission']] , function(){
         Route::get('/edit/{id}', 'TiposEventosFestasController@edit')->name('edit');
         Route::put('/update/{id}', 'TiposEventosFestasController@update')->name('update');
         Route::delete('/delete/{id}', 'TiposEventosFestasController@delete')->name('delete');
+        Route::delete('/deleteAll', 'TiposEventosFestasController@deleteAll')->name('deleteAll');
     });
 
     Route::group(['as' => 'tiposInfraestruturas::', 'prefix' => 'tiposInfraestruturas'], function(){
@@ -112,6 +115,55 @@ Route::group(['middleware' => ['auth', 'verifyPermission']] , function(){
         Route::put('/update/{id}', 'TiposInfraestruturasController@update')->name('update');
         Route::delete('/delete/{id}', 'TiposInfraestruturasController@delete')->name('delete');
         Route::delete('/deleteAll', 'TiposInfraestruturasController@deleteAll')->name('deleteAll');
+    });
+
+    Route::group(['as' => 'localidades::', 'prefix' => 'localidades'], function(){
+        Route::get('/', 'LocalidadesController@index')->name('index');
+        Route::get('/create', 'LocalidadesController@create')->name('create');
+        Route::post('/store', 'LocalidadesController@store')->name('store');
+        Route::get('/edit/{id}', 'LocalidadesController@edit')->name('edit');
+        Route::put('/update/{id}', 'LocalidadesController@update')->name('update');
+        Route::delete('/delete/{id}', 'LocalidadesController@delete')->name('delete');
+        Route::get('/details/{id}', 'LocalidadesController@details')->name('details');
+
+        //LOCALIDADES DISTANCIA
+        Route::get('/createDistLocalidades/{id}', 'LocalidadesController@createDistanciaLocalidades')->name('createDistLocalidades');
+        Route::post('/storeDistLocalidades', 'LocalidadesController@storeDistanciaLocalidades')->name('storeDistLocalidades');
+        Route::get('/editDistLocalidades/{id}', 'LocalidadesController@editDistanciaLocalidades')->name('editDistLocalidades');
+        Route::put('/updateDistLocalidades/{id}', 'LocalidadesController@updateDistanciaLocalidades')->name('updateDistLocalidades');
+        Route::delete('/deleteDistlocalidades/{id}', 'LocalidadesController@deleteDistanciaLocalidades')->name('deleteDistLocalidades');
+        
+        //LOCALIDADES INFRAESTRUTURA
+        Route::get('/createInfraLocalidades/{id}', 'LocalidadesController@createInfraLocalidades')->name('createInfraLocalidades');
+        Route::post('/storeInfraLocalidades', 'LocalidadesController@storeInfraLocalidades')->name('storeInfraLocalidades');
+        Route::get('/editInfraLocalidades/{id}', 'LocalidadesController@editInfraLocalidades')->name('editInfraLocalidades');
+        Route::put('/updateInfraLocalidades/{id}', 'LocalidadesController@updateInfraLocalidades')->name('updateInfraLocalidades');
+        Route::delete('/deleteInfraLocalidades/{id}', 'LocalidadesController@deleteInfraLocalidades')->name('deleteInfraLocalidades');
+        
+        //LOCALIDADES EVENTO/FESTA
+        Route::get('/createEFLocalidade', 'LocalidadesController@createEFLocalidades')->name('createEFLocalidades');
+        Route::post('/storeEFLocalidade', 'LocalidadesController@storeEFLocalidades')->name('storeEFLocalidades');
+        Route::get('/editEFLocalidade/{id}', 'LocalidadesController@editEFLocalidades')->name('editEFLocalidades');
+        Route::put('/updateEFLocalidade/{id}', 'LocalidadesController@updateEFLocalidades')->name('updateEFLocalidades');
+        Route::delete('/deleteEFLocalidade/{id}', 'LocalidadesController@deleteEFLocalidades')->name('deleteEFLocalidades');
+    });
+
+    Route::group(['as' => 'tiposProjetos::', 'prefix' => 'tiposProjetos'], function(){
+        Route::get('/', 'TiposProjetosController@index')->name('index');
+        Route::get('/create', 'TiposProjetosController@create')->name('create');
+        Route::post('/store', 'TiposProjetosController@store')->name('store');
+        Route::get('/edit/{id}', 'TiposProjetosController@edit')->name('edit');
+        Route::put('/update/{id}', 'TiposProjetosController@update')->name('update');
+        Route::delete('/delete/{id}', 'TiposProjetosController@delete')->name('delete');
+    });
+
+    Route::group(['as' => 'setores::', 'prefix' => 'setores'], function(){
+        Route::get('/', 'SetoresController@index')->name('index');
+        Route::get('/create', 'SetoresController@create')->name('create');
+        Route::post('/store', 'SetoresController@store')->name('store');
+        Route::get('/edit/{id}', 'SetoresController@edit')->name('edit');
+        Route::put('/update/{id}', 'SetoresController@update')->name('update');
+        Route::delete('/delete/{id}', 'SetoresController@delete')->name('delete');
     });
 });
 

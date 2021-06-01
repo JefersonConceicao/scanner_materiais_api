@@ -55,4 +55,11 @@ class TiposEventosFestasController extends Controller
         $data = $tef->deleteEventoFesta($id);
         return response()->json($data);
     }
+
+    public function deleteAll(Request $request){
+        $tef = new TiposEventosFesta;
+
+        $data = $tef->deleteAllEventoFesta($request->all());
+        return response()->json($data);
+    }
 }

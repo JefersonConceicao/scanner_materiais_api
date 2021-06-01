@@ -1,6 +1,8 @@
-//CORE Scripts - scripts de estrutura
-import Dropzone from 'dropzone';
+//LIBS - scripts bibliotecas
+import Dropzone from 'dropzone'
 Dropzone.autoDiscover = false;
+window.Swal = require('sweetalert2');
+window.moment = require('moment');
 
 //CORE Scripts - scripts com funções genericas para toda a aplicação
 window.AppNavigation = require('./Core/AppNavigation');
@@ -23,11 +25,13 @@ window.AppZonasTuristicas = require('./Logged/AppZonasTuristicas');
 window.Paises = require('./Logged/AppPaises');
 window.AppTiposEventosFestas = require('./Logged/AppTiposEventosFestas');
 window.AppTiposInfraestruturas = require('./Logged/AppTiposInfraestruturas');
+window.AppLocalidades = require('./Logged/AppLocalidades');
+window.AppLocalidadesDistancia = require('./Logged/AppLocalidadesDistancia');
+window.AppLocalidadesInfraestrutura = require('./Logged/AppLocalidadesInfraestrutura');
+window.AppLocalidadesEventoFesta = require('./Logged/AppLocalidadesEventoFesta');
+window.AppTiposProjetos = require('./Logged/AppTiposProjetos');
 
-
-//CONSTANTS Scripts - scripts re-utilizaveis
+//CONSTANTS métodos e propriedades constantes
 window.languageDataTable = require('./Constants/language_dataTable');
 window.AcessControl = require('./Constants/access_control');
-
-//LIBS - scripts bibliotecas
-window.Swal = require('sweetalert2');        
+      

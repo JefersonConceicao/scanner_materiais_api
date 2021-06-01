@@ -48,7 +48,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12 pull-left btnEdit">
-                        <button class="btn btn-primary">  
+                        <button type="button" class="btn btn-primary">  
                             <i class="fa fa-eraser"> </i> Limpar Pesquisa
                         </button> 
                         <button class="btn btn-primary btnDelete"> 
@@ -78,7 +78,7 @@
                     </thead>
                     <tbody> 
                         @foreach($dataPais as $pais)
-                            <tr> 
+                            <tr key="{{ $pais->id }}"> 
                                 <td> {{ !empty($pais->pais_sigla) ? $pais->pais_sigla : "Não informado" }}  </td>
                                 <td> {{ !empty($pais->pais) ? $pais->pais : "Não informado" }} </td>
                                 <td> <label class="label label-{{ $pais->ativo === "S" ? "success" : "danger"}}"> 

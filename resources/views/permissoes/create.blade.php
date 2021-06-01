@@ -41,5 +41,4 @@
         </div>
    </div>
 @endsection
-
 @section('btn_fechar', 'Fechar')

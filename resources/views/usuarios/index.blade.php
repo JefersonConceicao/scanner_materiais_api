@@ -36,15 +36,6 @@
                             ])}}
                         </div>
                     </div>
-                    <div class="col-md-3">  
-                        <div class="form-group">
-                            {{ Form::label('role', 'Perfil') }}
-                            {{ Form::select('role', $roles, [], [
-                                'class' => 'form-control select2',
-                                'placeholder' => 'Selecione uma opção'
-                            ])}}
-                        </div>
-                    </div>
                     <div class="col-md-3">
                         <div class="form-group">
                             {{ Form::label('setor','Setor') }}

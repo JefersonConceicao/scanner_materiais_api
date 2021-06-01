@@ -1,12 +1,9 @@
-
-
 $(function(){
     habilitaBotoes();
     habilitaEventos();
 })
 
 const modalObject = "#nivel1";
-
 
 const habilitaEventos = function(id = null){
     $("#modalFormAddFunc").on("submit", function(e){

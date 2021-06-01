@@ -1,5 +1,3 @@
-const { default: Swal } = require("sweetalert2");
-
 $(function(){
     habilitaBotoes();
     habilitaEventos();
@@ -33,6 +31,19 @@ const habilitaEventos = function(){
 }
 
 const habilitaBotoes = function(){
+    AppUsage.deleteMultipleRowsHelper(grid, function(){
+        $(".deleteALL").on("click", function(){
+            const url = '/tiposEventosFestas/deleteAll'
+            const ids = $("tr.row-selected").map(function(index, element){
+                return $(element).attr("key");
+            });
+
+            AppUsage.deleteMultipleRowsGrid(url, ids, function(){
+                getTiposEventosFestas();
+            })
+        });
+    });
+
     $(".btnTefEdit").on("click", function(){
         const id = $(this).attr("id");
         const url = '/tiposEventosFestas/edit/' + id;

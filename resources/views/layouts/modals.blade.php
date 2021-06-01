@@ -3,11 +3,10 @@
             @hasSection('form_modal')
                 <form id="@yield('form_modal')">
                     <div class="modal-header">
-                        
                         <button 
-                             style="display: @hasSection('no_close') {{ "none" }} @else  {{ "block "}}  @endif"
-                             type="button" class="close" 
-                             data-dismiss="modal"
+                            style="display: @hasSection('no_close') {{ "none" }} @else {{"block"}} @endif"
+                            type="button" class="close" 
+                            data-dismiss="modal"
                         > 
                             &times 
                         </button>
