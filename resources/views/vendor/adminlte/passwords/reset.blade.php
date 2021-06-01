@@ -8,11 +8,12 @@
 
 @section('body')
     <div class="login-box">
-        <div class="login-logo">
-            <a href="{{ url(config('adminlte.dashboard_url', 'home')) }}">{!! config('adminlte.logo', '<b>Admin</b>LTE') !!}</a>
-        </div>
         <!-- /.login-logo -->
         <div class="login-box-body">
+            <div class="login-logo">
+                <a href="{{ url(config('adminlte.dashboard_url', 'home')) }}">{!! config('adminlte.logo', '<b>Admin</b>LTE') !!}</a>
+            </div>
+
             <p class="login-box-msg">{{ trans('adminlte::adminlte.password_reset_message') }}</p>
             <form action="{{ url(config('adminlte.password_reset_url', 'password/reset')) }}" method="post">
                 {{ csrf_field() }}

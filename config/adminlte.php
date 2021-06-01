@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Title
@@ -14,9 +13,7 @@ return [
     */
 
     'title' => 'source_BT',
-
     'title_prefix' => '',
-
     'title_postfix' => '',
 
     /*
@@ -31,15 +28,22 @@ return [
     */
 
     'logo' => '<img 
-                    src="/assets/bahia_tursa_source_system.png" 
+                    class="img-responsive"
+                    src="/assets/logo_union.png" 
                     width="300px" 
                     height="120px" 
                     alt="unionLogoType"
                     object-fit="contain"
                 />',
 
-    'logo_mini' => '<b>A</b>LT',
-
+    'logo_mini' => '<img 
+                        class="img-responsive"
+                        height="50px"
+                        width="50px"
+                        src="/assets/union_mini_icon.png" 
+                        object-fit="contain"
+                        />
+                    ',
     /*
     |--------------------------------------------------------------------------
     | Skin Color
@@ -50,9 +54,7 @@ return [
     | light variant: blue-light, purple-light, purple-light, etc.
     |
     */
-
-    'skin' => 'blue',
-
+    'skin' => 'black-light',
     /*
     |--------------------------------------------------------------------------
     | Layout
@@ -94,7 +96,6 @@ return [
     | The right Sidebar can only be used if layout is not top-nav.
     |
     */
-
     'right_sidebar' => false,
     'right_sidebar_icon' => 'fas fa-cogs',
     'right_sidebar_theme' => 'dark',
@@ -113,14 +114,11 @@ return [
     */
 
     'dashboard_url' => 'home',
-
     'logout_url' => 'logout',
-
     'logout_method' => null,
 
     'login_url' => 'login',
-
-    'register_url' => 'register',
+    'register_url' => false,
 
     /*
     |--------------------------------------------------------------------------
@@ -134,47 +132,196 @@ return [
     */
 
     'menu' => [
-        [
-            'text' => 'search',
-            'search' => true,
-        ],
-        ['header' => 'main_navigation'],
-        [
-            'text' => 'blog',
-            'url'  => 'admin/blog',
-            'can'  => 'manage-blog',
-        ],
-        [
-            'text'        => 'pages',
-            'url'         => 'admin/pages',
-            'icon'        => 'far fa-file',
-            'label'       => 4,
-            'label_color' => 'success',
-        ],
-        ['header' => 'account_settings'],
-        [
-            'text' => 'profile',
-            'url'  => 'admin/settings',
-            'icon' => 'fas fa-fw fa-user',
-        ],
-        [
-            'text' => 'change_password',
-            'url'  => 'admin/settings',
-            'icon' => 'fas fa-fw fa-lock',
-        ],
-        ['header' => 'labels'],
-        [
-            'text'       => 'important',
-            'icon_color' => 'red',
-        ],
-        [
-            'text'       => 'warning',
-            'icon_color' => 'yellow',
-        ],
-        [
-            'text'       => 'information',
-            'icon_color' => 'aqua',
-        ],
+        ['header' => ''],
+            [
+                'text' => 'Painel de Controle',
+                'url' => 'home/',
+                'icon' => 'fa fa-tachometer',
+                'bt_ac' => 'home'
+            ],
+
+        ['header' => ''],
+            [
+                'text' => 'Minha Conta',
+                'icon' => 'fas fa-fw fa-user',
+                'url' => '/users/perfil',
+                'requestjs' => 'AppProfile',
+                'bt_ac' => 'users.profile'
+            ],
+        ['header' => ''],
+            [
+                'text' => 'Administrativo',
+                'icon' => 'fa fa-briefcase',
+                'submenu' => [
+                    [
+                        'text' => 'Projetos',
+                        'icon' => 'fa fa-angle-right',
+                        'bt_ac' => 'projetos.index'
+                    ],
+                ],
+            ],
+        ['header' => ''],
+            [
+                'text' => 'Cadastros',
+                'icon' => 'fa fa-cubes',
+                'submenu' => [
+                    [
+                      'text' => 'Categoria do instrumento',
+                      'icon' => 'fa fa-angle-right',
+                      'url' => '#',
+                      'bt_ac' => 'categoriaInstrumento.index'
+                    ],
+                    [
+                        'text' => 'Checklist de Estrutura',
+                        'icon' => 'fa fa-angle-right',
+                        'url' => '#',
+                        'bt_ac' => 'checkListEstrutura.index'
+                    ],
+                    [
+                        'text' => 'Checklist de Itens',
+                        'icon' => 'fa fa-angle-right',
+                        'url' => '#',
+                        'bt_ac' => 'checkListItens.index'
+                    ],
+                    [
+                        'text' => 'Checklist de Modelos',
+                        'icon' => 'fa fa-angle-right',
+                        'url' =>'#',
+                        'bt_ac' => 'checkListModelos.index'    
+                    ],
+                    [
+                        'text' => 'Elemento de Despesa',
+                        'icon' => 'fa fa-angle-right',
+                        'url' =>'#',
+                        'bt_ac' => 'elementoDespesa.index'      
+                    ],
+                    [
+                        'text' => 'Fonte de Recurso',
+                        'icon' => 'fa fa-angle-right',
+                        'url' =>'#',
+                        'bt_ac' => 'fonteRecurso.index'       
+                    ],
+                    [
+                        'text' => 'Modalidade de Apoio',
+                        'icon' => 'fa fa-angle-right',
+                        'url' => '#',
+                        'bt_ac' => 'modalidadeApoio.index'      
+                    ],
+                    [
+                        'text' => 'Modalidade de Licitação',
+                        'icon' => 'fa fa-angle-right',
+                        'url' => '#',
+                        'bt_ac' => 'modalidadesLicitacoes.index'
+                    ],
+                    [
+                        'text' => 'Projeto de Atividade',
+                        'icon' => 'fa fa-angle-right',
+                        'url' => '#',
+                        'bt_ac' => 'projetoAtividades.index'
+                    ],
+                    [
+                        'text' => 'Proponente',
+                        'icon' => 'fa fa-angle-right',
+                        'url' => '#',
+                        'bt_ac' => 'proponente.index' 
+                    ],
+                    [
+                        'text' => 'Setor',
+                        'icon' => 'fa fa-angle-right',
+                        'url' => '#',
+                        'bt_ac' => 'setores.index'
+                    ],
+                    [
+                        'text' => 'Tipo de Projetos (Eventos)',
+                        'icon' => 'fa fa-angle-right',
+                        'url' => '#',
+                        'bt_ac' => 'tiposProjetos.index'
+                    ],
+                ],
+            ],
+        ['header' => ''],
+            [
+                'text' => 'Localidades',
+                'icon' => 'fa fa-map-marker',
+                'submenu' => [
+                    [
+                        'text' => 'Localidades',
+                        'icon' => 'fa fa-angle-right',
+                        'url' => '#',
+                        'bt_ac' => 'localidades.index'
+                    ],
+                    [
+                        'text' => 'País',
+                        'icon' => 'fa fa-angle-right',
+                        'url' => '/paises/',
+                        'requestjs' => 'AppPaises',
+                        'bt_ac' => 'paises.index'
+                    ],
+                    [
+                        'text' => 'Território Identidade',
+                        'icon' => 'fa fa-angle-right',
+                        'url' => '/territoriosTuristicos/',
+                        'requestjs' => 'AppTerritoriosTuristicos',
+                        'bt_ac' => 'territoriosTuristicos.index'
+                    ],
+                    [
+                        'text' => 'Tipo Evento/Festa',
+                        'icon' => 'fa fa-angle-right',
+                        'url' => '/tiposEventosFestas/',
+                        'requestjs' => 'AppTiposEventosFestas',
+                        'bt_ac' => 'tiposEventosFestas.index'
+                    ],
+                    [
+                        'text' => 'Tipo Infraestrutura',
+                        'icon' => 'fa fa-angle-right',
+                        'url' => '/tiposInfraestruturas/',
+                        'requestjs' => 'AppTiposInfraestruturas',
+                        'bt_ac' => 'tiposInfraestruturas.index'
+                    ],
+                    [
+                        'text' => 'UF',
+                        'icon' => 'fa fa-angle-right',
+                        'url' => '/uf/',
+                        'requestjs' => 'AppUF',
+                        'bt_ac' => 'uf.index' 
+                    ],
+                    [
+                        'text' => 'Zona Turística',
+                        'icon' => 'fa fa-angle-right',
+                        'url' => '/zonasTuristicas/',
+                        'requestjs' => 'AppZonasTuristicas',
+                        'bt_ac' => 'zonasTuristicas.index'
+                    ],
+                ],
+            ],
+        ['header' => ''],
+            [
+                'text'  => 'Controle de Acesso',
+                'icon'  => 'fa fa-lock',
+                'submenu' => [
+                    [
+                        'text' => 'Usuários',
+                        'url' => 'users/',
+                        'icon' => 'fa fa-angle-right',
+                        'requestjs' => 'AppUsers',
+                        'bt_ac' => 'users.index'
+                    ],
+                    [
+                        'text' => 'Grupos',
+                        'icon' => 'fa fa-angle-right',
+                        'url' => 'roles/',
+                        'requestjs' => 'AppRoles',
+                        'bt_ac' => 'roles.index'
+                    ],
+                    [
+                        'text' => 'Permissões',
+                        'url' => 'permissoes/',
+                        'icon' => 'fa fa-angle-right',
+                        'requestjs' => 'AppPermissoes',
+                        'bt_ac' => 'permissoes.index'
+                    ],
+                ]
+            ],
     ],
 
     /*
@@ -231,6 +378,17 @@ return [
             ],
         ],
         [
+            'name' => 'FontAwesome',
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css'
+                ],
+            ],
+        ],
+        [
             'name' => 'Select2',
             'active' => true,
             'files' => [
@@ -254,33 +412,6 @@ return [
                     'type' => 'js',
                     'asset' => false,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.min.js',
-                ],
-            ],
-        ],
-        [
-            'name' => 'Sweetalert2',
-            'active' => true,
-            'files' => [
-                [
-                    'type' => 'js',
-                    'asset' => false,
-                    'location' => '//cdn.jsdelivr.net/npm/sweetalert2@8',
-                ],
-            ],
-        ],
-        [
-            'name' => 'Pace',
-            'active' => true,
-            'files' => [
-                [
-                    'type' => 'css',
-                    'asset' => false,
-                    'location' => '//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-center-radar.min.css',
-                ],
-                [
-                    'type' => 'js',
-                    'asset' => false,
-                    'location' => '//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js',
                 ],
             ],
         ],

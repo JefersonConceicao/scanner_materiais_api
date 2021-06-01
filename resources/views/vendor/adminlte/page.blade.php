@@ -1,5 +1,4 @@
 @extends('adminlte::master')
-
 @section('adminlte_css')
     <link rel="stylesheet"
           href="{{ asset('vendor/adminlte/dist/css/skins/skin-' . config('adminlte.skin', 'blue') . '.min.css')}} ">
@@ -9,12 +8,12 @@
 
 @section('body_class', 'skin-' . config('adminlte.skin', 'blue') . ' sidebar-mini ' . (config('adminlte.layout') ? [
     'boxed' => 'layout-boxed',
-    'fixed' => 'fixed',
     'top-nav' => 'layout-top-nav'
 ][config('adminlte.layout')] : '') . (config('adminlte.collapse_sidebar') ? ' sidebar-collapse ' : ''))
 
 @section('body')
     <div class="wrapper">
+        <div id="contentLoading" style="display:none;"> </div>
 
         <!-- Main Header -->
         <header class="main-header">
@@ -54,28 +53,73 @@
                 </a>
             @endif
                 <!-- Navbar Right Menu -->
-                <div class="navbar-custom-menu">
-
+                <div class="navbar-custom-menu">                    
                     <ul class="nav navbar-nav">
-                        <li>
-                            @if(config('adminlte.logout_method') == 'GET' || !config('adminlte.logout_method') && version_compare(\Illuminate\Foundation\Application::VERSION, '5.3.0', '<'))
-                                <a href="{{ url(config('adminlte.logout_url', 'auth/logout')) }}">
-                                    <i class="fa fa-fw fa-power-off"></i> {{ trans('adminlte::adminlte.log_out') }}
-                                </a>
-                            @else
-                                <a href="#"
-                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                                >
-                                    <i class="fa fa-fw fa-power-off"></i> {{ trans('adminlte::adminlte.log_out') }}
-                                </a>
-                                <form id="logout-form" action="{{ url(config('adminlte.logout_url', 'auth/logout')) }}" method="POST" style="display: none;">
-                                    @if(config('adminlte.logout_method'))
-                                        {{ method_field(config('adminlte.logout_method')) }}
-                                    @endif
-                                    {{ csrf_field() }}
-                                </form>
-                            @endif
+                        <li class="dropdown user user-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> 
+                                <img 
+                                    src="{{ Auth::user()->url_photo 
+                                        ? Auth::user()->url_photo 
+                                        : asset('/assets/default_icon.png')
+                                    }}"
+                                    class="user-image menuImgProfile"
+                                    alt="foto de perfil union"
+                                />
+
+                                <span class="hidden-xs"> {{ Auth::user()->name }} </span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="user-header">
+                                    <img 
+                                        class="subMenuImgProfile"
+                                        src="{{ Auth::user()->url_photo 
+                                            ? Auth::user()->url_photo 
+                                            : asset('/assets/default_icon.png')
+                                        }}"
+                                    />
+                                    <p> 
+                                        {{ Auth::user()->name }}   
+                                    </p>
+                                </li>
+                                <li class="user-body">
+                                    <div class="row"> 
+                                        <div class="col-md-12 text-center">
+                                            <a href="/users/perfil" class="btn btn-default" style="width:100%;">
+                                                <b> 
+                                                    <i class="fa fa-user"> </i> &nbsp; 
+                                                    Meu Perfil 
+                                                </b> 
+                                            </a>  
+                                        </div>
+                                    </div>
+        
+                    
+                                </li> 
+                                <li class="user-footer">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <a 
+                                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                                                href="/auth/logout" class="btn btn-danger" style="width:100%"
+                                            > 
+                                                <i class="fa fa-fw fa-power-off"> </i>
+                                                    Sair
+                                            </a>
+                                        </div>
+                                    </div> 
+                                </li>
+                            </ul>
                         </li>
+
+                        <li>
+                            <form id="logout-form" action="{{ url(config('adminlte.logout_url', 'auth/logout')) }}" method="POST" style="display: none;">
+                                @if(config('adminlte.logout_method'))
+                                    {{ method_field(config('adminlte.logout_method')) }}
+                                @endif
+                                {{ csrf_field() }}
+                            </form>
+                        </li> 
+
                         @if(config('adminlte.right_sidebar') and (config('adminlte.layout') != 'top-nav'))
                         <!-- Control Sidebar Toggle Button -->
                             <li>
@@ -92,13 +136,40 @@
             </nav>
         </header>
 
+        <div id="containerLoadingBar" style="display:none;">
+            <div id="progressLoadingBar"> </div>
+        </div>  
+
+        <div id="nivel1" class="modal fade" role="dialog"> 
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    @yield('modal')
+                </div>
+            </div>
+        </div>
+
+        <div id="nivel2" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    @yield('modal')
+                </div>
+            </div>
+        </div>
+
+        <div id="nivel3" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                
+                </div>
+            </div>
+        </div>
+
+
         @if(config('adminlte.layout') != 'top-nav')
         <!-- Left side column. contains the logo and sidebar -->
         <aside class="main-sidebar">
-
             <!-- sidebar: style can be found in sidebar.less -->
             <section class="sidebar">
-
                 <!-- Sidebar Menu -->
                 <ul class="sidebar-menu" data-widget="tree">
                     @each('adminlte::partials.menu-item', $adminlte->menu(), 'item')
@@ -112,23 +183,17 @@
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             @if(config('adminlte.layout') == 'top-nav')
-            <div class="container">
+                <div class="container">
             @endif
 
-            <!-- Content Header (Page header) -->
-            <section class="content-header">
-                @yield('content_header')
-            </section>
-
             <!-- Main content -->
-            <section class="content">
-
-                @yield('content')
-
-            </section>
+                <section class="content">
+                    @yield('content')
+                </section>
             <!-- /.content -->
+
             @if(config('adminlte.layout') == 'top-nav')
-            </div>
+                </div>
             <!-- /.container -->
             @endif
         </div>
@@ -148,9 +213,8 @@
             <!-- Add the sidebar's background. This div must be placed immediately after the control sidebar -->
             <div class="control-sidebar-bg"></div>
         @endif
-
     </div>
-    <!-- ./wrapper -->
+<!-- ./wrapper -->
 @stop
 
 @section('adminlte_js')

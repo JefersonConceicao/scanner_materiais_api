@@ -12,9 +12,11 @@
         "fideloper/proxy": "^4.0",
         "jeroennoten/laravel-adminlte": "1.27.2",
         "laravel/framework": "5.7.*",
-        "laravel/tinker": "^1.0"
+        "laravel/tinker": "^1.0",
+        "laravelcollective/html": "5.7.*"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "3.2.*",
         "beyondcode/laravel-dump-server": "^1.0",
         "filp/whoops": "^2.0",
         "fzaninotto/faker": "^1.4",
