@@ -164,6 +164,17 @@ Route::group(['middleware' => ['auth', 'verifyPermission']] , function(){
         Route::get('/edit/{id}', 'SetoresController@edit')->name('edit');
         Route::put('/update/{id}', 'SetoresController@update')->name('update');
         Route::delete('/delete/{id}', 'SetoresController@delete')->name('delete');
+        Route::delete('/deleteAll', 'SetoresController@deleteAll')->name('deleteAll');
+    });
+
+    Route::group(['as' => 'categoriaInstrumentos::', 'prefix' => 'categoriaInstrumentos'], function(){
+        Route::get('/', 'CategoriaInstrumentosController@index')->name('index');
+        Route::get('/create', 'CategoriaInstrumentosController@create')->name('create');
+        Route::post('/store', 'CategoriaInstrumentosController@store')->name('store');
+        Route::get('/edit/{id}', 'CategoriaInstrumentosController@edit')->name('edit');
+        Route::put('/update/{id}', 'CategoriaInstrumentosController@update')->name('update');
+        Route::delete('/delete/{id}', 'CategoriaInstrumentosController@delete')->name('delete');
+        Route::delete('/deleteAll', 'CategoriaInstrumentosController@deleteAll')->name('deleteAll');
     });
 });
 

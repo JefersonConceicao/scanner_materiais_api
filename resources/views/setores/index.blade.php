@@ -41,8 +41,8 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             {{ Form::label('ativo', 'Ativo')}}
-                            {{ Form::select('ativo', ['S' => 'Sim', 'N' => 'Não'], ['S'], [
-                                'class' => 'form-control',
+                            {{ Form::select('ativo', [null => 'Selecione']+['S' => 'Sim', 'N' => 'Não'], null, [
+                                'class' => 'form-control select2',
                                 'id' => 'form_search_setor_ativo'
                             ])}}
                         </div>
@@ -94,7 +94,7 @@
                     </thead>
                     <tbody> 
                         @foreach($dataSetores as $setor) 
-                            <tr> 
+                            <tr key={{ $setor->id }}> 
                                 <td> {{ $setor->sigla }} </td>
                                 <td> {{ $setor->descsetor }} </td>
                                 <td> {{ $setor->e_mail }} </td>
@@ -106,10 +106,16 @@
                                  </td>
                                 <td>
                                     <div style="display:flex; justify-content:space-around;">
-                                        <button class="btn btn-xs btn-primary"> 
+                                        <button 
+                                            class="btn btn-xs btn-primary btnEditSetor"
+                                            id="{{ $setor->id }}"
+                                        > 
                                             <i class="fa fa-edit"> </i>
                                         </button>
-                                        <button class="btn btn-xs btn-danger"> 
+                                        <button 
+                                            class="btn btn-xs btn-danger btnDeleteSetor"
+                                            id="{{ $setor->id }}"
+                                        > 
                                             <i class="fa fa-trash"> </i>
                                         </button>
                                     </div>
@@ -118,6 +124,9 @@
                         @endforeach
                     </tbody>
                 </table>
+                <div class="indexPagination" style="display:flex; justify-content:center;">
+                    {{ $dataSetores->links() }}
+                </div>  
             </div>
         </div>      
     </section>

@@ -135,10 +135,11 @@ return [
                 'icon' => 'fa fa-cubes',
                 'submenu' => [
                     [
-                      'text' => 'Categoria do instrumento',
+                      'text' => 'Categorias dos Instrumentos',
                       'icon' => 'fa fa-angle-right',
-                      'url' => '#',
-                      'bt_ac' => 'categoriaInstrumento.index'
+                      'url' => '/categoriaInstrumentos/',
+                      'requestjs' => 'AppCategoriaInstrumentos',
+                      'bt_ac' => 'categoriaInstrumentos.index'
                     ],
                     [
                         'text' => 'Checklist de Estrutura',
@@ -195,7 +196,7 @@ return [
                         'bt_ac' => 'proponente.index' 
                     ],
                     [
-                        'text' => 'Setor',
+                        'text' => 'Setores',
                         'icon' => 'fa fa-angle-right',
                         'url' => '/setores/',
                         'requestjs' => 'AppSetores',

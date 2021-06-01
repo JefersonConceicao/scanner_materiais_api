@@ -9,6 +9,10 @@ $(function(){
 const grid = "#gridTiposProjetos";
 const modalObject = '#nivel1';
 
+const changeTitle = function(){
+    document.title = "BT | Tipos de Projetos";
+}
+
 const habilitaEventos = function(){
     $("#searchFormTipoProjeto").on("submit", function(e){
         e.preventDefault();
@@ -145,6 +149,7 @@ const getTiposProjetosFilter = function(url){
 
 
 module.exports = {
+    changeTitle,
     habilitaEventos,
     habilitaBotoes,
 }
