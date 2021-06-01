@@ -55,4 +55,12 @@ class PaisesController extends Controller
         $data = $pais->deletePais($id);
         return response()->json($data);
     }
+
+    public function deleteAll(Request $request){
+        
+        $pais = new Pais;
+
+        $data = $pais->deleteAllPais($request->all());
+        return response()->json($data);
+    }
 }

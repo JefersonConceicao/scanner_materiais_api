@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="shortcut icon" href="{{ asset("assets/favicon.ico") }}"/>
+        <link rel="shortcut icon" href="{{ asset("img/favicon.ico") }}"/>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title> 
@@ -15,6 +15,7 @@
         <link rel="stylesheet" href="{{ asset('vendor/adminlte/vendor/font-awesome/css/all.min.css') }}">
         <link rel="stylesheet" href="{{ asset('vendor/adminlte/vendor/Ionicons/css/ionicons.min.css') }}">
         <link rel="stylesheet" href="{{ asset('vendor/lou-multi-select/css/multi-select.css') }}">
+        <link rel="stylesheet" href="{{ asset('libs/datetimepicker/jquery.datetimepicker.css') }}" />
         @include('adminlte::plugins', ['type' => 'css'])
         <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/AdminLTE.min.css') }}"/>
         @yield('adminlte_css')
@@ -22,14 +23,15 @@
         <link rel="stylesheet" href="{{asset('css/app.css')}}">
     </head>
 
-    <body class="hold-transition @yield('body_class') layout-boxed">
+    <body class="hold-transition @yield('body_class') fixed">
             @yield('body')
-
         <script src="{{ asset('vendor/adminlte/vendor/jquery/dist/jquery.min.js') }}"></script>
         <script src="{{ asset('vendor/adminlte/vendor/jquery/dist/jquery.slimscroll.min.js') }}"></script>
         <script src="{{ asset('vendor/adminlte/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('vendor/lou-multi-select/js/jquery.multi-select.js') }}"> </script>
         <script src="{{ asset('vendor/jquery.quick-search/dist/jquery.quicksearch.js') }}"> </script>
+        <script src="{{ asset('libs/datetimepicker/build/jquery.datetimepicker.full.min.js') }}"> </script>
+        <script src="{{ asset('libs/inputmask/dist/jquery.inputmask.min.js')}}"> </script>
         <script> 
             var arrayPermissions = '<?php echo json_encode(session()->get("user_permissions")); ?>' 
         </script>

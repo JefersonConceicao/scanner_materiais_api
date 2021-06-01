@@ -86,4 +86,19 @@ class Pais extends Model
     public function getPaisById($id){
         return $this->find($id);
     }
+
+    public function deleteAllPais($request = []){
+        if($this->whereIn('id', $request['ids'])->delete()){
+            return [
+                'error' => false,
+                'msg' => count($request['ids']).' registro(s) excluído(s) com sucesso'
+            ];
+        }else{
+            return [
+                'error' => true,
+                'msg' => 'Não foi possível excluir o registro, pois o mesmo pode ja está sendo utilizado'
+            ];
+        }
+
+    }
 }

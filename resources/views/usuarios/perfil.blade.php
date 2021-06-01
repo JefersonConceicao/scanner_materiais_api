@@ -1,5 +1,5 @@
 @extends('adminlte::page')
-@section('title', 'BT_Source | Meu Perfil')
+@section('title', 'BT | Meu Perfil')
 
 @section('content')
     <section class="content-header">
@@ -29,10 +29,11 @@
 
                     <div class="widget-user-image">
                         <img class="img-circle dropzone profilePicture" 
-                            src="{{ !empty($user->url_photo) 
-                                ?   $user->url_photo 
-                                :  asset('assets/default_icon.png') 
-                                    
+                            src="{{ !empty($user->url_photo) && Storage::disk('local')->exists(
+                                str_replace("/storage/","/public/", $user->url_photo)
+                            )
+                                ?  $user->url_photo 
+                                :  asset('img/default_icon.png') 
                             }}" 
                             alt="User Avatar"
                             data-toggle="tooltip"
@@ -43,9 +44,8 @@
                                 width:90px;
                                 height:100px;
                                 object-fit:contain;
-                                "
+                            "
                         />
-                    
                     </div>
 
                     <div class="box-footer">
@@ -56,7 +56,7 @@
                                         Setor 
                                     </h5>
                                     <span class="description-text">
-                                         {{ $user->userSetor->descsetor }}  
+                                         {{ $user->userSetor->descsetor}}  
                                     </span>
                                 </div>
                             </div>

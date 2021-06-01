@@ -48,4 +48,12 @@ class TerritoriosTuristicosController extends Controller
         $data = $tt->deleteTT($id);
         return response()->json($data);
     }
+
+    public function deleteAll(Request $request){
+        $tt = new TerritorioTuristico;
+
+        $data = $tt->deleteAllRowsTT($request->all());
+        return response()->json($data);
+    }
+
 }

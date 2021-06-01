@@ -5,12 +5,10 @@ $(function(){
 
 const modalObject = "#nivel1";
 const grid = "#gridTiposIE";
-let urlDeleteAllRows = 'tiposInfraestruturas/deleteAll'
 
 const habilitaEventos = function(){
     $("#formSearchTiposIE").on("submit", function(e){
         e.preventDefault()
-
         getTiposIEFilter();
     })
 
@@ -20,7 +18,6 @@ const habilitaEventos = function(){
         AppUsage.loadModal(url, modalObject, '800px', function(){
             $("#addFormTipoInfraestrutura").on("submit", function(e){
                 e.preventDefault();
-
                 formTiposIE();
             });
         });
@@ -28,7 +25,18 @@ const habilitaEventos = function(){
 }
 
 const habilitaBotoes = function(){
-    
+    AppUsage.deleteMultipleRowsHelper(grid, function(){
+        $(".deleteALL").on("click", function(){
+            const url = "/tiposInfraestruturas/deleteAll"
+            const ids = $("tr.row-selected").map(function(index, element){
+                return $(element).attr("key");
+            });
+
+            AppUsage.deleteMultipleRowsGrid(url, ids, function(){
+                getTiposIEFilter();
+            })
+        })
+    });
 
     $(grid + " .pagination > li > a").on("click", function(e){
         e.preventDefault();
@@ -139,8 +147,6 @@ const formTiposIE = function(id){
             `)      
         }
     });
-
-
 }
 
 module.exports = {
