@@ -144,13 +144,15 @@ return [
                     [
                         'text' => 'Checklist de Estrutura',
                         'icon' => 'fa fa-angle-right',
-                        'url' => '#',
-                        'bt_ac' => 'checkListEstrutura.index'
+                        'url' => '/checkListEstruturas/',
+                        'requestjs' => 'AppCheckListEstruturas',
+                        'bt_ac' => 'checkListEstruturas.index'
                     ],
                     [
                         'text' => 'Checklist de Itens',
                         'icon' => 'fa fa-angle-right',
-                        'url' => '#',
+                        'url' => '/checkListItens/',
+                        'requestjs' => 'AppCheckListItens',
                         'bt_ac' => 'checkListItens.index'
                     ],
                     [

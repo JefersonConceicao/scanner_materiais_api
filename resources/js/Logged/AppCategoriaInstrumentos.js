@@ -19,6 +19,15 @@ const habilitaEventos = function(){
 }
 
 const habilitaBotoes = function(){
+    $(grid + " .pagination > li > a").on("click", function(e){
+        e.preventDefault();
+        const url = $(this).attr("href");
+
+        if(!!url){
+            getCategoriaInstrumento(url)
+        }
+    })
+
     AppUsage.deleteMultipleRowsHelper(grid, function(){
         $(".deleteALL").on("click", function(){
             const url = '/categoriaInstrumentos/deleteAll'
@@ -81,7 +90,7 @@ const habilitaBotoes = function(){
     })
 }
 
-const getCategoriaInstrumento = function(){
+const getCategoriaInstrumento = function(url){
     let form = $("#formSearchCategoriaInstrumento").serialize();
 
     $.ajax({

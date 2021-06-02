@@ -129,6 +129,9 @@
                         @endforeach
                     </tbody>
                 </table>
+                <div class="indexPagination" style="display:flex; justify-content:center;">
+                    {{ $dataCatInstrumento->links() }}
+                </div>  
             </div>
         </div>
     </section>
