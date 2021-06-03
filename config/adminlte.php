@@ -135,21 +135,24 @@ return [
                 'icon' => 'fa fa-cubes',
                 'submenu' => [
                     [
-                      'text' => 'Categoria do instrumento',
+                      'text' => 'Categorias dos Instrumentos',
                       'icon' => 'fa fa-angle-right',
-                      'url' => '#',
-                      'bt_ac' => 'categoriaInstrumento.index'
+                      'url' => '/categoriaInstrumentos/',
+                      'requestjs' => 'AppCategoriaInstrumentos',
+                      'bt_ac' => 'categoriaInstrumentos.index'
                     ],
                     [
                         'text' => 'Checklist de Estrutura',
                         'icon' => 'fa fa-angle-right',
-                        'url' => '#',
-                        'bt_ac' => 'checkListEstrutura.index'
+                        'url' => '/checkListEstruturas/',
+                        'requestjs' => 'AppCheckListEstruturas',
+                        'bt_ac' => 'checkListEstruturas.index'
                     ],
                     [
                         'text' => 'Checklist de Itens',
                         'icon' => 'fa fa-angle-right',
-                        'url' => '#',
+                        'url' => '/checkListItens/',
+                        'requestjs' => 'AppCheckListItens',
                         'bt_ac' => 'checkListItens.index'
                     ],
                     [
@@ -195,7 +198,7 @@ return [
                         'bt_ac' => 'proponente.index' 
                     ],
                     [
-                        'text' => 'Setor',
+                        'text' => 'Setores',
                         'icon' => 'fa fa-angle-right',
                         'url' => '/setores/',
                         'requestjs' => 'AppSetores',

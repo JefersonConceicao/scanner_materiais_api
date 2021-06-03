@@ -3,72 +3,72 @@ $(function(){
     habilitaEventos();
 });
 
-const grid = "#gridSetores";
 const modalObject = "#nivel1";
+const grid = "#gridCategoriaInstrumentos";
 
 const changeTitle = function(){
-    document.title = 'BT | Setores';
+    document.title = "BT | Categoria do Instrumento"
 }
 
 const habilitaEventos = function(){
-    $("#formSearchSetores").on("submit", function(e){
-        e.preventDefault();
-        getSetoresFilter();
-    })
+    $("#formSearchCategoriaInstrumento").on("submit", function(e){
+        e.preventDefault()
+
+        getCategoriaInstrumento();
+    }); 
 }
 
 const habilitaBotoes = function(){
     $(grid + " .pagination > li > a").on("click", function(e){
         e.preventDefault();
-
         const url = $(this).attr("href");
+
         if(!!url){
-            getSetoresFilter(url);
+            getCategoriaInstrumento(url)
         }
     })
 
-
     AppUsage.deleteMultipleRowsHelper(grid, function(){
         $(".deleteALL").on("click", function(){
-            const url = '/setores/deleteAll'
+            const url = '/categoriaInstrumentos/deleteAll'
             const ids = $("tr.row-selected").map(function(index, element){
                 return $(element).attr("key");
             });
 
             AppUsage.deleteMultipleRowsGrid(url, ids, function(){
-                getSetoresFilter();  
+                getCategoriaInstrumento();  
             })
         });
     })
 
-    $("#addSetor").on("click", function(){
-        const url = '/setores/create';
+    $("#addCategoriaInstrumento").on("click", function(){
+        const url = '/categoriaInstrumentos/create';
 
-        AppUsage.loadModal(url, modalObject, '60%', function(){
-            $("#addFormSetor").on("submit", function(e){
+        AppUsage.loadModal(url, modalObject, '70%', function(){
+            $("#addFormCategoriaInstrumento").on("submit", function(e){
                 e.preventDefault();
 
-                formSetor();
-            })
+                formCategoriaInstrumento();
+            });     
+        });
+    })
+
+    $(".btnEditCatInstrumento").on("click", function(){
+        const id = $(this).attr("id");
+        const url = '/categoriaInstrumentos/edit/' + id;
+
+        AppUsage.loadModal(url, modalObject, '70%', function(){
+            $("#editFormCategoriaInstrumento").on("submit", function(e){
+                e.preventDefault();
+
+                formCategoriaInstrumento(id);
+            }); 
         });
     });
 
-    $(".btnEditSetor").on("click", function(){
+    $(".btnDeleteCatInstrumento").on("click", function(){
         const id = $(this).attr("id");
-        const url = '/setores/edit/' + id;
-
-        AppUsage.loadModal(url, modalObject, '60%', function(){
-            $("#editFormSetor").on("submit", function(e){
-                e.preventDefault();
-
-                formSetor(id);
-            })
-        });
-    })  
-
-    $(".btnDeleteSetor").on("click", function(){
-        const id =  $(this).attr("id");
-        const url = '/setores/delete/' + id;
+        const url = '/categoriaInstrumentos/delete/' + id;
 
         Swal.fire({
             title: 'Deseja realmente excluir o registro?',
@@ -83,19 +83,19 @@ const habilitaBotoes = function(){
         }).then(result => {
             if(result.isConfirmed){
                 AppUsage.deleteForGrid(url, function(){
-                    getSetoresFilter();
+                    getCategoriaInstrumento();
                 })
             }
         })
-    });
+    })
 }
 
-const getSetoresFilter = function(url){
-    let form = $("#formSearchSetores").serialize();
+const getCategoriaInstrumento = function(url){
+    let form = $("#formSearchCategoriaInstrumento").serialize();
 
     $.ajax({
         type: "GET",
-        url: typeof url !== "undefined" ? url : "/setores/",
+        url: typeof url !== "undefined" ? url : "/categoriaInstrumentos/",
         data: form,
         dataType: "HTML",
         beforeSend:function(){
@@ -108,10 +108,10 @@ const getSetoresFilter = function(url){
     });
 }
 
-const formSetor = function(id){
-    const url = typeof id === "undefined" ? '/setores/store' : '/setores/update/' + id;
-    const type = typeof id === "undefined" ? 'POST' : 'PUT';
-    const form = typeof id === "undefined" ? '#addFormSetor' : '#editFormSetor';
+const formCategoriaInstrumento = function(id){
+    let form = typeof id == "undefined" ? '#addFormCategoriaInstrumento' : "#editFormCategoriaInstrumento";
+    let url =  typeof id == "undefined" ? '/categoriaInstrumentos/store' : `/categoriaInstrumentos/update/${id}`
+    let type = typeof id == "undefined" ? 'POST' : 'PUT';
 
     $.ajax({
         type,
@@ -137,7 +137,7 @@ const formSetor = function(id){
                 }
             });
             
-            getSetoresFilter()
+            getCategoriaInstrumento()
         },
         error:function(jqXHR, textstatus, error){
             if(!!jqXHR.responseJSON.errors){
@@ -145,7 +145,6 @@ const formSetor = function(id){
 
                 AppUsage.showMessagesValidator(form, errors);
             }
-
         },
         complete:function(){
             $(form + " .btnSubmit").prop("disabled", false).html(`
@@ -157,6 +156,6 @@ const formSetor = function(id){
 
 module.exports = {
     changeTitle,
-    habilitaEventos,
     habilitaBotoes,
+    habilitaEventos,
 }

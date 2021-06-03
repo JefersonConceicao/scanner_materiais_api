@@ -7,7 +7,7 @@
         <div class="col-md-12">
             <ul class="nav nav-tabs" role="tablist">
                 <li role="presentation" class="active"> <a href="#distLoc" data-toggle="tab"> Distancias entre as Localidades   </a> </li>
-                <li role="presentation"> <a href="#infraLoc" data-toggle="tab"> Infraestrutra da Localidade  </a></li>
+                <li role="presentation"> <a href="#infraLoc" data-toggle="tab"> Infraestrutura da Localidade  </a></li>
                 <li role="presentation"> <a href="#efLoc" data-toggle="tab">  Eventos/Festas da Localidade </a> </li>
             </ul>
         </div>

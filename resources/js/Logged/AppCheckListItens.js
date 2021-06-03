@@ -1,24 +1,21 @@
-const { default: Swal } = require("sweetalert2");
-const { color } = require('../Constants/constants');
-
 $(function(){
-    habilitaEventos();
-    habilitaBotoes();
-});
+    habilitaEventos()
+    habilitaBotoes()
+})
 
-const grid = "#gridTiposProjetos";
-const modalObject = '#nivel1';
+const grid = "#gridCheckListItem";
+const modalObject = "#nivel1";
 
 const changeTitle = function(){
-    document.title = "BT | Tipos de Projetos";
+    document.title = 'BT | Checklist de Itens';
 }
 
 const habilitaEventos = function(){
-    $("#searchFormTipoProjeto").on("submit", function(e){
+    $("#formSearchCheckListItens").on("submit", function(e){
         e.preventDefault();
 
-        getTiposProjetosFilter();
-    })
+        getCheckListItens();
+    }); 
 }
 
 const habilitaBotoes = function(){
@@ -27,64 +24,63 @@ const habilitaBotoes = function(){
         const url = $(this).attr("href");
 
         if(!!url){
-            getTiposProjetosFilter(url);
+            getCheckListItens(url);
         }
     })
 
+    $("#addCheckListItem").on("click", function(){
+        const url = '/checkListItens/create';
 
-    $("#addTiposProjeto").on("click", function(){
-        const url = '/tiposProjetos/create';
-        
-        AppUsage.loadModal(url, modalObject, '60%', function(){
-            $("#addFormTiposProjetos").on("submit", function(e){
-                e.preventDefault();
+        AppUsage.loadModal(url, modalObject, '50%', function(){
+            $("#addFormCheckListItem").on("submit", function(e){
+                e.preventDefault()
 
-                formTiposProjetos();
-            });
-        });
-    });
-
-    $(".btnEditTipoProjeto").on("click", function(){
-        const id = $(this).attr("id");
-        const url = '/tiposProjetos/edit/' + id;
-
-        AppUsage.loadModal(url, modalObject, '60%', function(){
-            $("#editFormTiposProjetos").on("submit", function(e){
-                e.preventDefault();
-
-                formTiposProjetos(id);
+                formCheckListItem();
             })
+        })
+    })
+    
+    $(".btnEditChecklistItem").on("click", function(){
+        const id = $(this).attr("id");
+        const url = '/checkListItens/edit/' + id;
+
+        AppUsage.loadModal(url, modalObject, '50%', function(){
+            $("#editFormCheckListItem").on("submit", function(e){
+                e.preventDefault()
+
+                formCheckListItem(id);
+            }) 
         });
     });
 
-    $(".btnDeleteTipoProjeto").on("click", function(){
+    $(".btnDeleteChecklistItem").on("click", function(){
         const id = $(this).attr("id");
-        const url = '/tiposProjetos/delete/' + id;
+        const url = '/checkListItens/delete/' + id;
 
         Swal.fire({
-            title: 'Tem certeza?',
-            text: 'Esta ação é irreversível',
+            title: 'Deseja realmente excluir o registro?',
+            text: 'Esta ação é irreversivel!',
             icon: 'warning',
             showCancelButton: true,
-            showConfirmButton: true,
-            cancelButtonText: 'Cancelar',
+            reverseButtons: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
             confirmButtonText: 'Confirmar',
-            cancelButtonColor: color().vermelhoBahia,
-            confirmButtonColor: color().azulBahia,
-            reverseButtons:true,
+            cancelButtonText: 'Cancelar',
         }).then(result => {
             if(result.isConfirmed){
                 AppUsage.deleteForGrid(url, function(){
-                    getTiposProjetosFilter();
+                    getCheckListItens();
                 })
             }
         })
-    })
-}
+    });
 
-const formTiposProjetos = function(id){
-    let form = typeof id == "undefined" ? '#addFormTiposProjetos' : "#editFormTiposProjetos";
-    let url =  typeof id == "undefined" ? '/tiposProjetos/store' : `/tiposProjetos/update/${id}`
+}   
+
+const formCheckListItem = function(id){
+    let form = typeof id == "undefined" ? '#addFormCheckListItem' : "#editFormCheckListItem";
+    let url =  typeof id == "undefined" ? '/checkListItens/store' : `/checkListItens/update/${id}`
     let type = typeof id == "undefined" ? 'POST' : 'PUT';
 
     $.ajax({
@@ -111,7 +107,7 @@ const formTiposProjetos = function(id){
                 }
             });
             
-            getTiposProjetosFilter()
+            getCheckListItens()
         },
         error:function(jqXHR, textstatus, error){
             if(!!jqXHR.responseJSON.errors){
@@ -129,12 +125,12 @@ const formTiposProjetos = function(id){
     });
 }
 
-const getTiposProjetosFilter = function(url){
-    let form = $("#searchFormTipoProjeto").serialize();
+const getCheckListItens = function(url){
+    let form = $("#formSearchCheckListItens").serialize();
 
     $.ajax({
         type: "GET",
-        url: typeof url !== "undefined" ? url : "/tiposProjetos/",
+        url: typeof url !== "undefined" ? url : "/checkListItens/",
         data: form,
         dataType: "HTML",
         beforeSend:function(){
@@ -147,9 +143,8 @@ const getTiposProjetosFilter = function(url){
     });
 }
 
-
 module.exports = {
     changeTitle,
-    habilitaEventos,
     habilitaBotoes,
+    habilitaEventos
 }
