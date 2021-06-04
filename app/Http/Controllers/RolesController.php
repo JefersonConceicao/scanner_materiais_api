@@ -8,7 +8,6 @@ use App\Http\Requests\RoleRequest;
 //MODELS
 use App\Models\Role;
 
-
 class RolesController extends Controller
 {
     /**

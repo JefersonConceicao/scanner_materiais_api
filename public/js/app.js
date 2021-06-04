@@ -36326,7 +36326,7 @@ var loadModal = function loadModal(url, modalObject) {
       callback();
     }
   });
-}; //PARAM - ELEMENTO A SER REMOVIDO PARA INSERÇÃO DO LOADING
+}; //PARAM - ATRIBUI OPACIDADE AO ELEMENTO ENQUANTO ESTÁ EM CARREGAMENTO
 
 
 var loading = function loading(element) {
@@ -36883,18 +36883,28 @@ var habilitaEventos = function habilitaEventos() {
 var habilitaBotoes = function habilitaBotoes() {
   $("#addCheckListEstrutura").on("click", function (e) {
     var url = '/checkListEstruturas/create';
-    AppUsage.loadModal(url, modalObject, '50%', function () {});
+    AppUsage.loadModal(url, modalObject, '50%', function () {
+      $("#addFormCheckListEstrutura").on("submit", function (e) {
+        e.preventDefault();
+        formCheckListEstrutura();
+      });
+    });
   });
   $(".btnEditCheckListEstrutura").on("click", function () {
-    var id = $(this).attr("href");
+    var id = $(this).attr("id");
     var url = "/checkListEstruturas/edit/" + id;
-    AppUsage.loadModal(url, modalObject, '50%', function () {});
+    AppUsage.loadModal(url, modalObject, '50%', function () {
+      $("#editFormCheckListEstrutura").on("submit", function (e) {
+        e.preventDefault();
+        formCheckListEstrutura(id);
+      });
+    });
   });
   $(".btnDeleteCheckListEstrutura").on("click", function () {});
 };
 
-var formCheckListEstrutura = function formCheckListEstrutura() {
-  var form = typeof id == "undefined" ? '#addFormCheckListEstrutra' : "#editFormCheckListEstrutra";
+var formCheckListEstrutura = function formCheckListEstrutura(id) {
+  var form = typeof id == "undefined" ? '#addFormCheckListEstrutura' : "#editFormCheckListEstrutura";
   var url = typeof id == "undefined" ? '/checkListEstruturas/store' : "/checkListEstruturas/update/".concat(id);
   var type = typeof id == "undefined" ? 'POST' : 'PUT';
   $.ajax({
@@ -36918,7 +36928,7 @@ var formCheckListEstrutura = function formCheckListEstrutura() {
           $(modalObject).modal('hide');
         }
       });
-      getCheckListItens();
+      getCheckListEstruturaFilter();
     },
     error: function error(jqXHR, textstatus, _error) {
       if (!!jqXHR.responseJSON.errors) {

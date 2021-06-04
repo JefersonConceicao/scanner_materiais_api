@@ -3,18 +3,15 @@
 //OTHER'S NAMESPACES
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use App\Http\Requests\CheckListEstruturaRequest;
 
 //MODELS
 use App\Models\CheckListEstrutura;
 use App\Models\CheckListModelo;
+use App\Models\CheckListItem;
 
 class CheckListEstruturasController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {      
         $checkListModelo = new CheckListModelo;
@@ -22,73 +19,73 @@ class CheckListEstruturasController extends Controller
 
         $view = view('checklist_estruturas.index')
                 ->with('optionsModelo', $checkListModelo->pluck('modelo', 'id')->toArray())
-                ->with('dataModeloEstruturas', $checkListEstrutura->getModelos($request->all()));
+                ->with('dataModeloEstruturas', $checkListEstrutura->getModelosEstrutura($request->all()));
 
-        return $request->ajax() ? $view->renderSections()['content']  : $view;
+        return $request->ajax() ? $view->renderSections()['content'] : $view;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
-    {
-        return view('checklist_estruturas.create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
+    {       
         $checkListModelo = new CheckListModelo;
-        $checkListEstrutura = new ChekListEstrutura;
+        $checkListItem = new CheckListItem;
+
+        $optionsModelos = $checkListModelo
+                    ->getModelosWithoutRelations()
+                    ->pluck('modelo', 'id')
+                    ->toArray();
+
+        $optionsItens = $checkListItem->pluck('descricao_item', 'id')->toArray();
+
+        return view('checklist_estruturas.create')
+            ->with('optionsModelo', $optionsModelos)    
+            ->with('optionsItens', $optionsItens);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function store(CheckListEstruturaRequest $request)
     {
-        //
+        $chkEstrutura = new CheckListEstrutura;
+
+        $data = $chkEstrutura->saveCheckListEstrutura($request->all()); 
+        return response()->json($data);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    public function edit($id)
+    {   
+        $checkListItem = new CheckListItem;
+        $checkListModelo = new CheckListModelo;
+        $checkListEstrutura = new CheckListEstrutura;
+
+        $optionsModelos = $checkListModelo
+            ->pluck('modelo', 'id')
+            ->toArray();
+
+        $optionsItens = $checkListItem->pluck('descricao_item', 'id')->toArray();
+
+        $itensSelected = $checkListEstrutura
+            ->getItensByModelo($id)
+            ->pluck('itens_id')
+            ->toArray();
+        
+        return view('checklist_estruturas.edit')
+            ->with('modeloSelected', $id)
+            ->with('itensSelected', $itensSelected)
+            ->with('optionsItens', $optionsItens)
+            ->with('optionsModelo', $optionsModelos);
+    }
+
+    public function update(CheckListEstruturaRequest $request, $id)
+    {
+        $checkListEstrutura = new CheckListEstrutura;
+
+        $data = $checkListEstrutura->updateCheckListEstrutura($id, $request->all());
+        return response()->json($data);
+    }
+
     public function delete($id)
     {
         //
     }
 
-       /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
