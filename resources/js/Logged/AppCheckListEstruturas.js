@@ -27,7 +27,7 @@ const habilitaBotoes = function(){
     })
 
     $(".btnEditCheckListEstrutura").on("click", function(){
-        const id = $(this).attr("href");
+        const id = $(this).attr("id");
         const url = "/checkListEstruturas/edit/" + id;
 
         AppUsage.loadModal(url, modalObject, '50%', function(){

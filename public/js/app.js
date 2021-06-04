@@ -36886,7 +36886,7 @@ var habilitaBotoes = function habilitaBotoes() {
     AppUsage.loadModal(url, modalObject, '50%', function () {});
   });
   $(".btnEditCheckListEstrutura").on("click", function () {
-    var id = $(this).attr("href");
+    var id = $(this).attr("id");
     var url = "/checkListEstruturas/edit/" + id;
     AppUsage.loadModal(url, modalObject, '50%', function () {});
   });
@@ -39740,8 +39740,8 @@ window.AcessControl = __webpack_require__(/*! ./Constants/access_control */ "./r
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\novo_union\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\novo_union\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\BT\bt_source\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\BT\bt_source\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

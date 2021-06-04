@@ -95,11 +95,17 @@
                             </td>
                             <td> 
                                 <div style="display:flex; justify-content:space-around;">
-                                    <button class="btn btn-xs btn-primary btnEditCheckListEstrutura">  
+                                    <button 
+                                        class="btn btn-xs btn-primary btnEditCheckListEstrutura"
+                                        id="{{ $mEstruturas->modelos->id }}"
+                                    >  
                                         <i class="fa fa-edit"> </i>
                                     </button>
                                     &nbsp;
-                                    <button class="btn btn-xs btn-success btnViewCheckListEstrutura"> 
+                                    <button 
+                                        class="btn btn-xs btn-success btnViewCheckListEstrutura"
+                                        id="{{ $mEstruturas->modelos->id }}"
+                                    > 
                                         <i class="fa fa-list"> </i>
                                     </button>
                                     &nbsp;
