@@ -22,7 +22,11 @@ const habilitaBotoes = function(){
         const url = '/checkListEstruturas/create';
 
         AppUsage.loadModal(url, modalObject, '50%', function(){
+            $("#addFormCheckListEstrutura").on("submit", function(e){
+                e.preventDefault();
 
+                formCheckListEstrutura();
+            })
         })
     })
 
@@ -31,7 +35,11 @@ const habilitaBotoes = function(){
         const url = "/checkListEstruturas/edit/" + id;
 
         AppUsage.loadModal(url, modalObject, '50%', function(){
-            
+            $("#editFormCheckListEstrutura").on("submit", function(e){
+                e.preventDefault();
+
+                formCheckListEstrutura(id);
+            })
         })
     })
 
@@ -39,11 +47,10 @@ const habilitaBotoes = function(){
 
 
     })
-
 }   
 
-const formCheckListEstrutura = function(){
-    let form = typeof id == "undefined" ? '#addFormCheckListEstrutra' : "#editFormCheckListEstrutra";
+const formCheckListEstrutura = function(id){
+    let form = typeof id == "undefined" ? '#addFormCheckListEstrutura' : "#editFormCheckListEstrutura";
     let url =  typeof id == "undefined" ? '/checkListEstruturas/store' : `/checkListEstruturas/update/${id}`
     let type = typeof id == "undefined" ? 'POST' : 'PUT';
 
@@ -71,7 +78,7 @@ const formCheckListEstrutura = function(){
                 }
             });
             
-            getCheckListItens()
+            getCheckListEstruturaFilter()
         },
         error:function(jqXHR, textstatus, error){
             if(!!jqXHR.responseJSON.errors){

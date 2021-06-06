@@ -1,7 +1,5 @@
 @extends('layouts.modals')
 @section('form_modal','create_user')
-
-
 @section('modal-header')
    <i class="fa fa-plus-square"> </i>  Novo Usuário
 @endsection

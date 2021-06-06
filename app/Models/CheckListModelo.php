@@ -13,4 +13,12 @@ class CheckListModelo extends Model
     ];
 
     public $timestamps = false;
+
+    public function checklistEstrutura(){
+        return $this->hasMany(CheckListEstrutura::class, 'modelo_id', 'id');
+    } 
+
+    public function getModelosWithoutRelations(){
+        return $this->whereDoesntHave('checkListEstrutura');
+    }   
 }

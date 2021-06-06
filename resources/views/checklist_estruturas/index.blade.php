@@ -21,7 +21,7 @@
                 <div class="col-md-8"> 
                     <div class="form-group">
                         {{ Form::label('modelo', 'Modelo') }}
-                        {{ Form::select('modelo', $optionsModelo, null, [
+                        {{ Form::select('modelo', [null => "Selecione"]+$optionsModelo, null, [
                             'class' => 'form-control select2',
                             'id' => 'form_search_chestrutura_modelo'
                         ])}}
@@ -30,7 +30,7 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         {{ Form::label('ativo', 'Ativo') }}
-                        {{ Form::select('ativo', ['S' => 'Sim', 'N' => 'Não'], ['S'], [
+                        {{ Form::select('ativo', [null => 'Selecione']+['S' => 'Sim', 'N' => 'Não'], null , [
                             'class' => 'form-control select2',
                             'id' => 'form_search_chestrutura_ativo'
                         ])}}
@@ -80,36 +80,40 @@
                 <tbody> 
                     @foreach($dataModeloEstruturas as $mEstruturas)
                         <tr> 
-                            <td> {{ !empty($mEstruturas->modelos->modelo) 
-                                    ? $mEstruturas->modelos->modelo
+                            <td> {{ !empty($mEstruturas->modelo) 
+                                    ? $mEstruturas->modelo
                                     : "Não informado"
                                 }}  
                             </td>
                             <td> 
                                 <label 
-                                    class="label label-{{ $mEstruturas->modelos->ativo === "S" ? "success":"danger" }}">
-                                    {{ $mEstruturas->modelos->ativo === "S" 
-                                        ? "Sim"
-                                        : "Não"
-                                     }}
+                                    class="label label-{{ $mEstruturas->ativo === "S" ? "success" : "danger" }}">
+                                        {{ $mEstruturas->ativo == "S" 
+                                            ? "Sim"
+                                            : "Não"
+                                        }}
+                                </label>
                             </td>
                             <td> 
                                 <div style="display:flex; justify-content:space-around;">
                                     <button 
                                         class="btn btn-xs btn-primary btnEditCheckListEstrutura"
-                                        id="{{ $mEstruturas->modelos->id }}"
+                                        id="{{ $mEstruturas->id }}"
                                     >  
                                         <i class="fa fa-edit"> </i>
                                     </button>
                                     &nbsp;
                                     <button 
                                         class="btn btn-xs btn-success btnViewCheckListEstrutura"
-                                        id="{{ $mEstruturas->modelos->id }}"
+                                        id="{{ $mEstruturas->id }}"
                                     > 
                                         <i class="fa fa-list"> </i>
                                     </button>
                                     &nbsp;
-                                    <button class="btn btn-xs btn-danger btnDeleteCheckListEstrutura"> 
+                                    <button 
+                                        class="btn btn-xs btn-danger btnDeleteCheckListEstrutura"
+                                        id="{{ $mEstruturas->id }}"
+                                    > 
                                         <i class="fa fa-trash"> </i>
                                     </button>
                                 </div>
@@ -117,7 +121,7 @@
                         </tr>
                     @endforeach
                 </tbody>
-            </table>
+            </table>    
         </div>
     </div>
 </section>
