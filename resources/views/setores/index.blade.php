@@ -67,11 +67,11 @@
             </form>
         @endcomponent
 
-        <div class="box">
+        <div class="box" id="gridSetores">
             <div class="box-header with-border">
                 <div class="row">
                     <div class="col-md-6">
-                       <p class="box-title">  Total de registros:  </p>
+                       <p class="box-title">  Total de registros: {{ $dataSetores->total() }}  </p>
                     </div>
                     <div class="col-md-6">
                         <button class="btn btn-primary pull-right" id="addSetor"> 
@@ -80,7 +80,7 @@
                     </div>
                 </div>
             </div>
-            <div class="box-body table-responsive" id="gridSetores"> 
+            <div class="box-body table-responsive" > 
                 <table class="table dataTable">
                     <thead> 
                         <tr> 

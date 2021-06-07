@@ -2,9 +2,13 @@
 
 namespace App\Models;
 
+//OTHER'S NAMESPACES
 use Illuminate\Database\Eloquent\Model;
 use DB;
+
+//MODELS
 use App\Models\Permission;
+use App\Models\FuncionalidadesPermission;
 
 class Permission extends Model
 {
@@ -43,7 +47,13 @@ class Permission extends Model
                 );'
             )->pluck('nameOrfa','id')->toArray();
     }
+    
 
+    /**
+    *  @return array permissoes a ser adicionadas 
+    * 
+    */
+    
     public function permissionsAdded(){
         $routes = \Route::getRoutes();
         $routeNames = $this->prepareNameRoutes($routes);
@@ -52,6 +62,10 @@ class Permission extends Model
         return array_diff($routeNames, $dbPermissions);
     }
 
+    /**
+    *  @return array permissoes a ser removidas 
+    * 
+    */
     public function permissionsRemoved(){
         $routes = \Route::getRoutes();
         $routeNames = $this->prepareNameRoutes($routes);
@@ -74,8 +88,11 @@ class Permission extends Model
     }
 
     public function savePermissions(){
-        $permissionsAdded = $this->permissionsAdded();
-        $permissionsRemoved = $this->permissionsRemoved();
+        try{
+            DB::BeginTransaction();
+
+            $permissionsAdded = $this->permissionsAdded();
+            $permissionsRemoved = $this->permissionsRemoved();
 
         if(!empty($permissionsAdded)){
             foreach($permissionsAdded as $permission){
@@ -87,19 +104,31 @@ class Permission extends Model
         }
 
         if(!empty($permissionsRemoved)){
-            $this->whereIn('name', $permissionsRemoved)->delete();
-        }
+            $funcPermissions = new FuncionalidadesPermission;
+            //VERIFICA SE A PERMISSAO A SER EXCLUIDA JA ESTÁ RELACIONADA
+            $permissionsToRemove = $this->whereIn('name', $permissionsRemoved);
 
+            $funcPermissions->whereIn('permission_id', $permissionsToRemove->pluck('id')->toArray())->delete();
+            $permissionsToRemove->delete();
+        }   
+
+            DB::commit();
         return [
             'permissionsAdded' => $permissionsAdded,
             'permissionsRemoved' => $permissionsRemoved,
         ];
+        }catch(\Excepiton $err){
+            DB::rollback();
+            return [
+                'permissionsAdded' => [],
+                'permissionsRemoved' => [],
+            ];
+        }   
     }   
 
     public function prepareNameRoutes($routes){
         $routeNames = [];
-        
-
+    
         foreach($routes as $route){
             if(!empty($route->getName())){
                 $routeNames[] = str_replace('::','.', $route->getName());

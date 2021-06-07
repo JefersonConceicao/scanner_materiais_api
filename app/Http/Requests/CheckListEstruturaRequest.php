@@ -5,13 +5,20 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Route;
 
-class ChecklistItemRequest extends FormRequest
+class CheckListEstruturaRequest extends FormRequest
 {
+    /**
+     *
+     * @return bool
+     */
     public function authorize()
     {
         return true;
     }
 
+    /**
+     * @return array
+     */
     public function rules()
     {
         $atualGroupRoute = explode("::", Route::currentRouteName());
@@ -21,14 +28,14 @@ class ChecklistItemRequest extends FormRequest
         switch ($atualRoute) {
             case 'store':
                 $validate = [
-                    'descricao_item' => 'required',
-                    'ativo' => 'required'
+                    'modelo_id' => 'required',
+                    'itens_id.*' => 'required'
                 ];
             break;
-           case 'update':
+            
+            case 'update':
                 $validate = [
-                    'descricao_item' => 'required',
-                    'ativo' => 'required'
+                    'itens_id.*' => 'required'
                 ];
             break;
         }
@@ -36,11 +43,10 @@ class ChecklistItemRequest extends FormRequest
         return $validate;
     }
 
-    public function messages()
-    {
-        return [    
-            'descricao_item.required' => 'O campo descrição do item é obrigatório',
-            'ativo.required' => 'O campo ativo é obrigatório'
+    public function messages(){
+        return [
+            'modelo_id.required' => 'O campo modelo é obrigatório',
+            'itens_id.*.required' => 'É necessário ao menos um item da lista'
         ];
     }
 }

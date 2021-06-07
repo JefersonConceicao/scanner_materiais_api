@@ -176,6 +176,26 @@ Route::group(['middleware' => ['auth', 'verifyPermission']] , function(){
         Route::delete('/delete/{id}', 'CategoriaInstrumentosController@delete')->name('delete');
         Route::delete('/deleteAll', 'CategoriaInstrumentosController@deleteAll')->name('deleteAll');
     });
+
+    Route::group(['as' => 'checkListItens::', 'prefix' => 'checkListItens'], function(){
+        Route::get('/', 'CheckListItensController@index')->name('index');
+        Route::get('/create', 'CheckListItensController@create')->name('create');
+        Route::post('/store', 'CheckListItensController@store')->name('store');
+        Route::get('/edit/{id}', 'CheckListItensController@edit')->name('edit');
+        Route::put('/update/{id}', 'CheckListItensController@update')->name('update');
+        Route::delete('/delete/{id}', 'CheckListItensController@delete')->name('delete');
+        Route::delete('/deleteAll', 'CheckListItensController@deleteAll')->name('deleteAll');
+    });
+
+    Route::group(['as' => 'checkListEstruturas::', 'prefix' => 'checkListEstruturas'], function(){
+        Route::get('/', 'CheckListEstruturasController@index')->name('index');
+        Route::get('/create', 'CheckListEstruturasController@create')->name('create');
+        Route::post('/store', 'CheckListEstruturasController@store')->name('store');
+        Route::get('/edit/{id}', 'CheckListEstruturasController@edit')->name('edit');
+        Route::put('/update/{id}', 'CheckListEstruturasController@update')->name('update');
+        Route::delete('/delete/{id}', 'CheckListEstruturasController@delete')->name('delete');
+        Route::delete('/deleteAll', 'CheckListEstruturasController@deleteAll')->name('deleteAll');
+    });
 });
 
 
