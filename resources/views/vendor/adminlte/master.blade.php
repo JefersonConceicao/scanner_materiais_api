@@ -20,7 +20,7 @@
         <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/AdminLTE.min.css') }}"/>
         @yield('adminlte_css')
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-        <link rel="stylesheet" href="{{asset('css/app.min.css')}}">
+        <link rel="stylesheet" href="{{asset('css/app.css')}}">
     </head>
 
     <body class="hold-transition @yield('body_class') fixed">
@@ -38,6 +38,6 @@
         @include('adminlte::plugins', ['type' => 'js'])
         @yield('adminlte_js')
         <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/i18n/pt-BR.js">  </script>
-        <script src="{{ asset('js/app.min.js')}}"> </script>
+        <script src="{{ asset('js/app.js')}}"> </script>
     </body>
 </html>
