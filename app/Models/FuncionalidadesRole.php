@@ -12,7 +12,7 @@ class FuncionalidadesRole extends Model
         'role_id',
     ];
 
-    public $timestamps = true;
+    public $timestamps = false;
 
     public function rolesByFuncionalidade($idFuncionalidade){
         return $this->where('funcionalidade_id', $idFuncionalidade);

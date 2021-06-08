@@ -34,6 +34,12 @@ window.AppSetores = require('./Logged/AppSetores');
 window.AppCategoriaInstrumentos = require('./Logged/AppCategoriaInstrumentos');
 window.AppCheckListItens = require('./Logged/AppCheckListItens');
 window.AppCheckListEstruturas = require('./Logged/AppCheckListEstruturas');
+window.AppCheckListModelos = require('./Logged/AppCheckListModelos');
+window.AppElementosDespesas = require('./Logged/AppElementosDespesas');
+window.AppFonteRecursos = require ('./Logged/AppFonteRecursos');
+window.AppModalidadesApoio = require('./Logged/AppModalidadesApoio');
+window.AppModalidadesLicitacao = require('./Logged/AppModalidadesLicitacao');
+window.AppProjetosAtividades = require('./Logged/AppProjetosAtividade');
 
 //CONSTANTS métodos e propriedades constantes
 window.languageDataTable = require('./Constants/language_dataTable');

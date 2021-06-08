@@ -3,51 +3,61 @@ const { default: Swal } = require("sweetalert2");
 $(function(){
     habilitaBotoes()
     habilitaEventos()
-})
+});
 
-const grid = "#gridCheckListEstrutura";
+const grid = "#gridModalidadeApoio";
 const modalObject = "#nivel1";
 
 const changeTitle = function(){
-    document.title = 'BT | CheckList de Estruturas'
+    document.title = "BT | Modalidades de Apoio";
 }
 
 const habilitaEventos = function(){
-    $("#formSearchCheckListEstrutura").on("submit", function(e){
+    $("#searchFormModalidadeApoio").on("submit", function(e){
         e.preventDefault()
-        getCheckListEstruturaFilter()
+        getModalidadesApoio()
     });
 }
 
 const habilitaBotoes = function(){
-    $("#addCheckListEstrutura").on("click", function(e){
-        const url = '/checkListEstruturas/create';
+    $(grid + " .pagination > li > a").on("click", function(e){
+        e.preventDefault()
 
-        AppUsage.loadModal(url, modalObject, '50%', function(){
-            $("#addFormCheckListEstrutura").on("submit", function(e){
+        const url = $(this).attr("href");
+
+        if(!!url){
+            getModalidadesApoio(url);
+        }
+    });
+
+    $("#addModalidadeApoio").on("click", function(){
+        const url = '/modalidadesApoio/create';
+
+        AppUsage.loadModal(url, modalObject, '40%', function(){
+            $("#addFormModalidadeApoio").on("submit", function(e){
                 e.preventDefault();
 
-                formCheckListEstrutura();
-            })
-        })
-    })
-
-    $(".btnEditCheckListEstrutura").on("click", function(){
+                formModalidadesApoio();
+            });
+        }); 
+    }) 
+    
+    $(".btnEditModalidadeApoio").on("click", function(){
         const id = $(this).attr("id");
-        const url = "/checkListEstruturas/edit/" + id;
+        const url = '/modalidadesApoio/edit/' + id;
 
         AppUsage.loadModal(url, modalObject, '50%', function(){
-            $("#editFormCheckListEstrutura").on("submit", function(e){
+            $("#editFormModalidadeApoio").on("submit", function(e){
                 e.preventDefault();
 
-                formCheckListEstrutura(id);
-            })
+                formModalidadesApoio(id);
+            });
         })
-    })
+    }); 
 
-    $(".btnDeleteCheckListEstrutura").on("click", function(){
+    $(".btnDeleteModalidadeApoio").on("click", function(){
         const id = $(this).attr("id");
-        const url = "/checkListEstruturas/delete/" + id;
+        const url = '/modalidadesApoio/delete/' + id;
 
         Swal.fire({
             title: 'Deseja realmente excluir o registro?',
@@ -62,16 +72,34 @@ const habilitaBotoes = function(){
         }).then(result => {
             if(result.isConfirmed){
                 AppUsage.deleteForGrid(url, function(){
-                    getCheckListEstruturaFilter();  
+                    getModalidadesApoio();
                 });
             }
-        });
-    })
-}   
+        })
+    });
+}
 
-const formCheckListEstrutura = function(id){
-    let form = typeof id == "undefined" ? '#addFormCheckListEstrutura' : "#editFormCheckListEstrutura";
-    let url =  typeof id == "undefined" ? '/checkListEstruturas/store' : `/checkListEstruturas/update/${id}`
+const getModalidadesApoio = function(url){
+    const form = $("#searchFormModalidadeApoio").serialize();
+
+    $.ajax({
+        type: "GET",
+        url: typeof url !== "undefined" ? url : "/modalidadesApoio/",
+        data: form,
+        dataType: "HTML",
+        beforeSend:function(){
+            AppUsage.loading($(grid));
+        },
+        success: function (response) {
+           $(grid).html($(response).find(`${grid} >`));
+            habilitaBotoes();
+        }
+    });
+}
+
+const formModalidadesApoio = function(id){
+    let form = typeof id == "undefined" ? '#addFormModalidadeApoio' : "#editFormModalidadeApoio";
+    let url =  typeof id == "undefined" ? '/modalidadesApoio/store' : `/modalidadesApoio/update/${id}`
     let type = typeof id == "undefined" ? 'POST' : 'PUT';
 
     $.ajax({
@@ -98,7 +126,7 @@ const formCheckListEstrutura = function(id){
                 }
             });
             
-            getCheckListEstruturaFilter()
+            getModalidadesApoio()
         },
         error:function(jqXHR, textstatus, error){
             if(!!jqXHR.responseJSON.errors){
@@ -116,26 +144,8 @@ const formCheckListEstrutura = function(id){
     });
 }
 
-const getCheckListEstruturaFilter = function(url){
-    let form = $("#formSearchCheckListEstrutura").serialize();
-
-    $.ajax({
-        type: "GET",
-        url: typeof url !== "undefined" ? url : "/checkListEstruturas/",
-        data: form,
-        dataType: "HTML",
-        beforeSend:function(){
-            AppUsage.loading($(grid));
-        },
-        success: function (response) {
-           $(grid).html($(response).find(`${grid} >`));
-            habilitaBotoes();
-        }
-    });
-}
-
 module.exports = {
     changeTitle,
     habilitaEventos,
-    habilitaBotoes,
+    habilitaBotoes
 }

@@ -1,53 +1,74 @@
 const { default: Swal } = require("sweetalert2");
 
 $(function(){
-    habilitaBotoes()
     habilitaEventos()
+    habilitaBotoes()
 })
 
-const grid = "#gridCheckListEstrutura";
+const grid = "#gridModalidadeLicitacao";
 const modalObject = "#nivel1";
 
 const changeTitle = function(){
-    document.title = 'BT | CheckList de Estruturas'
+    document.title = 'BT | Modalidades de Licitações'
 }
 
 const habilitaEventos = function(){
-    $("#formSearchCheckListEstrutura").on("submit", function(e){
-        e.preventDefault()
-        getCheckListEstruturaFilter()
+    $("#searchFormModalidadeLicitacao").on("submit", function(e){
+        e.preventDefault();
+
+        getModalidadesLicitacao();
     });
 }
 
 const habilitaBotoes = function(){
-    $("#addCheckListEstrutura").on("click", function(e){
-        const url = '/checkListEstruturas/create';
+    AppUsage.deleteMultipleRowsHelper(grid, function(){
+        $(".deleteALL").on("click", function(){
+            const url = '/modalidadesLicitacao/deleteAll'
+            const ids = $("tr.row-selected").map(function(index, element){
+                return $(element).attr("key");
+            });
 
-        AppUsage.loadModal(url, modalObject, '50%', function(){
-            $("#addFormCheckListEstrutura").on("submit", function(e){
-                e.preventDefault();
-
-                formCheckListEstrutura();
+            AppUsage.deleteMultipleRowsGrid(url, ids, function(){
+                getModalidadesLicitacao();  
             })
         })
     })
 
-    $(".btnEditCheckListEstrutura").on("click", function(){
-        const id = $(this).attr("id");
-        const url = "/checkListEstruturas/edit/" + id;
+    $(grid + " .pagination > li > a").on("click", function(e){
+        e.preventDefault()
+        const url = $(this).attr("href");
+
+        if(!!url){
+            getModalidadesLicitacao(url)
+        }
+    }) 
+
+    $("#addModalidadeLicitacao").on("click", function(){
+        const url = '/modalidadesLicitacao/create';
 
         AppUsage.loadModal(url, modalObject, '50%', function(){
-            $("#editFormCheckListEstrutura").on("submit", function(e){
-                e.preventDefault();
-
-                formCheckListEstrutura(id);
+            $("#addFormModalidadeLicitacao").on("submit", function(e){
+                e.preventDefault()
+                formModalidadesLicitacao()
             })
         })
+    });
+
+    $(".btnEditModalidadeLicitacao").on("click", function(){
+        const id = $(this).attr("id");
+        const url = '/modalidadesLicitacao/edit/' + id;
+
+        AppUsage.loadModal(url, modalObject, '50%', function(){
+            $("#editFormModalidadeLicitacao").on("submit", function(e){
+                e.preventDefault()
+                formModalidadesLicitacao(id)
+            })
+        });
     })
 
-    $(".btnDeleteCheckListEstrutura").on("click", function(){
+    $(".btnDeleteModalidadeLicitacao").on("click", function(){
         const id = $(this).attr("id");
-        const url = "/checkListEstruturas/delete/" + id;
+        const url = '/modalidadesLicitacao/delete/' + id; 
 
         Swal.fire({
             title: 'Deseja realmente excluir o registro?',
@@ -62,16 +83,16 @@ const habilitaBotoes = function(){
         }).then(result => {
             if(result.isConfirmed){
                 AppUsage.deleteForGrid(url, function(){
-                    getCheckListEstruturaFilter();  
-                });
+                    getModalidadesLicitacao()
+                })
             }
-        });
+        })
     })
-}   
+}
 
-const formCheckListEstrutura = function(id){
-    let form = typeof id == "undefined" ? '#addFormCheckListEstrutura' : "#editFormCheckListEstrutura";
-    let url =  typeof id == "undefined" ? '/checkListEstruturas/store' : `/checkListEstruturas/update/${id}`
+const formModalidadesLicitacao = function(id){
+    let form = typeof id == "undefined" ? '#addFormModalidadeLicitacao' : "#editFormModalidadeLicitacao";
+    let url =  typeof id == "undefined" ? '/modalidadesLicitacao/store' : `/modalidadesLicitacao/update/${id}`
     let type = typeof id == "undefined" ? 'POST' : 'PUT';
 
     $.ajax({
@@ -98,7 +119,7 @@ const formCheckListEstrutura = function(id){
                 }
             });
             
-            getCheckListEstruturaFilter()
+            getModalidadesLicitacao()
         },
         error:function(jqXHR, textstatus, error){
             if(!!jqXHR.responseJSON.errors){
@@ -116,12 +137,12 @@ const formCheckListEstrutura = function(id){
     });
 }
 
-const getCheckListEstruturaFilter = function(url){
-    let form = $("#formSearchCheckListEstrutura").serialize();
+const getModalidadesLicitacao = function(url){
+    const form = $("#searchFormModalidadeLicitacao").serialize();
 
     $.ajax({
         type: "GET",
-        url: typeof url !== "undefined" ? url : "/checkListEstruturas/",
+        url: typeof url !== "undefined" ? url : "/modalidadesLicitacao/",
         data: form,
         dataType: "HTML",
         beforeSend:function(){

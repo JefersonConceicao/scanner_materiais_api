@@ -3,6 +3,7 @@
 Route::get('/', function () {
     return view('auth.login');
 });
+
 Route::get('/permissoes/methodNotAllowed', 'PermissoesController@renderNotAllowed')->name('methodNotAllowed');
 
 Auth::routes();
@@ -196,7 +197,64 @@ Route::group(['middleware' => ['auth', 'verifyPermission']] , function(){
         Route::delete('/delete/{id}', 'CheckListEstruturasController@delete')->name('delete');
         Route::delete('/deleteAll', 'CheckListEstruturasController@deleteAll')->name('deleteAll');
     });
+
+    Route::group(['as' => 'checkListModelos::', 'prefix' => 'checkListModelos'], function(){
+        Route::get('/', 'CheckListModelosController@index')->name('index');
+        Route::get('/create', 'CheckListModelosController@create')->name('create');
+        Route::post('/store', 'CheckListModelosController@store')->name('store');
+        Route::get('/edit/{id}', 'CheckListModelosController@edit')->name('edit');
+        Route::put('/update/{id}', 'CheckListModelosController@update')->name('update');
+        Route::delete('/delete/{id}', 'CheckListModelosController@delete')->name('delete');
+        Route::delete('/deleteAll', 'CheckListModelosController@deleteAll')->name('deleteAll');
+    });
+
+    Route::group(['as' => 'elementoDespesas::', 'prefix' => 'elementoDespesas'], function(){
+        Route::get('/', 'ElementoDespesasController@index')->name('index');
+        Route::get('/create', 'ElementoDespesasController@create')->name('create');
+        Route::post('/store', 'ElementoDespesasController@store')->name('store');
+        Route::get('/edit/{id}', 'ElementoDespesasController@edit')->name('edit');
+        Route::put('/update/{id}', 'ElementoDespesasController@update')->name('update');
+        Route::delete('/delete/{id}', 'ElementoDespesasController@delete')->name('delete');
+        Route::delete('/deleteAll', 'ElementoDespesasController@deleteAll')->name('deleteAll');
+    });
+
+    Route::group(['as' => 'fonteRecursos::', 'prefix' => 'fonteRecursos'], function(){
+        Route::get('/', 'FonteRecursosController@index')->name('index');
+        Route::get('/create', 'FonteRecursosController@create')->name('create');
+        Route::post('/store', 'FonteRecursosController@store')->name('store');
+        Route::get('/edit/{id}', 'FonteRecursosController@edit')->name('edit');
+        Route::put('/update/{id}', 'FonteRecursosController@update')->name('update');
+        Route::delete('/delete/{id}', 'FonteRecursosController@delete')->name('delete');
+        Route::delete('/deleteAll', 'FonteRecursosController@deleteAll')->name('deleteAll');
+    });
+
+    Route::group(['as' => 'modalidadesApoio::', 'prefix' => 'modalidadesApoio'], function(){
+        Route::get('/', 'ModalidadesApoioController@index')->name('index');
+        Route::get('/create', 'ModalidadesApoioController@create')->name('create');
+        Route::post('/store', 'ModalidadesApoioController@store')->name('store');
+        Route::get('/edit/{id}', 'ModalidadesApoioController@edit')->name('edit');
+        Route::put('/update/{id}', 'ModalidadesApoioController@update')->name('update');
+        Route::delete('/delete/{id}', 'ModalidadesApoioController@delete')->name('delete');
+        Route::delete('/deleteAll', 'ModalidadesApoioController@deleteAll')->name('deleteAll');
+    });
+
+    Route::group(['as' => 'modalidadesLicitacao::', 'prefix' => 'modalidadesLicitacao'], function(){
+        Route::get('/', 'ModalidadesLicitacaoController@index')->name('index');
+        Route::get('/create', 'ModalidadesLicitacaoController@create')->name('create');
+        Route::post('/store', 'ModalidadesLicitacaoController@store')->name('store');
+        Route::get('/edit/{id}', 'ModalidadesLicitacaoController@edit')->name('edit');
+        Route::put('/update/{id}', 'ModalidadesLicitacaoController@update')->name('update');
+        Route::delete('/delete/{id}', 'ModalidadesLicitacaoController@delete')->name('delete');
+        Route::delete('/deleteAll', 'ModalidadesLicitacaoController@deleteAll')->name('deleteAll');
+    });
+
+    Route::group(['as' => 'projetoAtividades::', 'prefix' => 'projetoAtividades'], function(){
+        Route::get('/', 'ProjetoAtividadesController@index')->name('index');
+        Route::get('/create', 'ProjetoAtividadesController@create')->name('create');
+        Route::post('/store', 'ProjetoAtividadesController@store')->name('store');
+        Route::get('/edit/{id}', 'ProjetoAtividadesController@edit')->name('edit');
+        Route::put('/update/{id}', 'ProjetoAtividadesController@update')->name('update');
+        Route::delete('/delete/{id}', 'ProjetoAtividadesController@delete')->name('delete');
+        Route::delete('/deleteAll', 'ProjetoAtividadesController@deleteAll')->name('deleteAll');
+    });
 });
-
-
-
