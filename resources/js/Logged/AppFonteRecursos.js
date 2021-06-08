@@ -1,3 +1,5 @@
+const { default: Swal } = require("sweetalert2");
+
 $(function(){
     habilitaBotoes()
     habilitaEventos()
@@ -18,17 +20,61 @@ const habilitaEventos = function(){
 }
 
 const habilitaBotoes = function(){
+    $(grid + " .pagination > li > a").on("click", function(e){
+        e.preventDefault();
+        
+        const url = $(this).attr("href");
+        
+        if(!!url){
+            getFonteRecursos(url);
+        }
+    });
+
     $("#addFonteRecurso").on("click", function(){
         const url = '/fonteRecursos/create';
 
         AppUsage.loadModal(url, modalObject, '60%', function(){
             $("#formAddFonteRecurso").on("submit", function(e){
                 e.preventDefault();
-
                 formFonteRecurso();
             });
         })
     })
+
+    $(".btnEditFonteRecurso").on("click", function(){
+        const id = $(this).attr("id");
+        const url = '/fonteRecursos/edit/' + id;
+
+        AppUsage.loadModal(url, modalObject, '60%', function(){
+            $("#formEditFonteRecurso").on("submit", function(e){
+                e.preventDefault()
+                formFonteRecurso(id)
+            });
+        })
+    }); 
+
+    $(".btnDeleteFonteRecurso").on("click", function(){
+        const id = $(this).attr("id");
+        const url = '/fonteRecursos/delete/' + id;
+
+        Swal.fire({
+            title: 'Deseja realmente excluir o registro?',
+            text: 'Esta ação é irreversivel!',
+            icon: 'warning',
+            showCancelButton: true,
+            reverseButtons: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: 'Cancelar', 
+        }).then(result => {
+            if(result.isConfirmed){
+                AppUsage.deleteForGrid(url, function(){
+                    getFonteRecursos()       
+                })
+            }
+        });
+    }); 
 }
 
 const getFonteRecursos = function(url){
@@ -52,7 +98,7 @@ const getFonteRecursos = function(url){
 const formFonteRecurso = function(id){
     let url = typeof id === "undefined" ? '/fonteRecursos/store' : `/fonteRecursos/update/${id}`
     let type = typeof id === "undefined" ? "POST" : "PUT"
-    let form = typeof id === "undefined" ? "#formAddFonteRecurso" : "#formAddFonteRecurso"
+    let form = typeof id === "undefined" ? "#formAddFonteRecurso" : "#formEditFonteRecurso"
 
     $.ajax({
         type,
@@ -77,6 +123,8 @@ const formFonteRecurso = function(id){
                    $(modalObject).modal('hide');
                 }  
             });
+
+            getFonteRecursos()
         },
         error:function(jqXHR, textstatus, error){
             if(!!jqXHR.responseJSON.errors){

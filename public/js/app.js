@@ -37438,7 +37438,10 @@ module.exports = {
   !*** ./resources/js/Logged/AppFonteRecursos.js ***!
   \*************************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+var _require = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js"),
+    Swal = _require["default"];
 
 $(function () {
   habilitaBotoes();
@@ -37459,6 +37462,14 @@ var habilitaEventos = function habilitaEventos() {
 };
 
 var habilitaBotoes = function habilitaBotoes() {
+  $(grid + " .pagination > li > a").on("click", function (e) {
+    e.preventDefault();
+    var url = $(this).attr("href");
+
+    if (!!url) {
+      getFonteRecursos(url);
+    }
+  });
   $("#addFonteRecurso").on("click", function () {
     var url = '/fonteRecursos/create';
     AppUsage.loadModal(url, modalObject, '60%', function () {
@@ -37466,6 +37477,37 @@ var habilitaBotoes = function habilitaBotoes() {
         e.preventDefault();
         formFonteRecurso();
       });
+    });
+  });
+  $(".btnEditFonteRecurso").on("click", function () {
+    var id = $(this).attr("id");
+    var url = '/fonteRecursos/edit/' + id;
+    AppUsage.loadModal(url, modalObject, '60%', function () {
+      $("#formEditFonteRecurso").on("submit", function (e) {
+        e.preventDefault();
+        formFonteRecurso(id);
+      });
+    });
+  });
+  $(".btnDeleteFonteRecurso").on("click", function () {
+    var id = $(this).attr("id");
+    var url = '/fonteRecursos/delete/' + id;
+    Swal.fire({
+      title: 'Deseja realmente excluir o registro?',
+      text: 'Esta ação é irreversivel!',
+      icon: 'warning',
+      showCancelButton: true,
+      reverseButtons: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar'
+    }).then(function (result) {
+      if (result.isConfirmed) {
+        AppUsage.deleteForGrid(url, function () {
+          getFonteRecursos();
+        });
+      }
     });
   });
 };
@@ -37490,7 +37532,7 @@ var getFonteRecursos = function getFonteRecursos(url) {
 var formFonteRecurso = function formFonteRecurso(id) {
   var url = typeof id === "undefined" ? '/fonteRecursos/store' : "/fonteRecursos/update/".concat(id);
   var type = typeof id === "undefined" ? "POST" : "PUT";
-  var form = typeof id === "undefined" ? "#formAddFonteRecurso" : "#formAddFonteRecurso";
+  var form = typeof id === "undefined" ? "#formAddFonteRecurso" : "#formEditFonteRecurso";
   $.ajax({
     type: type,
     url: url,
@@ -37512,6 +37554,7 @@ var formFonteRecurso = function formFonteRecurso(id) {
           $(modalObject).modal('hide');
         }
       });
+      getFonteRecursos();
     },
     error: function error(jqXHR, textstatus, _error) {
       if (!!jqXHR.responseJSON.errors) {

@@ -228,6 +228,3 @@ Route::group(['middleware' => ['auth', 'verifyPermission']] , function(){
         Route::delete('/deleteAll', 'FonteRecursosController@deleteAll')->name('deleteAll');
     });
 });
-
-
-
