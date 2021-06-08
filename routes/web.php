@@ -227,4 +227,34 @@ Route::group(['middleware' => ['auth', 'verifyPermission']] , function(){
         Route::delete('/delete/{id}', 'FonteRecursosController@delete')->name('delete');
         Route::delete('/deleteAll', 'FonteRecursosController@deleteAll')->name('deleteAll');
     });
+
+    Route::group(['as' => 'modalidadesApoio::', 'prefix' => 'modalidadesApoio'], function(){
+        Route::get('/', 'ModalidadesApoioController@index')->name('index');
+        Route::get('/create', 'ModalidadesApoioController@create')->name('create');
+        Route::post('/store', 'ModalidadesApoioController@store')->name('store');
+        Route::get('/edit/{id}', 'ModalidadesApoioController@edit')->name('edit');
+        Route::put('/update/{id}', 'ModalidadesApoioController@update')->name('update');
+        Route::delete('/delete/{id}', 'ModalidadesApoioController@delete')->name('delete');
+        Route::delete('/deleteAll', 'ModalidadesApoioController@deleteAll')->name('deleteAll');
+    });
+
+    Route::group(['as' => 'modalidadesLicitacao::', 'prefix' => 'modalidadesLicitacao'], function(){
+        Route::get('/', 'ModalidadesLicitacaoController@index')->name('index');
+        Route::get('/create', 'ModalidadesLicitacaoController@create')->name('create');
+        Route::post('/store', 'ModalidadesLicitacaoController@store')->name('store');
+        Route::get('/edit/{id}', 'ModalidadesLicitacaoController@edit')->name('edit');
+        Route::put('/update/{id}', 'ModalidadesLicitacaoController@update')->name('update');
+        Route::delete('/delete/{id}', 'ModalidadesLicitacaoController@delete')->name('delete');
+        Route::delete('/deleteAll', 'ModalidadesLicitacaoController@deleteAll')->name('deleteAll');
+    });
+
+    Route::group(['as' => 'projetoAtividades::', 'prefix' => 'projetoAtividades'], function(){
+        Route::get('/', 'ProjetoAtividadesController@index')->name('index');
+        Route::get('/create', 'ProjetoAtividadesController@create')->name('create');
+        Route::post('/store', 'ProjetoAtividadesController@store')->name('store');
+        Route::get('/edit/{id}', 'ProjetoAtividadesController@edit')->name('edit');
+        Route::put('/update/{id}', 'ProjetoAtividadesController@update')->name('update');
+        Route::delete('/delete/{id}', 'ProjetoAtividadesController@delete')->name('delete');
+        Route::delete('/deleteAll', 'ProjetoAtividadesController@deleteAll')->name('deleteAll');
+    });
 });

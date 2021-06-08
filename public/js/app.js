@@ -36660,6 +36660,10 @@ var map = {
 	"./AppLocalidadesEventoFesta.js": "./resources/js/Logged/AppLocalidadesEventoFesta.js",
 	"./AppLocalidadesInfraestrutura": "./resources/js/Logged/AppLocalidadesInfraestrutura.js",
 	"./AppLocalidadesInfraestrutura.js": "./resources/js/Logged/AppLocalidadesInfraestrutura.js",
+	"./AppModalidadesApoio": "./resources/js/Logged/AppModalidadesApoio.js",
+	"./AppModalidadesApoio.js": "./resources/js/Logged/AppModalidadesApoio.js",
+	"./AppModalidadesLicitacao": "./resources/js/Logged/AppModalidadesLicitacao.js",
+	"./AppModalidadesLicitacao.js": "./resources/js/Logged/AppModalidadesLicitacao.js",
 	"./AppModulos": "./resources/js/Logged/AppModulos.js",
 	"./AppModulos.js": "./resources/js/Logged/AppModulos.js",
 	"./AppPaises": "./resources/js/Logged/AppPaises.js",
@@ -36668,6 +36672,8 @@ var map = {
 	"./AppPermissoes.js": "./resources/js/Logged/AppPermissoes.js",
 	"./AppProfile": "./resources/js/Logged/AppProfile.js",
 	"./AppProfile.js": "./resources/js/Logged/AppProfile.js",
+	"./AppProjetosAtividade": "./resources/js/Logged/AppProjetosAtividade.js",
+	"./AppProjetosAtividade.js": "./resources/js/Logged/AppProjetosAtividade.js",
 	"./AppRoles": "./resources/js/Logged/AppRoles.js",
 	"./AppRoles.js": "./resources/js/Logged/AppRoles.js",
 	"./AppSetores": "./resources/js/Logged/AppSetores.js",
@@ -38258,6 +38264,303 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./resources/js/Logged/AppModalidadesApoio.js":
+/*!****************************************************!*\
+  !*** ./resources/js/Logged/AppModalidadesApoio.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var _require = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js"),
+    Swal = _require["default"];
+
+$(function () {
+  habilitaBotoes();
+  habilitaEventos();
+});
+var grid = "#gridModalidadeApoio";
+var modalObject = "#nivel1";
+
+var changeTitle = function changeTitle() {
+  document.title = "BT | Modalidades de Apoio";
+};
+
+var habilitaEventos = function habilitaEventos() {
+  $("#searchFormModalidadeApoio").on("submit", function (e) {
+    e.preventDefault();
+    getModalidadesApoio();
+  });
+};
+
+var habilitaBotoes = function habilitaBotoes() {
+  $(grid + " .pagination > li > a").on("click", function (e) {
+    e.preventDefault();
+    var url = $(this).attr("href");
+
+    if (!!url) {
+      getModalidadesApoio(url);
+    }
+  });
+  $("#addModalidadeApoio").on("click", function () {
+    var url = '/modalidadesApoio/create';
+    AppUsage.loadModal(url, modalObject, '40%', function () {
+      $("#addFormModalidadeApoio").on("submit", function (e) {
+        e.preventDefault();
+        formModalidadesApoio();
+      });
+    });
+  });
+  $(".btnEditModalidadeApoio").on("click", function () {
+    var id = $(this).attr("id");
+    var url = '/modalidadesApoio/edit/' + id;
+    AppUsage.loadModal(url, modalObject, '50%', function () {
+      $("#editFormModalidadeApoio").on("submit", function (e) {
+        e.preventDefault();
+        formModalidadesApoio(id);
+      });
+    });
+  });
+  $(".btnDeleteModalidadeApoio").on("click", function () {
+    var id = $(this).attr("id");
+    var url = '/modalidadesApoio/delete/' + id;
+    Swal.fire({
+      title: 'Deseja realmente excluir o registro?',
+      text: 'Esta ação é irreversivel!',
+      icon: 'warning',
+      showCancelButton: true,
+      reverseButtons: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar'
+    }).then(function (result) {
+      if (result.isConfirmed) {
+        AppUsage.deleteForGrid(url, function () {
+          getModalidadesApoio();
+        });
+      }
+    });
+  });
+};
+
+var getModalidadesApoio = function getModalidadesApoio(url) {
+  var form = $("#searchFormModalidadeApoio").serialize();
+  $.ajax({
+    type: "GET",
+    url: typeof url !== "undefined" ? url : "/modalidadesApoio/",
+    data: form,
+    dataType: "HTML",
+    beforeSend: function beforeSend() {
+      AppUsage.loading($(grid));
+    },
+    success: function success(response) {
+      $(grid).html($(response).find("".concat(grid, " >")));
+      habilitaBotoes();
+    }
+  });
+};
+
+var formModalidadesApoio = function formModalidadesApoio(id) {
+  var form = typeof id == "undefined" ? '#addFormModalidadeApoio' : "#editFormModalidadeApoio";
+  var url = typeof id == "undefined" ? '/modalidadesApoio/store' : "/modalidadesApoio/update/".concat(id);
+  var type = typeof id == "undefined" ? 'POST' : 'PUT';
+  $.ajax({
+    type: type,
+    url: url,
+    data: $(form).serialize(),
+    dataType: "JSON",
+    beforeSend: function beforeSend() {
+      $(form + " .btnSubmit").prop("disabled", true).html("\n                <i class=\"fa fa-spinner fa-spin\"> </i> Carregando...\n            ");
+    },
+    success: function success(response) {
+      Swal.fire({
+        position: 'top-end',
+        icon: !response.error ? 'success' : 'error',
+        title: "<b style=\"color:#fff\"> ".concat(response.msg, " </b>"),
+        toast: true,
+        showConfirmButton: false,
+        timer: 3500,
+        background: '#337ab7',
+        didOpen: function didOpen() {
+          $(modalObject).modal('hide');
+        }
+      });
+      getModalidadesApoio();
+    },
+    error: function error(jqXHR, textstatus, _error) {
+      if (!!jqXHR.responseJSON.errors) {
+        var errors = jqXHR.responseJSON.errors;
+        AppUsage.showMessagesValidator(form, errors);
+      }
+    },
+    complete: function complete() {
+      $(form + " .btnSubmit").prop("disabled", false).html("\n                Salvar\n            ");
+    }
+  });
+};
+
+module.exports = {
+  changeTitle: changeTitle,
+  habilitaEventos: habilitaEventos,
+  habilitaBotoes: habilitaBotoes
+};
+
+/***/ }),
+
+/***/ "./resources/js/Logged/AppModalidadesLicitacao.js":
+/*!********************************************************!*\
+  !*** ./resources/js/Logged/AppModalidadesLicitacao.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var _require = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js"),
+    Swal = _require["default"];
+
+$(function () {
+  habilitaEventos();
+  habilitaBotoes();
+});
+var grid = "#gridModalidadeLicitacao";
+var modalObject = "#nivel1";
+
+var changeTitle = function changeTitle() {
+  document.title = 'BT | Modalidades de Licitações';
+};
+
+var habilitaEventos = function habilitaEventos() {
+  $("#searchFormModalidadeLicitacao").on("submit", function (e) {
+    e.preventDefault();
+    getModalidadesLicitacao();
+  });
+};
+
+var habilitaBotoes = function habilitaBotoes() {
+  AppUsage.deleteMultipleRowsHelper(grid, function () {
+    $(".deleteALL").on("click", function () {
+      var url = '/modalidadesLicitacao/deleteAll';
+      var ids = $("tr.row-selected").map(function (index, element) {
+        return $(element).attr("key");
+      });
+      AppUsage.deleteMultipleRowsGrid(url, ids, function () {
+        getModalidadesLicitacao();
+      });
+    });
+  });
+  $(grid + " .pagination > li > a").on("click", function (e) {
+    e.preventDefault();
+    var url = $(this).attr("href");
+
+    if (!!url) {
+      getModalidadesLicitacao(url);
+    }
+  });
+  $("#addModalidadeLicitacao").on("click", function () {
+    var url = '/modalidadesLicitacao/create';
+    AppUsage.loadModal(url, modalObject, '50%', function () {
+      $("#addFormModalidadeLicitacao").on("submit", function (e) {
+        e.preventDefault();
+        formModalidadesLicitacao();
+      });
+    });
+  });
+  $(".btnEditModalidadeLicitacao").on("click", function () {
+    var id = $(this).attr("id");
+    var url = '/modalidadesLicitacao/edit/' + id;
+    AppUsage.loadModal(url, modalObject, '50%', function () {
+      $("#editFormModalidadeLicitacao").on("submit", function (e) {
+        e.preventDefault();
+        formModalidadesLicitacao(id);
+      });
+    });
+  });
+  $(".btnDeleteModalidadeLicitacao").on("click", function () {
+    var id = $(this).attr("id");
+    var url = '/modalidadesLicitacao/delete/' + id;
+    Swal.fire({
+      title: 'Deseja realmente excluir o registro?',
+      text: 'Esta ação é irreversivel!',
+      icon: 'warning',
+      showCancelButton: true,
+      reverseButtons: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar'
+    }).then(function (result) {
+      if (result.isConfirmed) {
+        AppUsage.deleteForGrid(url, function () {
+          getModalidadesLicitacao();
+        });
+      }
+    });
+  });
+};
+
+var formModalidadesLicitacao = function formModalidadesLicitacao(id) {
+  var form = typeof id == "undefined" ? '#addFormModalidadeLicitacao' : "#editFormModalidadeLicitacao";
+  var url = typeof id == "undefined" ? '/modalidadesLicitacao/store' : "/modalidadesLicitacao/update/".concat(id);
+  var type = typeof id == "undefined" ? 'POST' : 'PUT';
+  $.ajax({
+    type: type,
+    url: url,
+    data: $(form).serialize(),
+    dataType: "JSON",
+    beforeSend: function beforeSend() {
+      $(form + " .btnSubmit").prop("disabled", true).html("\n                <i class=\"fa fa-spinner fa-spin\"> </i> Carregando...\n            ");
+    },
+    success: function success(response) {
+      Swal.fire({
+        position: 'top-end',
+        icon: !response.error ? 'success' : 'error',
+        title: "<b style=\"color:#fff\"> ".concat(response.msg, " </b>"),
+        toast: true,
+        showConfirmButton: false,
+        timer: 3500,
+        background: '#337ab7',
+        didOpen: function didOpen() {
+          $(modalObject).modal('hide');
+        }
+      });
+      getModalidadesLicitacao();
+    },
+    error: function error(jqXHR, textstatus, _error) {
+      if (!!jqXHR.responseJSON.errors) {
+        var errors = jqXHR.responseJSON.errors;
+        AppUsage.showMessagesValidator(form, errors);
+      }
+    },
+    complete: function complete() {
+      $(form + " .btnSubmit").prop("disabled", false).html("\n                Salvar\n            ");
+    }
+  });
+};
+
+var getModalidadesLicitacao = function getModalidadesLicitacao(url) {
+  var form = $("#searchFormModalidadeLicitacao").serialize();
+  $.ajax({
+    type: "GET",
+    url: typeof url !== "undefined" ? url : "/modalidadesLicitacao/",
+    data: form,
+    dataType: "HTML",
+    beforeSend: function beforeSend() {
+      AppUsage.loading($(grid));
+    },
+    success: function success(response) {
+      $(grid).html($(response).find("".concat(grid, " >")));
+      habilitaBotoes();
+    }
+  });
+};
+
+module.exports = {
+  changeTitle: changeTitle,
+  habilitaEventos: habilitaEventos,
+  habilitaBotoes: habilitaBotoes
+};
+
+/***/ }),
+
 /***/ "./resources/js/Logged/AppModulos.js":
 /*!*******************************************!*\
   !*** ./resources/js/Logged/AppModulos.js ***!
@@ -38809,6 +39112,160 @@ module.exports = {
   habilitaBotoes: habilitaBotoes,
   habilitaEventos: habilitaEventos,
   setTitle: setTitle
+};
+
+/***/ }),
+
+/***/ "./resources/js/Logged/AppProjetosAtividade.js":
+/*!*****************************************************!*\
+  !*** ./resources/js/Logged/AppProjetosAtividade.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var _require = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js"),
+    Swal = _require["default"];
+
+$(function () {
+  habilitaEventos();
+  habilitaBotoes();
+});
+var grid = "#gridProjetoAtividade";
+var modalObject = "#nivel1";
+
+var changeTitle = function changeTitle() {
+  document.title = "BT | Projetos de Atividades";
+};
+
+var habilitaEventos = function habilitaEventos() {
+  $("#searchFormProjetoAtividades").on("submit", function (e) {
+    e.preventDefault();
+    getProjetosAtividades();
+  });
+};
+
+var habilitaBotoes = function habilitaBotoes() {
+  AppUsage.deleteMultipleRowsHelper(grid, function () {
+    $(".deleteALL").on("click", function () {
+      var url = '/projetoAtividades/deleteAll';
+      var ids = $("tr.row-selected").map(function (index, element) {
+        return $(element).attr("key");
+      });
+      AppUsage.deleteMultipleRowsGrid(url, ids, function () {
+        getProjetosAtividades();
+      });
+    });
+  });
+  $(grid + " .pagination > li > a").on("click", function (e) {
+    e.preventDefault();
+    var url = $(this).attr("href");
+
+    if (!!url) {
+      getProjetosAtividades(url);
+    }
+  });
+  $("#addProjetoAtividade").on("click", function () {
+    var url = '/projetoAtividades/create';
+    AppUsage.loadModal(url, modalObject, '50%', function () {
+      $("#addFormProjetoAtividade").on("submit", function (e) {
+        e.preventDefault();
+        formProjetosAtividades();
+      });
+    });
+  });
+  $(".btnEditProjetoAtividade").on("click", function () {
+    var id = $(this).attr("id");
+    var url = '/projetoAtividades/edit/' + id;
+    AppUsage.loadModal(url, modalObject, '50%', function () {
+      $("#editFormProjetoAtividade").on("submit", function (e) {
+        e.preventDefault();
+        formProjetosAtividades(id);
+      });
+    });
+  });
+  $(".btnDeleteProjetoAtividade").on("click", function () {
+    var id = $(this).attr("id");
+    var url = '/projetoAtividades/delete/' + id;
+    Swal.fire({
+      title: 'Deseja realmente excluir o registro?',
+      text: 'Esta ação é irreversivel!',
+      icon: 'warning',
+      showCancelButton: true,
+      reverseButtons: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar'
+    }).then(function (result) {
+      if (result.isConfirmed) {
+        AppUsage.deleteForGrid(url, function () {
+          getProjetosAtividades();
+        });
+      }
+    });
+  });
+};
+
+var getProjetosAtividades = function getProjetosAtividades(url) {
+  var form = $("#searchFormProjetoAtividades").serialize();
+  $.ajax({
+    type: "GET",
+    url: typeof url !== "undefined" ? url : "/projetoAtividades/",
+    data: form,
+    dataType: "HTML",
+    beforeSend: function beforeSend() {
+      AppUsage.loading($(grid));
+    },
+    success: function success(response) {
+      $(grid).html($(response).find("".concat(grid, " >")));
+      habilitaBotoes();
+    }
+  });
+};
+
+var formProjetosAtividades = function formProjetosAtividades(id) {
+  var form = typeof id == "undefined" ? '#addFormProjetoAtividade' : "#editFormProjetoAtividade";
+  var url = typeof id == "undefined" ? '/projetoAtividades/store' : "/projetoAtividades/update/".concat(id);
+  var type = typeof id == "undefined" ? 'POST' : 'PUT';
+  $.ajax({
+    type: type,
+    url: url,
+    data: $(form).serialize(),
+    dataType: "JSON",
+    beforeSend: function beforeSend() {
+      $(form + " .btnSubmit").prop("disabled", true).html("\n                <i class=\"fa fa-spinner fa-spin\"> </i> Carregando...\n            ");
+    },
+    success: function success(response) {
+      Swal.fire({
+        position: 'top-end',
+        icon: !response.error ? 'success' : 'error',
+        title: "<b style=\"color:#fff\"> ".concat(response.msg, " </b>"),
+        toast: true,
+        showConfirmButton: false,
+        timer: 3500,
+        background: '#337ab7',
+        didOpen: function didOpen() {
+          $(modalObject).modal('hide');
+        }
+      });
+      getProjetosAtividades();
+    },
+    error: function error(jqXHR, textstatus, _error) {
+      if (!!jqXHR.responseJSON.errors) {
+        var errors = jqXHR.responseJSON.errors;
+        AppUsage.showMessagesValidator(form, errors);
+      }
+    },
+    complete: function complete() {
+      $(form + " .btnSubmit").prop("disabled", false).html("\n                Salvar\n            ");
+    }
+  });
+};
+
+module.exports = {
+  changeTitle: changeTitle,
+  habilitaBotoes: habilitaBotoes,
+  habilitaEventos: habilitaEventos
 };
 
 /***/ }),
@@ -40197,7 +40654,10 @@ window.AppCheckListItens = __webpack_require__(/*! ./Logged/AppCheckListItens */
 window.AppCheckListEstruturas = __webpack_require__(/*! ./Logged/AppCheckListEstruturas */ "./resources/js/Logged/AppCheckListEstruturas.js");
 window.AppCheckListModelos = __webpack_require__(/*! ./Logged/AppCheckListModelos */ "./resources/js/Logged/AppCheckListModelos.js");
 window.AppElementosDespesas = __webpack_require__(/*! ./Logged/AppElementosDespesas */ "./resources/js/Logged/AppElementosDespesas.js");
-window.AppFonteRecursos = __webpack_require__(/*! ./Logged/AppFonteRecursos */ "./resources/js/Logged/AppFonteRecursos.js"); //CONSTANTS métodos e propriedades constantes
+window.AppFonteRecursos = __webpack_require__(/*! ./Logged/AppFonteRecursos */ "./resources/js/Logged/AppFonteRecursos.js");
+window.AppModalidadesApoio = __webpack_require__(/*! ./Logged/AppModalidadesApoio */ "./resources/js/Logged/AppModalidadesApoio.js");
+window.AppModalidadesLicitacao = __webpack_require__(/*! ./Logged/AppModalidadesLicitacao */ "./resources/js/Logged/AppModalidadesLicitacao.js");
+window.AppProjetosAtividades = __webpack_require__(/*! ./Logged/AppProjetosAtividade */ "./resources/js/Logged/AppProjetosAtividade.js"); //CONSTANTS métodos e propriedades constantes
 
 window.languageDataTable = __webpack_require__(/*! ./Constants/language_dataTable */ "./resources/js/Constants/language_dataTable.js");
 window.AcessControl = __webpack_require__(/*! ./Constants/access_control */ "./resources/js/Constants/access_control.js");
@@ -40222,8 +40682,8 @@ window.AcessControl = __webpack_require__(/*! ./Constants/access_control */ "./r
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\bt\bt_source\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\bt\bt_source\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\novo_union\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\novo_union\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
