@@ -20,9 +20,7 @@ const habilitaEventos = function(id = null){
     })
 }
 
-const habilitaBotoes = function(){
-
-}
+const habilitaBotoes = function(){}
 
 const formFuncionalidade = function(id){
     let url = typeof id === "undefined" ? '/funcionalidades/store' : `/funcionalidades/update/${id}`

@@ -3,51 +3,61 @@ const { default: Swal } = require("sweetalert2");
 $(function(){
     habilitaBotoes()
     habilitaEventos()
-})
+});
 
-const grid = "#gridCheckListEstrutura";
 const modalObject = "#nivel1";
+const grid = "#gridCheckListModelos";
 
 const changeTitle = function(){
-    document.title = 'BT | CheckList de Estruturas'
+    document.title = 'BT | Checklist de Modelos'
 }
 
 const habilitaEventos = function(){
-    $("#formSearchCheckListEstrutura").on("submit", function(e){
-        e.preventDefault()
-        getCheckListEstruturaFilter()
-    });
+    $("#formSearchCheckListModelos").on("submit", function(e){
+        e.preventDefault();
+
+        getCheckListModelos();
+    })   
 }
 
 const habilitaBotoes = function(){
-    $("#addCheckListEstrutura").on("click", function(e){
-        const url = '/checkListEstruturas/create';
+    $(grid + " .pagination > li > a").on("click", function(e){
+        e.preventDefault();
+        const url = $(this).attr("href");
 
-        AppUsage.loadModal(url, modalObject, '50%', function(){
-            $("#addFormCheckListEstrutura").on("submit", function(e){
-                e.preventDefault();
-
-                formCheckListEstrutura();
-            })
-        })
+        if(!!url){
+            getCheckListModelos(url)
+        }
     })
 
-    $(".btnEditCheckListEstrutura").on("click", function(){
-        const id = $(this).attr("id");
-        const url = "/checkListEstruturas/edit/" + id;
+    $("#addChkEstruturas").on("click", function(){
+        const url = '/checkListModelos/create';
 
-        AppUsage.loadModal(url, modalObject, '50%', function(){
-            $("#editFormCheckListEstrutura").on("submit", function(e){
-                e.preventDefault();
+        AppUsage.loadModal(url, modalObject, "40%", function(){
+            $("#addCheckListModelo").on("submit", function(e){
+                e.preventDefault() 
 
-                formCheckListEstrutura(id);
-            })
+                formCheckListModelos()
+            });
         })
-    })
+    });
 
-    $(".btnDeleteCheckListEstrutura").on("click", function(){
+    $(".btnEditCheckListModelos").on("click", function(){
         const id = $(this).attr("id");
-        const url = "/checkListEstruturas/delete/" + id;
+        const url = '/checkListModelos/edit/' + id;
+
+        AppUsage.loadModal(url, modalObject, "40%", function(){
+            $("#editCheckListModelo").on("submit", function(e){
+                e.preventDefault() 
+
+                formCheckListModelos(id)
+            })
+        });
+    });
+
+    $(".btnDeleteCheckListModelos").on("click", function(){
+        const id = $(this).attr("id");
+        const url = '/checkListModelos/delete/' + id;
 
         Swal.fire({
             title: 'Deseja realmente excluir o registro?',
@@ -62,16 +72,34 @@ const habilitaBotoes = function(){
         }).then(result => {
             if(result.isConfirmed){
                 AppUsage.deleteForGrid(url, function(){
-                    getCheckListEstruturaFilter();  
-                });
+                    getCheckListModelos();
+                })
             }
         });
-    })
-}   
+    });
+}
 
-const formCheckListEstrutura = function(id){
-    let form = typeof id == "undefined" ? '#addFormCheckListEstrutura' : "#editFormCheckListEstrutura";
-    let url =  typeof id == "undefined" ? '/checkListEstruturas/store' : `/checkListEstruturas/update/${id}`
+const getCheckListModelos = function(url){
+    const form = $("#formSearchCheckListModelos").serialize();
+
+    $.ajax({
+        type: "GET",
+        url: typeof url !== "undefined" ? url : "/checkListModelos/",
+        data: form,
+        dataType: "HTML",
+        beforeSend:function(){
+            AppUsage.loading($(grid));
+        },
+        success: function (response) {
+           $(grid).html($(response).find(`${grid} >`));
+            habilitaBotoes();
+        }
+    });
+}
+
+const formCheckListModelos = function(id){
+    let form = typeof id == "undefined" ? '#addCheckListModelo' : "#editCheckListModelo";
+    let url =  typeof id == "undefined" ? '/checkListModelos/store' : `/checkListModelos/update/${id}`
     let type = typeof id == "undefined" ? 'POST' : 'PUT';
 
     $.ajax({
@@ -98,7 +126,7 @@ const formCheckListEstrutura = function(id){
                 }
             });
             
-            getCheckListEstruturaFilter()
+            getCheckListModelos()
         },
         error:function(jqXHR, textstatus, error){
             if(!!jqXHR.responseJSON.errors){
@@ -106,7 +134,6 @@ const formCheckListEstrutura = function(id){
 
                 AppUsage.showMessagesValidator(form, errors);
             }
-
         },
         complete:function(){
             $(form + " .btnSubmit").prop("disabled", false).html(`
@@ -116,26 +143,8 @@ const formCheckListEstrutura = function(id){
     });
 }
 
-const getCheckListEstruturaFilter = function(url){
-    let form = $("#formSearchCheckListEstrutura").serialize();
-
-    $.ajax({
-        type: "GET",
-        url: typeof url !== "undefined" ? url : "/checkListEstruturas/",
-        data: form,
-        dataType: "HTML",
-        beforeSend:function(){
-            AppUsage.loading($(grid));
-        },
-        success: function (response) {
-           $(grid).html($(response).find(`${grid} >`));
-            habilitaBotoes();
-        }
-    });
-}
-
 module.exports = {
     changeTitle,
-    habilitaEventos,
     habilitaBotoes,
+    habilitaEventos,
 }

@@ -51,7 +51,7 @@ const loadModal = function(url, modalObject, width = null, callback = null){
     }) 
 }
 
-//PARAM - ELEMENTO A SER REMOVIDO PARA INSERÇÃO DO LOADING
+//PARAM - ATRIBUI OPACIDADE AO ELEMENTO ENQUANTO ESTÁ EM CARREGAMENTO
 const loading = function(element){  
     element.find('>').css({
         opacity: '0.5',
@@ -63,14 +63,14 @@ const configMultiSelect = function(){
         selectableHeader: `<input type="text" 
                             class="form-control" 
                             autocomplete="off" 
-                            placeholder="Pesquise..." 
+                            placeholder="Pesquise... (Selecionáveis) " 
                         />`,
 
         selectionHeader: `<input 
                             type="text"
                             class="form-control" 
                             autocomplete="off" 
-                            placeholder="Pesquise..." 
+                            placeholder="Pesquise... (Selecionados) " 
                         />`,
 
         afterInit:function(ms){

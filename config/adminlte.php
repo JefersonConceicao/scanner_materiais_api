@@ -158,20 +158,23 @@ return [
                     [
                         'text' => 'Checklist de Modelos',
                         'icon' => 'fa fa-angle-right',
-                        'url' =>'#',
+                        'url' =>'/checkListModelos/',
+                        'requestjs' => 'AppCheckListModelos',
                         'bt_ac' => 'checkListModelos.index'    
                     ],
                     [
                         'text' => 'Elemento de Despesa',
                         'icon' => 'fa fa-angle-right',
-                        'url' =>'#',
-                        'bt_ac' => 'elementoDespesa.index'      
+                        'url' =>'/elementoDespesas/',
+                        'requestjs' => 'AppElementosDespesas',
+                        'bt_ac' => 'elementoDespesas.index'      
                     ],
                     [
                         'text' => 'Fonte de Recurso',
                         'icon' => 'fa fa-angle-right',
-                        'url' =>'#',
-                        'bt_ac' => 'fonteRecurso.index'       
+                        'url' => '/fonteRecursos/',
+                        'requestjs' => 'AppFonteRecursos',
+                        'bt_ac' => 'fonteRecursos.index'       
                     ],
                     [
                         'text' => 'Modalidade de Apoio',
