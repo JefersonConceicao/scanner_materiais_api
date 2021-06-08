@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\TipoInfraestruturaRequest;
 
 //MODELS
-use App\Models\TipoInfraEstrutura;
+use App\Models\TipoInfraestrutura;
 
 class TiposInfraestruturasController extends Controller
 {
