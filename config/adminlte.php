@@ -179,19 +179,22 @@ return [
                     [
                         'text' => 'Modalidade de Apoio',
                         'icon' => 'fa fa-angle-right',
-                        'url' => '#',
-                        'bt_ac' => 'modalidadeApoio.index'      
+                        'url' => '/modalidadesApoio/',
+                        'requestjs' => 'AppModalidadesApoio',
+                        'bt_ac' => 'modalidadesApoio.index'      
                     ],
                     [
                         'text' => 'Modalidade de Licitação',
                         'icon' => 'fa fa-angle-right',
-                        'url' => '#',
-                        'bt_ac' => 'modalidadesLicitacoes.index'
+                        'url' => '/modalidadesLicitacao/',
+                        'requestjs' => 'AppModalidadesLicitacao',
+                        'bt_ac' => 'modalidadesLicitacao.index'
                     ],
                     [
                         'text' => 'Projeto de Atividade',
                         'icon' => 'fa fa-angle-right',
-                        'url' => '#',
+                        'url' => '/projetoAtividades/',
+                        'requestjs' => 'AppProjetosAtividade',
                         'bt_ac' => 'projetoAtividades.index'
                     ],
                     [

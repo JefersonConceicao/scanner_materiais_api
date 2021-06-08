@@ -5,57 +5,59 @@ $(function(){
     habilitaEventos()
 });
 
+const grid = "#gridModalidadeApoio";
 const modalObject = "#nivel1";
-const grid = "#gridFonteRecursos";
 
 const changeTitle = function(){
-    document.title = "BT | Fonte de Recursos";
+    document.title = "BT | Modalidades de Apoio";
 }
 
 const habilitaEventos = function(){
-    $("#formSearchFonteRecursos").on("submit", function(e){
+    $("#searchFormModalidadeApoio").on("submit", function(e){
         e.preventDefault()
-        getFonteRecursos()
-    })
+        getModalidadesApoio()
+    });
 }
 
 const habilitaBotoes = function(){
     $(grid + " .pagination > li > a").on("click", function(e){
-        e.preventDefault();
-        
+        e.preventDefault()
+
         const url = $(this).attr("href");
-        
+
         if(!!url){
-            getFonteRecursos(url);
+            getModalidadesApoio(url);
         }
     });
 
-    $("#addFonteRecurso").on("click", function(){
-        const url = '/fonteRecursos/create';
+    $("#addModalidadeApoio").on("click", function(){
+        const url = '/modalidadesApoio/create';
 
-        AppUsage.loadModal(url, modalObject, '60%', function(){
-            $("#formAddFonteRecurso").on("submit", function(e){
+        AppUsage.loadModal(url, modalObject, '40%', function(){
+            $("#addFormModalidadeApoio").on("submit", function(e){
                 e.preventDefault();
-                formFonteRecurso();
+
+                formModalidadesApoio();
             });
-        })
-    })
-
-    $(".btnEditFonteRecurso").on("click", function(){
+        }); 
+    }) 
+    
+    $(".btnEditModalidadeApoio").on("click", function(){
         const id = $(this).attr("id");
-        const url = '/fonteRecursos/edit/' + id;
+        const url = '/modalidadesApoio/edit/' + id;
 
-        AppUsage.loadModal(url, modalObject, '60%', function(){
-            $("#formEditFonteRecurso").on("submit", function(e){
-                e.preventDefault()
-                formFonteRecurso(id)
+        AppUsage.loadModal(url, modalObject, '50%', function(){
+            $("#editFormModalidadeApoio").on("submit", function(e){
+                e.preventDefault();
+
+                formModalidadesApoio(id);
             });
         })
     }); 
 
-    $(".btnDeleteFonteRecurso").on("click", function(){
+    $(".btnDeleteModalidadeApoio").on("click", function(){
         const id = $(this).attr("id");
-        const url = '/fonteRecursos/delete/' + id;
+        const url = '/modalidadesApoio/delete/' + id;
 
         Swal.fire({
             title: 'Deseja realmente excluir o registro?',
@@ -66,23 +68,23 @@ const habilitaBotoes = function(){
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Confirmar',
-            cancelButtonText: 'Cancelar', 
+            cancelButtonText: 'Cancelar',
         }).then(result => {
             if(result.isConfirmed){
                 AppUsage.deleteForGrid(url, function(){
-                    getFonteRecursos()       
-                })
+                    getModalidadesApoio();
+                });
             }
-        });
-    }); 
+        })
+    });
 }
 
-const getFonteRecursos = function(url){
-    const form = $("#formSearchFonteRecursos").serialize();
+const getModalidadesApoio = function(url){
+    const form = $("#searchFormModalidadeApoio").serialize();
 
     $.ajax({
         type: "GET",
-        url: typeof url !== "undefined" ? url : "/fonteRecursos/",
+        url: typeof url !== "undefined" ? url : "/modalidadesApoio/",
         data: form,
         dataType: "HTML",
         beforeSend:function(){
@@ -95,10 +97,10 @@ const getFonteRecursos = function(url){
     });
 }
 
-const formFonteRecurso = function(id){
-    let url = typeof id === "undefined" ? '/fonteRecursos/store' : `/fonteRecursos/update/${id}`
-    let type = typeof id === "undefined" ? "POST" : "PUT"
-    let form = typeof id === "undefined" ? "#formAddFonteRecurso" : "#formEditFonteRecurso"
+const formModalidadesApoio = function(id){
+    let form = typeof id == "undefined" ? '#addFormModalidadeApoio' : "#editFormModalidadeApoio";
+    let url =  typeof id == "undefined" ? '/modalidadesApoio/store' : `/modalidadesApoio/update/${id}`
+    let type = typeof id == "undefined" ? 'POST' : 'PUT';
 
     $.ajax({
         type,
@@ -108,7 +110,7 @@ const formFonteRecurso = function(id){
         beforeSend:function(){
             $(form + " .btnSubmit").prop("disabled", true).html(`
                 <i class="fa fa-spinner fa-spin"> </i> Carregando...
-            `)
+            `)      
         },
         success: function (response) {
             Swal.fire({
@@ -121,22 +123,24 @@ const formFonteRecurso = function(id){
                 background: '#337ab7',
                 didOpen:() => {
                    $(modalObject).modal('hide');
-                }  
+                }
             });
-
-            getFonteRecursos()
+            
+            getModalidadesApoio()
         },
         error:function(jqXHR, textstatus, error){
             if(!!jqXHR.responseJSON.errors){
-                let errors = jqXHR.responseJSON.errors
+                const errors = jqXHR.responseJSON.errors;
+
                 AppUsage.showMessagesValidator(form, errors);
             }
+
         },
         complete:function(){
             $(form + " .btnSubmit").prop("disabled", false).html(`
                 Salvar
-            `)
-        },
+            `)      
+        }
     });
 }
 

@@ -1,61 +1,78 @@
 const { default: Swal } = require("sweetalert2");
 
 $(function(){
-    habilitaBotoes()
     habilitaEventos()
-});
+    habilitaBotoes()
+})
 
+const grid = "#gridProjetoAtividade";
 const modalObject = "#nivel1";
-const grid = "#gridFonteRecursos";
 
 const changeTitle = function(){
-    document.title = "BT | Fonte de Recursos";
+    document.title = "BT | Projetos de Atividades";
 }
 
 const habilitaEventos = function(){
-    $("#formSearchFonteRecursos").on("submit", function(e){
+    $("#searchFormProjetoAtividades").on("submit", function(e){
         e.preventDefault()
-        getFonteRecursos()
+
+        getProjetosAtividades()
     })
 }
 
 const habilitaBotoes = function(){
-    $(grid + " .pagination > li > a").on("click", function(e){
-        e.preventDefault();
-        
-        const url = $(this).attr("href");
-        
-        if(!!url){
-            getFonteRecursos(url);
-        }
-    });
-
-    $("#addFonteRecurso").on("click", function(){
-        const url = '/fonteRecursos/create';
-
-        AppUsage.loadModal(url, modalObject, '60%', function(){
-            $("#formAddFonteRecurso").on("submit", function(e){
-                e.preventDefault();
-                formFonteRecurso();
+    AppUsage.deleteMultipleRowsHelper(grid, function(){
+        $(".deleteALL").on("click", function(){
+            const url = '/projetoAtividades/deleteAll'
+            const ids = $("tr.row-selected").map(function(index, element){
+                return $(element).attr("key");
             });
-        })
+
+            AppUsage.deleteMultipleRowsGrid(url, ids, function(){
+                getProjetosAtividades()
+            })
+        });
     })
 
-    $(".btnEditFonteRecurso").on("click", function(){
-        const id = $(this).attr("id");
-        const url = '/fonteRecursos/edit/' + id;
 
-        AppUsage.loadModal(url, modalObject, '60%', function(){
-            $("#formEditFonteRecurso").on("submit", function(e){
+    $(grid + " .pagination > li > a").on("click", function(e){
+        e.preventDefault()
+
+        const url = $(this).attr("href");
+
+        if(!!url){
+            getProjetosAtividades(url)
+        }
+    })
+
+    $("#addProjetoAtividade").on("click", function(){
+        const url = '/projetoAtividades/create';
+
+        AppUsage.loadModal(url, modalObject, '50%', function(){
+            $("#addFormProjetoAtividade").on("submit", function(e){
                 e.preventDefault()
-                formFonteRecurso(id)
+
+                formProjetosAtividades()
             });
         })
-    }); 
+    });
 
-    $(".btnDeleteFonteRecurso").on("click", function(){
+    $(".btnEditProjetoAtividade").on("click", function(){
         const id = $(this).attr("id");
-        const url = '/fonteRecursos/delete/' + id;
+        const url = '/projetoAtividades/edit/' + id;
+
+        AppUsage.loadModal(url, modalObject, '50%', function(){
+            $("#editFormProjetoAtividade").on("submit", function(e){
+                e.preventDefault()
+
+                formProjetosAtividades(id)
+            });
+        })
+    });
+
+    $(".btnDeleteProjetoAtividade").on("click", function(){
+        const id = $(this).attr("id")
+        const url = '/projetoAtividades/delete/' + id;
 
         Swal.fire({
             title: 'Deseja realmente excluir o registro?',
@@ -66,23 +83,24 @@ const habilitaBotoes = function(){
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Confirmar',
-            cancelButtonText: 'Cancelar', 
+            cancelButtonText: 'Cancelar',
         }).then(result => {
             if(result.isConfirmed){
                 AppUsage.deleteForGrid(url, function(){
-                    getFonteRecursos()       
+                    getProjetosAtividades()
                 })
             }
-        });
-    }); 
+        })
+    })
 }
 
-const getFonteRecursos = function(url){
-    const form = $("#formSearchFonteRecursos").serialize();
+
+const getProjetosAtividades =  function(url){
+    const form = $("#searchFormProjetoAtividades").serialize();
 
     $.ajax({
         type: "GET",
-        url: typeof url !== "undefined" ? url : "/fonteRecursos/",
+        url: typeof url !== "undefined" ? url : "/projetoAtividades/",
         data: form,
         dataType: "HTML",
         beforeSend:function(){
@@ -95,10 +113,10 @@ const getFonteRecursos = function(url){
     });
 }
 
-const formFonteRecurso = function(id){
-    let url = typeof id === "undefined" ? '/fonteRecursos/store' : `/fonteRecursos/update/${id}`
-    let type = typeof id === "undefined" ? "POST" : "PUT"
-    let form = typeof id === "undefined" ? "#formAddFonteRecurso" : "#formEditFonteRecurso"
+const formProjetosAtividades = function(id){
+    let form = typeof id == "undefined" ? '#addFormProjetoAtividade' : "#editFormProjetoAtividade";
+    let url =  typeof id == "undefined" ? '/projetoAtividades/store' : `/projetoAtividades/update/${id}`
+    let type = typeof id == "undefined" ? 'POST' : 'PUT';
 
     $.ajax({
         type,
@@ -108,7 +126,7 @@ const formFonteRecurso = function(id){
         beforeSend:function(){
             $(form + " .btnSubmit").prop("disabled", true).html(`
                 <i class="fa fa-spinner fa-spin"> </i> Carregando...
-            `)
+            `)      
         },
         success: function (response) {
             Swal.fire({
@@ -121,27 +139,29 @@ const formFonteRecurso = function(id){
                 background: '#337ab7',
                 didOpen:() => {
                    $(modalObject).modal('hide');
-                }  
+                }
             });
-
-            getFonteRecursos()
+            
+            getProjetosAtividades()
         },
         error:function(jqXHR, textstatus, error){
             if(!!jqXHR.responseJSON.errors){
-                let errors = jqXHR.responseJSON.errors
+                const errors = jqXHR.responseJSON.errors;
+
                 AppUsage.showMessagesValidator(form, errors);
             }
+
         },
         complete:function(){
             $(form + " .btnSubmit").prop("disabled", false).html(`
                 Salvar
-            `)
-        },
+            `)      
+        }
     });
 }
 
 module.exports = {
     changeTitle,
-    habilitaEventos,
-    habilitaBotoes
+    habilitaBotoes,
+    habilitaEventos
 }

@@ -120,6 +120,9 @@
                         @endforeach
                     </tbody>
                 </table>
+                <div style="display:flex; justify-content:center;">
+                    {{ $dataFonteRecursos->links() }}
+                </div>
             </div> 
         </div>
     </section>

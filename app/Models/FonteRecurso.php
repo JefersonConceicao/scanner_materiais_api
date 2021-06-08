@@ -54,12 +54,34 @@ class FonteRecurso extends Model
         }
     }
 
-    public function updateFonteRecurso(){
+    public function updateFonteRecurso($id, $request = []){
+        try{
+            $fonteRecurso = $this->find($id);
+            $fonteRecurso->fill($request)->save();
 
+            return [
+                'error' => false,
+                'msg' => 'Registro alterado sucesso'
+            ];
+        }catch(\Exception $err){
+            return [
+                'error' => true,
+                'msg' => 'Não foi possível excluir o registro'
+            ];
+        }
     }
 
-    public function deleteFonteRecurso(){
-
-
+    public function deleteFonteRecurso($id){
+        if($this->find($id)->delete()){
+            return [
+                'error' => false,
+                'msg' => 'Registro excluído com sucesso'
+            ];
+        }else{
+            return [
+                'error' => true,
+                'msg' => 'Não foi possível excluir o registro, o mesmo pode está sendo utilizado'
+            ];
+        }
     }
 }
