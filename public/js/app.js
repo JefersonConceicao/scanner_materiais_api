@@ -36337,8 +36337,8 @@ var loading = function loading(element) {
 
 var configMultiSelect = function configMultiSelect() {
   $(".multiselect").multiSelect({
-    selectableHeader: "<input type=\"text\" \n                            class=\"form-control\" \n                            autocomplete=\"off\" \n                            placeholder=\"Pesquise...\" \n                        />",
-    selectionHeader: "<input \n                            type=\"text\"\n                            class=\"form-control\" \n                            autocomplete=\"off\" \n                            placeholder=\"Pesquise...\" \n                        />",
+    selectableHeader: "<input type=\"text\" \n                            class=\"form-control\" \n                            autocomplete=\"off\" \n                            placeholder=\"Pesquise... (Selecion\xE1veis) \" \n                        />",
+    selectionHeader: "<input \n                            type=\"text\"\n                            class=\"form-control\" \n                            autocomplete=\"off\" \n                            placeholder=\"Pesquise... (Selecionados) \" \n                        />",
     afterInit: function afterInit(ms) {
       var that = this,
           $selectableSearch = that.$selectableUl.prev(),
@@ -36644,6 +36644,12 @@ var map = {
 	"./AppCheckListEstruturas.js": "./resources/js/Logged/AppCheckListEstruturas.js",
 	"./AppCheckListItens": "./resources/js/Logged/AppCheckListItens.js",
 	"./AppCheckListItens.js": "./resources/js/Logged/AppCheckListItens.js",
+	"./AppCheckListModelos": "./resources/js/Logged/AppCheckListModelos.js",
+	"./AppCheckListModelos.js": "./resources/js/Logged/AppCheckListModelos.js",
+	"./AppElementosDespesas": "./resources/js/Logged/AppElementosDespesas.js",
+	"./AppElementosDespesas.js": "./resources/js/Logged/AppElementosDespesas.js",
+	"./AppFonteRecursos": "./resources/js/Logged/AppFonteRecursos.js",
+	"./AppFonteRecursos.js": "./resources/js/Logged/AppFonteRecursos.js",
 	"./AppFuncionalidades": "./resources/js/Logged/AppFuncionalidades.js",
 	"./AppFuncionalidades.js": "./resources/js/Logged/AppFuncionalidades.js",
 	"./AppLocalidades": "./resources/js/Logged/AppLocalidades.js",
@@ -36860,7 +36866,10 @@ module.exports = {
   !*** ./resources/js/Logged/AppCheckListEstruturas.js ***!
   \*******************************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+var _require = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js"),
+    Swal = _require["default"];
 
 $(function () {
   habilitaBotoes();
@@ -36900,7 +36909,27 @@ var habilitaBotoes = function habilitaBotoes() {
       });
     });
   });
-  $(".btnDeleteCheckListEstrutura").on("click", function () {});
+  $(".btnDeleteCheckListEstrutura").on("click", function () {
+    var id = $(this).attr("id");
+    var url = "/checkListEstruturas/delete/" + id;
+    Swal.fire({
+      title: 'Deseja realmente excluir o registro?',
+      text: 'Esta ação é irreversivel!',
+      icon: 'warning',
+      showCancelButton: true,
+      reverseButtons: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar'
+    }).then(function (result) {
+      if (result.isConfirmed) {
+        AppUsage.deleteForGrid(url, function () {
+          getCheckListEstruturaFilter();
+        });
+      }
+    });
+  });
 };
 
 var formCheckListEstrutura = function formCheckListEstrutura(id) {
@@ -37103,6 +37132,403 @@ module.exports = {
   changeTitle: changeTitle,
   habilitaBotoes: habilitaBotoes,
   habilitaEventos: habilitaEventos
+};
+
+/***/ }),
+
+/***/ "./resources/js/Logged/AppCheckListModelos.js":
+/*!****************************************************!*\
+  !*** ./resources/js/Logged/AppCheckListModelos.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var _require = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js"),
+    Swal = _require["default"];
+
+$(function () {
+  habilitaBotoes();
+  habilitaEventos();
+});
+var modalObject = "#nivel1";
+var grid = "#gridCheckListModelos";
+
+var changeTitle = function changeTitle() {
+  document.title = 'BT | Checklist de Modelos';
+};
+
+var habilitaEventos = function habilitaEventos() {
+  $("#formSearchCheckListModelos").on("submit", function (e) {
+    e.preventDefault();
+    getCheckListModelos();
+  });
+};
+
+var habilitaBotoes = function habilitaBotoes() {
+  $(grid + " .pagination > li > a").on("click", function (e) {
+    e.preventDefault();
+    var url = $(this).attr("href");
+
+    if (!!url) {
+      getCheckListModelos(url);
+    }
+  });
+  $("#addChkEstruturas").on("click", function () {
+    var url = '/checkListModelos/create';
+    AppUsage.loadModal(url, modalObject, "40%", function () {
+      $("#addCheckListModelo").on("submit", function (e) {
+        e.preventDefault();
+        formCheckListModelos();
+      });
+    });
+  });
+  $(".btnEditCheckListModelos").on("click", function () {
+    var id = $(this).attr("id");
+    var url = '/checkListModelos/edit/' + id;
+    AppUsage.loadModal(url, modalObject, "40%", function () {
+      $("#editCheckListModelo").on("submit", function (e) {
+        e.preventDefault();
+        formCheckListModelos(id);
+      });
+    });
+  });
+  $(".btnDeleteCheckListModelos").on("click", function () {
+    var id = $(this).attr("id");
+    var url = '/checkListModelos/delete/' + id;
+    Swal.fire({
+      title: 'Deseja realmente excluir o registro?',
+      text: 'Esta ação é irreversivel!',
+      icon: 'warning',
+      showCancelButton: true,
+      reverseButtons: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar'
+    }).then(function (result) {
+      if (result.isConfirmed) {
+        AppUsage.deleteForGrid(url, function () {
+          getCheckListModelos();
+        });
+      }
+    });
+  });
+};
+
+var getCheckListModelos = function getCheckListModelos(url) {
+  var form = $("#formSearchCheckListModelos").serialize();
+  $.ajax({
+    type: "GET",
+    url: typeof url !== "undefined" ? url : "/checkListModelos/",
+    data: form,
+    dataType: "HTML",
+    beforeSend: function beforeSend() {
+      AppUsage.loading($(grid));
+    },
+    success: function success(response) {
+      $(grid).html($(response).find("".concat(grid, " >")));
+      habilitaBotoes();
+    }
+  });
+};
+
+var formCheckListModelos = function formCheckListModelos(id) {
+  var form = typeof id == "undefined" ? '#addCheckListModelo' : "#editCheckListModelo";
+  var url = typeof id == "undefined" ? '/checkListModelos/store' : "/checkListModelos/update/".concat(id);
+  var type = typeof id == "undefined" ? 'POST' : 'PUT';
+  $.ajax({
+    type: type,
+    url: url,
+    data: $(form).serialize(),
+    dataType: "JSON",
+    beforeSend: function beforeSend() {
+      $(form + " .btnSubmit").prop("disabled", true).html("\n                <i class=\"fa fa-spinner fa-spin\"> </i> Carregando...\n            ");
+    },
+    success: function success(response) {
+      Swal.fire({
+        position: 'top-end',
+        icon: !response.error ? 'success' : 'error',
+        title: "<b style=\"color:#fff\"> ".concat(response.msg, " </b>"),
+        toast: true,
+        showConfirmButton: false,
+        timer: 3500,
+        background: '#337ab7',
+        didOpen: function didOpen() {
+          $(modalObject).modal('hide');
+        }
+      });
+      getCheckListModelos();
+    },
+    error: function error(jqXHR, textstatus, _error) {
+      if (!!jqXHR.responseJSON.errors) {
+        var errors = jqXHR.responseJSON.errors;
+        AppUsage.showMessagesValidator(form, errors);
+      }
+    },
+    complete: function complete() {
+      $(form + " .btnSubmit").prop("disabled", false).html("\n                Salvar\n            ");
+    }
+  });
+};
+
+module.exports = {
+  changeTitle: changeTitle,
+  habilitaBotoes: habilitaBotoes,
+  habilitaEventos: habilitaEventos
+};
+
+/***/ }),
+
+/***/ "./resources/js/Logged/AppElementosDespesas.js":
+/*!*****************************************************!*\
+  !*** ./resources/js/Logged/AppElementosDespesas.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var _require = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js"),
+    Swal = _require["default"];
+
+$(function () {
+  habilitaBotoes();
+  habilitaEventos();
+});
+var modalObject = "#nivel1";
+var grid = "#gridElementoDespesa";
+
+var changeTitle = function changeTitle() {
+  document.title = " BT | Elementos de Despesa";
+};
+
+var habilitaEventos = function habilitaEventos() {
+  $("#formSearchElementoDespesa").on("submit", function (e) {
+    e.preventDefault();
+    getElementoDespesa();
+  });
+};
+
+var habilitaBotoes = function habilitaBotoes() {
+  $(grid + " .pagination > li > a").on("click", function (e) {
+    e.preventDefault();
+    var url = $(this).attr("href");
+
+    if (!!url) {
+      getElementoDespesa(url);
+    }
+  });
+  AppUsage.deleteMultipleRowsHelper(grid, function () {
+    $(".deleteALL").on("click", function () {
+      var url = '/elementoDespesas/deleteAll';
+      var ids = $("tr.row-selected").map(function (index, element) {
+        return $(element).attr("key");
+      });
+      AppUsage.deleteMultipleRowsGrid(url, ids, function () {
+        getElementoDespesa();
+      });
+    });
+  });
+  $("#addElementoDespesa").on("click", function () {
+    var url = '/elementoDespesas/create';
+    AppUsage.loadModal(url, modalObject, '50%', function () {
+      $("#formAddElementoDespesa").on("submit", function (e) {
+        e.preventDefault();
+        formElementoDespesa();
+      });
+    });
+  });
+  $(".btnEditElementoDespesa").on("click", function () {
+    var id = $(this).attr("id");
+    var url = '/elementoDespesas/edit/' + id;
+    AppUsage.loadModal(url, modalObject, '50%', function () {
+      $("#formEditElementoDespesa").on("submit", function (e) {
+        e.preventDefault();
+        formElementoDespesa(id);
+      });
+    });
+  });
+  $(".btnDeleteElementoDespesa").on("click", function () {
+    var id = $(this).attr("id");
+    var url = '/elementoDespesas/delete/' + id;
+    Swal.fire({
+      title: 'Deseja realmente excluir o registro?',
+      text: 'Esta ação é irreversivel!',
+      icon: 'warning',
+      showCancelButton: true,
+      reverseButtons: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar'
+    }).then(function (result) {
+      if (result.isConfirmed) {
+        AppUsage.deleteForGrid(url, function () {
+          getElementoDespesa();
+        });
+      }
+    });
+  });
+};
+
+var getElementoDespesa = function getElementoDespesa(url) {
+  var form = $("#formSearchElementoDespesa").serialize();
+  $.ajax({
+    type: "GET",
+    url: typeof url !== "undefined" ? url : "/elementoDespesas/",
+    data: form,
+    dataType: "HTML",
+    beforeSend: function beforeSend() {
+      AppUsage.loading($(grid));
+    },
+    success: function success(response) {
+      $(grid).html($(response).find("".concat(grid, " >")));
+      habilitaBotoes();
+    }
+  });
+};
+
+var formElementoDespesa = function formElementoDespesa(id) {
+  var form = typeof id == "undefined" ? '#formAddElementoDespesa' : "#formEditElementoDespesa";
+  var url = typeof id == "undefined" ? '/elementoDespesas/store' : "/elementoDespesas/update/".concat(id);
+  var type = typeof id == "undefined" ? 'POST' : 'PUT';
+  $.ajax({
+    type: type,
+    url: url,
+    data: $(form).serialize(),
+    dataType: "JSON",
+    beforeSend: function beforeSend() {
+      $(form + " .btnSubmit").prop("disabled", true).html("\n                <i class=\"fa fa-spinner fa-spin\"> </i> Carregando...\n            ");
+    },
+    success: function success(response) {
+      Swal.fire({
+        position: 'top-end',
+        icon: !response.error ? 'success' : 'error',
+        title: "<b style=\"color:#fff\"> ".concat(response.msg, " </b>"),
+        toast: true,
+        showConfirmButton: false,
+        timer: 3500,
+        background: '#337ab7',
+        didOpen: function didOpen() {
+          $(modalObject).modal('hide');
+        }
+      });
+      getElementoDespesa();
+    },
+    error: function error(jqXHR, textstatus, _error) {
+      if (!!jqXHR.responseJSON.errors) {
+        var errors = jqXHR.responseJSON.errors;
+        AppUsage.showMessagesValidator(form, errors);
+      }
+    },
+    complete: function complete() {
+      $(form + " .btnSubmit").prop("disabled", false).html("\n                Salvar\n            ");
+    }
+  });
+};
+
+module.exports = {
+  changeTitle: changeTitle,
+  habilitaBotoes: habilitaBotoes,
+  habilitaEventos: habilitaEventos
+};
+
+/***/ }),
+
+/***/ "./resources/js/Logged/AppFonteRecursos.js":
+/*!*************************************************!*\
+  !*** ./resources/js/Logged/AppFonteRecursos.js ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(function () {
+  habilitaBotoes();
+  habilitaEventos();
+});
+var modalObject = "#nivel1";
+var grid = "#gridFonteRecursos";
+
+var changeTitle = function changeTitle() {
+  document.title = "BT | Fonte de Recursos";
+};
+
+var habilitaEventos = function habilitaEventos() {
+  $("#formSearchFonteRecursos").on("submit", function (e) {
+    e.preventDefault();
+    getFonteRecursos();
+  });
+};
+
+var habilitaBotoes = function habilitaBotoes() {
+  $("#addFonteRecurso").on("click", function () {
+    var url = '/fonteRecursos/create';
+    AppUsage.loadModal(url, modalObject, '60%', function () {
+      $("#formAddFonteRecurso").on("submit", function (e) {
+        e.preventDefault();
+        formFonteRecurso();
+      });
+    });
+  });
+};
+
+var getFonteRecursos = function getFonteRecursos(url) {
+  var form = $("#formSearchFonteRecursos").serialize();
+  $.ajax({
+    type: "GET",
+    url: typeof url !== "undefined" ? url : "/fonteRecursos/",
+    data: form,
+    dataType: "HTML",
+    beforeSend: function beforeSend() {
+      AppUsage.loading($(grid));
+    },
+    success: function success(response) {
+      $(grid).html($(response).find("".concat(grid, " >")));
+      habilitaBotoes();
+    }
+  });
+};
+
+var formFonteRecurso = function formFonteRecurso(id) {
+  var url = typeof id === "undefined" ? '/fonteRecursos/store' : "/fonteRecursos/update/".concat(id);
+  var type = typeof id === "undefined" ? "POST" : "PUT";
+  var form = typeof id === "undefined" ? "#formAddFonteRecurso" : "#formAddFonteRecurso";
+  $.ajax({
+    type: type,
+    url: url,
+    data: $(form).serialize(),
+    dataType: "JSON",
+    beforeSend: function beforeSend() {
+      $(form + " .btnSubmit").prop("disabled", true).html("\n                <i class=\"fa fa-spinner fa-spin\"> </i> Carregando...\n            ");
+    },
+    success: function success(response) {
+      Swal.fire({
+        position: 'top-end',
+        icon: !response.error ? 'success' : 'error',
+        title: "<b style=\"color:#fff\"> ".concat(response.msg, " </b>"),
+        toast: true,
+        showConfirmButton: false,
+        timer: 3500,
+        background: '#337ab7',
+        didOpen: function didOpen() {
+          $(modalObject).modal('hide');
+        }
+      });
+    },
+    error: function error(jqXHR, textstatus, _error) {
+      if (!!jqXHR.responseJSON.errors) {
+        var errors = jqXHR.responseJSON.errors;
+        AppUsage.showMessagesValidator(form, errors);
+      }
+    },
+    complete: function complete() {
+      $(form + " .btnSubmit").prop("disabled", false).html("\n                Salvar\n            ");
+    }
+  });
+};
+
+module.exports = {
+  changeTitle: changeTitle,
+  habilitaEventos: habilitaEventos,
+  habilitaBotoes: habilitaBotoes
 };
 
 /***/ }),
@@ -39725,7 +40151,10 @@ window.AppTiposProjetos = __webpack_require__(/*! ./Logged/AppTiposProjetos */ "
 window.AppSetores = __webpack_require__(/*! ./Logged/AppSetores */ "./resources/js/Logged/AppSetores.js");
 window.AppCategoriaInstrumentos = __webpack_require__(/*! ./Logged/AppCategoriaInstrumentos */ "./resources/js/Logged/AppCategoriaInstrumentos.js");
 window.AppCheckListItens = __webpack_require__(/*! ./Logged/AppCheckListItens */ "./resources/js/Logged/AppCheckListItens.js");
-window.AppCheckListEstruturas = __webpack_require__(/*! ./Logged/AppCheckListEstruturas */ "./resources/js/Logged/AppCheckListEstruturas.js"); //CONSTANTS métodos e propriedades constantes
+window.AppCheckListEstruturas = __webpack_require__(/*! ./Logged/AppCheckListEstruturas */ "./resources/js/Logged/AppCheckListEstruturas.js");
+window.AppCheckListModelos = __webpack_require__(/*! ./Logged/AppCheckListModelos */ "./resources/js/Logged/AppCheckListModelos.js");
+window.AppElementosDespesas = __webpack_require__(/*! ./Logged/AppElementosDespesas */ "./resources/js/Logged/AppElementosDespesas.js");
+window.AppFonteRecursos = __webpack_require__(/*! ./Logged/AppFonteRecursos */ "./resources/js/Logged/AppFonteRecursos.js"); //CONSTANTS métodos e propriedades constantes
 
 window.languageDataTable = __webpack_require__(/*! ./Constants/language_dataTable */ "./resources/js/Constants/language_dataTable.js");
 window.AcessControl = __webpack_require__(/*! ./Constants/access_control */ "./resources/js/Constants/access_control.js");

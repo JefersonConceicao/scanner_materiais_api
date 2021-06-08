@@ -63,14 +63,14 @@ const configMultiSelect = function(){
         selectableHeader: `<input type="text" 
                             class="form-control" 
                             autocomplete="off" 
-                            placeholder="Pesquise..." 
+                            placeholder="Pesquise... (Selecionáveis) " 
                         />`,
 
         selectionHeader: `<input 
                             type="text"
                             class="form-control" 
                             autocomplete="off" 
-                            placeholder="Pesquise..." 
+                            placeholder="Pesquise... (Selecionados) " 
                         />`,
 
         afterInit:function(ms){

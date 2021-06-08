@@ -109,13 +109,23 @@ class CheckListEstrutura extends Model
             DB::rollback();
             return [
                 'error' => true,
-                'msg' => 'Não foi possível alterar o registro, tente novamente',
+                'msg' => 'Não foi possível alterar o registro, pois o mesmo ja está sendo utilizado',
                 'error_msg' => $err->getMessage()
             ];
         }
     }
 
-    public function deleteCheckListEstrutura($id){
-
+    public function deleteByModelo($id){
+        if($this->where('modelo_id', $id)->delete()){
+            return [
+                'error' => false,
+                'msg' => 'Registro excluído com sucesso!'
+            ];
+        }else{
+            return [
+                'error' => true,
+                'msg' => 'Não foi possível exlcuir o reigstro pois o mesmo ja está sendo utilizado'
+            ];
+        }
     }
 }

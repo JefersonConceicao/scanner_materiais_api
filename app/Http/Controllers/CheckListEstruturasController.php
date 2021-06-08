@@ -83,12 +83,9 @@ class CheckListEstruturasController extends Controller
 
     public function delete($id)
     {
-        //
-    }
+        $checkListEstrutura = new CheckListEstrutura;
 
-    public function show($id)
-    {
-        //
+        $data = $checkListEstrutura->deleteByModelo($id);
+        return response()->json($data);
     }
-
 }

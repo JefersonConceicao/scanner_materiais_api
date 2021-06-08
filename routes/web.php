@@ -3,6 +3,7 @@
 Route::get('/', function () {
     return view('auth.login');
 });
+
 Route::get('/permissoes/methodNotAllowed', 'PermissoesController@renderNotAllowed')->name('methodNotAllowed');
 
 Auth::routes();
@@ -195,6 +196,36 @@ Route::group(['middleware' => ['auth', 'verifyPermission']] , function(){
         Route::put('/update/{id}', 'CheckListEstruturasController@update')->name('update');
         Route::delete('/delete/{id}', 'CheckListEstruturasController@delete')->name('delete');
         Route::delete('/deleteAll', 'CheckListEstruturasController@deleteAll')->name('deleteAll');
+    });
+
+    Route::group(['as' => 'checkListModelos::', 'prefix' => 'checkListModelos'], function(){
+        Route::get('/', 'CheckListModelosController@index')->name('index');
+        Route::get('/create', 'CheckListModelosController@create')->name('create');
+        Route::post('/store', 'CheckListModelosController@store')->name('store');
+        Route::get('/edit/{id}', 'CheckListModelosController@edit')->name('edit');
+        Route::put('/update/{id}', 'CheckListModelosController@update')->name('update');
+        Route::delete('/delete/{id}', 'CheckListModelosController@delete')->name('delete');
+        Route::delete('/deleteAll', 'CheckListModelosController@deleteAll')->name('deleteAll');
+    });
+
+    Route::group(['as' => 'elementoDespesas::', 'prefix' => 'elementoDespesas'], function(){
+        Route::get('/', 'ElementoDespesasController@index')->name('index');
+        Route::get('/create', 'ElementoDespesasController@create')->name('create');
+        Route::post('/store', 'ElementoDespesasController@store')->name('store');
+        Route::get('/edit/{id}', 'ElementoDespesasController@edit')->name('edit');
+        Route::put('/update/{id}', 'ElementoDespesasController@update')->name('update');
+        Route::delete('/delete/{id}', 'ElementoDespesasController@delete')->name('delete');
+        Route::delete('/deleteAll', 'ElementoDespesasController@deleteAll')->name('deleteAll');
+    });
+
+    Route::group(['as' => 'fonteRecursos::', 'prefix' => 'fonteRecursos'], function(){
+        Route::get('/', 'FonteRecursosController@index')->name('index');
+        Route::get('/create', 'FonteRecursosController@create')->name('create');
+        Route::post('/store', 'FonteRecursosController@store')->name('store');
+        Route::get('/edit/{id}', 'FonteRecursosController@edit')->name('edit');
+        Route::put('/update/{id}', 'FonteRecursosController@update')->name('update');
+        Route::delete('/delete/{id}', 'FonteRecursosController@delete')->name('delete');
+        Route::delete('/deleteAll', 'FonteRecursosController@deleteAll')->name('deleteAll');
     });
 });
 
