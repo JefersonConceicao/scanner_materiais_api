@@ -34,7 +34,8 @@
                 {{ Form::label('quantidade', 'Quantidade') }} <span class="required"> * </span>
                 {{ Form::number('quantidade', null, [
                     'class' => 'form-control',
-                    'id' => 'form_add_infraestrutura_localidade_quantidade'
+                    'id' => 'form_add_infraestrutura_localidade_quantidade',
+                    'min' => 0
                 ])}}
              
                 <div class="error_feedback"> </div>

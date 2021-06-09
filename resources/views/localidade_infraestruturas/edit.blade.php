@@ -28,9 +28,10 @@
         <div class="col-md-3">
             <div class="form-group">
                 {{ Form::label('quantidade', 'Quantidade') }}
-                {{ Form::text('quantidade', $dataInfraLocalidade->quantidade, [
+                {{ Form::number('quantidade', $dataInfraLocalidade->quantidade, [
                     'class' => 'form-control',
-                    'id' => 'form_add_infraestrutura_localidade_quantidade'
+                    'id' => 'form_add_infraestrutura_localidade_quantidade',
+                    'min' => 0
                 ])}}
             </div>
         </div>

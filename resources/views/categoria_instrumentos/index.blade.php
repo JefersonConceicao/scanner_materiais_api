@@ -71,7 +71,7 @@
             <div class="box-header with-border">
                 <div class="row">
                     <div class="col-md-6">
-                        <p class="box-title"> Total de registros:  </p>
+                        <p class="box-title"> Total de registros: {{ $dataCatInstrumento->total() }}  </p>
                     </div>
                     <div class="col-md-6">
                         <button class="pull-right btn btn-primary" id="addCategoriaInstrumento"> 

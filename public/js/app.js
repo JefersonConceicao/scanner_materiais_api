@@ -36406,6 +36406,22 @@ var configMasks = function configMasks() {
     autoGroup: true,
     placeholder: '0'
   });
+  $(".cnpjcpf").inputmask({
+    mask: ['999.999.999-99', '99.999.999/9999-99'],
+    keepStatic: true
+  });
+  $(".cpf").inputmask({
+    mask: '999.999.999-99',
+    keepStatic: true
+  });
+  $(".cnpj").inputmask({
+    mask: '99.999.999/9999-99',
+    keepStatic: true
+  });
+  $(".cep").inputmask({
+    mask: '99999-999',
+    keepStatic: true
+  });
 };
 
 var showMessagesValidator = function showMessagesValidator(form, errorsRequest) {
@@ -36618,6 +36634,7 @@ var deleteMultipleRowsGrid = function deleteMultipleRowsGrid(url, ids) {
 
 module.exports = {
   loadModal: loadModal,
+  configMasks: configMasks,
   loadLibs: loadLibs,
   loading: loading,
   initializeDataTable: initializeDataTable,
@@ -36674,6 +36691,8 @@ var map = {
 	"./AppProfile.js": "./resources/js/Logged/AppProfile.js",
 	"./AppProjetosAtividade": "./resources/js/Logged/AppProjetosAtividade.js",
 	"./AppProjetosAtividade.js": "./resources/js/Logged/AppProjetosAtividade.js",
+	"./AppProponentes": "./resources/js/Logged/AppProponentes.js",
+	"./AppProponentes.js": "./resources/js/Logged/AppProponentes.js",
 	"./AppRoles": "./resources/js/Logged/AppRoles.js",
 	"./AppRoles.js": "./resources/js/Logged/AppRoles.js",
 	"./AppSetores": "./resources/js/Logged/AppSetores.js",
@@ -36731,7 +36750,7 @@ var modalObject = "#nivel1";
 var grid = "#gridCategoriaInstrumentos";
 
 var changeTitle = function changeTitle() {
-  document.title = "BT | Categoria do Instrumento";
+  document.title = "BT | Categorias dos Instrumentos";
 };
 
 var habilitaEventos = function habilitaEventos() {
@@ -39270,6 +39289,173 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./resources/js/Logged/AppProponentes.js":
+/*!***********************************************!*\
+  !*** ./resources/js/Logged/AppProponentes.js ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var _require = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js"),
+    Swal = _require["default"];
+
+$(function () {
+  habilitaEventos();
+  habilitaBotoes();
+});
+var grid = "#gridProponentes";
+var modalObject = "#nivel1";
+
+var changeTitle = function changeTitle() {
+  document.title = 'BT | Proponentes';
+};
+
+var habilitaEventos = function habilitaEventos() {
+  $("#searchFilterProponentes").on("submit", function (e) {
+    e.preventDefault();
+    getProponentesFilter();
+  });
+};
+
+var habilitaBotoes = function habilitaBotoes() {
+  $(grid + " .pagination > li > a").on("click", function (e) {
+    e.preventDefault();
+    var url = $(this).attr("href");
+
+    if (!!url) {
+      getProponentesFilter(url);
+    }
+  });
+  $("#addProponente").on("click", function () {
+    var url = '/proponentes/create';
+    AppUsage.loadModal(url, modalObject, '65%', function () {
+      settingsInputsProponentes();
+      $("#addFormProponentes").on("submit", function (e) {
+        e.preventDefault();
+        formProponentes();
+      });
+    });
+  });
+};
+
+var formProponentes = function formProponentes() {
+  var form = typeof id == "undefined" ? '#addFormProponentes' : "#editFormProponentes";
+  var url = typeof id == "undefined" ? '/proponentes/store' : "/proponentes/update/".concat(id);
+  var type = typeof id == "undefined" ? 'POST' : 'PUT';
+  $.ajax({
+    type: type,
+    url: url,
+    data: $(form).serialize(),
+    dataType: "JSON",
+    beforeSend: function beforeSend() {
+      $(form + " .btnSubmit").prop("disabled", true).html("\n                <i class=\"fa fa-spinner fa-spin\"> </i> Carregando...\n            ");
+    },
+    success: function success(response) {
+      Swal.fire({
+        position: 'top-end',
+        icon: !response.error ? 'success' : 'error',
+        title: "<b style=\"color:#fff\"> ".concat(response.msg, " </b>"),
+        toast: true,
+        showConfirmButton: false,
+        timer: 3500,
+        background: '#337ab7',
+        didOpen: function didOpen() {
+          $(modalObject).modal('hide');
+        }
+      });
+      getProponentesFilter();
+    },
+    error: function error(jqXHR, textstatus, _error) {
+      if (!!jqXHR.responseJSON.errors) {
+        var errors = jqXHR.responseJSON.errors;
+        AppUsage.showMessagesValidator(form, errors);
+      }
+    },
+    complete: function complete() {
+      $(form + " .btnSubmit").prop("disabled", false).html("\n                Salvar\n            ");
+    }
+  });
+};
+
+var getProponentesFilter = function getProponentesFilter(url) {
+  var form = $("#searchFilterProponentes").serialize();
+  $.ajax({
+    type: "GET",
+    url: typeof url !== "undefined" ? url : "/proponentes/",
+    data: form,
+    dataType: "HTML",
+    beforeSend: function beforeSend() {
+      AppUsage.loading($(grid));
+    },
+    success: function success(response) {
+      $(grid).html($(response).find("".concat(grid, " >")));
+      habilitaBotoes();
+    }
+  });
+};
+
+var settingsInputsProponentes = function settingsInputsProponentes() {
+  //ALTERA LABEL E MASCARA DO CAMPO CPF/CNPJ E RAZÃO SOCIAL
+  $(modalObject + " select[name='pessoa']").on("change", function () {
+    var element = this;
+    var labelChangeCNPJ = $(modalObject + " label[for='cnpj_cpf']");
+    var labelChangeRazao = $(modalObject + " label[for='nome_proponente']");
+
+    if ($(element).val() == "F") {
+      labelChangeCNPJ.text("CPF");
+      labelChangeRazao.text("Nome do Proponente");
+      $("input[name='cnpj_cpf']").removeClass("cnpjcpf cnpj").addClass("cpf");
+    } else {
+      labelChangeCNPJ.text("CNPJ");
+      labelChangeRazao.text("Razão Social");
+      $("input[name='cnpj_cpf']").removeClass("cnpjcpf cpf").addClass("cnpj");
+    }
+
+    AppUsage.configMasks();
+  });
+  $(modalObject + " input[name='cnpj_cpf']").on("blur", function () {
+    if (!!$(this).val() && $(this).val().length > 14) {
+      $.ajax({
+        type: "GET",
+        url: "/proponentes/getCNPJWSReceita/".concat($(this).inputmask('unmaskedvalue')),
+        dataType: "JSON",
+        success: function success(response) {
+          if (!response.status || response.status != "ERROR") {
+            $(modalObject + " input[name=\"nome_proponente\"]").val(response.nome);
+            $(modalObject + " input[name=\"e_mail\"]").val(response.email);
+            $(modalObject + " input[name=\"cep\"]").val(response.cep);
+            $(modalObject + " input[name=\"endereco\"]").val(response.logradouro);
+            $(modalObject + " input[name=\"numero\"]").val(response.numero);
+            $(modalObject + " input[name=\"bairro\"]").val(response.bairro);
+            $(modalObject + " input[name=\"complemento\"]").val(response.complemento);
+            $(modalObject + " input[name=\"telefone01\"]").val(response.telefone);
+          }
+        }
+      });
+    }
+  });
+  $(modalObject + " input[name='cep']").on("blur", function () {
+    if (!!$(this).val()) {
+      var url = "https://viacep.com.br/ws/".concat($(this).inputmask('unmaskedvalue'), "/json/?callback=?");
+      $.getJSON(url, function (response) {
+        if (!response.erro) {
+          $(modalObject + " input[name=\"endereco\"]").val(response.logradouro);
+          $(modalObject + " input[name=\"bairro\"]").val(response.bairro);
+          $(modalObject + " input[name=\"complemento\"]").val(response.complemento);
+        }
+      });
+    }
+  });
+};
+
+module.exports = {
+  changeTitle: changeTitle,
+  habilitaEventos: habilitaEventos,
+  habilitaBotoes: habilitaBotoes
+};
+
+/***/ }),
+
 /***/ "./resources/js/Logged/AppRoles.js":
 /*!*****************************************!*\
   !*** ./resources/js/Logged/AppRoles.js ***!
@@ -40657,7 +40843,8 @@ window.AppElementosDespesas = __webpack_require__(/*! ./Logged/AppElementosDespe
 window.AppFonteRecursos = __webpack_require__(/*! ./Logged/AppFonteRecursos */ "./resources/js/Logged/AppFonteRecursos.js");
 window.AppModalidadesApoio = __webpack_require__(/*! ./Logged/AppModalidadesApoio */ "./resources/js/Logged/AppModalidadesApoio.js");
 window.AppModalidadesLicitacao = __webpack_require__(/*! ./Logged/AppModalidadesLicitacao */ "./resources/js/Logged/AppModalidadesLicitacao.js");
-window.AppProjetosAtividades = __webpack_require__(/*! ./Logged/AppProjetosAtividade */ "./resources/js/Logged/AppProjetosAtividade.js"); //CONSTANTS métodos e propriedades constantes
+window.AppProjetosAtividades = __webpack_require__(/*! ./Logged/AppProjetosAtividade */ "./resources/js/Logged/AppProjetosAtividade.js");
+window.AppProponentes = __webpack_require__(/*! ./Logged/AppProponentes */ "./resources/js/Logged/AppProponentes.js"); //CONSTANTS métodos e propriedades constantes
 
 window.languageDataTable = __webpack_require__(/*! ./Constants/language_dataTable */ "./resources/js/Constants/language_dataTable.js");
 window.AcessControl = __webpack_require__(/*! ./Constants/access_control */ "./resources/js/Constants/access_control.js");

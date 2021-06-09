@@ -200,8 +200,9 @@ return [
                     [
                         'text' => 'Proponente',
                         'icon' => 'fa fa-angle-right',
-                        'url' => '#',
-                        'bt_ac' => 'proponente.index' 
+                        'url' => '/proponentes/',
+                        'requestjs' => 'AppProponentes', 
+                        'bt_ac' => 'proponentes.index' 
                     ],
                     [
                         'text' => 'Setores',

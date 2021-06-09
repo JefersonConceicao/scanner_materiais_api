@@ -3,7 +3,6 @@
 Route::get('/', function () {
     return view('auth.login');
 });
-
 Route::get('/permissoes/methodNotAllowed', 'PermissoesController@renderNotAllowed')->name('methodNotAllowed');
 
 Auth::routes();
@@ -256,5 +255,15 @@ Route::group(['middleware' => ['auth', 'verifyPermission']] , function(){
         Route::put('/update/{id}', 'ProjetoAtividadesController@update')->name('update');
         Route::delete('/delete/{id}', 'ProjetoAtividadesController@delete')->name('delete');
         Route::delete('/deleteAll', 'ProjetoAtividadesController@deleteAll')->name('deleteAll');
+    });
+
+    Route::group(['as' => 'proponentes::', 'prefix' => 'proponentes'], function(){
+        Route::get('/', 'ProponentesController@index')->name('index');
+        Route::get('/create', 'ProponentesController@create')->name('create');
+        Route::get('/getCNPJWSReceita/{cnpj}', 'ProponentesController@getCNPJProponenteReceita')->name('getCNPJReceita');
+        Route::post('/store', 'ProponentesController@store')->name('store');
+        Route::get('/edit/{id}', 'ProponentesController@edit')->name('edit');
+        Route::put('/update/{id}', 'ProponentesController@update')->name('update');
+        Route::delete('/delete/{id}', 'ProponentesController@delete')->name('delete');
     });
 });
