@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProponentesRequest;
+use Auth;
 
 //MODELS
 use App\Models\Proponente;
@@ -44,10 +45,11 @@ class ProponentesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(ProponentesRequest $request)
-    {
+    {   
+        $user = Auth::user();
         $proponente = new Proponente;
 
-        $data = $proponente->saveProponente($request->all());
+        $data = $proponente->saveProponente($request->all(), $user);
         return response()->json($data);
     }
 
@@ -57,7 +59,17 @@ class ProponentesController extends Controller
      */
     public function edit($id)
     {
-        //
+        $proponente = new Proponente;
+        $localidade = new Localidade;
+
+        $optionsLocalidade = $localidade    
+                            ->where('ativo', '=', 'S')
+                            ->pluck('localidade', 'id')
+                            ->toArray();
+
+        return view('proponentes.edit')
+            ->with('optionsLocalidade', $optionsLocalidade)
+            ->with('proponente', $proponente->find($id));
     }
 
     /**
@@ -65,9 +77,13 @@ class ProponentesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProponentesRequest $request, $id)
     {
-        //
+        $user = Auth::user();
+        $proponente = new Proponente;
+
+        $data = $proponente->updateProponente($id, $request->all(), $user);
+        return response()->json($data);
     }
 
     /**
@@ -75,8 +91,11 @@ class ProponentesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function delete($id)
-    {
-        //
+    {   
+        $proponente = new Proponente;
+
+        $data = $proponente->deleteProponente($id);
+        return response()->json($data);
     }
 
     public function getCNPJProponenteReceita($cnpj){

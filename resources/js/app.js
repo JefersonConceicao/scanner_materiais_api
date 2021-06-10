@@ -40,7 +40,8 @@ window.AppFonteRecursos = require ('./Logged/AppFonteRecursos');
 window.AppModalidadesApoio = require('./Logged/AppModalidadesApoio');
 window.AppModalidadesLicitacao = require('./Logged/AppModalidadesLicitacao');
 window.AppProjetosAtividades = require('./Logged/AppProjetosAtividade');
-window.AppProponentes = require ('./Logged/AppProponentes');
+window.AppProponentes = require('./Logged/AppProponentes');
+window.AppProjetos = require('./Logged/AppProjetos');
 
 //CONSTANTS métodos e propriedades constantes
 window.languageDataTable = require('./Constants/language_dataTable');

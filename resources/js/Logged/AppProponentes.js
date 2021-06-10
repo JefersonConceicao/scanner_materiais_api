@@ -15,7 +15,6 @@ const changeTitle = function(){
 const habilitaEventos = function(){
     $("#searchFilterProponentes").on("submit", function(e){
         e.preventDefault()
-
         getProponentesFilter()
     })
 }
@@ -39,14 +38,48 @@ const habilitaBotoes = function(){
 
             $("#addFormProponentes").on("submit", function(e){
                 e.preventDefault()
-
                 formProponentes()
             });
         })
     });
+
+    $(".btnEditProponente").on("click", function(){
+        const id = $(this).attr("id");
+        const url = '/proponentes/edit/' + id;
+
+        AppUsage.loadModal(url, modalObject, '65%', function(){
+            $("#editFormProponentes").on("submit", function(e){
+                e.preventDefault()
+                formProponentes(id)
+            })
+        }); 
+    })
+
+    $(".btnDeleteProponente").on("click", function(){
+        const id = $(this).attr("id");
+        const url = '/proponentes/delete/' + id;
+
+        Swal.fire({
+            title: 'Deseja realmente excluir o registro ?',
+            text: 'Esta ação é irreversível',
+            icon: 'warning',
+            showCancelButton: true,
+            reverseButtons: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: 'Cancelar',
+        }).then(result => {
+            if(result.isConfirmed){
+                AppUsage.deleteForGrid(url, function(){
+                    getProponentesFilter();
+                });
+            }
+        });
+    });
 }
 
-const formProponentes = function(){
+const formProponentes = function(id){
     let form = typeof id == "undefined" ? '#addFormProponentes' : "#editFormProponentes";
     let url =  typeof id == "undefined" ? '/proponentes/store' : `/proponentes/update/${id}`
     let type = typeof id == "undefined" ? 'POST' : 'PUT';
@@ -113,20 +146,24 @@ const getProponentesFilter = function(url){
 const settingsInputsProponentes = function(){
       //ALTERA LABEL E MASCARA DO CAMPO CPF/CNPJ E RAZÃO SOCIAL
       $(modalObject + " select[name='pessoa']").on("change", function(){
-        const element = this; 
+        const element = $(this); 
         const labelChangeCNPJ = $(modalObject + " label[for='cnpj_cpf']") 
         const labelChangeRazao =  $(modalObject + " label[for='nome_proponente']") 
 
-        if($(element).val() == "F"){
+        if(element.val() == "F"){
            labelChangeCNPJ.text("CPF");
            labelChangeRazao.text("Nome do Proponente");
 
-            $("input[name='cnpj_cpf']").removeClass("cnpjcpf cnpj").addClass("cpf");    
+            $(modalObject + " input[name='cnpj_cpf']")
+                .removeClass("cnpjcpf cnpj")
+                .addClass("cpf");    
         }else{
             labelChangeCNPJ.text("CNPJ")
             labelChangeRazao.text("Razão Social")
 
-            $("input[name='cnpj_cpf']").removeClass("cnpjcpf cpf").addClass("cnpj");
+            $(modalObject + " input[name='cnpj_cpf']")
+                .removeClass("cnpjcpf cpf")
+                .addClass("cnpj");
         }
 
         AppUsage.configMasks();

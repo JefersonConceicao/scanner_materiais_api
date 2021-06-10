@@ -36689,6 +36689,8 @@ var map = {
 	"./AppPermissoes.js": "./resources/js/Logged/AppPermissoes.js",
 	"./AppProfile": "./resources/js/Logged/AppProfile.js",
 	"./AppProfile.js": "./resources/js/Logged/AppProfile.js",
+	"./AppProjetos": "./resources/js/Logged/AppProjetos.js",
+	"./AppProjetos.js": "./resources/js/Logged/AppProjetos.js",
 	"./AppProjetosAtividade": "./resources/js/Logged/AppProjetosAtividade.js",
 	"./AppProjetosAtividade.js": "./resources/js/Logged/AppProjetosAtividade.js",
 	"./AppProponentes": "./resources/js/Logged/AppProponentes.js",
@@ -39135,6 +39137,38 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./resources/js/Logged/AppProjetos.js":
+/*!********************************************!*\
+  !*** ./resources/js/Logged/AppProjetos.js ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(function () {
+  habilitaEventos();
+  habilitaBotoes();
+});
+
+var changeTitle = function changeTitle() {
+  document.title = 'BT | Projetos';
+};
+
+var habilitaEventos = function habilitaEventos() {};
+
+var habilitaBotoes = function habilitaBotoes() {};
+
+var getProjetosFilter = function getProjetosFilter() {};
+
+var formProjetos = function formProjetos() {};
+
+module.exports = {
+  changeTitle: changeTitle,
+  habilitaEventos: habilitaEventos,
+  habilitaBotoes: habilitaBotoes
+};
+
+/***/ }),
+
 /***/ "./resources/js/Logged/AppProjetosAtividade.js":
 /*!*****************************************************!*\
   !*** ./resources/js/Logged/AppProjetosAtividade.js ***!
@@ -39336,9 +39370,40 @@ var habilitaBotoes = function habilitaBotoes() {
       });
     });
   });
+  $(".btnEditProponente").on("click", function () {
+    var id = $(this).attr("id");
+    var url = '/proponentes/edit/' + id;
+    AppUsage.loadModal(url, modalObject, '65%', function () {
+      $("#editFormProponentes").on("submit", function (e) {
+        e.preventDefault();
+        formProponentes(id);
+      });
+    });
+  });
+  $(".btnDeleteProponente").on("click", function () {
+    var id = $(this).attr("id");
+    var url = '/proponentes/delete/' + id;
+    Swal.fire({
+      title: 'Deseja realmente excluir o registro ?',
+      text: 'Esta ação é irreversível',
+      icon: 'warning',
+      showCancelButton: true,
+      reverseButtons: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar'
+    }).then(function (result) {
+      if (result.isConfirmed) {
+        AppUsage.deleteForGrid(url, function () {
+          getProponentesFilter();
+        });
+      }
+    });
+  });
 };
 
-var formProponentes = function formProponentes() {
+var formProponentes = function formProponentes(id) {
   var form = typeof id == "undefined" ? '#addFormProponentes' : "#editFormProponentes";
   var url = typeof id == "undefined" ? '/proponentes/store' : "/proponentes/update/".concat(id);
   var type = typeof id == "undefined" ? 'POST' : 'PUT';
@@ -39397,18 +39462,18 @@ var getProponentesFilter = function getProponentesFilter(url) {
 var settingsInputsProponentes = function settingsInputsProponentes() {
   //ALTERA LABEL E MASCARA DO CAMPO CPF/CNPJ E RAZÃO SOCIAL
   $(modalObject + " select[name='pessoa']").on("change", function () {
-    var element = this;
+    var element = $(this);
     var labelChangeCNPJ = $(modalObject + " label[for='cnpj_cpf']");
     var labelChangeRazao = $(modalObject + " label[for='nome_proponente']");
 
-    if ($(element).val() == "F") {
+    if (element.val() == "F") {
       labelChangeCNPJ.text("CPF");
       labelChangeRazao.text("Nome do Proponente");
-      $("input[name='cnpj_cpf']").removeClass("cnpjcpf cnpj").addClass("cpf");
+      $(modalObject + " input[name='cnpj_cpf']").removeClass("cnpjcpf cnpj").addClass("cpf");
     } else {
       labelChangeCNPJ.text("CNPJ");
       labelChangeRazao.text("Razão Social");
-      $("input[name='cnpj_cpf']").removeClass("cnpjcpf cpf").addClass("cnpj");
+      $(modalObject + " input[name='cnpj_cpf']").removeClass("cnpjcpf cpf").addClass("cnpj");
     }
 
     AppUsage.configMasks();
@@ -40844,7 +40909,8 @@ window.AppFonteRecursos = __webpack_require__(/*! ./Logged/AppFonteRecursos */ "
 window.AppModalidadesApoio = __webpack_require__(/*! ./Logged/AppModalidadesApoio */ "./resources/js/Logged/AppModalidadesApoio.js");
 window.AppModalidadesLicitacao = __webpack_require__(/*! ./Logged/AppModalidadesLicitacao */ "./resources/js/Logged/AppModalidadesLicitacao.js");
 window.AppProjetosAtividades = __webpack_require__(/*! ./Logged/AppProjetosAtividade */ "./resources/js/Logged/AppProjetosAtividade.js");
-window.AppProponentes = __webpack_require__(/*! ./Logged/AppProponentes */ "./resources/js/Logged/AppProponentes.js"); //CONSTANTS métodos e propriedades constantes
+window.AppProponentes = __webpack_require__(/*! ./Logged/AppProponentes */ "./resources/js/Logged/AppProponentes.js");
+window.AppProjetos = __webpack_require__(/*! ./Logged/AppProjetos */ "./resources/js/Logged/AppProjetos.js"); //CONSTANTS métodos e propriedades constantes
 
 window.languageDataTable = __webpack_require__(/*! ./Constants/language_dataTable */ "./resources/js/Constants/language_dataTable.js");
 window.AcessControl = __webpack_require__(/*! ./Constants/access_control */ "./resources/js/Constants/access_control.js");

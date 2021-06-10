@@ -1,8 +1,9 @@
 <?php
 
 Route::get('/', function () {
-    return view('auth.login');
+    return redirect('/login');
 });
+
 Route::get('/permissoes/methodNotAllowed', 'PermissoesController@renderNotAllowed')->name('methodNotAllowed');
 
 Auth::routes();
@@ -265,5 +266,14 @@ Route::group(['middleware' => ['auth', 'verifyPermission']] , function(){
         Route::get('/edit/{id}', 'ProponentesController@edit')->name('edit');
         Route::put('/update/{id}', 'ProponentesController@update')->name('update');
         Route::delete('/delete/{id}', 'ProponentesController@delete')->name('delete');
+    });
+
+    Route::group(['as' => 'projetos::', 'prefix' => 'projetos'], function(){
+        Route::get('/', 'ProjetosController@index')->name('index');
+        Route::get('/create', 'ProjetosController@create')->name('create');
+        Route::post('/store', 'ProjetosController@store')->name('store');
+        Route::get('/edit/{id}', 'ProjetosController@edit')->name('edit');
+        Route::put('/update/{id}', 'ProjetosController@update')->name('update');
+        Route::delete('/delete/{id}', 'ProjetosController@delete')->name('delete');
     });
 });

@@ -23,14 +23,14 @@
                         <div class="form-group">
                             {{ Form::label('cnpj_cpf', 'CNPJ/CPF') }}
                             {{ Form::text('cnpj_cpf', null, [
-                                'class' => 'form-control',
+                                'class' => 'form-control cnpjcpf',
                                 'id' => 'form_search_proponentes_cnpjcpf'
                             ])}}
                         </div>  
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            {{ Form::label('nome_proponente', 'Nome') }}
+                            {{ Form::label('nome_proponente', 'Nome | Razão Social') }}
                             {{ Form::text('nome_proponente', null, [
                                 'class' => 'form-control',
                                 'id' => 'form_search_proponentes_nome'
@@ -97,7 +97,7 @@
                             <tr> 
                                 <td> 
                                     {{!empty($proponente->cnpj_cpf)
-                                        ? $proponente->cnpj_cpf                                  
+                                        ? maskedFieldCNPJCPF($proponente->cnpj_cpf)                                 
                                         :  "Não informado"
                                     }} 
                                 </td>

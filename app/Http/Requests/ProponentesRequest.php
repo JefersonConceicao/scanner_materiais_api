@@ -5,6 +5,8 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Route;
 
+use App\Models\Proponente;
+
 class ProponentesRequest extends FormRequest
 {
     /**
@@ -19,7 +21,7 @@ class ProponentesRequest extends FormRequest
      * @return array
      */
     public function rules()
-    {
+    {   
         $atualGroupRoute = explode("::", Route::currentRouteName());
         $atualRoute = end($atualGroupRoute);
         $validate = [];
@@ -28,18 +30,46 @@ class ProponentesRequest extends FormRequest
             case 'store': 
                 $validate = [
                    'pessoa' => 'required',
-                   'cnpj_cpf' => 'required',
+                   'cnpj_cpf' => [
+                       'required',
+                        function($attribute, $value, $fail){
+                            //VALIDANDO SE EXISTE NA BASE DE DADOS "MANUALMENTE"
+                            $proponente = new Proponente;
+                     
+                            if(strlen($value) > 14){
+                                if(!validateCNPJ($value)){
+                                    $fail("CNPJ Inválido");
+                                }  
+                            }else{
+                                if(!validateCPF($value)){
+                                    $fail("CPF Inválido");
+                                }
+                            }
+
+                            if($proponente->where('cnpj_cpf','=', cleanSpecialCaracters($value))->count() > 0){
+                                $error = (strlen($value) > 14) ? "CNPJ" : "CPF";
+                
+                                $fail($error." já existente em nossa base de dados");
+                            }   
+                        }
+                    ],
                    'ativo' => 'required',
                    'nome_proponente' => 'required',
-                   'e_mail' => 'required',
+                   'e_mail' => [
+                       'required',
+                       'email'
+                    ],
                    'localidade_id' => 'required',
                 ];
                 break;
 
             case 'update': 
                 $validate = [
-
-                ];
+                    'ativo' => 'required',
+                    'nome_proponente' => 'required',
+                    'e_mail' => 'required',
+                    'localidade_id' => 'required',
+                ];  
                 break; 
         }
 
@@ -48,7 +78,8 @@ class ProponentesRequest extends FormRequest
 
     public function messages(){
         return [
-            'required' => 'Campo obrigatório'
+            'required' => 'Campo obrigatório',
+            'min' => 'Quantidade de caracteres inválida'
         ];
     }
 }
