@@ -7,7 +7,7 @@ const modalObject = "#nivel1";
 const grid = "#gridCategoriaInstrumentos";
 
 const changeTitle = function(){
-    document.title = "BT | Categoria do Instrumento"
+    document.title = "BT | Categorias dos Instrumentos"
 }
 
 const habilitaEventos = function(){

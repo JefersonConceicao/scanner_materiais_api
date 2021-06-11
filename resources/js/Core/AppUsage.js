@@ -141,12 +141,37 @@ const configDateTimePicker = function(){
 const configMasks = function(){
     $(".phone").inputmask('(99) 9999[9]-9999');
     $(".month-year").inputmask('99/99');
+    $(".date").inputmask({
+        mask: '99/99/9999',
+        keepStatic: true
+    });
+
     $(".decimal-numeric").inputmask({
         mask: "decimal",
         greedy: false,
         groupSeparator: '.',
         autoGroup:true,
         placeholder: '0'
+    })
+
+    $(".cnpjcpf").inputmask({
+        mask: ['999.999.999-99', '99.999.999/9999-99'],
+        keepStatic: true,
+    })
+
+    $(".cpf").inputmask({
+        mask: '999.999.999-99',
+        keepStatic: true
+    })
+
+    $(".cnpj").inputmask({
+        mask: '99.999.999/9999-99',
+        keepStatic: true
+    })
+
+    $(".cep").inputmask({
+        mask: '99999-999',
+        keepStatic:true,
     })
 }
 
@@ -366,6 +391,7 @@ const deleteMultipleRowsGrid = function(url, ids, callback = null){
 
 module.exports = {
     loadModal,
+    configMasks,
     loadLibs,
     loading,
     initializeDataTable,

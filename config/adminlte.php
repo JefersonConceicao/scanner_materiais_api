@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'title' => 'source_BT',
+    'title' => 'BT | UNION',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -9,7 +9,7 @@ return [
                     class="img-responsive"
                     src="/img/logo_union.png" 
                     style="width:300px; height:180px; object-fit:contain;"
-                    alt="unionLogoType"
+                    alt="UNION LOGO"
                     
                 />',
 
@@ -124,6 +124,8 @@ return [
                 'submenu' => [
                     [
                         'text' => 'Projetos',
+                        'url' => '/projetos/',
+                        'requestjs' => 'AppProjetos',
                         'icon' => 'fa fa-angle-right',
                         'bt_ac' => 'projetos.index'
                     ],
@@ -200,8 +202,9 @@ return [
                     [
                         'text' => 'Proponente',
                         'icon' => 'fa fa-angle-right',
-                        'url' => '#',
-                        'bt_ac' => 'proponente.index' 
+                        'url' => '/proponentes/',
+                        'requestjs' => 'AppProponentes', 
+                        'bt_ac' => 'proponentes.index' 
                     ],
                     [
                         'text' => 'Setores',
