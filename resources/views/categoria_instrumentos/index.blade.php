@@ -81,7 +81,7 @@
                 </div>
             </div>
             <div class="box-body table-responsive" id="gridCategoriaInstrumentos">
-                <table class="table">
+                <table class="table dataTable">
                     <thead> 
                         <tr> 
                             <th> Categoria do Instrumento </th>

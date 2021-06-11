@@ -141,6 +141,11 @@ const configDateTimePicker = function(){
 const configMasks = function(){
     $(".phone").inputmask('(99) 9999[9]-9999');
     $(".month-year").inputmask('99/99');
+    $(".date").inputmask({
+        mask: '99/99/9999',
+        keepStatic: true
+    });
+
     $(".decimal-numeric").inputmask({
         mask: "decimal",
         greedy: false,

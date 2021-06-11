@@ -15,12 +15,245 @@
     <section class="content">
         @component('components.filtro')
             <form id="searchFormProjetos">
+                <div class="row">
+                    <div class="col-md-1">
+                        <div class="form-group">
+                            {{ Form::label('id', 'ID') }}
+                            {{ Form::number('id', null, [
+                                'class' => 'form-control',
+                                'id' => 'search_form_projetos_id',
+                                'min' => 0,
+                            ])}}
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="form-group"> 
+                            {{ Form::label('processo', 'N° do Processo')}}
+                            {{ Form::text('processo', null, [
+                                'class' => 'form-control',
+                                'id' => 'search_form_projetos_processo'
+                            ])}}
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            {{ Form::label('nome_projeto', 'Nome do Projeto') }}
+                            {{ Form::text('nome_projeto', null, [
+                                'class' => 'form-control',
+                                'id' => 'search_form_projetos_nome_projeto'
+                            ])}}
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {{ Form::label('tipo_processo', 'Tipo do Processo') }}
+                            {{ Form::select('tipo_processo', [null => '']+['S' => 'Via SEI', 'N' => 'Processo Físico'], null, [
+                                'class' => 'form-control select2',
+                                'id' => 'search_form_projetos_tipo_processo'
+                            ])}}
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {{ Form::label('dt_inicio', 'Data Inícial') }}
+                            {{ Form::text('dt_inicio', null, [
+                                'class' => 'form-control date datepicker',
+                                'id' => 'search_form_projetos_dt_inicio',
+                            ])}}
+                        </div>
+                    </div>
+
+                    <div class="col-md-2"> 
+                        <div class="form-group">
+                            {{ Form::label('dt_fim', 'Data Final') }}
+                            {{ Form::text('dt_fim', null, [
+                                'class' => 'form-control date datepicker',
+                                'id' => 'search_form_projetos_dt_fim'
+                            ])}}
+                        </div>
+                    </div>
+                </div>
                 
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {{ Form::label('proponente.cnpj_cpf', 'CNPJ/CPF Proponente' )}}
+                            {{ Form::text('proponente.cnpj_cpf', null, [
+                                'class' => 'form-control', 
+                                'id' => 'search_form_projetos_proponente.cnpj_cpf'
+                            ])}} 
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            {{ Form::label('proponente_id', 'Proponente') }}
+                            {{ Form::select('proponente_id', [null => '']+$optionsProponentes, null , [
+                                'class' => 'form-control select2',
+                                'id' => 'search_form_projetos_proponente_id'
+                            ])}}
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            {{ Form::label('localidade_id' , 'Localidade') }}
+                            {{ Form::select('localidade_id', [null => '']+$optionsLocalidades, null, [
+                                'class' => 'form-control select2',
+                                'id' => 'search_form_projetos_localidade_id'
+                            ])}}
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {{ Form::label('modalidade_apoio_id', 'Modalidade de Apoio') }}
+                            {{ Form::select('modalidade_apoio_id', [null => '']+$optionsModApoio, null, [
+                                'class' => 'form-control select2',
+                                'id' => 'search_form_projetos_modalidade_apoio_id'
+                            ])}}
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {{ Form::label('tipo_projeto_id', 'Tipo do Projeto (Eventos)') }}
+                            {{ Form::select('tipo_projeto_id', [], [], [
+                                'class' => 'form-control select2',
+                                'id' => 'search_form_projetos_tipo_projeto_id'
+                            ])}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            {{ Form::label('situacao_projeto', 'Situação do Projeto') }}
+                            {{ Form::select('situacao_projeto', [null => '']+[
+                                'AA' => 'Aguardando Aprovação',
+                                'AP' => 'Apovado',
+                                'CS' => 'Cancelado Suspenso',
+                                'RP' => 'Reprovado'
+                            ],
+                            null,
+                            [
+                                'class' => 'form-control select2',
+                                'id' => 'search_form_projetos_situacao_projeto'
+                            ])}}
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            {{ Form::label('setor_origem_id', 'Setor de Origem') }}
+                            {{ Form::select('setor_origem_id', [], [], [
+                                'class' => 'form-control select2',
+                                'id' => 'search_form_projetos_setor_origem_id'
+                            ])}}
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {{ Form::label('valor_solicitado', 'Valor Solicitado (R$)') }}
+                            {{ Form::text('valor_solicitado', null, [
+                                'class' => 'form-control',
+                                'id' => 'search_form_projetos_valor_solicitado'
+                            ])}}
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">    
+                            {{ Form::label('valor_aprovado', 'Valor Aprovado (R$)')}}
+                            {{ Form::text('valor_aprovado', null, [
+                                'class' => 'form-control',
+                                'id' => 'search_form_projetos_valor_aprovado'
+                            ])}}
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            {{ Form::label('usu_responsavel_id', 'Usuário Responsável') }}
+                            {{ Form::select('usu_responsavel_id', [], [], [
+                                'class' => 'form-control select2',
+                                'id' => 'search_form_projetos_usu_responsavel_id'
+                            ])}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            {{ Form::label('projeto_atividade_id', 'Projeto Atividade') }}
+                            {{ Form::select('projeto_atividade_id', [], [], [
+                                'class' => 'form-control select2',
+                                'id' => 'search_form_projetos_projeto_atividade_id'
+                            ])}}
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            {{ Form::label('elemento_despesa_id', 'Elemento Despesa') }}
+                            {{ Form::select('elemento_despesa_id', [],[], [
+                                'class' => 'form-control select2',
+                                'id' => 'search_form_projetos_elemento_despesa_id'
+                            ])}} 
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            {{ Form::label('fonte_recurso_id', 'Fonte de Recurso') }}
+                            {{ Form::select('fonte_recurso_id', [], [], [
+                                'class' => 'form-control select2',
+                                'id' => 'search_form_projetos_fonte_recurso_id'
+                            ])}}
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            {{ Form::label('lote_projeto.lote_id', 'Lote') }}
+                            {{ Form::select('lote_projeto.lote_id', [],[],[
+                                'class' => 'form-control select2',
+                                'id' => 'search_form_projetos_lote'
+                            ])}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <button 
+                            type="reset"
+                            class="btn btn-primary"
+                        > 
+                            <i class="fa fa-eraser"> </i> Limpar Pesquisa
+                        </button>
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                        > 
+
+                            <i class="fa fa-search"> </i> Localizar
+                        </button>
+                    </div>  
+                </div>
             </form>
         @endcomponent 
-        <div class="box">
-            <div class="box-header with-default">
-
+        <div class="box" id="gridProjetos">
+            <div class="box-header with-border">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="box-title"> Total de registros: </p>
+                    </div>
+                    <div class="col-md-6">
+                        <button 
+                            class="pull-right btn btn-primary"
+                            id="addProjeto"
+                        >
+                            <i class="fa fa-plus-square"> </i> Novo
+                        </button>
+                    </div>
+                </div>
             </div>
             <div class="box-body">
 

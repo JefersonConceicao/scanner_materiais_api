@@ -84,7 +84,12 @@ body {
 }
 
 .box {
+  border-radius: 20px 0 20px 0;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.33) !important;
+}
+
+.modal-content {
+  border-radius: 20px 0 20px 0;
 }
 
 .bg-bahia {

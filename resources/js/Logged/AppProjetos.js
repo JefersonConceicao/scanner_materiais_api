@@ -8,7 +8,7 @@ const changeTitle = function(){
 }
 
 const habilitaEventos = function(){
-    
+        
 }
 
 const habilitaBotoes = function(){
