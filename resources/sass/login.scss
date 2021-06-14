@@ -1,23 +1,23 @@
-//AZUL BAHIA = #337ab7
-//VERMELHO BAHIA = #e91313
+@import './constans.scss';
+
 a{
-    color:#337ab7;
+    color:$azulBahia;
 }
 
 #seePass{
     cursor:pointer;
     pointer-events: auto;   
-    color:#337ab7
+    color:$azulBahia;
 }
 
 .btn-primary{
-    background-color:#337ab7 ;
+    background-color:$azulBahia;
 }
 
 .login-box-body{
     width:100%;
-    border-top: 2px solid #e91313;
-    border-bottom: 2px solid #e91313;
+    border-top: 2px solid $vermelhoBahia;
+    border-bottom: 2px solid $vermelhoBahia;
     border-radius: 20px;
 }
 

@@ -33,9 +33,17 @@ class Projeto extends Model
 
     public $timestamps = false;
 
-    public function getProjetos(){
+    public function getProjetos($request = []){
+        $conditions = [];   
+
+        if(isset($request['proponente_id']) && !empty($request['proponente_id'])){
+            $conditions[] = ['projetos.proponente_id', '=' ,$request['proponente_id']];
+        }
+        
         return $this
-            ->paginate(7);
+            ->join('proponente', 'projetos.proponente_id', '=', 'proponente.id')
+            ->where($conditions)
+            ->paginate(7);  
     }
 
     public function saveProjeto(){

@@ -139,6 +139,17 @@ const configDateTimePicker = function(){
 }
 
 const configMasks = function(){
+    $(".money").inputmask('decimal',{
+        alias: 'numeric',
+        groupSeparator: ',',
+        autoGroup: true,
+        digits: '2',
+        allowMinus:false,
+        radixPoint: ".",
+        prefix: "R$ ",
+        placeholder: '',
+    })
+
     $(".phone").inputmask('(99) 9999[9]-9999');
     $(".month-year").inputmask('99/99');
     $(".date").inputmask({
