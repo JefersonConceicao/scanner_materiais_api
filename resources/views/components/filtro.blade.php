@@ -11,13 +11,13 @@
                     </div>
                     <div class="col-md-6">
                         <button 
-                            id="activeFilter"
+                            id="targetCollapseFilter"
                             data-toggle="collapse"
                             data-target="#contentFilter"
                             aria-expanded="false"
                             aria-controls="collapseExample"
                             type="button"
-                            class="btn btn-primary pull-right"
+                            class="btn btn-default pull-right activeFilter"
                         > 
                             <i class="fa fa-angle-down"> </i>
                         </button>

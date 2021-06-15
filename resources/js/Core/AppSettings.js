@@ -1,6 +1,7 @@
 $(function(){
     setupAjax();
     adjustingDropDown();
+    settingsAnimateFilter();
 })
 
 const adjustingDropDown = function(){
@@ -69,6 +70,14 @@ const setupAjax = function(){
     });
 }
 
+const settingsAnimateFilter = function(){
+    $("#targetCollapseFilter").on("click", function(){
+       $(this).toggleClass('activeFilter');
+    });
+}  
+
+
 module.exports = {
     setupAjax,
+    settingsAnimateFilter
 }

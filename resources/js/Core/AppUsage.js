@@ -110,7 +110,7 @@ const configMultiSelect = function(){
 }
 
 const configSelect2 = function(){
-    $(".select2").select2({   
+    $(".select2").select2({  
         language:'pt-BR',
         placeholder: 'Selecione uma opção',
         allowClear:true,

@@ -125,6 +125,52 @@ tr.row-selected {
   border-color: 1px solid #e91313;
 }
 
+.activeFilter {
+  box-shadow: 0 0 0 0 black;
+  transform: scale(1);
+  -webkit-animation: pulse 1s infinite;
+          animation: pulse 1s infinite;
+}
+
+.disabledFilter {
+  -webkit-animation: none !important;
+          animation: none !important;
+}
+
+@-webkit-keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 #337ab7;
+  }
+
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(22, 118, 245, 0);
+  }
+
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 #337ab7;
+  }
+
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(22, 118, 245, 0);
+  }
+
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  }
+}
+
 @media (max-width: 800px) {
   .modal-dialog {
     width: 100% !important;

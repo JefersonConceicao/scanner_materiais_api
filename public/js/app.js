@@ -36169,6 +36169,7 @@ var getNewScreen = function getNewScreen(url, module) {
           !!modulo.changeTitle && modulo.changeTitle();
           modulo.habilitaBotoes();
           modulo.habilitaEventos();
+          AppSettings.settingsAnimateFilter();
         }
       }
     },
@@ -36202,6 +36203,7 @@ module.exports = {
 $(function () {
   setupAjax();
   adjustingDropDown();
+  settingsAnimateFilter();
 });
 
 var adjustingDropDown = function adjustingDropDown() {
@@ -36265,8 +36267,15 @@ var setupAjax = function setupAjax() {
   });
 };
 
+var settingsAnimateFilter = function settingsAnimateFilter() {
+  $("#targetCollapseFilter").on("click", function () {
+    $(this).toggleClass('activeFilter');
+  });
+};
+
 module.exports = {
-  setupAjax: setupAjax
+  setupAjax: setupAjax,
+  settingsAnimateFilter: settingsAnimateFilter
 };
 
 /***/ }),
@@ -39194,6 +39203,11 @@ var habilitaBotoes = function habilitaBotoes() {
     var url = "/projetos/edit/" + id;
     AppUsage.loadModal(url, modalObject, '50%', function () {});
   });
+  $(".btnViewProjeto").on("click", function () {
+    var id = $(this).attr("id");
+    var url = '/projetos/view/' + id;
+    AppUsage.loadModal(url, modalObject, '55%', function () {});
+  });
 };
 
 var getProjetosFilter = function getProjetosFilter(url) {
@@ -41026,8 +41040,8 @@ window.AcessControl = __webpack_require__(/*! ./Constants/access_control */ "./r
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\BT\bt_source\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\BT\bt_source\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\novo_union\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\novo_union\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

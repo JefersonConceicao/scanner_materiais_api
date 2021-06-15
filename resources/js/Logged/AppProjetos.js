@@ -43,9 +43,17 @@ const habilitaBotoes = function(){
 
         AppUsage.loadModal(url, modalObject, '50%', function(){
             
-        })
+        });
     });
 
+    $(".btnViewProjeto").on("click", function(){
+        const id = $(this).attr("id");
+        const url = '/projetos/view/' + id;
+
+        AppUsage.loadModal(url, modalObject, '55%', function(){
+
+        });
+    }); 
 }
 
 const getProjetosFilter = function(url){

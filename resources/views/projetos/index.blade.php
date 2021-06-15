@@ -22,7 +22,7 @@
                             {{ Form::number('id', null, [
                                 'class' => 'form-control',
                                 'id' => 'search_form_projetos_id',
-                                'min' => 0,
+                                'min' => 1,
                             ])}}
                         </div>
                     </div>
@@ -83,7 +83,7 @@
                         <div class="form-group">
                             {{ Form::label('proponente.cnpj_cpf', 'CNPJ/CPF Proponente' )}}
                             {{ Form::text('proponente.cnpj_cpf', null, [
-                                'class' => 'form-control', 
+                                'class' => 'form-control cnpjcpf', 
                                 'id' => 'search_form_projetos_proponente.cnpj_cpf'
                             ])}} 
                         </div>
@@ -263,11 +263,41 @@
                             <th> Nome </th>
                             <th> Tipo do Processo </th>
                             <th> Proponente  </th>
+                            <th> Situação do Projeto </th>
                             <th> Ações </th>
                         </tr>
                     </thead>
                     <tbody> 
                         @foreach($dataProjetos as $projeto)
+                                @php 
+                                    $label = $content = "";
+                                    switch ($projeto->situacao_projeto) {
+                                        case 'AP':
+                                            $label = "success";
+                                            $content = "Aprovado";
+                                            break;
+                                        
+                                        case 'AA':
+                                            $label = "warning";
+                                            $content = "Aguardando Aprovação";
+                                            break;
+                                            
+                                        case 'CS': 
+                                            $label = "default";
+                                            $content = "Cancelado Suspenso";
+                                            break;
+
+                                        case 'RP':
+                                            $label = "default";
+                                            $content = "Reprovado";
+                                            break;
+                                            
+                                        case 'EX':
+                                            $label = "default";
+                                            $content = "Excluído";
+                                            break;
+                                    }
+                                @endphp
                             <tr> 
                                 <td> 
                                     {{ !empty($projeto->processo) 
@@ -282,6 +312,12 @@
                                     }}
                                 </td>
                                 <td> 
+                                    {{ !empty($projeto->nome_proponente) 
+                                        ? $projeto->nome_proponente 
+                                        :  "Não informado"
+                                    }}
+                                </td>
+                                <td> 
                                     <label class="label label-{{ $projeto->tipo_processo == "S" ? "danger" : "primary"}}">  
                                         {{ $projeto->tipo_processo == "S"
                                             ?  "Via Sei" 
@@ -290,20 +326,33 @@
                                     </label>
                                 </td>
                                 <td> 
-                                {{ !empty($projeto->nome_proponente) 
-                                    ? $projeto->nome_proponente 
-                                    :  "Não informado"
-                                }}
-                                </td>
+                                    <label class="label label-{{$label}}"> 
+                                        {{ $content }} 
+                                    </label>
+                                </td>   
                                 <td> 
-                                    <div style="display:flex; justify-content:space-around"> 
-                                        <button class="btn btn-xs btn-primary btnEditProjeto"> 
+                                    <div style="display:flex;"> 
+                                        <button 
+                                            id="{{ $projeto->id }}"
+                                            class="btn btn-xs btn-primary btnEditProjeto" 
+                                        > 
                                             <i class="fa fa-edit"> </i>
                                         </button>
-                                        <button class="btn btn-xs btn-success btnViewProjeto"> 
+                                        &nbsp;
+                                        <button 
+                                            class="btn btn-xs btn-success btnViewProjeto"
+                                            data-toggle="tooltip"
+                                            data-placement="top"
+                                            title="Mais detalhes"
+                                            id="{{ $projeto->id }}"
+                                        > 
                                             <i class="fa fa-list"> </i>
                                         </button>
-                                        <button class="btn btn-xs btn-danger btnDeleteProjeto"> 
+                                        &nbsp;
+                                        <button 
+                                            class="btn btn-xs btn-danger btnDeleteProjeto"
+                                            id="{{ $projeto->id }}"
+                                        > 
                                             <i class="fa fa-trash"> </i>
                                         </button>
                                     </div>
@@ -312,6 +361,9 @@
                         @endforeach
                     </tbody>
                 </table>
+                <div style="display:flex; justify-content:center;">
+                    {{ $dataProjetos->links() }}
+                </div>
             </div>
         </div>
     </section>

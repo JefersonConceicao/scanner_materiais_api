@@ -3,6 +3,7 @@
 //OTHER'S NAMESPACE
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use App\Http\Requests\ProjetosRequest;
 
 //MODELS
 use App\Models\Projeto;
@@ -22,7 +23,7 @@ class ProjetosController extends Controller
     /**
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(ProjetosRequest $request)
     {
         $projeto = new Projeto;
         $localidade = new Localidade;
@@ -102,8 +103,6 @@ class ProjetosController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
      * @return \Illuminate\Http\Response
      */
     public function create()
@@ -112,8 +111,6 @@ class ProjetosController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -123,19 +120,17 @@ class ProjetosController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        $projeto = new Projeto;
+        return view('projetos.view')
+            ->with('projeto', $projeto->getProjetoById($id));
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -145,8 +140,6 @@ class ProjetosController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -157,8 +150,6 @@ class ProjetosController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
