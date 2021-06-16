@@ -22,7 +22,7 @@
                             {{ Form::number('id', null, [
                                 'class' => 'form-control',
                                 'id' => 'search_form_projetos_id',
-                                'min' => 0,
+                                'min' => 1,
                             ])}}
                         </div>
                     </div>
@@ -83,7 +83,7 @@
                         <div class="form-group">
                             {{ Form::label('proponente.cnpj_cpf', 'CNPJ/CPF Proponente' )}}
                             {{ Form::text('proponente.cnpj_cpf', null, [
-                                'class' => 'form-control', 
+                                'class' => 'form-control cnpjcpf', 
                                 'id' => 'search_form_projetos_proponente.cnpj_cpf'
                             ])}} 
                         </div>
@@ -118,7 +118,7 @@
                     <div class="col-md-2">
                         <div class="form-group">
                             {{ Form::label('tipo_projeto_id', 'Tipo do Projeto (Eventos)') }}
-                            {{ Form::select('tipo_projeto_id', [], [], [
+                            {{ Form::select('tipo_projeto_id', [null => '']+$optionsTipoProjeto, null, [
                                 'class' => 'form-control select2',
                                 'id' => 'search_form_projetos_tipo_projeto_id'
                             ])}}
@@ -146,7 +146,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             {{ Form::label('setor_origem_id', 'Setor de Origem') }}
-                            {{ Form::select('setor_origem_id', [], [], [
+                            {{ Form::select('setor_origem_id', [null => '']+$optionsSetorOrigem, null, [
                                 'class' => 'form-control select2',
                                 'id' => 'search_form_projetos_setor_origem_id'
                             ])}}
@@ -156,7 +156,7 @@
                         <div class="form-group">
                             {{ Form::label('valor_solicitado', 'Valor Solicitado (R$)') }}
                             {{ Form::text('valor_solicitado', null, [
-                                'class' => 'form-control',
+                                'class' => 'form-control money',
                                 'id' => 'search_form_projetos_valor_solicitado'
                             ])}}
                         </div>
@@ -165,7 +165,7 @@
                         <div class="form-group">    
                             {{ Form::label('valor_aprovado', 'Valor Aprovado (R$)')}}
                             {{ Form::text('valor_aprovado', null, [
-                                'class' => 'form-control',
+                                'class' => 'form-control money',
                                 'id' => 'search_form_projetos_valor_aprovado'
                             ])}}
                         </div>
@@ -173,7 +173,7 @@
                     <div class="col-md-2">
                         <div class="form-group">
                             {{ Form::label('usu_responsavel_id', 'Usuário Responsável') }}
-                            {{ Form::select('usu_responsavel_id', [], [], [
+                            {{ Form::select('usu_responsavel_id', [null => '']+$optionsUsers, null, [
                                 'class' => 'form-control select2',
                                 'id' => 'search_form_projetos_usu_responsavel_id'
                             ])}}
@@ -185,7 +185,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             {{ Form::label('projeto_atividade_id', 'Projeto Atividade') }}
-                            {{ Form::select('projeto_atividade_id', [], [], [
+                            {{ Form::select('projeto_atividade_id',[null => '']+$optionsProjetoAtividade, null, [
                                 'class' => 'form-control select2',
                                 'id' => 'search_form_projetos_projeto_atividade_id'
                             ])}}
@@ -194,7 +194,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             {{ Form::label('elemento_despesa_id', 'Elemento Despesa') }}
-                            {{ Form::select('elemento_despesa_id', [],[], [
+                            {{ Form::select('elemento_despesa_id', [null => '']+$optionsElemDespesa, null, [
                                 'class' => 'form-control select2',
                                 'id' => 'search_form_projetos_elemento_despesa_id'
                             ])}} 
@@ -203,7 +203,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             {{ Form::label('fonte_recurso_id', 'Fonte de Recurso') }}
-                            {{ Form::select('fonte_recurso_id', [], [], [
+                            {{ Form::select('fonte_recurso_id', [null => '']+$optionsFonteRecurso, null, [
                                 'class' => 'form-control select2',
                                 'id' => 'search_form_projetos_fonte_recurso_id'
                             ])}}
@@ -212,7 +212,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             {{ Form::label('lote_projeto.lote_id', 'Lote') }}
-                            {{ Form::select('lote_projeto.lote_id', [],[],[
+                            {{ Form::select('lote_projeto.lote_id', [null => '']+$optionsLotes, null,[
                                 'class' => 'form-control select2',
                                 'id' => 'search_form_projetos_lote'
                             ])}}
@@ -243,7 +243,7 @@
             <div class="box-header with-border">
                 <div class="row">
                     <div class="col-md-6">
-                        <p class="box-title"> Total de registros: </p>
+                        <p class="box-title"> Total de registros: {{ $dataProjetos->total() }} </p>
                     </div>
                     <div class="col-md-6">
                         <button 
@@ -255,8 +255,116 @@
                     </div>
                 </div>
             </div>
-            <div class="box-body">
+            <div class="box-body table-responsive">
+                <table class="table dataTable">
+                    <thead> 
+                        <tr> 
+                            <th> ID </th>
+                            <th> Numero do Processo </th>
+                            <th> Nome </th>
+                            <th> Tipo do Processo </th>
+                            <th> Proponente  </th>
+                            <th> Situação do Projeto </th>
+                            <th> Ações </th>
+                        </tr>
+                    </thead>
+                    <tbody> 
+                        @foreach($dataProjetos as $projeto)
+                                @php 
+                                    $label = $content = "";
+                                    switch ($projeto->situacao_projeto) {
+                                        case 'AP':
+                                            $label = "success";
+                                            $content = "Aprovado";
+                                            break;
+                                        
+                                        case 'AA':
+                                            $label = "warning";
+                                            $content = "Aguardando Aprovação";
+                                            break;
+                                            
+                                        case 'CS': 
+                                            $label = "default";
+                                            $content = "Cancelado Suspenso";
+                                            break;
 
+                                        case 'RP':
+                                            $label = "default";
+                                            $content = "Reprovado";
+                                            break;
+
+                                            
+                                        case 'EX':
+                                            $label = "default";
+                                            $content = "Excluído";
+                                            break;
+                                    }
+                                @endphp
+                            <tr> 
+                                <td> {{ $projeto->proj_id }}  </td>
+                                <td> 
+                                    {{ !empty($projeto->processo) 
+                                        ? $projeto->processo 
+                                        : "Não informado"
+                                    }}  
+                                </td>
+                                <td> 
+                                    {{ !empty($projeto->nome_projeto) 
+                                        ? $projeto->nome_projeto 
+                                        : "Não informado"
+                                    }}
+                                </td>
+                                <td> 
+                                    {{ !empty($projeto->nome_proponente) 
+                                        ? $projeto->nome_proponente 
+                                        :  "Não informado"
+                                    }}
+                                </td>
+                                <td> 
+                                    {{ $projeto->tipo_processo == "S"
+                                        ?  "Via Sei" 
+                                        :  "Processo Físico"
+                                    }}
+                                </td>
+                                <td> 
+                                    <label class="label label-{{$label}}"> 
+                                        {{ $content }} 
+                                    </label>
+                                </td>   
+                                <td> 
+                                    <div style="display:flex;"> 
+                                        <button 
+                                            id="{{ $projeto->proj_id }}"
+                                            class="btn btn-xs btn-primary btnEditProjeto" 
+                                        > 
+                                            <i class="fa fa-edit"> </i>
+                                        </button>
+                                        &nbsp;
+                                        <button 
+                                            class="btn btn-xs btn-success btnViewProjeto"
+                                            data-toggle="tooltip"
+                                            data-placement="top"
+                                            title="Mais detalhes"
+                                            id="{{ $projeto->proj_id }}"
+                                        > 
+                                            <i class="fa fa-list"> </i>
+                                        </button>
+                                        &nbsp;
+                                        <button 
+                                            class="btn btn-xs btn-danger btnDeleteProjeto"
+                                            id="{{ $projeto->proj_id }}"
+                                        > 
+                                            <i class="fa fa-trash"> </i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                <div style="display:flex; justify-content:center;">
+                    {{ $dataProjetos->links() }}
+                </div>
             </div>
         </div>
     </section>

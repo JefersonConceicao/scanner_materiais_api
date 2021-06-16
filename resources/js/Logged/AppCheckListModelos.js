@@ -97,7 +97,7 @@ const getCheckListModelos = function(url){
     });
 }
 
-const formCheckListModelos = function(id){
+const formCheckListModelos = function(id, elementModal = null){
     let form = typeof id == "undefined" ? '#addCheckListModelo' : "#editCheckListModelo";
     let url =  typeof id == "undefined" ? '/checkListModelos/store' : `/checkListModelos/update/${id}`
     let type = typeof id == "undefined" ? 'POST' : 'PUT';
@@ -122,11 +122,21 @@ const formCheckListModelos = function(id){
                 timer: 3500,
                 background: '#337ab7',
                 didOpen:() => {
-                   $(modalObject).modal('hide');
+                    //Se não for passado um modal element é utilizado o padrão do script (#nivel1)
+                   $(!!elementModal ? elementModal : modalObject).modal('hide');
                 }
             });
             
             getCheckListModelos()
+
+            //Verifica se o modal é "nivel2" caso sim, ele está sobreposto a outro modal
+            if(elementModal == "#nivel2"){
+                //Atualiza options de checklist modelos no modal anterior
+                const element = $("#form_add_checklist_estrutura_modelo_id");
+                const url = '/checkListModelos/getListJSON';
+
+                AppUsage.updateSelectInputJSON(element, url);
+            }
         },
         error:function(jqXHR, textstatus, error){
             if(!!jqXHR.responseJSON.errors){
@@ -147,4 +157,5 @@ module.exports = {
     changeTitle,
     habilitaBotoes,
     habilitaEventos,
+    formCheckListModelos,
 }

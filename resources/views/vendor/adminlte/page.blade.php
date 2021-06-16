@@ -168,25 +168,24 @@
         <div id="nivel3" class="modal fade" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
-                
+                    @yield('modal')
                 </div>
             </div>
         </div>
 
-
         @if(config('adminlte.layout') != 'top-nav')
-        <!-- Left side column. contains the logo and sidebar -->
-        <aside class="main-sidebar">
-            <!-- sidebar: style can be found in sidebar.less -->
-            <section class="sidebar">
-                <!-- Sidebar Menu -->
-                <ul class="sidebar-menu" data-widget="tree">
-                    @each('adminlte::partials.menu-item', $adminlte->menu(), 'item')
-                </ul>
-                <!-- /.sidebar-menu -->
-            </section>
-            <!-- /.sidebar -->
-        </aside>
+            <!-- Left side column. contains the logo and sidebar -->
+            <aside class="main-sidebar">
+                <!-- sidebar: style can be found in sidebar.less -->
+                <section class="sidebar">
+                    <!-- Sidebar Menu -->
+                    <ul class="sidebar-menu" data-widget="tree">
+                        @each('adminlte::partials.menu-item', $adminlte->menu(), 'item')
+                    </ul>
+                    <!-- /.sidebar-menu -->
+                </section>
+                <!-- /.sidebar -->
+            </aside>
         @endif
 
         <!-- Content Wrapper. Contains page content -->
@@ -207,13 +206,6 @@
             @endif
         </div>
         <!-- /.content-wrapper -->
-
-        @hasSection('footer')
-        <footer class="main-footer">
-            @yield('footer')
-        </footer>
-        @endif
-
         @if(config('adminlte.right_sidebar') and (config('adminlte.layout') != 'top-nav'))
             <aside class="control-sidebar control-sidebar-{{config('adminlte.right_sidebar_theme')}}">
                 @yield('right-sidebar')

@@ -94,6 +94,7 @@ const getNewScreen = function(url, module){
                     !!modulo.changeTitle && modulo.changeTitle();
                     modulo.habilitaBotoes();
                     modulo.habilitaEventos();
+                    AppSettings.settingsAnimateFilter();
                 }
             }
         },

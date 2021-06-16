@@ -26,9 +26,23 @@ const habilitaBotoes = function(){
         AppUsage.loadModal(url, modalObject, '50%', function(){
             $("#addFormCheckListEstrutura").on("submit", function(e){
                 e.preventDefault();
-
                 formCheckListEstrutura();
             })
+
+            //ABRE MODAL PARA ADICIONAR MODELO
+            $("#addModeloInCheckEstrutura").on("click", function(){
+                const url = '/checkListModelos/create';
+
+                AppUsage.loadModal(url, "#nivel2", '40%', function(){
+    
+                    //REUTILIZANDO MÉTODO DE CHECKLIST MODELOS
+                    $("#addCheckListModelo").on("submit", function(e){ 
+                        e.preventDefault();
+
+                        AppCheckListModelos.formCheckListModelos(undefined, "#nivel2"); 
+                    }); 
+                })
+            });
         })
     })
 
