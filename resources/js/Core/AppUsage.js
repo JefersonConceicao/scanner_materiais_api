@@ -1,3 +1,5 @@
+const { default: Swal } = require("sweetalert2");
+
 $(function(){
     initializeDataTable();
     loadLibs();
@@ -225,30 +227,7 @@ const showMessagesValidator = function(form, errorsRequest){
     }    
 }
 
-const paginationForGrid = function(gridElement){
-    $(gridElement + " .pagination > li > a").on('click', function(e){
-        e.preventDefault();
-        const url = $(this).attr("href");
-
-        if(!!url){
-           $.ajax({
-               type: "GET",
-               url: url,
-               dataType: "HTML",
-               beforeSend:function(){
-                    loading($(gridElement));
-               },
-               success: function (response) {
-                    $(gridElement).html($(response).find(`${gridElement} >`));
-                    paginationForGrid(gridElement);
-               },   
-           });
-        }
-    });
-}
-
-/**
- * 
+/** 
  * @param {string} url 
  * @param {callback} onSuccess 
  * @param {callback} onError 
@@ -400,6 +379,27 @@ const deleteMultipleRowsGrid = function(url, ids, callback = null){
     })
 }
 
+const updateSelectInputJSON = function(element, url){
+    $.ajax({
+        type: "GET",
+        url,
+        dataType: "JSON",
+        beforeSend:function(){
+            element.html(`<option> Carregando... </option>`)
+        },
+        success: function (response) {
+            element.html("");
+
+            const arrayValues = Object.entries(response);
+            
+            for (let i = 0; i < arrayValues.length; i++) {
+                element.append(`<option value="${arrayValues[i][0]}"> ${arrayValues[i][1]} </option>`);
+            }
+        },
+        complete:function(){}
+    });
+}
+
 module.exports = {
     loadModal,
     configMasks,
@@ -408,7 +408,7 @@ module.exports = {
     initializeDataTable,
     showMessagesValidator,
     deleteForGrid,
-    paginationForGrid,
     deleteMultipleRowsHelper,
     deleteMultipleRowsGrid,
+    updateSelectInputJSON,
 }

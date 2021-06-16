@@ -22,8 +22,6 @@ const habilitaEventos = function(){
 }
 
 const habilitaBotoes = function(){
-    AppUsage.paginationForGrid(grid);
-
     $(".btnEditarModule").on("click", function(){
         let id = $(this).attr("id");
         let url = '/modulos/edit/'+id;

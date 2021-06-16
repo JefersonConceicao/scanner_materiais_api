@@ -206,6 +206,7 @@ Route::group(['middleware' => ['auth', 'verifyPermission']] , function(){
         Route::put('/update/{id}', 'CheckListModelosController@update')->name('update');
         Route::delete('/delete/{id}', 'CheckListModelosController@delete')->name('delete');
         Route::delete('/deleteAll', 'CheckListModelosController@deleteAll')->name('deleteAll');
+        Route::get('/getListJSON', 'CheckListModelosController@getListModelosJSON')->name('getListJSON');
     });
 
     Route::group(['as' => 'elementoDespesas::', 'prefix' => 'elementoDespesas'], function(){

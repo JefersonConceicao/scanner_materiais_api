@@ -50,15 +50,15 @@
                         <b> Setor de Origem: </b>
                     </div>
                     <div class="col-md-6">
-                        
+                        <p>  </p>
                     </div>
                 </div>
                 <div class="row"> 
                     <div class="col-md-6">
-
+                        <b> </b>
                     </div>
                     <div class="col-md-6">
-
+                        <p> </p>
                     </div>
                 </div>
         </div> 

@@ -77,4 +77,15 @@ class CheckListModelosController extends Controller
         $data = $checkListModelo->deleteCheckListModelo($id);
         return response()->json($data);
     }
+
+    public function getListModelosJSON(){
+        $checkListModelo = new CheckListModelo;
+        
+        $data = $checkListModelo
+            ->getModelosWithoutRelations()
+            ->pluck('modelo', 'id')
+            ->toArray();
+        
+        return response()->json($data);
+    }
 }

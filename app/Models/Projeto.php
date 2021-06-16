@@ -123,9 +123,19 @@ class Projeto extends Model
 
         return $this
             ->join('proponente', 'projetos.proponente_id', '=', 'proponente.id')
+            ->select(
+                'projetos.id as proj_id',
+                'projetos.situacao_projeto',
+                'projetos.processo',
+                'projetos.nome_projeto',
+                'projetos.tipo_processo',
+                
+                'proponente.nome_proponente',
+                'proponente.id as prop_id'
+            )
             ->where($conditions)
             ->where($cond)
-            ->paginate(7);  
+            ->paginate(7); 
     }
 
     public function getProjetoById($id){

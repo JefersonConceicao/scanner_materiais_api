@@ -9,7 +9,11 @@
         <div class="col-md-12">
             <div class="form-group">
                 {{ Form::label('modelo_id', 'Modelo') }} <span class="required"> * </span>
-                <span class="pull-right"> <a href="#"> Adicionar Modelo </a> </span>
+                <span class="pull-right"> 
+                    <a href="#" id="addModeloInCheckEstrutura"> 
+                        <i class="fa fa-plus-square"> </i> Adicionar Modelo 
+                    </a> 
+                </span>
 
                 {{ Form::select('modelo_id', $optionsModelo, null, [
                     'class' => 'form-control select2',

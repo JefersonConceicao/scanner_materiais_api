@@ -36285,7 +36285,10 @@ module.exports = {
   !*** ./resources/js/Core/AppUsage.js ***!
   \***************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+var _require = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js"),
+    Swal = _require["default"];
 
 $(function () {
   initializeDataTable();
@@ -36483,30 +36486,7 @@ var showMessagesValidator = function showMessagesValidator(form, errorsRequest) 
     _loop();
   }
 };
-
-var paginationForGrid = function paginationForGrid(gridElement) {
-  $(gridElement + " .pagination > li > a").on('click', function (e) {
-    e.preventDefault();
-    var url = $(this).attr("href");
-
-    if (!!url) {
-      $.ajax({
-        type: "GET",
-        url: url,
-        dataType: "HTML",
-        beforeSend: function beforeSend() {
-          loading($(gridElement));
-        },
-        success: function success(response) {
-          $(gridElement).html($(response).find("".concat(gridElement, " >")));
-          paginationForGrid(gridElement);
-        }
-      });
-    }
-  });
-};
-/**
- * 
+/** 
  * @param {string} url 
  * @param {callback} onSuccess 
  * @param {callback} onError 
@@ -36655,6 +36635,26 @@ var deleteMultipleRowsGrid = function deleteMultipleRowsGrid(url, ids) {
   });
 };
 
+var updateSelectInputJSON = function updateSelectInputJSON(element, url) {
+  $.ajax({
+    type: "GET",
+    url: url,
+    dataType: "JSON",
+    beforeSend: function beforeSend() {
+      element.html("<option> Carregando... </option>");
+    },
+    success: function success(response) {
+      element.html("");
+      var arrayValues = Object.entries(response);
+
+      for (var _i = 0; _i < arrayValues.length; _i++) {
+        element.append("<option value=\"".concat(arrayValues[_i][0], "\"> ").concat(arrayValues[_i][1], " </option>"));
+      }
+    },
+    complete: function complete() {}
+  });
+};
+
 module.exports = {
   loadModal: loadModal,
   configMasks: configMasks,
@@ -36663,9 +36663,9 @@ module.exports = {
   initializeDataTable: initializeDataTable,
   showMessagesValidator: showMessagesValidator,
   deleteForGrid: deleteForGrid,
-  paginationForGrid: paginationForGrid,
   deleteMultipleRowsHelper: deleteMultipleRowsHelper,
-  deleteMultipleRowsGrid: deleteMultipleRowsGrid
+  deleteMultipleRowsGrid: deleteMultipleRowsGrid,
+  updateSelectInputJSON: updateSelectInputJSON
 };
 
 /***/ }),
@@ -36946,6 +36946,17 @@ var habilitaBotoes = function habilitaBotoes() {
       $("#addFormCheckListEstrutura").on("submit", function (e) {
         e.preventDefault();
         formCheckListEstrutura();
+      }); //ABRE MODAL PARA ADICIONAR MODELO
+
+      $("#addModeloInCheckEstrutura").on("click", function () {
+        var url = '/checkListModelos/create';
+        AppUsage.loadModal(url, "#nivel2", '40%', function () {
+          //REUTILIZANDO MÉTODO DE CHECKLIST MODELOS
+          $("#addCheckListModelo").on("submit", function (e) {
+            e.preventDefault();
+            AppCheckListModelos.formCheckListModelos(undefined, "#nivel2");
+          });
+        });
       });
     });
   });
@@ -37283,6 +37294,7 @@ var getCheckListModelos = function getCheckListModelos(url) {
 };
 
 var formCheckListModelos = function formCheckListModelos(id) {
+  var elementModal = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
   var form = typeof id == "undefined" ? '#addCheckListModelo' : "#editCheckListModelo";
   var url = typeof id == "undefined" ? '/checkListModelos/store' : "/checkListModelos/update/".concat(id);
   var type = typeof id == "undefined" ? 'POST' : 'PUT';
@@ -37304,10 +37316,18 @@ var formCheckListModelos = function formCheckListModelos(id) {
         timer: 3500,
         background: '#337ab7',
         didOpen: function didOpen() {
-          $(modalObject).modal('hide');
+          //Se não for passado um modal element é utilizado o padrão do script (#nivel1)
+          $(!!elementModal ? elementModal : modalObject).modal('hide');
         }
       });
-      getCheckListModelos();
+      getCheckListModelos(); //Verifica se o modal é "nivel2" caso sim, ele está sobreposto a outro modal
+
+      if (elementModal == "#nivel2") {
+        //Atualiza options de checklist modelos no modal anterior
+        var element = $("#form_add_checklist_estrutura_modelo_id");
+        var _url = '/checkListModelos/getListJSON';
+        AppUsage.updateSelectInputJSON(element, _url);
+      }
     },
     error: function error(jqXHR, textstatus, _error) {
       if (!!jqXHR.responseJSON.errors) {
@@ -37324,7 +37344,8 @@ var formCheckListModelos = function formCheckListModelos(id) {
 module.exports = {
   changeTitle: changeTitle,
   habilitaBotoes: habilitaBotoes,
-  habilitaEventos: habilitaEventos
+  habilitaEventos: habilitaEventos,
+  formCheckListModelos: formCheckListModelos
 };
 
 /***/ }),
@@ -38635,7 +38656,6 @@ var habilitaEventos = function habilitaEventos() {
 };
 
 var habilitaBotoes = function habilitaBotoes() {
-  AppUsage.paginationForGrid(grid);
   $(".btnEditarModule").on("click", function () {
     var id = $(this).attr("id");
     var url = '/modulos/edit/' + id;

@@ -93,7 +93,7 @@
     <div class="row collapse" id="change_password">
         <div class="col-md-6">
             <div class="form-group">
-                {{ Form::label('senha', 'Senha') }} <span class="required">  * </span>
+                {{ Form::label('senha', 'Nova Senha') }} <span class="required">  * </span>
                 {{ Form::password('password', ['class' => 'form-control'])}}
 
                 <div class="error_feedback"> </div>
@@ -101,7 +101,7 @@
         </div>
         <div class="col-md-6"> 
             <div class="form-group"> <span class="required">  * </span>
-                {{ Form::label('confirm_senha', 'Confirmar Senha') }}
+                {{ Form::label('confirm_senha', 'Confirmar Nova Senha') }}
                 {{ Form::password('confirm_password', ['class' => 'form-control'])}}
 
                 <div class="error_feedback"> </div>

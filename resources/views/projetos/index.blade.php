@@ -259,6 +259,7 @@
                 <table class="table dataTable">
                     <thead> 
                         <tr> 
+                            <th> ID </th>
                             <th> Numero do Processo </th>
                             <th> Nome </th>
                             <th> Tipo do Processo </th>
@@ -291,6 +292,7 @@
                                             $label = "default";
                                             $content = "Reprovado";
                                             break;
+
                                             
                                         case 'EX':
                                             $label = "default";
@@ -299,6 +301,7 @@
                                     }
                                 @endphp
                             <tr> 
+                                <td> {{ $projeto->proj_id }}  </td>
                                 <td> 
                                     {{ !empty($projeto->processo) 
                                         ? $projeto->processo 
@@ -318,12 +321,10 @@
                                     }}
                                 </td>
                                 <td> 
-                                    <label class="label label-{{ $projeto->tipo_processo == "S" ? "danger" : "primary"}}">  
-                                        {{ $projeto->tipo_processo == "S"
-                                            ?  "Via Sei" 
-                                            :  "Processo Físico"
-                                        }}
-                                    </label>
+                                    {{ $projeto->tipo_processo == "S"
+                                        ?  "Via Sei" 
+                                        :  "Processo Físico"
+                                    }}
                                 </td>
                                 <td> 
                                     <label class="label label-{{$label}}"> 
@@ -333,7 +334,7 @@
                                 <td> 
                                     <div style="display:flex;"> 
                                         <button 
-                                            id="{{ $projeto->id }}"
+                                            id="{{ $projeto->proj_id }}"
                                             class="btn btn-xs btn-primary btnEditProjeto" 
                                         > 
                                             <i class="fa fa-edit"> </i>
@@ -344,14 +345,14 @@
                                             data-toggle="tooltip"
                                             data-placement="top"
                                             title="Mais detalhes"
-                                            id="{{ $projeto->id }}"
+                                            id="{{ $projeto->proj_id }}"
                                         > 
                                             <i class="fa fa-list"> </i>
                                         </button>
                                         &nbsp;
                                         <button 
                                             class="btn btn-xs btn-danger btnDeleteProjeto"
-                                            id="{{ $projeto->id }}"
+                                            id="{{ $projeto->proj_id }}"
                                         > 
                                             <i class="fa fa-trash"> </i>
                                         </button>
