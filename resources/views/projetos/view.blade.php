@@ -4,7 +4,7 @@
 @endsection     
 @section('modal_content')
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
                 <div class="row">
                     <div class="col-md-6">
                         <b>  Nome do projeto: </b> 
@@ -50,15 +50,64 @@
                         <b> Setor de Origem: </b>
                     </div>
                     <div class="col-md-6">
-                        <p>  </p>
+                        <p> {{ $projeto->descsetor }}  </p>
                     </div>
                 </div>
                 <div class="row"> 
                     <div class="col-md-6">
-                        <b> </b>
+                        <b> Tipo de Processo:  </b>
+                    </div>
+                    <div class="col-md-6">
+                        <p> {{ $projeto->nome_proponente == "S" ? "Via Sei" : "Projeto Físico" }}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <b> Tipo de Projeto: </b>
+                    </div>
+                    <div class="col-md-6">
+                        <p> {{ $projeto->nome_tipo_projeto }}  </p> 
+                    </div>
+                </div>
+
+                <div class="row"> 
+                    <div class="col-md-6">
+                        <b> Nome do Proponente  </b>
+                    </div>
+                    <div class="col-md-6">
+                        <p> {{ $projeto->nome_proponente }}</p>
+                    </div>
+                </div>
+                <div class="row"> 
+                    <div class="col-md-6">
+                        <b> Localidade  </b>
+                    </div>
+                    <div class="col-md-6">
+                        <p> {{ $projeto->localidade }}</p>
+                    </div>
+                </div>
+                <div class="row"> 
+                    <div class="col-md-6">
+                        <b> Modalidade de Apoio </b>
+                    </div>
+                    <div class="col-md-6">
+                        <p> {{ $projeto->modalidade_apoio }}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <b> Valor Solicitado </b>
                     </div>
                     <div class="col-md-6">
                         <p> </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <b> Valor Aprovado </b>
+                    </div>
+                    <div class="col-md-6">
+
                     </div>
                 </div>
         </div> 

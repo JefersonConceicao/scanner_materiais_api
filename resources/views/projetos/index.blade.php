@@ -265,7 +265,7 @@
                             <th> Tipo do Processo </th>
                             <th> Proponente  </th>
                             <th> Situação do Projeto </th>
-                            <th> Ações </th>
+                            <th width="2%"> Ações </th>
                         </tr>
                     </thead>
                     <tbody> 
@@ -331,31 +331,33 @@
                                         {{ $content }} 
                                     </label>
                                 </td>   
-                                <td> 
-                                    <div style="display:flex;"> 
+                                <td>
+                                    <div class="btn-group text-center">
                                         <button 
-                                            id="{{ $projeto->proj_id }}"
-                                            class="btn btn-xs btn-primary btnEditProjeto" 
+                                            class="btn btn-icon-toggle dropdown-toggle dropActions"
+                                            type="button"
+                                            data-toggle="dropdown"
+                                            aria-expanded="false"
                                         > 
-                                            <i class="fa fa-edit"> </i>
+                                            <i class="fa fa-angle-down" aria-hidden="true">  </i>
                                         </button>
-                                        &nbsp;
-                                        <button 
-                                            class="btn btn-xs btn-success btnViewProjeto"
-                                            data-toggle="tooltip"
-                                            data-placement="top"
-                                            title="Mais detalhes"
-                                            id="{{ $projeto->proj_id }}"
-                                        > 
-                                            <i class="fa fa-list"> </i>
-                                        </button>
-                                        &nbsp;
-                                        <button 
-                                            class="btn btn-xs btn-danger btnDeleteProjeto"
-                                            id="{{ $projeto->proj_id }}"
-                                        > 
-                                            <i class="fa fa-trash"> </i>
-                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-right" role="menu"> 
+                                            <li> 
+                                                <a href="#" class="btnViewProjeto" id="{{ $projeto->proj_id }} ">
+                                                    <i class="fa fa-list"> </i> Mais detalhes
+                                                </a>
+                                            </li>
+                                            <li> 
+                                                <a href="#" class="btnEditProjeto" id="{{ $projeto->proj_id }}">  
+                                                    <i class="fa fa-edit"> </i> Editar
+                                                </a>
+                                            </li>
+                                            <li> 
+                                                <a href="#" class="btnExcluirProjeto" id=" {{ $projeto->proj_id }}">
+                                                    <i class="fa fa-trash" style="color:red;"> </i> Excluir
+                                                </a>    
+                                            </li>
+                                        </ul>
                                     </div>
                                 </td>
                             </tr>

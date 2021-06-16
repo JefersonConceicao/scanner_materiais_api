@@ -36271,6 +36271,16 @@ var settingsAnimateFilter = function settingsAnimateFilter() {
   $("#targetCollapseFilter").on("click", function () {
     $(this).toggleClass('activeFilter');
   });
+  $(".dropActions").on("click", function () {
+    var element = $(this);
+    var expanded = element.attr("aria-expanded");
+
+    if (expanded === "true") {
+      element.find('.fa-angle-down').removeClass('animation-angle-up').addClass('animation-angle-down');
+    } else {
+      element.find('.fa-angle-down').removeClass('animation-angle-down').addClass('animation-angle-up');
+    }
+  });
 };
 
 module.exports = {
@@ -39216,7 +39226,7 @@ var habilitaBotoes = function habilitaBotoes() {
   });
   $("#addProjetos").on("click", function () {
     var url = "/projetos/create";
-    AppUsage.loadModal(url, modalObject, '50%', function () {});
+    AppUsage.loadModal(url, modalObject, '35%', function () {});
   });
   $(".btnEditProjeto").on("click", function () {
     var id = $(this).attr("id");
@@ -39226,7 +39236,7 @@ var habilitaBotoes = function habilitaBotoes() {
   $(".btnViewProjeto").on("click", function () {
     var id = $(this).attr("id");
     var url = '/projetos/view/' + id;
-    AppUsage.loadModal(url, modalObject, '55%', function () {});
+    AppUsage.loadModal(url, modalObject, '40%', function () {});
   });
 };
 

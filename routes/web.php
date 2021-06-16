@@ -5,7 +5,6 @@ Route::get('/', function () {
 });
 
 Route::get('/permissoes/methodNotAllowed', 'PermissoesController@renderNotAllowed')->name('methodNotAllowed');
-
 Auth::routes();
 Route::group(['middleware' => ['auth', 'verifyPermission']] , function(){
     Route::get('/home', 'HomeController@index')->name('home');

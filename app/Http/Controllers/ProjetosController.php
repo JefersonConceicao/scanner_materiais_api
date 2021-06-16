@@ -123,23 +123,12 @@ class ProjetosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        $projeto = new Projeto;
-        return view('projetos.view')
-            ->with('projeto', $projeto->getProjetoById($id));
-    }
-
-    /**
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        //
+        return view('projetos.edit');
     }
 
-    /**
+     /**
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -147,6 +136,18 @@ class ProjetosController extends Controller
     public function update(Request $request, $id)
     {
         //
+    }
+
+    /**
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $projeto = new Projeto;
+
+        return view('projetos.view')
+            ->with('projeto', $projeto->getProjetoById($id));
     }
 
     /**

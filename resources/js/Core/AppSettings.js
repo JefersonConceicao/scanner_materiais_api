@@ -74,8 +74,18 @@ const settingsAnimateFilter = function(){
     $("#targetCollapseFilter").on("click", function(){
        $(this).toggleClass('activeFilter');
     });
-}  
 
+    $(".dropActions").on("click", function(){
+        const element = $(this);
+        const expanded = element.attr("aria-expanded");
+
+        if(expanded === "true"){
+            element.find('.fa-angle-down').removeClass('animation-angle-up').addClass('animation-angle-down')
+        }else{
+            element.find('.fa-angle-down').removeClass('animation-angle-down').addClass('animation-angle-up')
+        }
+    });
+}  
 
 module.exports = {
     setupAjax,

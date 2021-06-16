@@ -32,7 +32,7 @@ const habilitaBotoes = function(){
     $("#addProjetos").on("click", function(){
         const url = "/projetos/create";
 
-        AppUsage.loadModal(url, modalObject, '50%', function(){
+        AppUsage.loadModal(url, modalObject, '35%', function(){
 
         }); 
     })
@@ -50,7 +50,7 @@ const habilitaBotoes = function(){
         const id = $(this).attr("id");
         const url = '/projetos/view/' + id;
 
-        AppUsage.loadModal(url, modalObject, '55%', function(){
+        AppUsage.loadModal(url, modalObject, '40%', function(){
 
         });
     }); 
