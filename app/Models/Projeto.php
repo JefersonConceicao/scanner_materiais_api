@@ -145,13 +145,15 @@ class Projeto extends Model
             ->join('localidade', 'projetos.localidade_id', 'localidade.id')
             ->join('modalidade_apoio', 'projetos.modalidade_apoio_id', 'modalidade_apoio.id')
             ->join('tipo_projeto', 'projetos.tipo_projeto_id', 'tipo_projeto.id')
+            ->join('users', 'projetos.usu_responsavel_id', 'users.id')
             ->select(
                 'setor.descsetor',
                 'proponente.nome_proponente',
                 'localidade.localidade',
                 'projetos.*',
                 'modalidade_apoio.modalidade_apoio',
-                'tipo_projeto.nome_tipo as nome_tipo_projeto'
+                'tipo_projeto.nome_tipo as nome_tipo_projeto',
+                'users.name as nome_usuario_responsavel'
             )
             ->find($id);
     }

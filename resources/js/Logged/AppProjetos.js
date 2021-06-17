@@ -29,11 +29,13 @@ const habilitaBotoes = function(){
         }
     });
 
-    $("#addProjetos").on("click", function(){
+    $("#addProjeto").on("click", function(){
         const url = "/projetos/create";
 
-        AppUsage.loadModal(url, modalObject, '35%', function(){
-
+        AppUsage.loadModal(url, modalObject, '80%', function(){
+            $("#addFormProjetos").on("submit", function(e){
+                  
+            })
         }); 
     })
 

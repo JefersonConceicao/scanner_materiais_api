@@ -106,8 +106,45 @@ class ProjetosController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-    
+    {   
+        $tipoProjeto = new TipoProjeto;
+        $proponente = new Proponente;
+        $setor = new Setor;
+        $modApoio = new ModalidadeApoio;
+        $localidade = new Localidade;
+
+        $optionsSetorOrigem = $setor 
+                ->where('ativo', 'S')
+                ->pluck('descsetor', 'id')
+                ->toArray();
+
+        $optionsProponente = $proponente 
+                ->where('ativo', 'S')
+                ->pluck('nome_proponente', 'id')
+                ->toArray();
+
+        $optionsTipoProjeto = $tipoProjeto
+                ->where('ativo', 'S')
+                ->pluck('nome_tipo', 'id')
+                ->toArray();
+
+        $optionsModApoio = $modApoio
+                ->where('ativo', 'S') 
+                ->pluck('modalidade_apoio', 'id')
+                ->toArray();
+
+        $optionsLocalidade = $localidade        
+                ->where('ativo', 'S')
+                ->pluck('localidade', 'id')
+                ->toArray();
+            
+
+        return view('projetos.create')
+            ->with('optionsSetorOrigem', $optionsSetorOrigem)
+            ->with('optionsProponente', $optionsProponente)
+            ->with('optionsTipoProjeto', $optionsTipoProjeto)
+            ->with('optionsModApoio', $optionsModApoio)
+            ->with('optionsLocalidade', $optionsLocalidade);
     }
 
     /**

@@ -39224,9 +39224,11 @@ var habilitaBotoes = function habilitaBotoes() {
       getProjetosFilter(url);
     }
   });
-  $("#addProjetos").on("click", function () {
+  $("#addProjeto").on("click", function () {
     var url = "/projetos/create";
-    AppUsage.loadModal(url, modalObject, '35%', function () {});
+    AppUsage.loadModal(url, modalObject, '80%', function () {
+      $("#addFormProjetos").on("submit", function (e) {});
+    });
   });
   $(".btnEditProjeto").on("click", function () {
     var id = $(this).attr("id");
@@ -41070,8 +41072,8 @@ window.AcessControl = __webpack_require__(/*! ./Constants/access_control */ "./r
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\novo_union\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\novo_union\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\bt\bt_source\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\bt\bt_source\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
