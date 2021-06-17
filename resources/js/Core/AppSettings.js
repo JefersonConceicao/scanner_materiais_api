@@ -2,6 +2,7 @@ $(function(){
     setupAjax();
     adjustingDropDown();
     settingsAnimateFilter();
+    configDropdown();
 })
 
 const adjustingDropDown = function(){
@@ -34,6 +35,8 @@ const setupAjax = function(){
         if(!$.fn.DataTable.isDataTable($('.dataTable'))){
             AppUsage.initializeDataTable();
         }
+        
+        configDropdown();
     })
 
     $(document).ajaxError(function(event, jqXHR, ajaxSettings, error){
@@ -41,7 +44,7 @@ const setupAjax = function(){
             Swal.fire({
                 position:'top-end',
                 icon: 'error',
-                title: `<p style="color:#ffff"> Ocorreu um erro interno, tente novamente mais tarde ou abra um chamado </p>`,
+                title: `<b style="color:#ffff"> Ocorreu um erro interno, tente novamente mais tarde ou abra um chamado </b>`,
                 toast: true,
                 timer: 3000,    
                 showConfirmButton: false,
@@ -86,6 +89,24 @@ const settingsAnimateFilter = function(){
         }
     });
 }  
+
+const configDropdown = function(){
+    $(".table-responsive").on("shown.bs.dropdown", function(e){
+        let $table = $(this); 
+        let $menu = $(e.target).find('.dropdown-menu');
+
+        let tableOffsetHeight = $table.offset().top + $table.height(); 
+        let menuOffsetHeight = $menu.offset().top + $menu.outerHeight(true);
+
+        if(menuOffsetHeight > tableOffsetHeight){
+            $table.css('padding-bottom', menuOffsetHeight - tableOffsetHeight);
+        }
+    })
+    
+    $(".table-responsive").on("hide.bs.dropdown", function(e){
+        $(this).css('padding-bottom', 0);
+    }); 
+}
 
 module.exports = {
     setupAjax,

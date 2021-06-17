@@ -36204,6 +36204,7 @@ $(function () {
   setupAjax();
   adjustingDropDown();
   settingsAnimateFilter();
+  configDropdown();
 });
 
 var adjustingDropDown = function adjustingDropDown() {
@@ -36233,13 +36234,15 @@ var setupAjax = function setupAjax() {
     if (!$.fn.DataTable.isDataTable($('.dataTable'))) {
       AppUsage.initializeDataTable();
     }
+
+    configDropdown();
   });
   $(document).ajaxError(function (event, jqXHR, ajaxSettings, error) {
     if (jqXHR.status == 500) {
       Swal.fire({
         position: 'top-end',
         icon: 'error',
-        title: "<p style=\"color:#ffff\"> Ocorreu um erro interno, tente novamente mais tarde ou abra um chamado </p>",
+        title: "<b style=\"color:#ffff\"> Ocorreu um erro interno, tente novamente mais tarde ou abra um chamado </b>",
         toast: true,
         timer: 3000,
         showConfirmButton: false,
@@ -36280,6 +36283,22 @@ var settingsAnimateFilter = function settingsAnimateFilter() {
     } else {
       element.find('.fa-angle-down').removeClass('animation-angle-down').addClass('animation-angle-up');
     }
+  });
+};
+
+var configDropdown = function configDropdown() {
+  $(".table-responsive").on("shown.bs.dropdown", function (e) {
+    var $table = $(this);
+    var $menu = $(e.target).find('.dropdown-menu');
+    var tableOffsetHeight = $table.offset().top + $table.height();
+    var menuOffsetHeight = $menu.offset().top + $menu.outerHeight(true);
+
+    if (menuOffsetHeight > tableOffsetHeight) {
+      $table.css('padding-bottom', menuOffsetHeight - tableOffsetHeight);
+    }
+  });
+  $(".table-responsive").on("hide.bs.dropdown", function (e) {
+    $(this).css('padding-bottom', 0);
   });
 };
 
@@ -36676,6 +36695,26 @@ module.exports = {
   deleteMultipleRowsHelper: deleteMultipleRowsHelper,
   deleteMultipleRowsGrid: deleteMultipleRowsGrid,
   updateSelectInputJSON: updateSelectInputJSON
+};
+
+/***/ }),
+
+/***/ "./resources/js/Helpers/AppHelpers.js":
+/*!********************************************!*\
+  !*** ./resources/js/Helpers/AppHelpers.js ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var dateFormatPTToBritanic = function dateFormatPTToBritanic(data) {
+  var dia = data.split('/')[0];
+  var mes = data.split('/')[1];
+  var ano = data.split('/')[2];
+  return ano + '-' + ("0" + mes).slice(-2) + '-' + ("0" + dia).slice(-2);
+};
+
+module.exports = {
+  dateFormatPTToBritanic: dateFormatPTToBritanic
 };
 
 /***/ }),
@@ -39209,6 +39248,10 @@ var changeTitle = function changeTitle() {
 };
 
 var habilitaEventos = function habilitaEventos() {
+  //CONFIGURA DATEPICKER ESPECÍFICO PARA DATA INICIAL E FINAL
+  var dataInicial = $("#search_form_projetos_dt_inicio");
+  var dataFinal = $("#search_form_projetos_dt_fim");
+  configRangeDatePicker(dataInicial, dataFinal);
   $("#searchFormProjetos").on("submit", function (e) {
     e.preventDefault();
     getProjetosFilter();
@@ -39227,13 +39270,23 @@ var habilitaBotoes = function habilitaBotoes() {
   $("#addProjeto").on("click", function () {
     var url = "/projetos/create";
     AppUsage.loadModal(url, modalObject, '80%', function () {
-      $("#addFormProjetos").on("submit", function (e) {});
+      var formDataInicio = $("#form_add_projetos_dt_inicio");
+      var formDataFim = $("#form_add_projetos_dt_fim");
+      $("#form_add_projetos_dt_protocolo").datetimepicker({
+        timepicker: false,
+        format: 'd/m/Y'
+      });
+      configRangeDatePicker(formDataInicio, formDataFim);
+      $("#addFormProjetos").on("submit", function (e) {
+        e.preventDefault();
+        formProjetos();
+      });
     });
   });
   $(".btnEditProjeto").on("click", function () {
     var id = $(this).attr("id");
     var url = "/projetos/edit/" + id;
-    AppUsage.loadModal(url, modalObject, '50%', function () {});
+    AppUsage.loadModal(url, modalObject, '80%', function () {});
   });
   $(".btnViewProjeto").on("click", function () {
     var id = $(this).attr("id");
@@ -39259,8 +39312,8 @@ var getProjetosFilter = function getProjetosFilter(url) {
   });
 };
 
-var formProjetos = function formProjetos() {
-  var form = typeof id == "undefined" ? '#addFormUF' : "#editFormUF";
+var formProjetos = function formProjetos(id) {
+  var form = typeof id == "undefined" ? '#addFormProjetos' : "#editFormProjetos";
   var url = typeof id == "undefined" ? '/projetos/store' : "/projetos/update/".concat(id);
   var type = typeof id == "undefined" ? 'POST' : 'PUT';
   $.ajax({
@@ -39284,7 +39337,7 @@ var formProjetos = function formProjetos() {
           $(modalObject).modal('hide');
         }
       });
-      getUFFilter();
+      getProjetosFilter();
     },
     error: function error(jqXHR, textstatus, _error) {
       if (!!jqXHR.responseJSON.errors) {
@@ -39294,6 +39347,27 @@ var formProjetos = function formProjetos() {
     },
     complete: function complete() {
       $(form + " .btnSubmit").prop("disabled", false).html("\n                Salvar\n            ");
+    }
+  });
+};
+
+var configRangeDatePicker = function configRangeDatePicker(elementInitialDate, elementEndDate) {
+  elementInitialDate.datetimepicker({
+    timepicker: false,
+    format: 'd/m/Y',
+    onShow: function onShow(date, input) {
+      this.setOptions({
+        maxDate: !!elementEndDate.val() ? AppHelpers.dateFormatPTToBritanic(elementEndDate.val()) : null
+      });
+    }
+  });
+  elementEndDate.datetimepicker({
+    timepicker: false,
+    format: 'd/m/Y',
+    onShow: function onShow(date, input) {
+      this.setOptions({
+        minDate: !!elementInitialDate.val() ? AppHelpers.dateFormatPTToBritanic(elementInitialDate.val()) : null
+      });
     }
   });
 };
@@ -41011,7 +41085,9 @@ __webpack_require__.r(__webpack_exports__);
 
 dropzone__WEBPACK_IMPORTED_MODULE_0___default.a.autoDiscover = false;
 window.Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
-window.moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"); //CORE Scripts - scripts com funções genericas para toda a aplicação
+window.moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js"); //HELPERS Scripts - scripts re-utilizaveis para auxílio no desenvolvimento
+
+window.AppHelpers = __webpack_require__(/*! ./Helpers/AppHelpers */ "./resources/js/Helpers/AppHelpers.js"); //CORE Scripts - scripts com funções genericas para toda a aplicação
 
 window.AppNavigation = __webpack_require__(/*! ./Core/AppNavigation */ "./resources/js/Core/AppNavigation.js");
 window.AppUsage = __webpack_require__(/*! ./Core/AppUsage */ "./resources/js/Core/AppUsage.js");
@@ -41072,8 +41148,8 @@ window.AcessControl = __webpack_require__(/*! ./Constants/access_control */ "./r
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\bt\bt_source\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\bt\bt_source\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\novo_union\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\novo_union\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

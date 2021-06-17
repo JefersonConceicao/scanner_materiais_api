@@ -53,7 +53,6 @@ const habilitaBotoes = function(){
         }
     })
 
-
     $(".editPais").on("click", function(){
         const id = $(this).attr("id");
         const url = '/paises/edit/' + id;

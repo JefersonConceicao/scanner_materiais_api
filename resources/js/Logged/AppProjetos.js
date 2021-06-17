@@ -11,9 +11,14 @@ const changeTitle = function(){
 }
 
 const habilitaEventos = function(){
+    //CONFIGURA DATEPICKER ESPECÍFICO PARA DATA INICIAL E FINAL
+    const dataInicial = $("#search_form_projetos_dt_inicio")
+    const dataFinal = $("#search_form_projetos_dt_fim")
+
+    configRangeDatePicker(dataInicial, dataFinal);
+
     $("#searchFormProjetos").on("submit", function(e){
         e.preventDefault();
-
         getProjetosFilter();
     }); 
 }
@@ -21,7 +26,6 @@ const habilitaEventos = function(){
 const habilitaBotoes = function(){
     $(grid + " .pagination  > li > a").on("click", function(e){
         e.preventDefault();
-
         const url = $(this).attr("href");
 
         if(!!url){
@@ -33,8 +37,19 @@ const habilitaBotoes = function(){
         const url = "/projetos/create";
 
         AppUsage.loadModal(url, modalObject, '80%', function(){
+            const formDataInicio = $("#form_add_projetos_dt_inicio");
+            const formDataFim = $("#form_add_projetos_dt_fim");
+    
+            $("#form_add_projetos_dt_protocolo").datetimepicker({
+                timepicker:false,
+                format:'d/m/Y'
+            })
+
+            configRangeDatePicker(formDataInicio, formDataFim);
+
             $("#addFormProjetos").on("submit", function(e){
-                  
+                e.preventDefault();
+                formProjetos();
             })
         }); 
     })
@@ -43,7 +58,7 @@ const habilitaBotoes = function(){
         const id = $(this).attr("id");
         const url = "/projetos/edit/" + id;
 
-        AppUsage.loadModal(url, modalObject, '50%', function(){
+        AppUsage.loadModal(url, modalObject, '80%', function(){
             
         });
     });
@@ -76,8 +91,8 @@ const getProjetosFilter = function(url){
     });
 }
 
-const formProjetos = function(){
-    let form = typeof id == "undefined" ? '#addFormUF' : "#editFormUF";
+const formProjetos = function(id){
+    let form = typeof id == "undefined" ? '#addFormProjetos' : "#editFormProjetos";
     let url =  typeof id == "undefined" ? '/projetos/store' : `/projetos/update/${id}`
     let type = typeof id == "undefined" ? 'POST' : 'PUT';
 
@@ -91,7 +106,7 @@ const formProjetos = function(){
                 <i class="fa fa-spinner fa-spin"> </i> Carregando...
             `)      
         },
-        success: function (response) {
+        success: function(response) {
             Swal.fire({
                 position: 'top-end',
                 icon: !response.error ? 'success' : 'error',
@@ -105,7 +120,7 @@ const formProjetos = function(){
                 }
             });
             
-            getUFFilter()
+            getProjetosFilter()
         },
         error:function(jqXHR, textstatus, error){
             if(!!jqXHR.responseJSON.errors){
@@ -121,6 +136,32 @@ const formProjetos = function(){
             `)      
         }
     });
+}
+
+const configRangeDatePicker = function(elementInitialDate, elementEndDate){
+    elementInitialDate.datetimepicker({
+        timepicker: false,
+        format:'d/m/Y',
+        onShow: function(date, input){
+            this.setOptions({
+                maxDate: !!elementEndDate.val() 
+                    ? AppHelpers.dateFormatPTToBritanic(elementEndDate.val())
+                    : null
+            })
+        },
+    })  
+
+    elementEndDate.datetimepicker({
+        timepicker: false,
+        format:'d/m/Y',
+        onShow: function(date, input){
+            this.setOptions({
+                minDate: !!elementInitialDate.val() 
+                    ? AppHelpers.dateFormatPTToBritanic(elementInitialDate.val())
+                    :  null
+            })
+        },
+    })
 }
 
 module.exports = {

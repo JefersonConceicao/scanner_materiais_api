@@ -45,6 +45,10 @@ class Projeto extends Model
             $conditions[] = ['projetos.processo', 'LIKE', "%".$request['processo']."%"];
         }
 
+        if(isset($request['nome_projeto']) && !empty($request['nome_projeto'])){
+            $conditions[] = ['nome_projeto', 'LIKE', "%".$request['nome_projeto']."%"];
+        }
+
         if(isset($request['tipo_processo']) && !empty($request['tipo_processo'])){
             $conditions[] = ['projetos.tipo_processo', '=', $request['tipo_processo']];
         }
@@ -158,9 +162,36 @@ class Projeto extends Model
             ->find($id);
     }
 
-    public function saveProjeto($request = []){
+    public function saveProjeto($request = [], $user){
+        try{ 
+            $request['dt_lancamento'] = date('Y-m-d H:i:s');
+            $request['usu_lancamento_id'] = $user->id;
+            $request['usu_responsavel_id'] = $user->id;
 
+            if(isset($request['dt_protocolo']) && !empty($request['dt_protocolo'])){
+                $request['dt_protocolo'] = converteData(str_replace('/','-',$request['dt_protocolo']), 'Y-m-d');
+            }
 
+            if(isset($request['dt_inicio']) && !empty($request['dt_inicio'])){
+                $request['dt_inicio'] = converteData(str_replace('/','-',$request['dt_inicio']), 'Y-m-d');
+            }
+
+            if(isset($request['dt_fim']) && !empty($request['dt_fim'])){
+                $request['dt_fim'] = converteData(str_replace('/','-',$request['dt_fim']), 'Y-m-d');
+            }
+            
+            $this->fill($request)->save();
+            return [
+                'error' => false,
+                'msg' => 'Novo Projeto incluído com sucesso!' 
+            ];  
+        }catch(\Exception $error){
+            return [
+                'error' => true,
+                'msg' => 'Não foi possível salvar o registro, tente novamente mais tarde',
+                'error_msg' => $error->getMessage()
+            ];
+        }
     }
 
     public function updateProjeto($id, $request = []){

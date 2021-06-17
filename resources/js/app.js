@@ -4,6 +4,9 @@ Dropzone.autoDiscover = false;
 window.Swal = require('sweetalert2');
 window.moment = require('moment');
 
+//HELPERS Scripts - scripts re-utilizaveis para auxílio no desenvolvimento
+window.AppHelpers = require('./Helpers/AppHelpers');
+
 //CORE Scripts - scripts com funções genericas para toda a aplicação
 window.AppNavigation = require('./Core/AppNavigation');
 window.AppUsage = require('./Core/AppUsage');

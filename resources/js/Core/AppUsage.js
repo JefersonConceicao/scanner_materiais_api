@@ -122,6 +122,7 @@ const configSelect2 = function(){
 
 const configDateTimePicker = function(){
     $.datetimepicker.setLocale('pt-BR');
+    
     $(".datetimepicker").datetimepicker({   
         closeOnDateSelect: true,
         format: 'd/m/Y H:i:s',

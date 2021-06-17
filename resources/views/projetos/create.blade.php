@@ -7,14 +7,14 @@
 @section('modal_content')
     <div class="panel panel-default">
         <div class="panel-heading text-center"> 
-           <h4> Dados Gerais do Projeto <h4>
+           <h4> <b> Dados Gerais do Projeto </b> <h4>
         </div>
         <div class="panel-body">
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
                         {{ Form::label('tipo_processo', 'Tipo do Processo') }} <span class="required"> * </span>
-                        {{ Form::select('tipo_processo', ['S' => 'Via Sei', 'A' => 'Processo Físico'], null, [
+                        {{ Form::select('tipo_processo', [null => '']+['S' => 'Via Sei', 'A' => 'Processo Físico'], null, [
                             'class' => 'form-control select2',
                             'id' => 'form_add_projetos_tipo_processo'
                         ])}}
@@ -39,7 +39,7 @@
                     <div class="form-group">
                         {{ Form::label('dt_protocolo', 'Data de Entrada do Protocolo') }} <span class="required"> * </span>
                         {{ Form::text('dt_protocolo',null, [ 
-                            'class' => 'form-control date datepicker',
+                            'class' => 'form-control date',
                             'id' => 'form_add_projetos_dt_protocolo'
                         ])}}
 
@@ -51,8 +51,8 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
-                        {{ Form::label('nome_proponente', 'Nome do Projeto') }} <span class="required"> * </span>
-                        {{ Form::text('nome_proponente', null, [
+                        {{ Form::label('nome_projeto', 'Nome do Projeto') }} <span class="required"> * </span>
+                        {{ Form::text('nome_projeto', null, [
                             'class' => 'form-control',
                             'id' => 'form_add_projetos_nome_proponente'
                         ])}}
@@ -137,8 +137,8 @@
 
                 <div class="col-md-3">
                     <div class="form-group">
-                        {{ Form::label('modaliade_apoio_id', 'Modalidade de Apoio')}} <span class="required"> * </span>
-                        {{ Form::select('modaliade_apoio_id', [null => '']+$optionsModApoio, null, [
+                        {{ Form::label('modalidade_apoio_id', 'Modalidade de Apoio')}} <span class="required"> * </span>
+                        {{ Form::select('modalidade_apoio_id', [null => '']+$optionsModApoio, null, [
                             'class' => 'form-control select2',
                             'id' => 'form_add_projetos_modalidade_apoio_id'
                         ])}}

@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProjetosRequest;
+use Auth;
 
 //MODELS
 use App\Models\Projeto;
@@ -23,7 +24,7 @@ class ProjetosController extends Controller
     /**
      * @return \Illuminate\Http\Response
      */
-    public function index(ProjetosRequest $request)
+    public function index(Request $request)
     {
         $projeto = new Projeto;
         $localidade = new Localidade;
@@ -138,7 +139,6 @@ class ProjetosController extends Controller
                 ->pluck('localidade', 'id')
                 ->toArray();
             
-
         return view('projetos.create')
             ->with('optionsSetorOrigem', $optionsSetorOrigem)
             ->with('optionsProponente', $optionsProponente)
@@ -151,9 +151,13 @@ class ProjetosController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProjetosRequest $request)
     {
-        //
+        $projeto = new Projeto; 
+        $user = Auth::user();
+    
+        $data = $projeto->saveProjeto($request->all(), $user);
+        return response()->json($data);
     }
 
     /**
@@ -161,8 +165,46 @@ class ProjetosController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
-        return view('projetos.edit');
+    {       
+        $tipoProjeto = new TipoProjeto;
+        $proponente = new Proponente;
+        $setor = new Setor;
+        $modApoio = new ModalidadeApoio;
+        $localidade = new Localidade;
+        $projeto = new Projeto;
+
+        $optionsSetorOrigem = $setor 
+                ->where('ativo', 'S')
+                ->pluck('descsetor', 'id')
+                ->toArray();
+
+        $optionsProponente = $proponente 
+                ->where('ativo', 'S')
+                ->pluck('nome_proponente', 'id')
+                ->toArray();
+
+        $optionsTipoProjeto = $tipoProjeto
+                ->where('ativo', 'S')
+                ->pluck('nome_tipo', 'id')
+                ->toArray();
+
+        $optionsModApoio = $modApoio
+                ->where('ativo', 'S') 
+                ->pluck('modalidade_apoio', 'id')
+                ->toArray();
+
+        $optionsLocalidade = $localidade        
+                ->where('ativo', 'S')
+                ->pluck('localidade', 'id')
+                ->toArray();
+
+        return view('projetos.edit')
+            ->with('optionsSetorOrigem', $optionsSetorOrigem)
+            ->with('optionsProponente', $optionsProponente)
+            ->with('optionsTipoProjeto', $optionsTipoProjeto)
+            ->with('optionsModApoio', $optionsModApoio)
+            ->with('optionsLocalidade', $optionsLocalidade)
+            ->with('projeto', $projeto->getProjetoById($id));
     }
 
      /**
@@ -170,7 +212,7 @@ class ProjetosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProjetosRequest $request, $id)
     {
         //
     }

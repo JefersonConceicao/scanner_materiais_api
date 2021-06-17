@@ -61,7 +61,7 @@
                         <div class="form-group">
                             {{ Form::label('dt_inicio', 'Data Inícial') }}
                             {{ Form::text('dt_inicio', null, [
-                                'class' => 'form-control date datepicker',
+                                'class' => 'form-control',
                                 'id' => 'search_form_projetos_dt_inicio',
                             ])}}
                         </div>
@@ -71,7 +71,7 @@
                         <div class="form-group">
                             {{ Form::label('dt_fim', 'Data Final') }}
                             {{ Form::text('dt_fim', null, [
-                                'class' => 'form-control date datepicker',
+                                'class' => 'form-control',
                                 'id' => 'search_form_projetos_dt_fim'
                             ])}}
                         </div>
@@ -349,7 +349,7 @@
                                             </li>
                                             <li> 
                                                 <a href="#" class="btnEditProjeto" id="{{ $projeto->proj_id }}">  
-                                                    <i class="fa fa-edit"> </i> Editar
+                                                    <i class="fa fa-edit"> </i> Editar Projeto
                                                 </a>
                                             </li>
                                             <li> 
