@@ -240,6 +240,20 @@ tr.row-selected {
   color: black;
 }
 
+.cardConfig:hover {
+  box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.33) !important;
+  cursor: pointer;
+}
+
+.content-icon {
+  text-align: center;
+}
+
+.content-icon i {
+  font-size: 3em;
+  padding: 15%;
+}
+
 @media (max-width: 800px) {
   .modal-dialog {
     width: 100% !important;

@@ -113,4 +113,5 @@ const changeURL = function(url){ //void
 
 module.exports = {
     setOptionsSubMenu,
+    getNewScreen,
 }

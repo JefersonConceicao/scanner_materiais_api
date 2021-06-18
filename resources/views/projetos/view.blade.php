@@ -166,13 +166,17 @@
                     <p> {{ $projeto->nome_usuario_responsavel }} </p>
                 </div>
             </div>
+            
             @if(!empty($projeto->usu_alteracao_id))
                 <div class="row">
                     <div class="col-md-6">
                         <b> Usuário Alteração </b>
                     </div>
                     <div class="col-md-6">
-                        {{ $projeto->nome_usuario_alteracao }}
+                        {{ !empty($projeto->nome_usuario_alteracao)
+                            ? $projeto->nome_usuario_alteracao
+                            : "Não informado"
+                         }}
                     </div>
                 </div>
             @endif
@@ -183,7 +187,10 @@
                         <b> Usuário Lançamento </b>
                     </div>
                     <div class="col-md-6">
-                        <p> {{ $projeto->nome_usuario_lancamento }} </p>
+                        <p> {{ !empty($projeto->nome_usuario_lancamento) 
+                                ? $projeto->nome_usuario_lancamento 
+                                :  "Não informado"
+                        }} </p>
                     </div>
                 </div>
             @endif

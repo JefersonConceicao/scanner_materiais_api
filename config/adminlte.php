@@ -280,21 +280,16 @@ return [
                         'url' => 'roles/',
                         'requestjs' => 'AppRoles',
                         'bt_ac' => 'roles.index'
-                    ],
-                    [
-                        'text' => 'Permissões',
-                        'url' => 'permissoes/',
-                        'icon' => 'fa fa-angle-right',
-                        'requestjs' => 'AppPermissoes',
-                        'bt_ac' => 'permissoes.index'
-                    ],
+                    ]
                 ]
             ],
         ['header' => ''],
             [
                 'text' => 'Configurações',
                 'icon' => 'fa fa-cog',
-                'url' => '#'
+                'url' => '/configuracoes/', 
+                'bt_ac' => 'configuracoes.index',  
+                'requestjs' => 'AppBTConfiguracoes'
             ],
     ],
 

@@ -36188,7 +36188,8 @@ var changeURL = function changeURL(url) {
 };
 
 module.exports = {
-  setOptionsSubMenu: setOptionsSubMenu
+  setOptionsSubMenu: setOptionsSubMenu,
+  getNewScreen: getNewScreen
 };
 
 /***/ }),
@@ -36299,6 +36300,10 @@ var configDropdown = function configDropdown() {
   });
   $(".table-responsive").on("hide.bs.dropdown", function (e) {
     $(this).css('padding-bottom', 0);
+
+    if ($('.fa-angle-down').hasClass('animation-angle-up')) {
+      $('.fa-angle-down').removeClass('animation-angle-up').addClass("animation-angle-down");
+    }
   });
 };
 
@@ -36727,6 +36732,10 @@ module.exports = {
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
+	"./AppBTConfiguracoes": "./resources/js/Logged/AppBTConfiguracoes.js",
+	"./AppBTConfiguracoes.js": "./resources/js/Logged/AppBTConfiguracoes.js",
+	"./AppBTEmailTemplates": "./resources/js/Logged/AppBTEmailTemplates.js",
+	"./AppBTEmailTemplates.js": "./resources/js/Logged/AppBTEmailTemplates.js",
 	"./AppCategoriaInstrumentos": "./resources/js/Logged/AppCategoriaInstrumentos.js",
 	"./AppCategoriaInstrumentos.js": "./resources/js/Logged/AppCategoriaInstrumentos.js",
 	"./AppCheckListEstruturas": "./resources/js/Logged/AppCheckListEstruturas.js",
@@ -36806,6 +36815,73 @@ webpackContext.keys = function webpackContextKeys() {
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
 webpackContext.id = "./resources/js/Logged sync recursive ^\\.\\/.*$";
+
+/***/ }),
+
+/***/ "./resources/js/Logged/AppBTConfiguracoes.js":
+/*!***************************************************!*\
+  !*** ./resources/js/Logged/AppBTConfiguracoes.js ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(function () {
+  habilitaEventos();
+  habilitaBotoes();
+});
+
+var changeTitle = function changeTitle() {
+  document.title = 'BT | Configurações';
+};
+
+var habilitaEventos = function habilitaEventos() {
+  $(".cardConfig").on("click", function () {
+    var url = $(this).attr("url");
+    var module = $(this).attr("requestjs");
+    AppNavigation.getNewScreen(url, module);
+  });
+};
+
+var habilitaBotoes = function habilitaBotoes() {};
+
+module.exports = {
+  changeTitle: changeTitle,
+  habilitaEventos: habilitaEventos,
+  habilitaBotoes: habilitaBotoes
+};
+
+/***/ }),
+
+/***/ "./resources/js/Logged/AppBTEmailTemplates.js":
+/*!****************************************************!*\
+  !*** ./resources/js/Logged/AppBTEmailTemplates.js ***!
+  \****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(function () {
+  habilitaEventos();
+  habilitaBotoes();
+});
+var modalObject = "#nivel1";
+var grid = "#gridBTEmailTemplates";
+
+var changeTitle = function changeTitle() {};
+
+var habilitaEventos = function habilitaEventos() {};
+
+var habilitaBotoes = function habilitaBotoes() {
+  $("#addBTEmailTemplate").on("click", function () {
+    var url = '/btEmailTemplates/create';
+    AppUsage.loadModal(url, modalObject, '60%', function () {});
+  });
+};
+
+module.exports = {
+  changeTitle: changeTitle,
+  habilitaEventos: habilitaEventos,
+  habilitaBotoes: habilitaBotoes
+};
 
 /***/ }),
 
@@ -39295,10 +39371,15 @@ var habilitaBotoes = function habilitaBotoes() {
       });
     });
   });
+  $(".btnManagmentProjeto").on("click", function () {
+    var id = $(this).attr("id");
+    var url = '/projetos/gerenciamento/' + id;
+    AppUsage.loadModal(url, modalObject, '90%', function () {});
+  });
   $(".btnViewProjeto").on("click", function () {
     var id = $(this).attr("id");
     var url = '/projetos/view/' + id;
-    AppUsage.loadModal(url, modalObject, '40%', function () {});
+    AppUsage.loadModal(url, modalObject, '40%');
   });
 };
 
@@ -41157,7 +41238,8 @@ window.AppModalidadesApoio = __webpack_require__(/*! ./Logged/AppModalidadesApoi
 window.AppModalidadesLicitacao = __webpack_require__(/*! ./Logged/AppModalidadesLicitacao */ "./resources/js/Logged/AppModalidadesLicitacao.js");
 window.AppProjetosAtividades = __webpack_require__(/*! ./Logged/AppProjetosAtividade */ "./resources/js/Logged/AppProjetosAtividade.js");
 window.AppProponentes = __webpack_require__(/*! ./Logged/AppProponentes */ "./resources/js/Logged/AppProponentes.js");
-window.AppProjetos = __webpack_require__(/*! ./Logged/AppProjetos */ "./resources/js/Logged/AppProjetos.js"); //CONSTANTS métodos e propriedades constantes
+window.AppProjetos = __webpack_require__(/*! ./Logged/AppProjetos */ "./resources/js/Logged/AppProjetos.js");
+window.AppBTConfiguracoes = __webpack_require__(/*! ./Logged/AppBTConfiguracoes */ "./resources/js/Logged/AppBTConfiguracoes.js"); //CONSTANTS métodos e propriedades constantes
 
 window.languageDataTable = __webpack_require__(/*! ./Constants/language_dataTable */ "./resources/js/Constants/language_dataTable.js");
 window.AcessControl = __webpack_require__(/*! ./Constants/access_control */ "./resources/js/Constants/access_control.js");
@@ -41182,8 +41264,8 @@ window.AcessControl = __webpack_require__(/*! ./Constants/access_control */ "./r
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\BT\bt_source\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\BT\bt_source\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\novo_union\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\novo_union\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

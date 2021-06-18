@@ -237,6 +237,16 @@ class ProjetosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function managment($id){
+        $projeto = new Projeto;
+
+        return view('projetos.managment');
+    }
+
+    /**
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function destroy($id)
     {
         //

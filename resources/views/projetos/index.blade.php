@@ -50,7 +50,7 @@
                     <div class="col-md-2">
                         <div class="form-group">
                             {{ Form::label('tipo_processo', 'Tipo do Processo') }}
-                            {{ Form::select('tipo_processo', [null => '']+['S' => 'Via SEI', 'N' => 'Processo Físico'], null, [
+                            {{ Form::select('tipo_processo', [null => '']+['S' => 'Via SEI', 'A' => 'Processo Físico'], null, [
                                 'class' => 'form-control select2',
                                 'id' => 'search_form_projetos_tipo_processo'
                             ])}}
@@ -262,8 +262,8 @@
                             <th> ID </th>
                             <th> Numero do Processo </th>
                             <th> Nome </th>
-                            <th> Tipo do Processo </th>
                             <th> Proponente  </th>
+                            <th> Tipo do Processo </th>
                             <th> Situação do Projeto </th>
                             <th width="2%"> Ações </th>
                         </tr>
@@ -342,18 +342,35 @@
                                             <i class="fa fa-angle-down" aria-hidden="true">  </i>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-right" role="menu"> 
-                                            <li> 
-                                                <a href="#" class="btnViewProjeto" id="{{ $projeto->proj_id }} ">
-                                                    <i class="fa fa-list"> </i> Mais detalhes
+                                            <li>     
+                                                <a href="javascript:void(0)" 
+                                                    class="btnManagmentProjeto" 
+                                                    id="{{ $projeto->proj_id }}"
+                                                >
+                                                    <i class="fa fa-sliders"> </i> Gerenciar
                                                 </a>
                                             </li>
                                             <li> 
-                                                <a href="#" class="btnEditProjeto" id="{{ $projeto->proj_id }}">  
-                                                    <i class="fa fa-edit"> </i> Editar Projeto
+                                                <a href="javascript:void(0)" 
+                                                    class="btnEditProjeto" 
+                                                    id="{{ $projeto->proj_id }}"
+                                                >  
+                                                    <i class="fa fa-edit"> </i> Editar 
                                                 </a>
                                             </li>
                                             <li> 
-                                                <a href="#" class="btnExcluirProjeto" id=" {{ $projeto->proj_id }}">
+                                                <a href="javascript:void(0)" 
+                                                    class="btnViewProjeto" 
+                                                    id="{{ $projeto->proj_id }} "
+                                                >
+                                                    <i class="fa fa-list"> </i> Ver mais
+                                                </a>
+                                            </li>                                            
+                                            <li> 
+                                                <a href="javascript:void(0)" 
+                                                    class="btnExcluirProjeto" 
+                                                    id=" {{ $projeto->proj_id }}"
+                                                >
                                                     <i class="fa fa-trash" style="color:red;"> </i> Excluir
                                                 </a>    
                                             </li>

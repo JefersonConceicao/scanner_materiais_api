@@ -105,7 +105,11 @@ const configDropdown = function(){
     
     $(".table-responsive").on("hide.bs.dropdown", function(e){
         $(this).css('padding-bottom', 0);
-    }); 
+
+        if($('.fa-angle-down').hasClass('animation-angle-up')){
+            $('.fa-angle-down').removeClass('animation-angle-up').addClass("animation-angle-down");
+        }
+    });    
 }
 
 module.exports = {

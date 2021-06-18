@@ -277,5 +277,15 @@ Route::group(['middleware' => ['auth', 'verifyPermission']] , function(){
         Route::put('/update/{id}', 'ProjetosController@update')->name('update');
         Route::delete('/delete/{id}', 'ProjetosController@delete')->name('delete');
         Route::get('/view/{id}', 'ProjetosController@show')->name('view');
+        Route::get('/gerenciamento/{id}', 'ProjetosController@managment')->name('managment');
+    });
+
+    Route::group(['as' => 'configuracoes::', 'prefix' => 'configuracoes'], function(){
+        Route::get('/', 'BTConfiguracoesController@index')->name('index');
+    });
+
+    Route::group(['as' => 'btEmailTemplates::', 'prefix' => 'btEmailTemplates'], function(){
+        Route::get('/', 'BTEmailTemplatesController@index')->name('index');
+        Route::get('/create', 'BTEmailTemplatesController@create')->name('create');
     });
 });
