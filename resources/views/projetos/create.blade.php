@@ -75,7 +75,7 @@
                 <div class="col-md-5">
                     <div class="form-group"> 
                         {{ Form::label('proponente_id', 'Proponente') }} <span class="required"> * </span>
-                        <label class="pull-right"> <a href="#"> Novo Proponente </a> </label> 
+                        <label class="pull-right"> <a href="#" id="addProponenteInProjeto"> Novo Proponente </a> </label> 
                         {{ Form::select('proponente_id', [null=>'']+$optionsProponente, null, [
                             'class' => 'form-control select2',
                             'id' => 'form_add_projetos_proponente_id'
@@ -113,13 +113,12 @@
 
                 <div class="col-md-2"> 
                     <div class="form-group">
-                        {{ Form::label('dias_intercalados', 'Dias Intercalados') }} <span class="required"> * </span>
+                        {{ Form::label('dias_intercalados', 'Dias Intercalados') }}
                         {{ Form::text('dias_intercalados', null, [
                             'class' => 'form-control',
                             'id' => 'form_add_projetos_dias_intercalados'
                         ])}}
 
-                        <div class="error_feedback"> </div>
                     </div>
                 </div>
 

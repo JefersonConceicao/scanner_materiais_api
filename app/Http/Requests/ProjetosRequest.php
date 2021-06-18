@@ -35,14 +35,13 @@ class ProjetosRequest extends FormRequest
                     'dt_inicio' => [
                         'required',
                         'date_format:d/m/Y',
-                        'before:dt_fim',
+                        'before_or_equal:dt_fim',
                     ],
                     'dt_fim' => [
                         'required',
                         'date_format:d/m/Y',
-                        'after:dt_inicio',
+                        'after_or_equal:dt_inicio',
                     ],
-                    'dias_intercalados' => 'required',
                     'tipo_projeto_id' => 'required',
                     'modalidade_apoio_id' => 'required',
                     'localidade_id' => 'required',
@@ -51,7 +50,26 @@ class ProjetosRequest extends FormRequest
             break;
             case 'update': 
                 $validate = [
-
+                    'tipo_processo' => 'required',
+                    'processo' => 'required',
+                    'dt_protocolo' => 'required',
+                    'nome_projeto' => 'required',
+                    'setor_origem_id' => 'required',
+                    'proponente_id' => 'required', 
+                    'dt_inicio' => [
+                        'required',
+                        'date_format:d/m/Y',
+                        'before_or_equal:dt_fim',
+                    ],
+                    'dt_fim' => [
+                        'required',
+                        'date_format:d/m/Y',
+                        'after_or_equal:dt_inicio',
+                    ],
+                    'tipo_projeto_id' => 'required',
+                    'modalidade_apoio_id' => 'required',
+                    'localidade_id' => 'required',
+                    'valor_solicitado' => 'required',    
                 ];
             break;                 
         }

@@ -37,15 +37,17 @@ const habilitaBotoes = function(){
         const url = "/projetos/create";
 
         AppUsage.loadModal(url, modalObject, '80%', function(){
+            habilitaBotoesInModalForm();
+
             const formDataInicio = $("#form_add_projetos_dt_inicio");
             const formDataFim = $("#form_add_projetos_dt_fim");
     
+            configRangeDatePicker(formDataInicio, formDataFim);
+
             $("#form_add_projetos_dt_protocolo").datetimepicker({
                 timepicker:false,
                 format:'d/m/Y'
             })
-
-            configRangeDatePicker(formDataInicio, formDataFim);
 
             $("#addFormProjetos").on("submit", function(e){
                 e.preventDefault();
@@ -59,7 +61,12 @@ const habilitaBotoes = function(){
         const url = "/projetos/edit/" + id;
 
         AppUsage.loadModal(url, modalObject, '80%', function(){
-            
+            habilitaBotoesInModalForm();
+
+            $("#editFormProjetos").on("submit", function(e){
+                e.preventDefault();
+                formProjetos(id)
+            })
         });
     });
 
@@ -71,6 +78,22 @@ const habilitaBotoes = function(){
 
         });
     }); 
+}
+
+const habilitaBotoesInModalForm = function(){
+    $("#addProponenteInProjeto").on("click", function(e){
+        const url = "/proponentes/create";
+        
+        AppUsage.loadModal(url, "#nivel2", '50%', function(){
+            AppProponentes.settingsInputsProponentes("#nivel2");
+
+            $("#addFormProponentes").on("submit", function(e){
+                e.preventDefault()
+
+                AppProponentes.formProponentes(undefined, "#nivel2");
+            })
+        });
+    })
 }
 
 const getProjetosFilter = function(url){

@@ -160,12 +160,33 @@
             </div>
             <div class="row">
                 <div class="col-md-6">
-                   <b> Usuário responsável </b>
+                   <b> Usuário Responsável </b>
                 </div>
                 <div class="col-md-6"> 
                     <p> {{ $projeto->nome_usuario_responsavel }} </p>
                 </div>
             </div>
+            @if(!empty($projeto->usu_alteracao_id))
+                <div class="row">
+                    <div class="col-md-6">
+                        <b> Usuário Alteração </b>
+                    </div>
+                    <div class="col-md-6">
+                        {{ $projeto->nome_usuario_alteracao }}
+                    </div>
+                </div>
+            @endif
+            
+            @if(!empty($projeto->usu_lancamento_id))
+                <div class="row">
+                    <div class="col-md-6">
+                        <b> Usuário Lançamento </b>
+                    </div>
+                    <div class="col-md-6">
+                        <p> {{ $projeto->nome_usuario_lancamento }} </p>
+                    </div>
+                </div>
+            @endif
         </div> 
     </div>
 @endsection 

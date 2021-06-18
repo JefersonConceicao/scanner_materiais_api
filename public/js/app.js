@@ -39270,13 +39270,14 @@ var habilitaBotoes = function habilitaBotoes() {
   $("#addProjeto").on("click", function () {
     var url = "/projetos/create";
     AppUsage.loadModal(url, modalObject, '80%', function () {
+      habilitaBotoesInModalForm();
       var formDataInicio = $("#form_add_projetos_dt_inicio");
       var formDataFim = $("#form_add_projetos_dt_fim");
+      configRangeDatePicker(formDataInicio, formDataFim);
       $("#form_add_projetos_dt_protocolo").datetimepicker({
         timepicker: false,
         format: 'd/m/Y'
       });
-      configRangeDatePicker(formDataInicio, formDataFim);
       $("#addFormProjetos").on("submit", function (e) {
         e.preventDefault();
         formProjetos();
@@ -39286,12 +39287,31 @@ var habilitaBotoes = function habilitaBotoes() {
   $(".btnEditProjeto").on("click", function () {
     var id = $(this).attr("id");
     var url = "/projetos/edit/" + id;
-    AppUsage.loadModal(url, modalObject, '80%', function () {});
+    AppUsage.loadModal(url, modalObject, '80%', function () {
+      habilitaBotoesInModalForm();
+      $("#editFormProjetos").on("submit", function (e) {
+        e.preventDefault();
+        formProjetos(id);
+      });
+    });
   });
   $(".btnViewProjeto").on("click", function () {
     var id = $(this).attr("id");
     var url = '/projetos/view/' + id;
     AppUsage.loadModal(url, modalObject, '40%', function () {});
+  });
+};
+
+var habilitaBotoesInModalForm = function habilitaBotoesInModalForm() {
+  $("#addProponenteInProjeto").on("click", function (e) {
+    var url = "/proponentes/create";
+    AppUsage.loadModal(url, "#nivel2", '50%', function () {
+      AppProponentes.settingsInputsProponentes("#nivel2");
+      $("#addFormProponentes").on("submit", function (e) {
+        e.preventDefault();
+        AppProponentes.formProponentes(undefined, "#nivel2");
+      });
+    });
   });
 };
 
@@ -39548,8 +39568,8 @@ $(function () {
   habilitaEventos();
   habilitaBotoes();
 });
-var grid = "#gridProponentes";
 var modalObject = "#nivel1";
+var grid = "#gridProponentes";
 
 var changeTitle = function changeTitle() {
   document.title = 'BT | Proponentes';
@@ -39615,6 +39635,7 @@ var habilitaBotoes = function habilitaBotoes() {
 };
 
 var formProponentes = function formProponentes(id) {
+  var modalParam = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
   var form = typeof id == "undefined" ? '#addFormProponentes' : "#editFormProponentes";
   var url = typeof id == "undefined" ? '/proponentes/store' : "/proponentes/update/".concat(id);
   var type = typeof id == "undefined" ? 'POST' : 'PUT';
@@ -39636,10 +39657,15 @@ var formProponentes = function formProponentes(id) {
         timer: 3500,
         background: '#337ab7',
         didOpen: function didOpen() {
-          $(modalObject).modal('hide');
+          $(!!modalParam ? modalParam : modalObject).modal('hide');
         }
       });
-      getProponentesFilter();
+      getProponentesFilter(); //SE O MODAL PARAM É NIVEL 2 ENTÃO ELE ESTÁ SOBREPONDO OUTRO MODAL
+
+      if (modalParam == "#nivel2") {
+        var _url = '/proponentes/getListJSON';
+        AppUsage.updateSelectInputJSON($("#nivel1 select[name=\"proponente_id\"]"), _url);
+      }
     },
     error: function error(jqXHR, textstatus, _error) {
       if (!!jqXHR.responseJSON.errors) {
@@ -39671,7 +39697,13 @@ var getProponentesFilter = function getProponentesFilter(url) {
 };
 
 var settingsInputsProponentes = function settingsInputsProponentes() {
+  var modalParam = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
   //ALTERA LABEL E MASCARA DO CAMPO CPF/CNPJ E RAZÃO SOCIAL
+  if (!!modalParam) {
+    modalObject = modalParam;
+  }
+
   $(modalObject + " select[name='pessoa']").on("change", function () {
     var element = $(this);
     var labelChangeCNPJ = $(modalObject + " label[for='cnpj_cpf']");
@@ -39727,7 +39759,9 @@ var settingsInputsProponentes = function settingsInputsProponentes() {
 module.exports = {
   changeTitle: changeTitle,
   habilitaEventos: habilitaEventos,
-  habilitaBotoes: habilitaBotoes
+  habilitaBotoes: habilitaBotoes,
+  settingsInputsProponentes: settingsInputsProponentes,
+  formProponentes: formProponentes
 };
 
 /***/ }),
@@ -41148,8 +41182,8 @@ window.AcessControl = __webpack_require__(/*! ./Constants/access_control */ "./r
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\novo_union\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\novo_union\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\BT\bt_source\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\BT\bt_source\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

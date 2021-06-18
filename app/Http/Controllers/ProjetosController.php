@@ -214,7 +214,11 @@ class ProjetosController extends Controller
      */
     public function update(ProjetosRequest $request, $id)
     {
-        //
+        $projeto = new Projeto;
+        $user = Auth::user();
+
+        $data = $projeto->updateProjeto($id, $request->all(), $user);       
+        return response()->json($data);
     }
 
     /**

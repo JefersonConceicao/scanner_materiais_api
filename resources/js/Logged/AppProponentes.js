@@ -5,8 +5,8 @@ $(function(){
     habilitaBotoes()
 })
 
+let modalObject = "#nivel1";
 const grid = "#gridProponentes";
-const modalObject = "#nivel1";
 
 const changeTitle = function(){
     document.title = 'BT | Proponentes';
@@ -79,7 +79,7 @@ const habilitaBotoes = function(){
     });
 }
 
-const formProponentes = function(id){
+const formProponentes = function(id, modalParam = null){
     let form = typeof id == "undefined" ? '#addFormProponentes' : "#editFormProponentes";
     let url =  typeof id == "undefined" ? '/proponentes/store' : `/proponentes/update/${id}`
     let type = typeof id == "undefined" ? 'POST' : 'PUT';
@@ -104,11 +104,17 @@ const formProponentes = function(id){
                 timer: 3500,
                 background: '#337ab7',
                 didOpen:() => {
-                   $(modalObject).modal('hide');
+                   $(!!modalParam ? modalParam : modalObject).modal('hide');
                 }
             });
             
             getProponentesFilter()
+
+            //SE O MODAL PARAM É NIVEL 2 ENTÃO ELE ESTÁ SOBREPONDO OUTRO MODAL
+            if(modalParam == "#nivel2"){
+                const url = '/proponentes/getListJSON'
+                AppUsage.updateSelectInputJSON($(`#nivel1 select[name="proponente_id"]`), url)
+            }   
         },
         error:function(jqXHR, textstatus, error){
             if(!!jqXHR.responseJSON.errors){
@@ -143,8 +149,12 @@ const getProponentesFilter = function(url){
     });
 }
 
-const settingsInputsProponentes = function(){
+const settingsInputsProponentes = function(modalParam = null){
       //ALTERA LABEL E MASCARA DO CAMPO CPF/CNPJ E RAZÃO SOCIAL
+        if(!!modalParam){
+            modalObject = modalParam;
+        }
+
       $(modalObject + " select[name='pessoa']").on("change", function(){
         const element = $(this); 
         const labelChangeCNPJ = $(modalObject + " label[for='cnpj_cpf']") 
@@ -209,5 +219,7 @@ const settingsInputsProponentes = function(){
 module.exports = {
     changeTitle,
     habilitaEventos,
-    habilitaBotoes
+    habilitaBotoes,
+    settingsInputsProponentes,
+    formProponentes
 }

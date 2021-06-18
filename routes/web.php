@@ -266,6 +266,7 @@ Route::group(['middleware' => ['auth', 'verifyPermission']] , function(){
         Route::get('/edit/{id}', 'ProponentesController@edit')->name('edit');
         Route::put('/update/{id}', 'ProponentesController@update')->name('update');
         Route::delete('/delete/{id}', 'ProponentesController@delete')->name('delete');
+        Route::get('getListJSON', 'ProponentesController@getProponentesJSON')->name('getProponentesJSON');
     });
 
     Route::group(['as' => 'projetos::', 'prefix' => 'projetos'], function(){

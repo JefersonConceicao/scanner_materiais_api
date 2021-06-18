@@ -103,4 +103,15 @@ class ProponentesController extends Controller
 
         return response()->json($data);
     }
+
+    public function getProponentesJSON(){
+        $proponente = new Proponente;
+
+        $data = $proponente
+            ->where('ativo', 'S')
+            ->pluck('nome_proponente', 'id')
+            ->toArray();
+    
+        return response()->json($data);
+    }
 }
