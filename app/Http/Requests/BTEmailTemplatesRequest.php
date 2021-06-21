@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Route;
 
 class BTEmailTemplatesRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class BTEmailTemplatesRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,8 +24,33 @@ class BTEmailTemplatesRequest extends FormRequest
      */
     public function rules()
     {
+        $currentRoute = explode("::", Route::currentRouteName());
+        $validate = [];
+
+        switch (end($currentRoute)) {
+            case 'store':
+                $validate = [
+                    'titulo' => 'required',
+                    'conteudo_html' => 'required',
+                    'ativo' => 'required'
+                ];
+                break;
+         
+            case 'update':
+                $validate = [
+                    'titulo' => 'required',
+                    'conteudo_html' => 'required',
+                    'ativo' => 'required'
+                ];
+                break;
+        }
+
+        return $validate;
+    }
+
+    public function messages(){
         return [
-            //
+            'required' => 'Campo obrigatório'
         ];
     }
 }

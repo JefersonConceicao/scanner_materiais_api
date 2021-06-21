@@ -1,9 +1,17 @@
 @extends('adminlte::page')
-@section('title', 'BT | Configurações')
-
+@section('title', 'BT | Templates de E-mail')
 @section('content')    
     <section class="content-header"> 
         <h1> 
+            <small> 
+                <a  
+                    class="back-to-settings"
+                    href="/configuracoes/"
+                    requestjs="AppBTConfiguracoes"
+                > 
+                    <i class="fa fa-arrow-left"> </i>
+                </a> 
+            </small> &nbsp;
             Templates de E-mail 
         
             <small> 
@@ -65,7 +73,11 @@
                         <p class="box-title"> Total de registros: {{ $dataBTEmailTemplate->total() }} </p>
                     </div>
                     <div class="col-md-6">
-                        <button class="btn btn-primary pull-right" id="addBTEmailTemplate"> 
+                        <button 
+                            class="btn btn-primary pull-right" 
+                            id="addBTEmailTemplate"
+                            type="button"
+                        > 
                             <i class="fa fa-plus-square"> </i> Novo
                         </button>
                     </div>
@@ -75,7 +87,7 @@
                 <table class="table dataTable"> 
                     <thead> 
                         <tr> 
-                            <th> Titulo </th>
+                            <th width="80%"> Titulo </th>
                             <th> Ativo </th>
                             <th width="2%"> Ações </th>
                         </tr>
@@ -84,7 +96,6 @@
                         @foreach($dataBTEmailTemplate as $btEmailTemplate)
                         <tr> 
                             <td> {{ $btEmailTemplate->titulo }} </td> 
-                            <td> {{ $btEmailTemplate->conteudo_html }} </td> 
                             <td>  
                                 <label class="label label-{{ $btEmailTemplate->ativo == "S" ? "success" : "danger"}}">
                                     {{ $btEmailTemplate->ativo == "S" 
@@ -102,7 +113,7 @@
                                         <i class="fa fa-edit"> </i>
                                     </button>
                                     <button
-                                        class="btn btn-xs btn-primary btnDeleteEmailTemplate"
+                                        class="btn btn-xs btn-danger btnDeleteEmailTemplate"
                                         id="{{ $btEmailTemplate->id }}"
                                     > 
                                         <i class="fa fa-trash"> </i>

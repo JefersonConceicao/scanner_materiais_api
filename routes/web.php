@@ -287,5 +287,9 @@ Route::group(['middleware' => ['auth', 'verifyPermission']] , function(){
     Route::group(['as' => 'btEmailTemplates::', 'prefix' => 'btEmailTemplates'], function(){
         Route::get('/', 'BTEmailTemplatesController@index')->name('index');
         Route::get('/create', 'BTEmailTemplatesController@create')->name('create');
+        Route::post('/store', 'BTEmailTemplatesController@store')->name('store');
+        Route::get('/edit/{id}', 'BTEmailTemplatesController@edit')->name('edit');
+        Route::put('/update/{id}', 'BTEmailTemplatesController@update')->name('update');
+        Route::delete('/delete/{id}', 'BTEmailTemplatesController@delete')->name('delete');
     });
 });

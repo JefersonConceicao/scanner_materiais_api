@@ -21,6 +21,7 @@ const loadLibs = function(){
     configMultiSelect();
     configMasks();
     configDateTimePicker();
+    configTinyMce();
 }
 
 /**
@@ -187,6 +188,20 @@ const configMasks = function(){
         mask: '99999-999',
         keepStatic:true,
     })
+}
+
+const configTinyMce = function(){
+    tinymce.init({
+        selector: 'textarea.tinymce',
+        plugins: 'advlist link image lists',
+        language: 'pt_BR',
+        height:400,
+    })
+
+    //AO FECHAMENTO DO MODAL É ENCERRADO COMPLETAMENTE O TINYMCE
+    $(document).on("hidden.bs.modal", "#nivel1", function(){
+        tinymce.remove();
+    });
 }
 
 const showMessagesValidator = function(form, errorsRequest){

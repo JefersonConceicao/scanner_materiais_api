@@ -11,6 +11,15 @@ const changeTitle = function(){
 
 
 const habilitaEventos = function(){
+    $(".back-to-settings").on("click", function(e){
+        e.preventDefault(); 
+                
+        const url = $(this).attr("href");
+        const module = $(this).attr("requestjs");
+
+        AppNavigation.getNewScreen(url, module);
+    })
+
     $(".refreshDash").on("click", function(){
         loadConsPermissoes();
     });

@@ -63,8 +63,9 @@ const setupAjax = function(){
         }
         
         if(jqXHR.status === 401){
-            if($("#nivel2").hasClass("in")){
-                $("#nivel2").modal('hide');
+            //VERIFICA SE EXISTE ALGUM MODAL DE NIVEL2 OU NIVEL3 SE SIM FECHE TODOS
+            if($("#nivel2,#nivel3").hasClass("in")){
+                $("#nivel2,#nivel3").modal('hide');
             }
     
             const url = '/permissoes/methodNotAllowed'

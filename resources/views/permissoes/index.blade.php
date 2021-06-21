@@ -3,6 +3,16 @@
 @section('content')
     <section class="content-header">
             <h1> 
+                <small> 
+                    <a  
+                        class="back-to-settings"
+                        href="/configuracoes/"
+                        requestjs="AppBTConfiguracoes"
+                    > 
+                        <i class="fa fa-arrow-left"> </i>
+                    </a> 
+                </small> &nbsp;
+
                 Permissões de Acesso 
 
                 <smalL>

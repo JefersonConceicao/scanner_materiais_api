@@ -24,7 +24,7 @@
     </head>
 
     <body class="hold-transition @yield('body_class') fixed">
-            @yield('body')
+        @yield('body')
         <script src="{{ asset('vendor/adminlte/vendor/jquery/dist/jquery.min.js') }}"></script>
         <script src="{{ asset('vendor/adminlte/vendor/jquery/dist/jquery.slimscroll.min.js') }}"></script>
         <script src="{{ asset('vendor/adminlte/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
@@ -32,6 +32,8 @@
         <script src="{{ asset('vendor/jquery.quick-search/dist/jquery.quicksearch.js') }}"> </script>
         <script src="{{ asset('libs/datetimepicker/build/jquery.datetimepicker.full.min.js') }}"> </script>
         <script src="{{ asset('libs/inputmask/dist/jquery.inputmask.min.js')}}"> </script>
+        <script src="{{ asset('libs/tinymce/tinymce.min.js') }}"> </script>
+        <script src="{{ asset('libs/tinymce/langs/pt_BR.js') }}"> </script>
         <script> 
             var arrayPermissions = '<?php echo json_encode(session()->get("user_permissions")); ?>' 
         </script>

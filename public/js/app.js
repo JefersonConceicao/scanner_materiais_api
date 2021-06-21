@@ -36261,8 +36261,9 @@ var setupAjax = function setupAjax() {
     }
 
     if (jqXHR.status === 401) {
-      if ($("#nivel2").hasClass("in")) {
-        $("#nivel2").modal('hide');
+      //VERIFICA SE EXISTE ALGUM MODAL DE NIVEL2 OU NIVEL3 SE SIM FECHE TODOS
+      if ($("#nivel2,#nivel3").hasClass("in")) {
+        $("#nivel2,#nivel3").modal('hide');
       }
 
       var url = '/permissoes/methodNotAllowed';
@@ -36343,6 +36344,7 @@ var loadLibs = function loadLibs() {
   configMultiSelect();
   configMasks();
   configDateTimePicker();
+  configTinyMce();
 };
 /**
  * 
@@ -36481,6 +36483,19 @@ var configMasks = function configMasks() {
   $(".cep").inputmask({
     mask: '99999-999',
     keepStatic: true
+  });
+};
+
+var configTinyMce = function configTinyMce() {
+  tinymce.init({
+    selector: 'textarea.tinymce',
+    plugins: 'advlist link image lists',
+    language: 'pt_BR',
+    height: 400
+  }); //AO FECHAMENTO DO MODAL É ENCERRADO COMPLETAMENTE O TINYMCE
+
+  $(document).on("hidden.bs.modal", "#nivel1", function () {
+    tinymce.remove();
   });
 };
 
@@ -36866,14 +36881,119 @@ $(function () {
 var modalObject = "#nivel1";
 var grid = "#gridBTEmailTemplates";
 
-var changeTitle = function changeTitle() {};
+var changeTitle = function changeTitle() {
+  document.title = 'BT | Templates E-mail';
+};
 
-var habilitaEventos = function habilitaEventos() {};
+var habilitaEventos = function habilitaEventos() {
+  $(".back-to-settings").on("click", function (e) {
+    e.preventDefault();
+    var url = $(this).attr("href");
+    var module = $(this).attr("requestjs");
+    AppNavigation.getNewScreen(url, module);
+  });
+  $("#searchFormTemplatesEmail").on("submit", function (e) {
+    e.preventDefault();
+    getBTEmailTemplates();
+  });
+};
 
 var habilitaBotoes = function habilitaBotoes() {
   $("#addBTEmailTemplate").on("click", function () {
     var url = '/btEmailTemplates/create';
-    AppUsage.loadModal(url, modalObject, '60%', function () {});
+    AppUsage.loadModal(url, modalObject, '50%', function () {
+      $("#addFormEmailTemplate").on("submit", function (e) {
+        e.preventDefault();
+        formBTEmailTemplates();
+      });
+    });
+  });
+  $(".btnEditEmailTemplate").on("click", function () {
+    var id = $(this).attr("id");
+    var url = '/btEmailTemplates/edit/' + id;
+    AppUsage.loadModal(url, modalObject, '50%', function () {
+      $("#editFormEmailTemplate").on("submit", function (e) {
+        e.preventDefault();
+        formBTEmailTemplates(id);
+      });
+    });
+  });
+  $(".btnDeleteEmailTemplate").on("click", function () {
+    var id = $(this).attr("id");
+    var url = '/btEmailTemplates/delete/' + id;
+    Swal.fire({
+      title: 'Deseja realmente excluir o registro?',
+      text: 'Esta ação é irreversivel!',
+      icon: 'warning',
+      showCancelButton: true,
+      reverseButtons: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar'
+    }).then(function (result) {
+      AppUsage.deleteForGrid(url, function () {
+        if (result.isConfirmed) {
+          getBTEmailTemplates();
+        }
+      });
+    });
+  });
+};
+
+var formBTEmailTemplates = function formBTEmailTemplates(id) {
+  var form = typeof id == "undefined" ? '#addFormEmailTemplate' : "#editFormEmailTemplate";
+  var url = typeof id == "undefined" ? '/btEmailTemplates/store' : "/btEmailTemplates/update/".concat(id);
+  var type = typeof id == "undefined" ? 'POST' : 'PUT';
+  $.ajax({
+    type: type,
+    url: url,
+    data: $(form).serialize(),
+    dataType: "JSON",
+    beforeSend: function beforeSend() {
+      $(form + " .btnSubmit").prop("disabled", true).html("\n                <i class=\"fa fa-spinner fa-spin\"> </i> Carregando...\n            ");
+    },
+    success: function success(response) {
+      Swal.fire({
+        position: 'top-end',
+        icon: !response.error ? 'success' : 'error',
+        title: "<b style=\"color:#fff\"> ".concat(response.msg, " </b>"),
+        toast: true,
+        showConfirmButton: false,
+        timer: 3500,
+        background: '#337ab7',
+        didOpen: function didOpen() {
+          $(modalObject).modal('hide');
+        }
+      });
+      getBTEmailTemplates();
+    },
+    error: function error(jqXHR, textstatus, _error) {
+      if (!!jqXHR.responseJSON.errors) {
+        var errors = jqXHR.responseJSON.errors;
+        AppUsage.showMessagesValidator(form, errors);
+      }
+    },
+    complete: function complete() {
+      $(form + " .btnSubmit").prop("disabled", false).html("\n                Salvar\n            ");
+    }
+  });
+};
+
+var getBTEmailTemplates = function getBTEmailTemplates() {
+  var form = $("#searchFormTemplatesEmail").serialize();
+  $.ajax({
+    type: "GET",
+    url: typeof url !== "undefined" ? url : "/btEmailTemplates/",
+    data: form,
+    dataType: "HTML",
+    beforeSend: function beforeSend() {
+      AppUsage.loading($(grid));
+    },
+    success: function success(response) {
+      $(grid).html($(response).find("".concat(grid, " >")));
+      habilitaBotoes();
+    }
   });
 };
 
@@ -39050,6 +39170,12 @@ var changeTitle = function changeTitle() {
 };
 
 var habilitaEventos = function habilitaEventos() {
+  $(".back-to-settings").on("click", function (e) {
+    e.preventDefault();
+    var url = $(this).attr("href");
+    var module = $(this).attr("requestjs");
+    AppNavigation.getNewScreen(url, module);
+  });
   $(".refreshDash").on("click", function () {
     loadConsPermissoes();
   });
@@ -41239,7 +41365,8 @@ window.AppModalidadesLicitacao = __webpack_require__(/*! ./Logged/AppModalidades
 window.AppProjetosAtividades = __webpack_require__(/*! ./Logged/AppProjetosAtividade */ "./resources/js/Logged/AppProjetosAtividade.js");
 window.AppProponentes = __webpack_require__(/*! ./Logged/AppProponentes */ "./resources/js/Logged/AppProponentes.js");
 window.AppProjetos = __webpack_require__(/*! ./Logged/AppProjetos */ "./resources/js/Logged/AppProjetos.js");
-window.AppBTConfiguracoes = __webpack_require__(/*! ./Logged/AppBTConfiguracoes */ "./resources/js/Logged/AppBTConfiguracoes.js"); //CONSTANTS métodos e propriedades constantes
+window.AppBTConfiguracoes = __webpack_require__(/*! ./Logged/AppBTConfiguracoes */ "./resources/js/Logged/AppBTConfiguracoes.js");
+window.AppBTEmailTemplates = __webpack_require__(/*! ./Logged/AppBTEmailTemplates */ "./resources/js/Logged/AppBTEmailTemplates.js"); //CONSTANTS métodos e propriedades constantes
 
 window.languageDataTable = __webpack_require__(/*! ./Constants/language_dataTable */ "./resources/js/Constants/language_dataTable.js");
 window.AcessControl = __webpack_require__(/*! ./Constants/access_control */ "./resources/js/Constants/access_control.js");
