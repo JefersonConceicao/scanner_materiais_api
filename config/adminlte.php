@@ -5,8 +5,8 @@ return [
     'title_prefix' => '',
     'title_postfix' => '',
 
-    'logo' => ' <h1> <Admin | Laravel </h1>',
-    'logo_mini' => '<h1> ADM </h1>',
+    'logo' => ' Admin | Laravel ',
+    'logo_mini' => 'ADM ',
     'skin' => 'black-light',
     /*
     |--------------------------------------------------------------------------
@@ -104,7 +104,13 @@ return [
                         'url' => 'roles/',
                         'requestjs' => 'AppRoles',
                         'bt_ac' => 'roles.index'
-                    ]
+                    ],
+                    [
+                        'text' => 'Permissões',
+                        'icon' => 'fa fa-angle-right',
+                        'url' => '/permissoes/',
+                        'bt_ac' => 'permissoes.index'
+                    ],
                 ]
             ],
         ['header' => ''],

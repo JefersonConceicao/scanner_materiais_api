@@ -4,7 +4,7 @@ $(function(){
 }); 
 
 const setTitle = function(){
-    return document.title = "BT | Perfil"
+    return document.title = "Admin | Perfil"
 }
 
 const configDropzoneProfile = function(){
@@ -106,6 +106,7 @@ const formChangePassword = function(form){
                 $(".error_feedback").html("");
             }
         },
+        
         error:function(jqXHR, textStatus, error){
             if(!!jqXHR.responseJSON.errors){
                 AppUsage.showMessagesValidator("#changePassword", jqXHR.responseJSON.errors);

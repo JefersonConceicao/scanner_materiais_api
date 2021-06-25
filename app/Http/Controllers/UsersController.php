@@ -138,7 +138,14 @@ class UsersController extends Controller
         return response()->json($data);
     }
 
-    public function signup(){
+    public function renderSignUp(){
         return view('vendor.adminlte.register');
+    }
+
+    public function signUP(UserRequest $request){
+        $user = new User;
+
+        $data = $user->signUpUser($request->all());
+        return response()->json($data);
     }
 }

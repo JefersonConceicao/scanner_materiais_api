@@ -1,5 +1,5 @@
 @extends('adminlte::master')
-
+@section('title', "Admin | Cadastro")
 @section('adminlte_css')
     @yield('css')
 @stop
@@ -14,7 +14,7 @@
 
         <div class="register-box-body">
             <p class="login-box-msg">{{ "Preencha os campos para se registrar." }} </p>
-            <form action="{{ url(config('adminlte.register_url', 'register')) }}" method="post">
+            <form id="signUPUser">
                 {{ csrf_field() }}
 
                 <div class="form-group has-feedback {{ $errors->has('name') ? 'has-error' : '' }}">
@@ -57,7 +57,7 @@
                     <div class="error_feedback"> </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary btn-block btn-flat">
+                <button type="submit" class="btn btn-primary btn-block btn-flat submitSignUP">
                     Enviar
                 </button>
             </form>

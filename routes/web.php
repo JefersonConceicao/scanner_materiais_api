@@ -3,7 +3,9 @@
 Route::get('/', function () {
     return redirect('/login');
 });
-Route::get('/signup', 'UsersController@signup');
+Route::get('/signup', 'UsersController@renderSignUp')->name('renderSignUp');
+Route::post('/saveSignUp', 'UsersController@signUP')->name('signUp');
+
 Route::get('/password/reset', function(){
     return view('vendor.adminlte.passwords.email'); 
 });
@@ -64,3 +66,6 @@ Route::group(['middleware' => ['auth', 'verifyPermission']] , function(){
         Route::delete('/delete/{id}', 'RolesController@delete')->name('delete');
     });
 });
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

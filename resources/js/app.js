@@ -15,7 +15,7 @@ window.AppSettings = require('./Core/AppSettings');
 //AUTH Scripts - scripts em telas de authenticação/recuperação de senha
 window.AppLogin = require('./Auth/AppLogin');
 window.AppForgotPassword = require('./Auth/AppForgotPassword');
-
+window.AppRegister = require('./Auth/AppRegister');
 //LOGGED Scripts - scripts em módulos do sistema
 window.AppUsers = require('./Logged/AppUsers');
 window.AppProfile = require('./Logged/AppProfile');

@@ -6,7 +6,7 @@ $(function(){
 const modalObject = "#nivel1"
 
 const changeTitle = function(){
-    document.title = "BT | Grupos";
+    document.title = "Admin | Grupos";
 }
 
 const habilitaEventos = function(){

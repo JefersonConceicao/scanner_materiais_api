@@ -7,7 +7,7 @@ const modalObject = "#nivel1";
 const grid = "#gridUsers";
 
 const changeTitle = function(){
-    document.title = 'BT | Usuários';
+    document.title = 'Admin | Usuários';
 }
 
 const habilitaEventos = function(){

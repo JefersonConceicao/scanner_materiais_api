@@ -35878,6 +35878,54 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./resources/js/Auth/AppRegister.js":
+/*!******************************************!*\
+  !*** ./resources/js/Auth/AppRegister.js ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(function () {
+  habilitaEventos();
+});
+
+var habilitaEventos = function habilitaEventos() {
+  $("#signUPUser").on("submit", function (e) {
+    e.preventDefault();
+    formSignUpUser();
+  });
+};
+
+var formSignUpUser = function formSignUpUser() {
+  var form = "#signUPUser";
+  var url = "/saveSignUp";
+  $.ajax({
+    type: "POST",
+    url: url,
+    data: $(form).serialize(),
+    dataType: "JSON",
+    beforeSend: function beforeSend() {
+      $(".submitSignUP").prop("disabled", true).html("<i class=\"fa fa-spinner fa-spin\"> </i> <b> Carregando... </b>");
+    },
+    success: function success(response) {
+      console.log(response);
+    },
+    error: function error(jqXHR, textStatus, _error) {
+      if (!!jqXHR.responseJSON.errors) {
+        var errors = jqXHR.responseJSON.errors;
+        AppUsage.showMessagesValidator(form, errors);
+      }
+    },
+    complete: function complete() {
+      $(".submitSignUP").prop("disabled", false).html(" Enviar ");
+    }
+  });
+};
+
+module.exports = {};
+
+/***/ }),
+
 /***/ "./resources/js/Constants/access_control.js":
 /*!**************************************************!*\
   !*** ./resources/js/Constants/access_control.js ***!
@@ -36825,7 +36873,7 @@ $(function () {
 });
 
 var setTitle = function setTitle() {
-  return document.title = "BT | Perfil";
+  return document.title = "Admin | Perfil";
 };
 
 var configDropzoneProfile = function configDropzoneProfile() {
@@ -36952,7 +37000,7 @@ $(function () {
 var modalObject = "#nivel1";
 
 var changeTitle = function changeTitle() {
-  document.title = "BT | Grupos";
+  document.title = "Admin | Grupos";
 };
 
 var habilitaEventos = function habilitaEventos() {
@@ -37087,7 +37135,7 @@ var modalObject = "#nivel1";
 var grid = "#gridUsers";
 
 var changeTitle = function changeTitle() {
-  document.title = 'BT | Usuários';
+  document.title = 'Admin | Usuários';
 };
 
 var habilitaEventos = function habilitaEventos() {
@@ -37258,7 +37306,8 @@ window.AppUsage = __webpack_require__(/*! ./Core/AppUsage */ "./resources/js/Cor
 window.AppSettings = __webpack_require__(/*! ./Core/AppSettings */ "./resources/js/Core/AppSettings.js"); //AUTH Scripts - scripts em telas de authenticação/recuperação de senha
 
 window.AppLogin = __webpack_require__(/*! ./Auth/AppLogin */ "./resources/js/Auth/AppLogin.js");
-window.AppForgotPassword = __webpack_require__(/*! ./Auth/AppForgotPassword */ "./resources/js/Auth/AppForgotPassword.js"); //LOGGED Scripts - scripts em módulos do sistema
+window.AppForgotPassword = __webpack_require__(/*! ./Auth/AppForgotPassword */ "./resources/js/Auth/AppForgotPassword.js");
+window.AppRegister = __webpack_require__(/*! ./Auth/AppRegister */ "./resources/js/Auth/AppRegister.js"); //LOGGED Scripts - scripts em módulos do sistema
 
 window.AppUsers = __webpack_require__(/*! ./Logged/AppUsers */ "./resources/js/Logged/AppUsers.js");
 window.AppProfile = __webpack_require__(/*! ./Logged/AppProfile */ "./resources/js/Logged/AppProfile.js");

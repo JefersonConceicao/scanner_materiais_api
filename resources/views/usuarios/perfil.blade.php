@@ -1,5 +1,5 @@
 @extends('adminlte::page')
-@section('title', 'BT | Meu Perfil')
+@section('title', 'Admin | Meu Perfil')
 
 @section('content')
     <section class="content-header">
@@ -56,7 +56,10 @@
                                         Setor 
                                     </h5>
                                     <span class="description-text">
-                                         {{ $user->userSetor->descsetor}}  
+                                        {{ !empty($user->userSetor->descsetor) 
+                                            ? $user->userSetor->descsetor
+                                            : "Não informado"
+                                        }}  
                                     </span>
                                 </div>
                             </div>

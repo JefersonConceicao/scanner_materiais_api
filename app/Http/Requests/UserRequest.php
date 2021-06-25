@@ -42,6 +42,7 @@ class UserRequest extends FormRequest
 
                 ];
             break;
+
             case 'update':
                 $validate = [
                     'name' => 'required',
@@ -76,6 +77,16 @@ class UserRequest extends FormRequest
                         }
                     ]   
                 ];
+            break;
+
+            case 'signUp': 
+                $validate = [
+                    'name' => 'required',
+                    'email' => 'required|email',
+                    'password' => 'required|min:6',
+                    'password_confirmation' => 'required|min:6|same:password'
+                ];
+            break;
         }
 
         return $validate;
@@ -95,6 +106,8 @@ class UserRequest extends FormRequest
             'setor_id.required' => 'Campo setor obrigatório',
             'role_user[].required' => 'Campo perfil obrigatório',
             'confirm_password.required' => 'Confirmação de senha obrigatória',
+            'password_confirmation.same' => 'Senhas não conferem',
+            'password_confirmation.required' => 'Confirmação de senha obrigatória'
         ];
     }
 }

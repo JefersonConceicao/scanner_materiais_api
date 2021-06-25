@@ -59,6 +59,34 @@ class User extends Authenticatable
         return $this->hasOne(Setor::class, 'id', 'setor_id');
     }
 
+    public function signUpUser($request = []){
+        try{
+            if($request['password'] != $request['password_confirmation']){
+               return [
+                   'error' => true,
+                   'msg' => 'Senhas não conferem'
+               ];
+            }
+
+            $this->fill([
+                'name' => $request['name'],
+                'email' => $request['email'],
+                'password' => Hash::make($request['password']),
+            ])->save();
+
+            return [
+                'error' => false,
+                'msg' => 'Cadastro efetuado com sucesso!'
+            ];
+        }catch(\Exception $error){
+            return [
+                'error' => true,
+                'msg' => 'Não foi possível efetuar o cadastro, tente novamente mais tarde',
+                'error_msg' => $error->getMessage()
+            ];
+        }
+    }
+
     /**
      * @param string nome 
      * @param string email
@@ -269,7 +297,6 @@ class User extends Authenticatable
             $userRecovery->remember_token = $rememberToken;
 
             if($userRecovery->save()){
-                dd("teste");
                 Mail::to($userRecover->email)->send(new ForgotPassword($userRecover, $rememberToken));
             }
 
