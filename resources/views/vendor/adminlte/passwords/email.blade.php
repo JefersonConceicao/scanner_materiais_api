@@ -1,11 +1,9 @@
 @extends('adminlte::master')
-
 @section('adminlte_css')
     @yield('css')
 @stop
 
 @section('body_class', 'login-page')
-
 @section('body')
     <div class="login-box">
         <!-- /.login-logo -->
@@ -29,31 +27,23 @@
             <p class="login-box-msg">
                 {{ trans('adminlte::adminlte.password_reset_message') }}
             </p>
-        
-            <form action="{{ url(config('adminlte.password_email_url', 'password/email')) }}" method="post">
-                {{ csrf_field() }}
 
+            <p> 
+                Informe o seu e-mail e verifique-o para recuperar sua senha.
+            </p>
+
+            <form id="sendRecoveryPass" method="post">
                 <div class="form-group has-feedback {{ $errors->has('email') ? 'has-error' : '' }}">
                     <input type="email" name="email" class="form-control" value="{{ isset($email) ? $email : old('email') }}"
                            placeholder="{{ trans('adminlte::adminlte.email') }}">
-                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                    <span class="glyphicon glyphicon-envelope form-control-feedback"> </span>
 
-                    @if ($errors->has('email'))
-                        <span class="help-block">
-                            <strong>{{ $errors->first('email') }}</strong>
-                        </span>
-                    @endif
+                    <div class="error_feedback"> </div>
                 </div>
+
                 <button type="submit" class="btn btn-primary btn-block btn-flat">
-                    {{ trans('adminlte::adminlte.send_password_reset_link') }}
+                    Recuperar minha senha
                 </button>
-                
-                @if (session('status'))
-                    <hr/>
-                    <p class="alert alert-success" style="margin-top:2%;">
-                        Um link de recuperação foi enviado para o seu e-mail.
-                    </p>
-                @endif
             </form>
         </div>
         <!-- /.login-box-body -->

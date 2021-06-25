@@ -1,27 +1,12 @@
 <?php
 
 return [
-    'title' => 'BT | UNION',
+    'title' => 'Admin | Laravel',
     'title_prefix' => '',
     'title_postfix' => '',
 
-    'logo' => '<img 
-                    class="img-responsive"
-                    src="/img/logo_union.png" 
-                    style="width:300px; height:180px; object-fit:contain;"
-                    alt="UNION LOGO"
-                    
-                />',
-
-    'logo_mini' => '<img 
-                        class="img-responsive"
-                        style="width:50px; height:50px";
-                        src="/img/union_mini_icon.png" 
-                        object-fit="contain"
-                        />
-                    ',
-
-                    
+    'logo' => ' <h1> <Admin | Laravel </h1>',
+    'logo_mini' => '<h1> ADM </h1>',
     'skin' => 'black-light',
     /*
     |--------------------------------------------------------------------------
@@ -103,167 +88,6 @@ return [
             ],
         ['header' => ''],
             [
-                'text' => 'Administrativo',
-                'icon' => 'fa fa-briefcase',
-                'submenu' => [
-                    [
-                        'text' => 'Projetos',
-                        'url' => '/projetos/',
-                        'requestjs' => 'AppProjetos',
-                        'icon' => 'fa fa-angle-right',
-                        'bt_ac' => 'projetos.index'
-                    ],
-                ],
-            ],
-        ['header' => ''],
-            [
-                'text' => 'Cadastros',
-                'icon' => 'fa fa-cubes',
-                'submenu' => [
-                    [
-                      'text' => 'Categorias dos Instrumentos',
-                      'icon' => 'fa fa-angle-right',
-                      'url' => '/categoriaInstrumentos/',
-                      'requestjs' => 'AppCategoriaInstrumentos',
-                      'bt_ac' => 'categoriaInstrumentos.index'
-                    ],
-                    [
-                        'text' => 'Checklist de Estrutura',
-                        'icon' => 'fa fa-angle-right',
-                        'url' => '/checkListEstruturas/',
-                        'requestjs' => 'AppCheckListEstruturas',
-                        'bt_ac' => 'checkListEstruturas.index'
-                    ],
-                    [
-                        'text' => 'Checklist de Itens',
-                        'icon' => 'fa fa-angle-right',
-                        'url' => '/checkListItens/',
-                        'requestjs' => 'AppCheckListItens',
-                        'bt_ac' => 'checkListItens.index'
-                    ],
-                    [
-                        'text' => 'Checklist de Modelos',
-                        'icon' => 'fa fa-angle-right',
-                        'url' =>'/checkListModelos/',
-                        'requestjs' => 'AppCheckListModelos',
-                        'bt_ac' => 'checkListModelos.index'    
-                    ],
-                    [
-                        'text' => 'Elemento de Despesa',
-                        'icon' => 'fa fa-angle-right',
-                        'url' =>'/elementoDespesas/',
-                        'requestjs' => 'AppElementosDespesas',
-                        'bt_ac' => 'elementoDespesas.index'      
-                    ],
-                    [
-                        'text' => 'Fonte de Recurso',
-                        'icon' => 'fa fa-angle-right',
-                        'url' => '/fonteRecursos/',
-                        'requestjs' => 'AppFonteRecursos',
-                        'bt_ac' => 'fonteRecursos.index'       
-                    ],
-                    [
-                        'text' => 'Modalidade de Apoio',
-                        'icon' => 'fa fa-angle-right',
-                        'url' => '/modalidadesApoio/',
-                        'requestjs' => 'AppModalidadesApoio',
-                        'bt_ac' => 'modalidadesApoio.index'      
-                    ],
-                    [
-                        'text' => 'Modalidade de Licitação',
-                        'icon' => 'fa fa-angle-right',
-                        'url' => '/modalidadesLicitacao/',
-                        'requestjs' => 'AppModalidadesLicitacao',
-                        'bt_ac' => 'modalidadesLicitacao.index'
-                    ],
-                    [
-                        'text' => 'Projeto de Atividade',
-                        'icon' => 'fa fa-angle-right',
-                        'url' => '/projetoAtividades/',
-                        'requestjs' => 'AppProjetosAtividade',
-                        'bt_ac' => 'projetoAtividades.index'
-                    ],
-                    [
-                        'text' => 'Proponente',
-                        'icon' => 'fa fa-angle-right',
-                        'url' => '/proponentes/',
-                        'requestjs' => 'AppProponentes', 
-                        'bt_ac' => 'proponentes.index' 
-                    ],
-                    [
-                        'text' => 'Setores',
-                        'icon' => 'fa fa-angle-right',
-                        'url' => '/setores/',
-                        'requestjs' => 'AppSetores',
-                        'bt_ac' => 'setores.index'
-                    ],
-                    [
-                        'text' => 'Tipo de Projetos (Eventos)',
-                        'icon' => 'fa fa-angle-right',
-                        'url' => '/tiposProjetos/',
-                        'requestjs' => 'AppTiposProjetos',
-                        'bt_ac' => 'tiposProjetos.index'
-                    ],
-                ],
-            ],
-        ['header' => ''],
-            [
-                'text' => 'Localidades',
-                'icon' => 'fa fa-map-marker',
-                'submenu' => [
-                    [
-                        'text' => 'Localidades',
-                        'icon' => 'fa fa-angle-right',
-                        'url' => '/localidades/',
-                        'requestjs' => 'AppLocalidades',
-                        'bt_ac' => 'localidades.index'
-                    ],
-                    [
-                        'text' => 'País',
-                        'icon' => 'fa fa-angle-right',
-                        'url' => '/paises/',
-                        'requestjs' => 'AppPaises',
-                        'bt_ac' => 'paises.index'
-                    ],
-                    [
-                        'text' => 'Território Identidade',
-                        'icon' => 'fa fa-angle-right',
-                        'url' => '/territoriosTuristicos/',
-                        'requestjs' => 'AppTerritoriosTuristicos',
-                        'bt_ac' => 'territoriosTuristicos.index'
-                    ],
-                    [
-                        'text' => 'Tipo Evento/Festa',
-                        'icon' => 'fa fa-angle-right',
-                        'url' => '/tiposEventosFestas/',
-                        'requestjs' => 'AppTiposEventosFestas',
-                        'bt_ac' => 'tiposEventosFestas.index'
-                    ],
-                    [
-                        'text' => 'Tipo Infraestrutura',
-                        'icon' => 'fa fa-angle-right',
-                        'url' => '/tiposInfraestruturas/',
-                        'requestjs' => 'AppTiposInfraestruturas',
-                        'bt_ac' => 'tiposInfraestruturas.index'
-                    ],
-                    [
-                        'text' => 'UF',
-                        'icon' => 'fa fa-angle-right',
-                        'url' => '/uf/',
-                        'requestjs' => 'AppUF',
-                        'bt_ac' => 'uf.index' 
-                    ],
-                    [
-                        'text' => 'Zona Turística',
-                        'icon' => 'fa fa-angle-right',
-                        'url' => '/zonasTuristicas/',
-                        'requestjs' => 'AppZonasTuristicas',
-                        'bt_ac' => 'zonasTuristicas.index'
-                    ],
-                ],
-            ],
-        ['header' => ''],
-            [
                 'text'  => 'Controle de Acesso',
                 'icon'  => 'fa fa-lock',
                 'submenu' => [
@@ -304,7 +128,6 @@ return [
     | built in Gate functionality
     |
     */
-
     'filters' => [
         JeroenNoten\LaravelAdminLte\Menu\Filters\HrefFilter::class,
         JeroenNoten\LaravelAdminLte\Menu\Filters\SearchFilter::class,

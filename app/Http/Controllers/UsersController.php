@@ -3,6 +3,7 @@
 //GERAL NAMESPACES
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 //MODELS
 use App\Models\User;
@@ -16,6 +17,9 @@ use App\Http\Requests\UserRequest;
 
 class UsersController extends Controller
 {
+
+    // -------- MANAGMENT USER -------------
+
     public function index(Request $request)
     {
         $user = new User; 
@@ -48,7 +52,6 @@ class UsersController extends Controller
             ->with('roles', $optionsRoles)
             ->with('setores', $optionsSetores);
     }
-
 
     public function store(UserRequest $request)
     {
@@ -96,7 +99,14 @@ class UsersController extends Controller
         
         return response()->json($data, $data['error'] ? 500 : 200);
     }
+    
+    public function deleteAll(Request $request){
+        $user = new User;
+        $data = $user->deleteAllRowsUser($request->all());
 
+        return response()->json($data);
+    }   
+    // ------------- PROFILE MANAGMENT ----------------
     public function profile(){
         $user = Auth::user();
         $data = $user->getUserById($user->id);
@@ -121,10 +131,14 @@ class UsersController extends Controller
         return response()->json($data);
     }
 
-    public function deleteAll(Request $request){
+    public function recoveryPassword(UserRequest $request){
         $user = new User;
-        $data = $user->deleteAllRowsUser($request->all());
 
+        $data = $user->recoveryPasswordUser($request->all());
         return response()->json($data);
-    }   
+    }
+
+    public function signup(){
+        return view('vendor.adminlte.register');
+    }
 }

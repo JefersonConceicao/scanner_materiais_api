@@ -23,6 +23,12 @@
   margin: 7% auto;
 }
 
+@media (max-width: 768px) {
+  #loginLogoUnion {
+    width: 100% !important;
+  }
+}
+
 body {
   background-color: #D2D2D2 !important;
 }
@@ -243,6 +249,7 @@ tr.row-selected {
 .cardConfig:hover {
   box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.33) !important;
   cursor: pointer;
+  border: 1px solid #e91313;
 }
 
 .content-icon {

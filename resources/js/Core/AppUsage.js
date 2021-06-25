@@ -39,9 +39,10 @@ const loadModal = function(url, modalObject, width = null, callback = null){
     });
 
     $(modalObject).find('.modal-content').html("").append(
-        `<section>  
-            <div class="alert alert-primary"> <i class="fa fa-spinner fa-spin"> </i> Carregando... <div>
-        </section>`
+        `<div class="modal-header">
+            <strong> <i class="fa fa-spinner fa-spin"> </i> Carregando... </strong>  
+            <button class="close" type="button" data-dismiss="modal"> x  </button>
+        </div>`
     );
            
     $(modalObject).find(`.modal-content`).load(`${url} ${modalObject} > .modal-dialog > .modal-content >`, function(){

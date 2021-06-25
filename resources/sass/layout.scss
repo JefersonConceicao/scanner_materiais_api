@@ -177,6 +177,7 @@ tr.row-selected{
 .cardConfig:hover{
     box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.33) !important;
     cursor:pointer;
+    border:1px solid $vermelhoBahia;
 }   
 
 .content-icon {
@@ -187,4 +188,6 @@ tr.row-selected{
     font-size: 3em;
     padding:15%;
 }
+
+
 

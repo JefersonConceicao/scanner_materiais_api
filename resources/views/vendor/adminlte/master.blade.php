@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="shortcut icon" href="{{ asset("img/favicon.ico") }}"/>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title> 
@@ -42,4 +41,5 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/i18n/pt-BR.js">  </script>
         <script src="{{ asset('js/app.js')}}"> </script>
     </body>
+    
 </html>

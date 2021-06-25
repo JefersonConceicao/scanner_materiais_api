@@ -1,5 +1,4 @@
 <?php 
-    
     function converteData(String $data, String $formato): String {
         return date($formato, strtotime($data));
     }
