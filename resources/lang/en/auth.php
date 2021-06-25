@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Authentication Language Lines
@@ -12,8 +11,6 @@ return [
     | these language lines according to your application's requirements.
     |
     */
-
     'failed' => 'Credenciais inexistentes em nossa base de dados.',
     'throttle' => 'Excesso de tentativas tente novamente em :seconds seconds.',
-
 ];

@@ -7,6 +7,9 @@
 @section('body')
     <div class="login-box">
         <!-- /.login-logo -->
+        <div class="login-logo">
+            <h1> Admin | Laravel </h1>
+        </div>
         <div class="login-box-body">
             <div class="row">
                 <div class="col-md-12">
@@ -20,12 +23,8 @@
                 </div>
             </div>
 
-            <div class="login-logo" style="margin-top:1%;">
-                <a href="{{ url(config('adminlte.dashboard_url', 'home')) }}">{!! config('adminlte.logo', '<b>Admin</b>LTE') !!}</a>
-            </div>
-
             <p class="login-box-msg">
-                {{ trans('adminlte::adminlte.password_reset_message') }}
+                <b> {{ trans('adminlte::adminlte.password_reset_message') }} </b>
             </p>
 
             <p> 
