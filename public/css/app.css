@@ -275,3 +275,9 @@ tr.row-selected {
   float: right;
 }
 
+.register-box-body {
+  border-top: 2px solid #e91313;
+  border-bottom: 2px solid #e91313;
+  border-radius: 20px;
+}
+

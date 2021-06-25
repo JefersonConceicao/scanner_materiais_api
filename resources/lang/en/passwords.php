@@ -15,8 +15,7 @@ return [
 
     'password' => 'As senhas devem ter mais de 6 caracteres e serem idênticas as senhas de confirmação.',
     'reset' => 'Sua senha foi redefinida',
-    'sent' => 'We have e-mailed your password reset link!',
+    'sent' => 'Enivamos para o seu e-mail um link com a recuperação de senha',
     'token' => 'Código de redefinição de senha inválido',
     'user' => "Este e-mail não existe em nossa base de dados",
-
 ];
