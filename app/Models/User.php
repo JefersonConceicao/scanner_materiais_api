@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ForgotPassword;
 use Auth;
 
 //MODELS
@@ -191,7 +193,6 @@ class User extends Authenticatable
                 'msg' => 'Não foi possível excluir os registros'
             ];
         }     
-
     }
 
     public function changePassword($request = [], $user){
@@ -259,5 +260,28 @@ class User extends Authenticatable
         $roles = $this->rolesByUser()->pluck('roles.id')->toArray();
         
         return $fRoles->getPermissionsByRoles($roles);
+    }
+
+    public function recoveryPasswordUser($request = []){
+        try{
+            $rememberToken = md5(uniqid(rand(), true));
+            $userRecovery = $this->where('email', $request['email'])->first();
+            $userRecovery->remember_token = $rememberToken;
+
+            if($userRecovery->save()){
+                dd("teste");
+                Mail::to($userRecover->email)->send(new ForgotPassword($userRecover, $rememberToken));
+            }
+
+            return [
+                'error' => false,
+                'msg' => 'Um link de recuperação de senha foi enviada para o seu e-mail.'
+            ];
+        }catch(\Exception $error){
+            return [
+                'error' => true,
+                'msg' => 'Algo deu errado, tente novamente mais tarde'
+            ];
+        }
     }
 }

@@ -3,6 +3,16 @@
 @section('content')
     <section class="content-header">
             <h1> 
+                <small> 
+                    <a  
+                        class="back-to-settings"
+                        href="/configuracoes/"
+                        requestjs="AppBTConfiguracoes"
+                    > 
+                        <i class="fa fa-arrow-left"> </i>
+                    </a> 
+                </small> &nbsp;
+
                 Permissões de Acesso 
 
                 <smalL>
@@ -12,7 +22,7 @@
 
             <ol class="breadcrumb"> 
                 <li> <a href="#">  <i class="fa fa-home"> </i>  Início </a> </li>
-                <li> <a href="#"> <i class="fa fa-lock"> </i> Controle de Acesso  </a> </li>
+                <li> <a href="#"> <i class="fa fa-cog"> </i> Configurações  </a> </li>
                 <li class="active"> <a href="#"> Permissões </a>  </li>
             </ol>
     </section>

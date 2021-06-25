@@ -2,6 +2,7 @@ $(function(){
     setupAjax();
     adjustingDropDown();
     settingsAnimateFilter();
+    configDropdown();
 })
 
 const adjustingDropDown = function(){
@@ -34,6 +35,8 @@ const setupAjax = function(){
         if(!$.fn.DataTable.isDataTable($('.dataTable'))){
             AppUsage.initializeDataTable();
         }
+        
+        configDropdown();
     })
 
     $(document).ajaxError(function(event, jqXHR, ajaxSettings, error){
@@ -41,7 +44,7 @@ const setupAjax = function(){
             Swal.fire({
                 position:'top-end',
                 icon: 'error',
-                title: `<p style="color:#ffff"> Ocorreu um erro interno, tente novamente mais tarde ou abra um chamado </p>`,
+                title: `<b style="color:#ffff"> Ocorreu um erro interno, tente novamente mais tarde ou abra um chamado </b>`,
                 toast: true,
                 timer: 3000,    
                 showConfirmButton: false,
@@ -60,8 +63,9 @@ const setupAjax = function(){
         }
         
         if(jqXHR.status === 401){
-            if($("#nivel2").hasClass("in")){
-                $("#nivel2").modal('hide');
+            //VERIFICA SE EXISTE ALGUM MODAL DE NIVEL2 OU NIVEL3 SE SIM FECHE TODOS
+            if($("#nivel2,#nivel3").hasClass("in")){
+                $("#nivel2,#nivel3").modal('hide');
             }
     
             const url = '/permissoes/methodNotAllowed'
@@ -74,8 +78,40 @@ const settingsAnimateFilter = function(){
     $("#targetCollapseFilter").on("click", function(){
        $(this).toggleClass('activeFilter');
     });
+
+    $(".dropActions").on("click", function(){
+        const element = $(this);
+        const expanded = element.attr("aria-expanded");
+
+        if(expanded === "true"){
+            element.find('.fa-angle-down').removeClass('animation-angle-up').addClass('animation-angle-down')
+        }else{
+            element.find('.fa-angle-down').removeClass('animation-angle-down').addClass('animation-angle-up')
+        }
+    });
 }  
 
+const configDropdown = function(){
+    $(".table-responsive").on("shown.bs.dropdown", function(e){
+        let $table = $(this); 
+        let $menu = $(e.target).find('.dropdown-menu');
+
+        let tableOffsetHeight = $table.offset().top + $table.height(); 
+        let menuOffsetHeight = $menu.offset().top + $menu.outerHeight(true);
+
+        if(menuOffsetHeight > tableOffsetHeight){
+            $table.css('padding-bottom', menuOffsetHeight - tableOffsetHeight);
+        }
+    })
+    
+    $(".table-responsive").on("hide.bs.dropdown", function(e){
+        $(this).css('padding-bottom', 0);
+
+        if($('.fa-angle-down').hasClass('animation-angle-up')){
+            $('.fa-angle-down').removeClass('animation-angle-up').addClass("animation-angle-down");
+        }
+    });    
+}
 
 module.exports = {
     setupAjax,

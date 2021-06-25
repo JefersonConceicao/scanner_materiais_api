@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Route;
+use App\Models\User;
 
 class UserRequest extends FormRequest
 {
@@ -52,6 +53,7 @@ class UserRequest extends FormRequest
                     'confirm_password' => 'same:password',
                 ];
             break;
+
             case 'changePassword':
                 $validate = [
                     'actual_password' => 'required',
@@ -59,6 +61,21 @@ class UserRequest extends FormRequest
                     'confirm_password' => 'required|min:6|same:password'
                 ];
             break;
+
+            case 'recoveryPassword':
+                $validate = [
+                    'email' => [
+                        'required',
+                        'email',
+                        function($attribute, $value, $fail){
+                            $user = new User;
+                            
+                            if(!$user->where('email', $value)->exists()){
+                                $fail('E-mail inexistente em nossa base de dados');
+                            }
+                        }
+                    ]   
+                ];
         }
 
         return $validate;

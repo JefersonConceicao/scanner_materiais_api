@@ -1,1 +1,281 @@
+<<<<<<< HEAD
 @import url(https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap);#seePass,a{color:#337ab7}#seePass{cursor:pointer;pointer-events:auto}.btn-primary{background-color:#337ab7}.login-box-body{width:100%;border-top:2px solid #e91313;border-bottom:2px solid #e91313;border-radius:20px}.login-box{margin:7% auto}body{background-color:#d2d2d2!important}#contentLoading{position:fixed;width:100%;top:0;bottom:0;z-index:9999}#contentLoading,.loadingTable{background-color:hsla(0,0%,100%,.3)}.loadingTable{z-index:-1;visibility:hidden}.loading-transbox{color:#000;z-index:9999}.body-loading{line-height:50vh;text-align:center;font-size:4em;color:#e91313}.body-container{position:fixed;width:100%;background-color:rgba(1,1,1,.5)}.main-header{border-top:2px solid #e91313}#containerLoadingBar{width:100%;background-color:grey}#progressLoadingBar{height:4px;background-color:#e91313;width:1%}.ms-container{width:100%!important}.content-wrapper{background-color:#e5e6e6}.box{box-shadow:0 1px 3px 0 rgba(0,0,0,.33)!important}.box,.modal-content{border-radius:20px 0 20px 0}.bg-bahia{background-color:#c4c4c4!important}.bg-bahia .widget-user-username{color:#333;font-family:Roboto,sans-serif}.bg-bahia .widget-user-desc{color:#333;font-weight:500}.profilePicture{cursor:pointer}.box-bt-blue{border-left:3px solid #337ab7}.box-bt-blue,.box-bt-red{border-top:none!important}.box-bt-red{border-left:3px solid #e91313}tr.row-selected{background-color:#e5e6e6;border-color:1px solid #e91313}.activeFilter{box-shadow:0 0 0 0 #000;transform:scale(1);-webkit-animation:pulse 1s infinite;animation:pulse 1s infinite}.disabledFilter{-webkit-animation:none!important;animation:none!important}@-webkit-keyframes pulse{0%{transform:scale(.95);box-shadow:0 0 0 0 #337ab7}70%{transform:scale(1);box-shadow:0 0 0 10px rgba(22,118,245,0)}to{transform:scale(.95);box-shadow:0 0 0 0 transparent}}@keyframes pulse{0%{transform:scale(.95);box-shadow:0 0 0 0 #337ab7}70%{transform:scale(1);box-shadow:0 0 0 10px rgba(22,118,245,0)}to{transform:scale(.95);box-shadow:0 0 0 0 transparent}}@media (max-width:800px){.modal-dialog{width:100%!important}}.required{color:#e91313}.warning-required{float:right}
+=======
+@import url(https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap);a {
+  color: #337ab7;
+}
+
+#seePass {
+  cursor: pointer;
+  pointer-events: auto;
+  color: #337ab7;
+}
+
+.btn-primary {
+  background-color: #337ab7;
+}
+
+.login-box-body {
+  width: 100%;
+  border-top: 2px solid #e91313;
+  border-bottom: 2px solid #e91313;
+  border-radius: 20px;
+}
+
+.login-box {
+  margin: 7% auto;
+}
+
+@media (max-width: 768px) {
+  #loginLogoUnion {
+    width: 100% !important;
+  }
+}
+
+body {
+  background-color: #D2D2D2 !important;
+}
+
+#contentLoading {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.3);
+  z-index: 9999;
+}
+
+.loadingTable {
+  background-color: rgba(255, 255, 255, 0.3);
+  z-index: -1;
+  visibility: hidden;
+}
+
+.loading-transbox {
+  color: black;
+  z-index: 9999;
+}
+
+.body-loading {
+  line-height: 50vh;
+  text-align: center;
+  font-size: 4em;
+  color: #e91313;
+}
+
+.body-container {
+  position: fixed;
+  width: 100%;
+  background-color: rgba(1, 1, 1, 0.5);
+}
+
+.main-header {
+  border-top: solid 2px #e91313;
+}
+
+#containerLoadingBar {
+  width: 100%;
+  background-color: grey;
+}
+
+#progressLoadingBar {
+  height: 4px;
+  background-color: #e91313;
+  width: 1%;
+}
+
+.ms-container {
+  width: 100% !important;
+}
+
+.content-wrapper {
+  background-color: #e5e6e6;
+}
+
+.box {
+  border-radius: 20px 0 20px 0;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.33) !important;
+}
+
+.modal-content {
+  border-radius: 20px 0 20px 0;
+}
+
+.bg-bahia {
+  background-color: #c4c4c4 !important;
+}
+
+.bg-bahia .widget-user-username {
+  color: #333;
+  font-family: "Roboto", sans-serif;
+}
+
+.bg-bahia .widget-user-desc {
+  color: #333;
+  font-weight: 500;
+}
+
+.profilePicture {
+  cursor: pointer;
+}
+
+.box-bt-blue {
+  border-top: none !important;
+  border-left: 3px solid #337ab7;
+}
+
+.box-bt-red {
+  border-top: none !important;
+  border-left: 3px solid #e91313;
+}
+
+tr.row-selected {
+  background-color: #e5e6e6;
+  border-color: 1px solid #e91313;
+}
+
+.activeFilter {
+  box-shadow: 0 0 0 0 black;
+  transform: scale(1);
+  -webkit-animation: pulse 1s infinite;
+          animation: pulse 1s infinite;
+}
+
+.disabledFilter {
+  -webkit-animation: none !important;
+          animation: none !important;
+}
+
+@-webkit-keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 #337ab7;
+  }
+
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(22, 118, 245, 0);
+  }
+
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 #337ab7;
+  }
+
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(22, 118, 245, 0);
+  }
+
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+  }
+}
+
+.btn-icon-toggle {
+  width: 36px;
+  border-radius: 999px !important;
+}
+
+.btn-icon-toggle i {
+  color: black;
+  font-size: 1.2em;
+}
+
+.animation-angle-up {
+  -webkit-animation: rotate-up 0.3s forwards;
+          animation: rotate-up 0.3s forwards;
+}
+
+.animation-angle-down {
+  -webkit-animation: rotate-down 0.3s forwards;
+          animation: rotate-down 0.3s forwards;
+}
+
+@-webkit-keyframes rotate-up {
+  to {
+    transform: rotate(180deg);
+  }
+
+  from {
+    transform: rotate(0);
+  }
+}
+
+@keyframes rotate-up {
+  to {
+    transform: rotate(180deg);
+  }
+
+  from {
+    transform: rotate(0);
+  }
+}
+
+@-webkit-keyframes rotate-down {
+  to {
+    transform: rotate(0);
+  }
+
+  from {
+    transform: rotate(180deg);
+  }
+}
+
+@keyframes rotate-down {
+  to {
+    transform: rotate(0);
+  }
+
+  from {
+    transform: rotate(180deg);
+  }
+}
+
+.dropdown-menu {
+  border: 1px solid black !important;
+}
+
+.dropdown-menu > li > a {
+  padding: 5px 16px;
+  color: black;
+}
+
+.cardConfig:hover {
+  box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.33) !important;
+  cursor: pointer;
+  border: 1px solid #e91313;
+}
+
+.content-icon {
+  text-align: center;
+}
+
+.content-icon i {
+  font-size: 3em;
+  padding: 15%;
+}
+
+@media (max-width: 800px) {
+  .modal-dialog {
+    width: 100% !important;
+  }
+}
+
+.required {
+  color: #e91313;
+}
+
+.warning-required {
+  float: right;
+}
+
+>>>>>>> dev

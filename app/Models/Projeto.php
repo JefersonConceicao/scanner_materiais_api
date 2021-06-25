@@ -28,6 +28,7 @@ class Projeto extends Model
         'dt_alteracao',
         'usu_lancamento_id',
         'usu_responsavel_id',
+        'usu_alteracao_id',
         'setor_responsavel_id'
     ];
 
@@ -43,6 +44,10 @@ class Projeto extends Model
 
         if(isset($request['processo']) && !empty($request['processo'])){
             $conditions[] = ['projetos.processo', 'LIKE', "%".$request['processo']."%"];
+        }
+
+        if(isset($request['nome_projeto']) && !empty($request['nome_projeto'])){
+            $conditions[] = ['nome_projeto', 'LIKE', "%".$request['nome_projeto']."%"];
         }
 
         if(isset($request['tipo_processo']) && !empty($request['tipo_processo'])){
@@ -140,17 +145,88 @@ class Projeto extends Model
 
     public function getProjetoById($id){
         return $this
+            ->join('setor', 'projetos.setor_origem_id', 'setor.id')
+            ->join('proponente', 'projetos.proponente_id', 'proponente.id')
+            ->join('localidade', 'projetos.localidade_id', 'localidade.id')
+            ->join('modalidade_apoio', 'projetos.modalidade_apoio_id', 'modalidade_apoio.id')
+            ->join('tipo_projeto', 'projetos.tipo_projeto_id', 'tipo_projeto.id')
+            ->join('users as user_responsavel','projetos.usu_responsavel_id', 'user_responsavel.id')
+            ->leftJoin('users as user_lancamento', 'projetos.usu_lancamento_id', 'user_lancamento.id')
+            ->leftJoin('users as user_alteracao', 'projetos.usu_alteracao_id', 'user_alteracao.id')
+            ->select(
+                'setor.descsetor',
+                'proponente.nome_proponente',
+                'localidade.localidade',
+                'projetos.*',
+                'modalidade_apoio.modalidade_apoio',
+                'tipo_projeto.nome_tipo as nome_tipo_projeto',
+                'user_responsavel.name as nome_usuario_responsavel',
+                'user_alteracao.name as nome_usuario_alteracao',
+                'user_alteracao.name as nome_usuario_lancamento'
+            )
             ->find($id);
     }
 
-    public function saveProjeto($request = []){
+    public function saveProjeto($request = [], $user){
+        try{ 
+            $request['dt_lancamento'] = date('Y-m-d H:i:s');
+            $request['usu_lancamento_id'] = $user->id;
+            $request['usu_responsavel_id'] = $user->id;
 
+            if(isset($request['dt_protocolo']) && !empty($request['dt_protocolo'])){
+                $request['dt_protocolo'] = converteData(str_replace('/','-',$request['dt_protocolo']), 'Y-m-d');
+            }
 
+            if(isset($request['dt_inicio']) && !empty($request['dt_inicio'])){
+                $request['dt_inicio'] = converteData(str_replace('/','-',$request['dt_inicio']), 'Y-m-d');
+            }
+
+            if(isset($request['dt_fim']) && !empty($request['dt_fim'])){
+                $request['dt_fim'] = converteData(str_replace('/','-',$request['dt_fim']), 'Y-m-d');
+            }
+            
+            $this->fill($request)->save();
+            return [
+                'error' => false,
+                'msg' => 'Novo Projeto incluído com sucesso!' 
+            ];  
+        }catch(\Exception $error){
+            return [
+                'error' => true,
+                'msg' => 'Não foi possível salvar o registro, tente novamente mais tarde',
+                'error_msg' => $error->getMessage()
+            ];
+        }
     }
 
-    public function updateProjeto($id, $request = []){
+    public function updateProjeto($id, $request = [], $user){
+        try{ 
+            $projeto = $this->find($id);
+            $request['usu_alteracao_id'] = $user->id;  
+            
+            if(isset($request['dt_protocolo']) && !empty($request['dt_protocolo'])){
+                $request['dt_protocolo'] = converteData(str_replace('/','-',$request['dt_protocolo']), 'Y-m-d');
+            }
 
+            if(isset($request['dt_inicio']) && !empty($request['dt_inicio'])){
+                $request['dt_inicio'] = converteData(str_replace('/','-',$request['dt_inicio']), 'Y-m-d');
+            }
 
+            if(isset($request['dt_fim']) && !empty($request['dt_fim'])){
+                $request['dt_fim'] = converteData(str_replace('/','-',$request['dt_fim']), 'Y-m-d');
+            }
+
+            $projeto->fill($request)->save();
+            return [
+                'error' => false,
+                'msg' => 'Dados do Projeto alterado com sucesso!'
+            ];
+        }catch(\Exception $error){
+            return [
+                'error' => true,
+                'msg' => 'Não foi possível alterar o registro'
+            ];
+        }
     }
 
     public function deleteProjeto($id){

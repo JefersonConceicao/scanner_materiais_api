@@ -1,5 +1,4 @@
 @extends('adminlte::master')
-    @section('title', 'BT | Login')
 @section('adminlte_css')
     <link rel="stylesheet" href="{{ asset('vendor/adminlte/vendor/icheck-bootstrap/icheck-bootstrap.min.css') }}">
     @yield('css')
@@ -9,18 +8,17 @@
 @section('body')
     <div class="login-box">
         <!-- /.login-logo -->
-        <div class="login-box-body pull-right">
-            <div class="login-logo">
-                {!! config('adminlte.logo', '<b>Admin</b>LTE') !!}
-            </div>
-            
+        <div class="login-logo">
+                <h1> Admin | Laravel </h1>
+        </div>
+        <div class="login-box-body pull-right">            
             <p class="login-box-msg"> Inicie uma nova sessão </p>
             <form action="{{ url(config('adminlte.login_url', 'login')) }}" method="post">
                 {{ csrf_field() }}
 
                 <div class="form-group has-feedback {{ $errors->has('email') ? 'has-error' : '' }}">
                     <input type="email" name="email" class="form-control" value="{{ old('email') }}"
-                           placeholder="{{ trans('adminlte::adminlte.email') }}">
+                        placeholder="{{ trans('adminlte::adminlte.email') }}">
                     <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                     @if ($errors->has('email'))
                         <span class="help-block">
@@ -49,6 +47,12 @@
                 </div>
             </form>
             <br>
+            <p> 
+                <strong> Não possui conta? </strong> 
+                <a href="/signup">
+                    Cadastre-se 
+                </a>
+            </p>
             <p>
                 <a href="{{ url(config('adminlte.password_reset_url', 'password/reset')) }}" class="text-center">
                     Não lembro minha senha

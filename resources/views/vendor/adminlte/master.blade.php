@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="shortcut icon" href="{{ asset("img/favicon.ico") }}"/>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title> 
@@ -24,7 +23,7 @@
     </head>
 
     <body class="hold-transition @yield('body_class') fixed">
-            @yield('body')
+        @yield('body')
         <script src="{{ asset('vendor/adminlte/vendor/jquery/dist/jquery.min.js') }}"></script>
         <script src="{{ asset('vendor/adminlte/vendor/jquery/dist/jquery.slimscroll.min.js') }}"></script>
         <script src="{{ asset('vendor/adminlte/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
@@ -32,6 +31,8 @@
         <script src="{{ asset('vendor/jquery.quick-search/dist/jquery.quicksearch.js') }}"> </script>
         <script src="{{ asset('libs/datetimepicker/build/jquery.datetimepicker.full.min.js') }}"> </script>
         <script src="{{ asset('libs/inputmask/dist/jquery.inputmask.min.js')}}"> </script>
+        <script src="{{ asset('libs/tinymce/tinymce.min.js') }}"> </script>
+        <script src="{{ asset('libs/tinymce/langs/pt_BR.js') }}"> </script>
         <script> 
             var arrayPermissions = '<?php echo json_encode(session()->get("user_permissions")); ?>' 
         </script>
@@ -40,4 +41,5 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/i18n/pt-BR.js">  </script>
         <script src="{{ asset('js/app.min.js')}}"> </script>
     </body>
+    
 </html>

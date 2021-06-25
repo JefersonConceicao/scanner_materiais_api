@@ -21,6 +21,7 @@ const loadLibs = function(){
     configMultiSelect();
     configMasks();
     configDateTimePicker();
+    configTinyMce();
 }
 
 /**
@@ -38,9 +39,10 @@ const loadModal = function(url, modalObject, width = null, callback = null){
     });
 
     $(modalObject).find('.modal-content').html("").append(
-        `<section>  
-            <div class="alert alert-primary"> <i class="fa fa-spinner fa-spin"> </i> Carregando... <div>
-        </section>`
+        `<div class="modal-header">
+            <strong> <i class="fa fa-spinner fa-spin"> </i> Carregando... </strong>  
+            <button class="close" type="button" data-dismiss="modal"> x  </button>
+        </div>`
     );
            
     $(modalObject).find(`.modal-content`).load(`${url} ${modalObject} > .modal-dialog > .modal-content >`, function(){
@@ -122,6 +124,7 @@ const configSelect2 = function(){
 
 const configDateTimePicker = function(){
     $.datetimepicker.setLocale('pt-BR');
+    
     $(".datetimepicker").datetimepicker({   
         closeOnDateSelect: true,
         format: 'd/m/Y H:i:s',
@@ -186,6 +189,20 @@ const configMasks = function(){
         mask: '99999-999',
         keepStatic:true,
     })
+}
+
+const configTinyMce = function(){
+    tinymce.init({
+        selector: 'textarea.tinymce',
+        plugins: 'advlist link image lists',
+        language: 'pt_BR',
+        height:400,
+    })
+
+    //AO FECHAMENTO DO MODAL É ENCERRADO COMPLETAMENTE O TINYMCE
+    $(document).on("hidden.bs.modal", "#nivel1", function(){
+        tinymce.remove();
+    });
 }
 
 const showMessagesValidator = function(form, errorsRequest){
