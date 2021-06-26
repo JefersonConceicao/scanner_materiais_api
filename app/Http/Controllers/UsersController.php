@@ -17,9 +17,19 @@ use App\Http\Requests\UserRequest;
 
 class UsersController extends Controller
 {
+    // --------- REGISTER USER --------------
+    public function renderSignUp(){
+        return view('vendor.adminlte.register');
+    }
+
+    public function signUP(UserRequest $request){
+        $user = new User;
+        $data = $user->signUpUser($request->all());
+
+        return response()->json($data);
+    }
 
     // -------- MANAGMENT USER -------------
-
     public function index(Request $request)
     {
         $user = new User; 
@@ -135,17 +145,6 @@ class UsersController extends Controller
         $user = new User;
 
         $data = $user->recoveryPasswordUser($request->all());
-        return response()->json($data);
-    }
-
-    public function renderSignUp(){
-        return view('vendor.adminlte.register');
-    }
-
-    public function signUP(UserRequest $request){
-        $user = new User;
-
-        $data = $user->signUpUser($request->all());
         return response()->json($data);
     }
 }

@@ -35908,7 +35908,18 @@ var formSignUpUser = function formSignUpUser() {
       $(".submitSignUP").prop("disabled", true).html("<i class=\"fa fa-spinner fa-spin\"> </i> <b> Carregando... </b>");
     },
     success: function success(response) {
-      console.log(response);
+      Swal.fire({
+        position: 'top-end',
+        icon: !response.error ? 'success' : 'error',
+        title: "<b style=\"color:#fff\"> ".concat(response.msg, " </b>"),
+        toast: true,
+        showConfirmButton: false,
+        timer: 3500,
+        background: '#337ab7',
+        didClose: function didClose() {
+          window.location.href = '/users/perfil';
+        }
+      });
     },
     error: function error(jqXHR, textStatus, _error) {
       if (!!jqXHR.responseJSON.errors) {
@@ -36830,6 +36841,10 @@ module.exports = {
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
+	"./AppModulos": "./resources/js/Logged/AppModulos.js",
+	"./AppModulos.js": "./resources/js/Logged/AppModulos.js",
+	"./AppPermissoes": "./resources/js/Logged/AppPermissoes.js",
+	"./AppPermissoes.js": "./resources/js/Logged/AppPermissoes.js",
 	"./AppProfile": "./resources/js/Logged/AppProfile.js",
 	"./AppProfile.js": "./resources/js/Logged/AppProfile.js",
 	"./AppRoles": "./resources/js/Logged/AppRoles.js",
@@ -36857,6 +36872,279 @@ webpackContext.keys = function webpackContextKeys() {
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
 webpackContext.id = "./resources/js/Logged sync recursive ^\\.\\/.*$";
+
+/***/ }),
+
+/***/ "./resources/js/Logged/AppModulos.js":
+/*!*******************************************!*\
+  !*** ./resources/js/Logged/AppModulos.js ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var _require = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js"),
+    Swal = _require["default"];
+
+$(function () {
+  habilitaBotoes();
+  habilitaEventos();
+});
+var modalObject = "#nivel2";
+var grid = "#gridModulos";
+
+var habilitaEventos = function habilitaEventos() {
+  $("#addModule").on("click", function () {
+    var url = '/modulos/create';
+    AppUsage.loadModal(url, modalObject, '600px', function () {
+      $("#formAddModule").on("submit", function (e) {
+        e.preventDefault();
+        formModule();
+      });
+    });
+  });
+};
+
+var habilitaBotoes = function habilitaBotoes() {
+  $(".btnEditarModule").on("click", function () {
+    var id = $(this).attr("id");
+    var url = '/modulos/edit/' + id;
+    AppUsage.loadModal(url, modalObject, '600px', function () {
+      $("#formEditModule").on("submit", function (e) {
+        e.preventDefault();
+        formModule(id);
+      });
+    });
+  });
+  $(".btnDeleteModule").on("click", function () {
+    var id = $(this).attr("id");
+    var url = '/modulos/delete/' + id;
+    Swal.fire({
+      title: 'Deseja realmente excluir o registro?',
+      text: 'Esta ação é irreversivel!',
+      icon: 'warning',
+      showCancelButton: true,
+      reverseButtons: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar',
+      timeProgressBar: true
+    }).then(function (result) {
+      if (result.isConfirmed) {
+        AppUsage.deleteForGrid(url, function () {
+          loadConsModules();
+        });
+      }
+    });
+  });
+};
+
+var loadConsModules = function loadConsModules() {
+  var url = '/modulos/';
+  $.ajax({
+    type: "GET",
+    url: url,
+    dataType: "HTML",
+    beforeSend: function beforeSend() {
+      AppUsage.loading($(grid));
+    },
+    success: function success(response) {
+      $(grid).html($(response).find(modalObject + " #gridModulos >"));
+      habilitaBotoes();
+    }
+  });
+};
+
+var formModule = function formModule(id) {
+  var url = typeof id === "undefined" ? '/modulos/store' : "/modulos/update/".concat(id);
+  var type = typeof id === "undefined" ? "POST" : "PUT";
+  var form = typeof id === "undefined" ? "#formAddModule" : "#formEditModule";
+  $.ajax({
+    type: type,
+    url: url,
+    data: $(form).serialize(),
+    dataType: "JSON",
+    beforeSend: function beforeSend() {
+      $(modalObject + " .btnSubmit").prop("disabled", true).html("\n                <i class=\"fa fa-spinner fa-spin\"> </i> Carregando...\n            ");
+    },
+    success: function success(response) {
+      Swal.fire({
+        position: 'top-end',
+        icon: !response.error ? 'success' : 'error',
+        title: "<b style=\"color:#fff\"> ".concat(response.msg, " </b>"),
+        toast: true,
+        showConfirmButton: false,
+        timer: 3500,
+        background: '#337ab7',
+        didOpen: function didOpen() {
+          $(modalObject).modal('hide');
+          loadConsModules();
+        }
+      });
+    },
+    error: function error(jqXHR, textStatus, _error) {
+      if (!!jqXHR.responseJSON.errors) {
+        var errors = jqXHR.responseJSON.errors;
+        AppUsage.showMessagesValidator(form, errors);
+      }
+    },
+    complete: function complete() {
+      $(modalObject + " .btnSubmit").prop("disabled", false).html("\n                Salvar\n            ");
+    }
+  });
+};
+
+module.exports = {
+  habilitaBotoes: habilitaBotoes,
+  habilitaEventos: habilitaEventos
+};
+
+/***/ }),
+
+/***/ "./resources/js/Logged/AppPermissoes.js":
+/*!**********************************************!*\
+  !*** ./resources/js/Logged/AppPermissoes.js ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(function () {
+  habilitaBotoes();
+  habilitaEventos();
+});
+var modalObject = "#nivel1";
+
+var changeTitle = function changeTitle() {
+  document.title = "BT | Permissões";
+};
+
+var habilitaEventos = function habilitaEventos() {
+  $(".refreshDash").on("click", function () {
+    loadConsPermissoes();
+  });
+};
+
+var habilitaBotoes = function habilitaBotoes() {
+  AppModulos.habilitaBotoes();
+  $("#syncPermissions").on("click", function (e) {
+    e.preventDefault();
+    var url = '/permissoes/create';
+    AppUsage.loadModal(url, modalObject, '800px');
+  });
+  $("#gerModules").on("click", function () {
+    var url = "/modulos/";
+    AppUsage.loadModal(url, modalObject, '500px', function () {
+      AppModulos.habilitaBotoes();
+      AppModulos.habilitaEventos();
+    });
+  });
+  $("#cadastrarFuncionalidade").on("click", function () {
+    var url = "/funcionalidades/create";
+    AppUsage.loadModal(url, modalObject, '600px', function () {
+      AppFuncionalidades.habilitaBotoes();
+      AppFuncionalidades.habilitaEventos();
+    });
+  });
+  $(".editFuncionalidade").on("click", function () {
+    var id = $(this).attr('id');
+    var url = "/funcionalidades/edit/" + id;
+    AppUsage.loadModal(url, modalObject, '600px', function () {
+      AppFuncionalidades.habilitaBotoes();
+      AppFuncionalidades.habilitaEventos(id);
+    });
+  });
+  $("#reSession").on('click', function () {
+    var url = '/permissoes/renderViewSessionRevalid';
+    AppUsage.loadModal(url, modalObject, '900px', function () {
+      $("#reloadSession").on("submit", function (e) {
+        e.preventDefault();
+        formReloadSession();
+      });
+    });
+  });
+  $(".deleteFuncionalidade").on("click", function () {
+    var element = $(this);
+    var id = element.attr("id");
+    var url = "/funcionalidades/delete/" + id;
+    Swal.fire({
+      title: 'Deseja realmente excluir o registro?',
+      icon: 'warning',
+      text: 'Esta ação é irreversivel!',
+      showCancelButton: true,
+      showConfirmButton: true,
+      reverseButtons: true,
+      confirmButtonText: 'Sim, excluir!',
+      cancelButtonText: 'Cancelar',
+      cancelButtonColor: '#e91313'
+    }).then(function (result) {
+      if (result.isConfirmed) {
+        AppUsage.deleteForGrid(url, function () {
+          element.parent().parent().parent().remove();
+        });
+      }
+    });
+  });
+};
+
+var loadConsPermissoes = function loadConsPermissoes() {
+  var url = '/permissoes/';
+  var grid = "#gridDash";
+  $.ajax({
+    type: "GET",
+    url: url,
+    dataType: "HTML",
+    beforeSend: function beforeSend() {
+      AppUsage.loading($(grid));
+    },
+    success: function success(response) {
+      $(grid).html($(response).find("".concat(grid, " >")));
+      habilitaBotoes();
+    }
+  });
+};
+
+var formReloadSession = function formReloadSession() {
+  var url = '/permissoes/reloadSession';
+  var form = "#reloadSession";
+  $.ajax({
+    type: "POST",
+    url: url,
+    data: $(form).serialize(),
+    dataType: "JSON",
+    beforeSend: function beforeSend() {
+      $(form + " .btnSubmit").prop("disabled", true).html("<i class=\"fa fa-spinner fa-spin\"> </i> Carregando...");
+    },
+    success: function success(response) {
+      Swal.fire({
+        position: 'top-end',
+        icon: !response.error ? 'success' : 'error',
+        title: "<b style=\"color:#fff\"> ".concat(response.msg, " </b>"),
+        toast: true,
+        showConfirmButton: false,
+        timer: 3500,
+        background: '#337ab7',
+        didOpen: function didOpen() {
+          $(modalObject).modal('hide');
+        }
+      });
+    },
+    error: function error(jqXHR, textstatus, _error) {
+      if (!!jqXHR.responseJSON.errors) {
+        var errors = jqXHR.responseJSON.errors;
+        AppUsage.showMessagesValidator(form, errors);
+      }
+    },
+    complete: function complete() {
+      $(form + " .btnSubmit").prop("disabled", false).html("Salvar");
+    }
+  });
+};
+
+module.exports = {
+  habilitaEventos: habilitaEventos,
+  habilitaBotoes: habilitaBotoes,
+  changeTitle: changeTitle
+};
 
 /***/ }),
 
@@ -37336,8 +37624,8 @@ window.AcessControl = __webpack_require__(/*! ./Constants/access_control */ "./r
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\admin_laravel\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\admin_laravel\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\laravel_admin\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\laravel_admin\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

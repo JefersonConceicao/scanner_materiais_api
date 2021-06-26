@@ -82,7 +82,17 @@ class UserRequest extends FormRequest
             case 'signUp': 
                 $validate = [
                     'name' => 'required',
-                    'email' => 'required|email',
+                    'email' => [
+                        'required',
+                        'email',
+                        function($attribute, $value, $fail){
+                            $user = new User;
+
+                            if($user->where('email', $value)->exists()){
+                                $fail('Este e-mail já existe em nossa base de dados');
+                            }
+                        }
+                    ],
                     'password' => 'required|min:6',
                     'password_confirmation' => 'required|min:6|same:password'
                 ];

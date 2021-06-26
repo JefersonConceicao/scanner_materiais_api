@@ -24,12 +24,22 @@ const formSignUpUser = function(){
             )
         },  
         success: function (response) {
-            console.log(response);
+            Swal.fire({
+                position: 'top-end',
+                icon: !response.error ? 'success' : 'error',
+                title: `<b style="color:#fff"> ${response.msg} </b>`,
+                toast: true,
+                showConfirmButton: false,
+                timer: 3500,
+                background: '#337ab7',
+                didClose: function(){
+                    window.location.href = '/users/perfil';
+                }
+            });
         },
         error:function(jqXHR, textStatus, error){
             if(!!jqXHR.responseJSON.errors){
                 const errors = jqXHR.responseJSON.errors;
-
                 AppUsage.showMessagesValidator(form, errors);
             }
         },

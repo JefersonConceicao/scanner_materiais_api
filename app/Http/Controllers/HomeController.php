@@ -22,6 +22,6 @@ class HomeController extends Controller
     public function index()
     {   
         $view = view('inicio.inicio');
-        return request()->ajax ? $view->renderSections()['content'] : $view;
+        return request()->ajax() ? $view->renderSections()['content'] : $view;
     }
 }

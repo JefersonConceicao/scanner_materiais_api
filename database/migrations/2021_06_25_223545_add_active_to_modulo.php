@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AlterTypeActiveFuncionalidades extends Migration
+class AddActiveToModulo extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AlterTypeActiveFuncionalidades extends Migration
      */
     public function up()
     {
-        Schema::table('funcionalidades', function (Blueprint $table) {
-            $table->integer('active')->change();
+        Schema::table('modulos', function (Blueprint $table) {
+            $table->tinyInteger('active')->default(1);
         });
     }
 
@@ -25,7 +25,7 @@ class AlterTypeActiveFuncionalidades extends Migration
      */
     public function down()
     {
-        Schema::table('funcionalidades', function (Blueprint $table) {
+        Schema::table('modulos', function (Blueprint $table) {
             //
         });
     }

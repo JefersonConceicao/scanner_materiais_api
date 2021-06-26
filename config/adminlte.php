@@ -115,11 +115,11 @@ return [
             ],
         ['header' => ''],
             [
-                'text' => 'Configurações',
-                'icon' => 'fa fa-cog',
-                'url' => '/configuracoes/', 
-                'bt_ac' => 'configuracoes.index',  
-                'requestjs' => 'AppBTConfiguracoes'
+                'text' => 'Cadastros',
+                'icon' => 'fa fa-cubes',
+                'url' => '/cadastros/', 
+                'bt_ac' => 'cadastros.index',  
+                'requestjs' => 'AppCadastros'
             ],
     ],
 

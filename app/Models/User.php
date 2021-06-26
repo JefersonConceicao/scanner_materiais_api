@@ -73,11 +73,19 @@ class User extends Authenticatable
                 'email' => $request['email'],
                 'password' => Hash::make($request['password']),
             ])->save();
-
-            return [
-                'error' => false,
-                'msg' => 'Cadastro efetuado com sucesso!'
+                
+            $credentials = [
+                'email' => $request['email'],
+                'password' => $request['password']
             ];
+
+            if(Auth::attempt($credentials)){ 
+                return [    
+                    'error' => false,
+                    'msg' => 'Cadastro efetuado!, redirecionando...'
+                ];
+            }
+
         }catch(\Exception $error){
             return [
                 'error' => true,
@@ -90,8 +98,8 @@ class User extends Authenticatable
     /**
      * @param string nome 
      * @param string email
-     * @param string id_role
-     * @param string id_setor
+     * @param string role
+     * @param string setor
      *  
      * @return collection users
      */
@@ -307,7 +315,8 @@ class User extends Authenticatable
         }catch(\Exception $error){
             return [
                 'error' => true,
-                'msg' => 'Algo deu errado, tente novamente mais tarde'
+                'msg' => 'Algo deu errado, tente novamente mais tarde',
+                'error_msg' => $error->getMessage()
             ];
         }
     }
