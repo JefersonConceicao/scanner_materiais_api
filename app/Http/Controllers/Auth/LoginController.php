@@ -6,20 +6,19 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Auth;
 
 class LoginController extends Controller
 {
     use AuthenticatesUsers;
 
     /**
-     * Where to redirect users after login.
      *
      * @var string
      */
-    protected $redirectTo = '/users/perfil';
 
+    protected $redirectTo = '/users/perfil';
     /**
-     * Create a new controller instance.
      *
      * @return void
      */
@@ -28,7 +27,15 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    protected function authenticated(Request $request, $user){
+    protected function authenticated(Request $request, $user){     
+        if(empty($user->email_verified_at)){
+            Auth::logout();
+
+            return back()->withErrors(
+                ['mail_verified_at' => 'Confirme seu e-mail para efetuar o login']
+            );
+        }   
+
         $user->last_login = date('Y-m-d H:i:s'); 
         $user->save();
     }

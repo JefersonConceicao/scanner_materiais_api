@@ -1,3 +1,5 @@
+const { default: Swal } = require("sweetalert2");
+
 $(function(){
     habilitaEventos()
     habilitaBotoes()
@@ -27,7 +29,15 @@ const formRecoveryPassword = function(){
                 .html(`<i class="fa fa-spinner fa-spin"> </i> &nbsp; Carregando ...`)
         },
         success: function (response) {
-            console.log(response);
+            Swal.fire({
+                showConfirmButton:true,
+                title: response.msg,
+                icon: response.error ? 'error' : 'success',
+            }).then(result => {
+                if(result.isConfirmed){
+                    window.location.href = '/login';
+                }
+            })
         },
         error:function(jqXHR, textStatus, error){
             if(!!jqXHR.responseJSON.errors){

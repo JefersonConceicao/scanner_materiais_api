@@ -58,6 +58,20 @@
                     Não lembro minha senha
                 </a>
             </p>
+            @if(!empty(session('success')))
+                <div class="alert alert-success"> 
+                    {{ session('success') }}
+                </div>
+            @endif  
+
+
+            @if(!empty($errors->first('mail_verified_at')))
+                <div class="alert alert-danger" role="alert"> 
+                    {{ $errors->first('mail_verified_at') }} 
+                    <p> <a href="/renderConfirmMail"> Solicitar confirmação de e-mail </a> </p>
+                </div>
+            @endif
+
             @if (config('adminlte.register_url', 'register'))
                 <p>
                     <a href="{{ url(config('adminlte.register_url', 'register')) }}" class="text-center">

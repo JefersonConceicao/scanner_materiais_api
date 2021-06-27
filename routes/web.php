@@ -1,19 +1,26 @@
 <?php
+Route::get('/permissoes/methodNotAllowed', 'PermissoesController@renderNotAllowed')->name('methodNotAllowed');
 
 Route::get('/', function () {
     return redirect('/login');
 });
+
+Route::get('/renderConfirmMail', 'UsersController@renderRequestMailConfirm')->name('requestConfirmMail');
+Route::post('/requestConfirmMail', 'UsersController@requestMailConfirm')->name('confirMail');
+Route::get('/confirmMail/{token}', 'UsersController@confirmMail')->name('confirmMail');
+
 Route::get('/signup', 'UsersController@renderSignUp')->name('renderSignUp');
 Route::post('/saveSignUp', 'UsersController@signUP')->name('signUp');
 
 Route::get('/password/reset', function(){
     return view('vendor.adminlte.passwords.email'); 
 });
+
 Route::group(['prefix' => 'users'], function(){
     Route::post('/recoveryPass', 'UsersController@recoveryPassword')->name('recoveryPassword');
+    Route::get('/recoveryNewPass/{token}', 'UsersController@renderNewPass')->name('renderNewPass');
 });
 
-Route::get('/permissoes/methodNotAllowed', 'PermissoesController@renderNotAllowed')->name('methodNotAllowed');
 
 Auth::routes();
 Route::group(['middleware' => ['auth', 'verifyPermission']] , function(){

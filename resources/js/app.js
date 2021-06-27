@@ -16,10 +16,12 @@ window.AppSettings = require('./Core/AppSettings');
 window.AppLogin = require('./Auth/AppLogin');
 window.AppForgotPassword = require('./Auth/AppForgotPassword');
 window.AppRegister = require('./Auth/AppRegister');
+window.AppConfirmMail = require('./Auth/AppConfirmMail');
 //LOGGED Scripts - scripts em módulos do sistema
 window.AppUsers = require('./Logged/AppUsers');
 window.AppProfile = require('./Logged/AppProfile');
 window.AppRoles = require('./Logged/AppRoles');
+window.AppPermissoes = require('./Logged/AppPermissoes');
 
 //CONSTANTS métodos e propriedades constantes
 window.languageDataTable = require('./Constants/language_dataTable');

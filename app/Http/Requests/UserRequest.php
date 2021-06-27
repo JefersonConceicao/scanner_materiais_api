@@ -97,6 +97,21 @@ class UserRequest extends FormRequest
                     'password_confirmation' => 'required|min:6|same:password'
                 ];
             break;
+
+            case 'confirMail':
+                $validate = [
+                    'email' => [
+                        'required',
+                        'email',
+                        function($attribute, $value, $fail){
+                            $user = new User;
+
+                            if(!$user->where('email', $value)->exists()){
+                                $fail('Este e-mail não existe em nossa base de dados');
+                            }
+                        }
+                    ],
+                ];
         }
 
         return $validate;

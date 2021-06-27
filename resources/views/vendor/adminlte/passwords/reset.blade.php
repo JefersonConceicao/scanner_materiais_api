@@ -1,5 +1,5 @@
 @extends('adminlte::master')
-    @section('title', 'BT | Login')
+    @section('title', 'Admin | Nova Senha')
 @section('adminlte_css')
     @yield('css')
 @stop
@@ -8,11 +8,11 @@
 @section('body')
     <div class="login-box">
         <!-- /.login-logo -->
-        <div class="login-box-body">
-            <div class="login-logo">
-                <a href="{{ url(config('adminlte.dashboard_url', 'home')) }}">{!! config('adminlte.logo', '<b>Admin</b>LTE') !!}</a>
-            </div>
+        <div class="login-logo">
+            <h1> Admin | Laravel </h1>
+        </div>
 
+        <div class="login-box-body">
             <p class="login-box-msg">{{ trans('adminlte::adminlte.password_reset_message') }}</p>
             <form action="{{ url(config('adminlte.password_reset_url', 'password/reset')) }}" method="post">
                 {{ csrf_field() }}

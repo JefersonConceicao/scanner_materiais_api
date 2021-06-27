@@ -9,7 +9,7 @@
 @section('body')
     <div class="register-box">
         <div class="register-logo">
-            <h1> Admin | Laravel </h1>
+            <h1> {{ config('adminlte.title') }} </h1>
         </div>
 
         <div class="register-box-body">
@@ -34,7 +34,6 @@
                         type="email" 
                         name="email" 
                         class="form-control" 
-                        value="{{ old('email') }}"
                         placeholder="{{ trans('adminlte::adminlte.email') }}"
                     >
                     
@@ -43,8 +42,13 @@
                 </div>
                 
                 <div class="form-group has-feedback {{ $errors->has('password') ? 'has-error' : '' }}">
-                    <input type="password" name="password" class="form-control"
-                           placeholder="{{ trans('adminlte::adminlte.password') }}">
+                    <input 
+                        type="password" 
+                        name="password" 
+                        class="form-control"
+                        placeholder="{{ trans('adminlte::adminlte.password') }}"
+                    />
+
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                     <div class="error_feedback"> </div>
                 </div>
@@ -64,7 +68,7 @@
             <br>
             <p>
                 <a href="{{ url(config('adminlte.login_url', 'login')) }}" class="text-center">
-                    {{ trans('adminlte::adminlte.i_already_have_a_membership') }}
+                    {{ "Já tenho uma conta" }}
                 </a>
             </p>
         </div>

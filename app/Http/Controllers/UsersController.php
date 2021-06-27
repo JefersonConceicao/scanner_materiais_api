@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\ConfirmMail;
 
 //MODELS
 use App\Models\User;
@@ -27,6 +28,56 @@ class UsersController extends Controller
         $data = $user->signUpUser($request->all());
 
         return response()->json($data);
+    }
+
+    public function renderRequestMailConfirm(){
+        return view('vendor.adminlte.confirm_mail');
+    }
+
+    public function requestMailConfirm(UserRequest $request){
+        $user = new User;    
+
+        try{
+            $putToken = $user->putMailToken($request->email);
+
+            if($putToken){
+                Mail::to($request->email)->send(new ConfirmMail($putToken));
+            }
+       
+            $response = [
+                'error' => false,
+                'msg' => 'Link de confirmação de e-mail, enviado, por favor verifique-o.'
+            ];
+        }catch(\Exception $error){
+            $response = [
+                'error' => true,
+                'msg' => 'Não foi possível enviar o link de confirmação',
+                'error_msg' => $error->getMessage()
+            ];
+        }
+
+        return response()->json($response);
+    }   
+
+    public function confirmMail($token){
+        $user = new User;
+        $data = $user->verifiedMail($token);
+
+        return $data 
+            ? redirect('/login')->with('success', 'E-mail verificado!') 
+            : redirect('/login')->with('error', 'Não foi possível verificar seu e-mail, tente de novo'); 
+    }
+
+    public function recoveryPassword(UserRequest $request){
+        $user = new User;
+
+        $data = $user->recoveryPasswordUser($request->all());
+        return response()->json($data);
+    }
+
+    public function renderNewPass($token){
+        return view('vendor.adminlte.passwords.reset')
+            ->with('token', $token);
     }
 
     // -------- MANAGMENT USER -------------
@@ -138,13 +189,6 @@ class UsersController extends Controller
         $user = new User;
         $data = $user->changeProfilePicture($request->file);
 
-        return response()->json($data);
-    }
-
-    public function recoveryPassword(UserRequest $request){
-        $user = new User;
-
-        $data = $user->recoveryPasswordUser($request->all());
         return response()->json($data);
     }
 }

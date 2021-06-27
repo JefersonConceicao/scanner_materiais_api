@@ -27,9 +27,10 @@ class User extends Authenticatable
         'password',
         'remember_token',
         'setor_id',
-        'autoriza',
         'url_photo',
         'last_login',
+        'mail_token',
+        'active',
     ];
  
     protected $hidden = [
@@ -305,7 +306,7 @@ class User extends Authenticatable
             $userRecovery->remember_token = $rememberToken;
 
             if($userRecovery->save()){
-                Mail::to($userRecover->email)->send(new ForgotPassword($userRecover, $rememberToken));
+                Mail::to($userRecovery->email)->send(new ForgotPassword($userRecovery, $rememberToken));
             }
 
             return [
@@ -320,4 +321,31 @@ class User extends Authenticatable
             ];
         }
     }
+
+    public function putMailToken($email){
+        $resp = false;
+
+        $mailToken = md5(uniqid(rand(), true));
+        $user = $this->where('email', $email)->first();
+
+        $user->mail_token = $mailToken;
+    
+        if($user->save()){
+            $resp = $mailToken;
+        }
+
+        return $resp;
+    }
+
+    public function verifiedMail($token){
+        try{
+            $user = $this->where('mail_token', $token)->first();
+            $user->email_verified_at = date('Y-m-d H:i:s');
+            $user->save();
+
+            return true;
+        }catch(\Exception $error){
+            return false;
+        }
+    }   
 }

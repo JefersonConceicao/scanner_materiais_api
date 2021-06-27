@@ -6,33 +6,31 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use App\Models\BTEmailTemplate;
+use App\Models\User;
 
-class ForgotPassword extends Mailable
+class ConfirmMail extends Mailable
 {
     use Queueable, SerializesModels;
 
     /**
-
      * @return void
      */
-    public function __construct($user, $token)
-    {   
-        $this->user = $user;
+    public function __construct($token)
+    {
         $this->token = $token;
     }
 
     /**
-     * Build the message.
      *
      * @return $this
      */
     public function build()
-    {
+    {   
+        $user = new User;
+
         return $this
-            ->subject('Recuperação de senha | Não responda')
-            ->view('mails.reset_password')
-            ->with('user', $this->user)
-            ->with('token', $this->token);        
+            ->view('mails.confirm_email')
+            ->with('user', $user->where('mail_token', $this->token)->first())
+            ->with('token', $this->token);
     }
 }

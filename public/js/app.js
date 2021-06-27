@@ -35783,12 +35783,73 @@ module.exports = function(module) {
 
 /***/ }),
 
+/***/ "./resources/js/Auth/AppConfirmMail.js":
+/*!*********************************************!*\
+  !*** ./resources/js/Auth/AppConfirmMail.js ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(function () {
+  habilitaEventos();
+});
+
+var habilitaEventos = function habilitaEventos() {
+  $("#sendConfirmMail").on("submit", function (e) {
+    e.preventDefault();
+    formConfirmMail();
+  });
+};
+
+var formConfirmMail = function formConfirmMail() {
+  var form = "#sendConfirmMail";
+  var url = '/requestConfirmMail/';
+  $.ajax({
+    type: "POST",
+    url: url,
+    data: $(form).serialize(),
+    dataType: "JSON",
+    beforeSend: function beforeSend() {
+      $(form + " .btn-primary").prop("disabled", true).html("\n                <i class=\"fa fa-spinner fa-spin\"> </i> Carregando... \n            ");
+    },
+    success: function success(response) {
+      Swal.fire({
+        showConfirmButton: true,
+        icon: response.error ? 'error' : 'success',
+        title: response.msg,
+        timer: 3000
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          window.location.href = '/login';
+        }
+      });
+      $(".error_feedback").html("");
+    },
+    error: function error(jqXHR, textStatus, _error) {
+      if (jqXHR.responseJSON.errors) {
+        var errors = jqXHR.responseJSON.errors;
+        AppUsage.showMessagesValidator(form, errors);
+      }
+    },
+    complete: function complete() {
+      $(form + " .btn-primary").prop("disabled", false).html("\n                Confirmar e-mail \n            ");
+    }
+  });
+};
+
+module.exports = {};
+
+/***/ }),
+
 /***/ "./resources/js/Auth/AppForgotPassword.js":
 /*!************************************************!*\
   !*** ./resources/js/Auth/AppForgotPassword.js ***!
   \************************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+var _require = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js"),
+    Swal = _require["default"];
 
 $(function () {
   habilitaEventos();
@@ -35816,7 +35877,15 @@ var formRecoveryPassword = function formRecoveryPassword() {
       $(form + " .btn-primary").prop("disabled", true).html("<i class=\"fa fa-spinner fa-spin\"> </i> &nbsp; Carregando ...");
     },
     success: function success(response) {
-      console.log(response);
+      Swal.fire({
+        showConfirmButton: true,
+        title: response.msg,
+        icon: response.error ? 'error' : 'success'
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          window.location.href = '/login';
+        }
+      });
     },
     error: function error(jqXHR, textStatus, _error) {
       if (!!jqXHR.responseJSON.errors) {
@@ -35911,11 +35980,9 @@ var formSignUpUser = function formSignUpUser() {
       Swal.fire({
         position: 'top-end',
         icon: !response.error ? 'success' : 'error',
-        title: "<b style=\"color:#fff\"> ".concat(response.msg, " </b>"),
-        toast: true,
+        title: "<b style=\"color:black\"> ".concat(response.msg, " </b>"),
         showConfirmButton: false,
-        timer: 3500,
-        background: '#337ab7',
+        timer: 4000,
         didClose: function didClose() {
           window.location.href = '/users/perfil';
         }
@@ -37595,11 +37662,13 @@ window.AppSettings = __webpack_require__(/*! ./Core/AppSettings */ "./resources/
 
 window.AppLogin = __webpack_require__(/*! ./Auth/AppLogin */ "./resources/js/Auth/AppLogin.js");
 window.AppForgotPassword = __webpack_require__(/*! ./Auth/AppForgotPassword */ "./resources/js/Auth/AppForgotPassword.js");
-window.AppRegister = __webpack_require__(/*! ./Auth/AppRegister */ "./resources/js/Auth/AppRegister.js"); //LOGGED Scripts - scripts em módulos do sistema
+window.AppRegister = __webpack_require__(/*! ./Auth/AppRegister */ "./resources/js/Auth/AppRegister.js");
+window.AppConfirmMail = __webpack_require__(/*! ./Auth/AppConfirmMail */ "./resources/js/Auth/AppConfirmMail.js"); //LOGGED Scripts - scripts em módulos do sistema
 
 window.AppUsers = __webpack_require__(/*! ./Logged/AppUsers */ "./resources/js/Logged/AppUsers.js");
 window.AppProfile = __webpack_require__(/*! ./Logged/AppProfile */ "./resources/js/Logged/AppProfile.js");
-window.AppRoles = __webpack_require__(/*! ./Logged/AppRoles */ "./resources/js/Logged/AppRoles.js"); //CONSTANTS métodos e propriedades constantes
+window.AppRoles = __webpack_require__(/*! ./Logged/AppRoles */ "./resources/js/Logged/AppRoles.js");
+window.AppPermissoes = __webpack_require__(/*! ./Logged/AppPermissoes */ "./resources/js/Logged/AppPermissoes.js"); //CONSTANTS métodos e propriedades constantes
 
 window.languageDataTable = __webpack_require__(/*! ./Constants/language_dataTable */ "./resources/js/Constants/language_dataTable.js");
 window.AcessControl = __webpack_require__(/*! ./Constants/access_control */ "./resources/js/Constants/access_control.js");

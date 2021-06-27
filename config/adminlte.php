@@ -4,7 +4,6 @@ return [
     'title' => 'Admin | Laravel',
     'title_prefix' => '',
     'title_postfix' => '',
-
     'logo' => ' Admin | Laravel ',
     'logo_mini' => 'ADM ',
     'skin' => 'black-light',
@@ -33,7 +32,6 @@ return [
     */
 
     'collapse_sidebar' => false,
-    
     'right_sidebar' => false,
     'right_sidebar_icon' => 'fas fa-cogs',
     'right_sidebar_theme' => 'dark',
@@ -57,7 +55,6 @@ return [
 
     'login_url' => 'login',
     'register_url' => false,
-
     /*
     |--------------------------------------------------------------------------
     | Menu Items
@@ -68,7 +65,6 @@ return [
     | Awesome. A string instead of an array represents a header in sidebar
     | layout. The 'can' is a filter on Laravel's built in Gate functionality.
     */
-
     'menu' => [
         ['header' => ''],
             [
@@ -77,7 +73,6 @@ return [
                 'icon' => 'fa fa-tachometer',
                 'bt_ac' => 'home'
             ],
-
         ['header' => ''],
             [
                 'text' => 'Minha Conta',

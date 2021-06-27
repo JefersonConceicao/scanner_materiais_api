@@ -27,11 +27,9 @@ const formSignUpUser = function(){
             Swal.fire({
                 position: 'top-end',
                 icon: !response.error ? 'success' : 'error',
-                title: `<b style="color:#fff"> ${response.msg} </b>`,
-                toast: true,
+                title: `<b style="color:black"> ${response.msg} </b>`,
                 showConfirmButton: false,
-                timer: 3500,
-                background: '#337ab7',
+                timer: 4000,
                 didClose: function(){
                     window.location.href = '/users/perfil';
                 }
