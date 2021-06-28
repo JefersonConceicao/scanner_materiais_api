@@ -11,6 +11,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ForgotPassword;
+use App\Mail\ConfirmMail;
+
 use Auth;
 
 //MODELS
@@ -44,14 +46,6 @@ class User extends Authenticatable
 
     public $timestamps = true;
 
-    /**
-     * 
-     * Virtual field flag active 0 
-     */
-    public function getActiveAttribute($value){
-        return $value == 0 ? "Inativo" : "Ativo";
-    }
-
     public function rolesByUser(){
         return $this->belongsToMany(Role::class);
     }
@@ -68,25 +62,23 @@ class User extends Authenticatable
                    'msg' => 'Senhas não conferem'
                ];
             }
-
-            $this->fill([
+                
+            $tokenMail = md5(uniqid(rand(), true));
+            $saveUser = $this->fill([
                 'name' => $request['name'],
                 'email' => $request['email'],
                 'password' => Hash::make($request['password']),
+                'mail_token' => $tokenMail
             ])->save();
                 
-            $credentials = [
-                'email' => $request['email'],
-                'password' => $request['password']
-            ];
-
-            if(Auth::attempt($credentials)){ 
-                return [    
-                    'error' => false,
-                    'msg' => 'Cadastro efetuado!, redirecionando...'
-                ];
+            if($saveUser){
+                Mail::to($request['email'])->send(new confirmMail($tokenMail));
             }
-
+            
+            return [
+                'error' => false,
+                'msg' => 'Um link de confirmação de conta foi enviada para o seu e-mail'
+            ];
         }catch(\Exception $error){
             return [
                 'error' => true,
@@ -175,9 +167,7 @@ class User extends Authenticatable
     
             $objUser->fill([
                 'name' => trim($request['name']),
-                'username' => trim($request['username']),
-                'email' => $request['email'],
-                'setor_id' => $request['setor_id'],
+                'email' => $request['email']
             ]);
 
             if(isset($request['password']) && isset($request['confirm_password'])){

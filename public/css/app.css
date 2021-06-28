@@ -57,7 +57,7 @@ body {
   line-height: 50vh;
   text-align: center;
   font-size: 4em;
-  color: #ffff;
+  color: black;
 }
 
 .body-container {
@@ -268,7 +268,7 @@ tr.row-selected {
 }
 
 .required {
-  color: #ffff;
+  color: red;
 }
 
 .warning-required {

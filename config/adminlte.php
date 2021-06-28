@@ -104,7 +104,8 @@ return [
                         'text' => 'Permissões',
                         'icon' => 'fa fa-angle-right',
                         'url' => '/permissoes/',
-                        'bt_ac' => 'permissoes.index'
+                        'bt_ac' => 'permissoes.index',
+                        'requestjs' => 'AppPermissoes'
                     ],
                 ]
             ],

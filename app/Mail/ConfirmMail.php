@@ -21,7 +21,6 @@ class ConfirmMail extends Mailable
     }
 
     /**
-     *
      * @return $this
      */
     public function build()
@@ -29,6 +28,7 @@ class ConfirmMail extends Mailable
         $user = new User;
 
         return $this
+            ->subject('Confirmação de Conta')
             ->view('mails.confirm_email')
             ->with('user', $user->where('mail_token', $this->token)->first())
             ->with('token', $this->token);

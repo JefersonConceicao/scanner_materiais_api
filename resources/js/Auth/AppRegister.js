@@ -25,13 +25,12 @@ const formSignUpUser = function(){
         },  
         success: function (response) {
             Swal.fire({
-                position: 'top-end',
                 icon: !response.error ? 'success' : 'error',
                 title: `<b style="color:black"> ${response.msg} </b>`,
                 showConfirmButton: false,
                 timer: 4000,
                 didClose: function(){
-                    window.location.href = '/users/perfil';
+                    window.location.href = '/login';
                 }
             });
         },
@@ -49,6 +48,4 @@ const formSignUpUser = function(){
     });
 }
 
-module.exports = {
-
-}
+module.exports = {}

@@ -46,12 +46,11 @@ class UserRequest extends FormRequest
             case 'update':
                 $validate = [
                     'name' => 'required',
-                    'username' => 'required',
                     'email' => 'required|email',
                     'role_user[].*' => 'required',
-                    'setor_id' => 'required',
                     'role_user' => 'required',
-                    'confirm_password' => 'same:password',
+                    'password' => 'min:8',
+                    'confirm_password' => 'min:8 | same:password',
                 ];
             break;
 

@@ -6,7 +6,7 @@ $(function(){
 const modalObject = "#nivel1";
 
 const changeTitle = function(){
-    document.title = "BT | Permissões";
+    document.title = "Admin | Permissões";
 }
 
 

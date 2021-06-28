@@ -1,6 +1,5 @@
 <?php
 Route::get('/permissoes/methodNotAllowed', 'PermissoesController@renderNotAllowed')->name('methodNotAllowed');
-
 Route::get('/', function () {
     return redirect('/login');
 });
@@ -20,7 +19,6 @@ Route::group(['prefix' => 'users'], function(){
     Route::post('/recoveryPass', 'UsersController@recoveryPassword')->name('recoveryPassword');
     Route::get('/recoveryNewPass/{token}', 'UsersController@renderNewPass')->name('renderNewPass');
 });
-
 
 Auth::routes();
 Route::group(['middleware' => ['auth', 'verifyPermission']] , function(){

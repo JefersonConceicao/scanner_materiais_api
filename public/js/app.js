@@ -35978,13 +35978,12 @@ var formSignUpUser = function formSignUpUser() {
     },
     success: function success(response) {
       Swal.fire({
-        position: 'top-end',
         icon: !response.error ? 'success' : 'error',
         title: "<b style=\"color:black\"> ".concat(response.msg, " </b>"),
         showConfirmButton: false,
         timer: 4000,
         didClose: function didClose() {
-          window.location.href = '/users/perfil';
+          window.location.href = '/login';
         }
       });
     },
@@ -36908,6 +36907,8 @@ module.exports = {
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
+	"./AppFuncionalidades": "./resources/js/Logged/AppFuncionalidades.js",
+	"./AppFuncionalidades.js": "./resources/js/Logged/AppFuncionalidades.js",
 	"./AppModulos": "./resources/js/Logged/AppModulos.js",
 	"./AppModulos.js": "./resources/js/Logged/AppModulos.js",
 	"./AppPermissoes": "./resources/js/Logged/AppPermissoes.js",
@@ -36942,15 +36943,87 @@ webpackContext.id = "./resources/js/Logged sync recursive ^\\.\\/.*$";
 
 /***/ }),
 
+/***/ "./resources/js/Logged/AppFuncionalidades.js":
+/*!***************************************************!*\
+  !*** ./resources/js/Logged/AppFuncionalidades.js ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(function () {
+  habilitaBotoes();
+  habilitaEventos();
+});
+var modalObject = "#nivel1";
+
+var habilitaEventos = function habilitaEventos() {
+  var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+  $("#modalFormAddFunc").on("submit", function (e) {
+    e.preventDefault();
+    formFuncionalidade();
+  });
+  $("#modalFormEditFunc").on("submit", function (e) {
+    e.preventDefault();
+
+    if (!!id) {
+      formFuncionalidade(id);
+    }
+  });
+};
+
+var habilitaBotoes = function habilitaBotoes() {};
+
+var formFuncionalidade = function formFuncionalidade(id) {
+  var url = typeof id === "undefined" ? '/funcionalidades/store' : "/funcionalidades/update/".concat(id);
+  var type = typeof id === "undefined" ? "POST" : "PUT";
+  var form = typeof id === "undefined" ? "#modalFormAddFunc" : "#modalFormEditFunc";
+  $.ajax({
+    type: type,
+    url: url,
+    data: $(form).serialize(),
+    dataType: "JSON",
+    beforeSend: function beforeSend() {
+      $(form + " .btnSubmit").prop("disabled", true).html("\n                <i class=\"fa fa-spinner fa-spin\"> </i> Carregando...\n            ");
+    },
+    success: function success(response) {
+      Swal.fire({
+        position: 'top-end',
+        icon: !response.error ? 'success' : 'error',
+        title: "<b style=\"color:#fff\"> ".concat(response.msg, " </b>"),
+        toast: true,
+        showConfirmButton: false,
+        timer: 3500,
+        background: '#337ab7',
+        didOpen: function didOpen() {
+          $(modalObject).modal('hide');
+        }
+      });
+    },
+    error: function error(jqXHR, textstatus, _error) {
+      if (!!jqXHR.responseJSON.errors) {
+        var errors = jqXHR.responseJSON.errors;
+        AppUsage.showMessagesValidator(form, errors);
+      }
+    },
+    complete: function complete() {
+      $(form + " .btnSubmit").prop("disabled", false).html("\n                Salvar\n            ");
+    }
+  });
+};
+
+module.exports = {
+  habilitaBotoes: habilitaBotoes,
+  habilitaEventos: habilitaEventos
+};
+
+/***/ }),
+
 /***/ "./resources/js/Logged/AppModulos.js":
 /*!*******************************************!*\
   !*** ./resources/js/Logged/AppModulos.js ***!
   \*******************************************/
 /*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var _require = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js"),
-    Swal = _require["default"];
+/***/ (function(module, exports) {
 
 $(function () {
   habilitaBotoes();
@@ -37082,7 +37155,7 @@ $(function () {
 var modalObject = "#nivel1";
 
 var changeTitle = function changeTitle() {
-  document.title = "BT | Permissões";
+  document.title = "Admin | Permissões";
 };
 
 var habilitaEventos = function habilitaEventos() {
@@ -37622,9 +37695,9 @@ var formDataUser = function formDataUser(id) {
 var eventShowPassword = function eventShowPassword() {
   $('a[href="#change_password"]').on('click', function (e) {
     if ($("#change_password").hasClass('in')) {
-      $("input[type='password']").prop("disabled", true);
+      $("input[type='password']").prop("disabled", true).val("");
     } else {
-      $("input[type='password']").prop("disabled", false);
+      $("input[type='password']").prop("disabled", false).val("");
     }
   });
 };
@@ -37668,7 +37741,9 @@ window.AppConfirmMail = __webpack_require__(/*! ./Auth/AppConfirmMail */ "./reso
 window.AppUsers = __webpack_require__(/*! ./Logged/AppUsers */ "./resources/js/Logged/AppUsers.js");
 window.AppProfile = __webpack_require__(/*! ./Logged/AppProfile */ "./resources/js/Logged/AppProfile.js");
 window.AppRoles = __webpack_require__(/*! ./Logged/AppRoles */ "./resources/js/Logged/AppRoles.js");
-window.AppPermissoes = __webpack_require__(/*! ./Logged/AppPermissoes */ "./resources/js/Logged/AppPermissoes.js"); //CONSTANTS métodos e propriedades constantes
+window.AppPermissoes = __webpack_require__(/*! ./Logged/AppPermissoes */ "./resources/js/Logged/AppPermissoes.js");
+window.AppModulos = __webpack_require__(/*! ./Logged/AppModulos */ "./resources/js/Logged/AppModulos.js");
+window.AppFuncionalidades = __webpack_require__(/*! ./Logged/AppFuncionalidades */ "./resources/js/Logged/AppFuncionalidades.js"); //CONSTANTS métodos e propriedades constantes
 
 window.languageDataTable = __webpack_require__(/*! ./Constants/language_dataTable */ "./resources/js/Constants/language_dataTable.js");
 window.AcessControl = __webpack_require__(/*! ./Constants/access_control */ "./resources/js/Constants/access_control.js");
@@ -37693,8 +37768,8 @@ window.AcessControl = __webpack_require__(/*! ./Constants/access_control */ "./r
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\laravel_admin\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\laravel_admin\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\admin_laravel\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\admin_laravel\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
