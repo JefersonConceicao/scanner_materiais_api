@@ -35861,6 +35861,10 @@ var habilitaEventos = function habilitaEventos() {
     e.preventDefault();
     formRecoveryPassword();
   });
+  $("#recoveryPassword").on("submit", function (e) {
+    e.preventDefault();
+    formChangePassword();
+  });
 };
 
 var habilitaBotoes = function habilitaBotoes() {};
@@ -35895,6 +35899,40 @@ var formRecoveryPassword = function formRecoveryPassword() {
     },
     complete: function complete() {
       $(form + " .btn-primary").prop("disabled", false).html("Recuperar minha senha");
+    }
+  });
+};
+
+var formChangePassword = function formChangePassword() {
+  var form = "#recoveryPassword";
+  var url = "/password/resetPassword";
+  $.ajax({
+    type: "PUT",
+    url: url,
+    data: $(form).serialize(),
+    dataType: "JSON",
+    beforeSend: function beforeSend() {
+      $(form + " .btn-primary").prop("disabled", true).html("\n                <i class=\"fa fa-spinner fa-spin\"> </i> Carregando...\n            ");
+    },
+    success: function success(response) {
+      Swal.fire({
+        showConfirmButton: true,
+        title: response.msg,
+        icon: response.error ? 'error' : 'success'
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          window.location.href = '/login';
+        }
+      });
+    },
+    error: function error(jqXHR, textStatus, _error2) {
+      if (!!jqXHR.responseJSON.errors) {
+        var errors = jqXHR.responseJSON.errors;
+        AppUsage.showMessagesValidator(form, errors);
+      }
+    },
+    complete: function complete() {
+      $(form + " .btn-primary").prop("disabled", true).html("\n                Alterar senha\n            ");
     }
   });
 };
@@ -37768,8 +37806,8 @@ window.AcessControl = __webpack_require__(/*! ./Constants/access_control */ "./r
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\admin_laravel\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\admin_laravel\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\laravel_admin\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\laravel_admin\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

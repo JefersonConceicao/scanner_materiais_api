@@ -28,6 +28,7 @@ class User extends Authenticatable
         'email',
         'password',
         'remember_token',
+        'recovery_password',
         'setor_id',
         'url_photo',
         'last_login',
@@ -293,7 +294,7 @@ class User extends Authenticatable
         try{
             $rememberToken = md5(uniqid(rand(), true));
             $userRecovery = $this->where('email', $request['email'])->first();
-            $userRecovery->remember_token = $rememberToken;
+            $userRecovery->recovery_password = $rememberToken;
 
             if($userRecovery->save()){
                 Mail::to($userRecovery->email)->send(new ForgotPassword($userRecovery, $rememberToken));
@@ -308,6 +309,28 @@ class User extends Authenticatable
                 'error' => true,
                 'msg' => 'Algo deu errado, tente novamente mais tarde',
                 'error_msg' => $error->getMessage()
+            ];
+        }
+    }
+
+    public function changePasswordReset($request = []){
+        try{
+            if($request['password'] != $request['password_confirmation']){
+                throw new \Exception('Senhas não conferem');
+            }
+            
+            $userToChange = $this->where('recovery_password', $request['token'])->first();
+            $userToChange->password = Hash::make($request['password']);
+            $userToChange->save();
+
+            return [
+                'error' => false,
+                'msg' => 'Senha alterada com sucesso!'
+            ];     
+        }catch(\Exception $error){
+            return [
+                'error' => false,
+                'msg' => 'Não foi possível alterar sua senha, tente de novo'
             ];
         }
     }

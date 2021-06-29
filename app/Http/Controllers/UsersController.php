@@ -80,6 +80,13 @@ class UsersController extends Controller
             ->with('token', $token);
     }
 
+    public function changePasswordReset(UserRequest $request){
+        $user = new User;
+
+        $data = $user->changePasswordReset($request->all());
+        return response()->json($data);
+    }
+
     // -------- MANAGMENT USER -------------
     public function index(Request $request)
     {

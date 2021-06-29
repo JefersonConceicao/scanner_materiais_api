@@ -14,6 +14,7 @@ Route::post('/saveSignUp', 'UsersController@signUP')->name('signUp');
 Route::get('/password/reset', function(){
     return view('vendor.adminlte.passwords.email'); 
 });
+Route::put('/password/resetPassword', 'UsersController@changePasswordReset')->name('changePasswordReset');
 
 Route::group(['prefix' => 'users'], function(){
     Route::post('/recoveryPass', 'UsersController@recoveryPassword')->name('recoveryPassword');
