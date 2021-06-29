@@ -151,85 +151,91 @@
                 <div class="col-md-12">
                     <div class="box box-bt-blue">
                         <div class="box-body">
-                            @foreach($moduloWithFuncionalidades as $modulo)
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <p style="font-size:1.5em;">
-                                            <label class="label label-primary pull-left text-uppercase"> 
-                                                Módulo: {{ $modulo->nome }} 
-                                            </label>
-                                        </p>
-                                        &nbsp;
-                                        <a href="#" 
-                                            id={{ $modulo->id }} 
-                                            style="color:black;"
-                                            class="btnEditarModule"
-                                        > 
-                                            <i class="fa fa-edit"> </i> 
-                                        </a>
-                                    </div>
-                                </div>  
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="table-responsive">
-                                            <table class="table table-hover">
-                                                <thead> 
-                                                    <th width="50%"> Funcionalidades </th>
-                                                    <th> Perfis Associados </th>
-                                                    <th> Rotas/Permissões Associadas </th>
-                                                    <th> Status </th>
-                                                    <th width="2%"> Ações </th> 
-                                                </thead>
-                                                <tbody> 
-                                                    @if(count($modulo->funcionalidades) > 0)
-                                                        @foreach($modulo->funcionalidades as $funcionalidades)
+                            @if(count($moduloWithFuncionalidades) > 0)
+                                @foreach($moduloWithFuncionalidades as $modulo)
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <p style="font-size:1.5em;">
+                                                <label class="label label-primary pull-left text-uppercase"> 
+                                                    Módulo: {{ $modulo->nome }} 
+                                                </label>
+                                            </p>
+                                            &nbsp;
+                                            <a href="#" 
+                                                id={{ $modulo->id }} 
+                                                style="color:black;"
+                                                class="btnEditarModule"
+                                            > 
+                                                <i class="fa fa-edit"> </i> 
+                                            </a>
+                                        </div>
+                                    </div>  
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="table-responsive">
+                                                <table class="table table-hover">
+                                                    <thead> 
+                                                        <th width="50%"> Funcionalidades </th>
+                                                        <th> Perfis Associados </th>
+                                                        <th> Rotas/Permissões Associadas </th>
+                                                        <th> Status </th>
+                                                        <th width="2%"> Ações </th> 
+                                                    </thead>
+                                                    <tbody> 
+                                                        @if(count($modulo->funcionalidades) > 0)
+                                                            @foreach($modulo->funcionalidades as $funcionalidades)
+                                                                <tr>
+                                                                    <td> {{ $funcionalidades->nome }} </td>
+                                                                    <td> {{ count($funcionalidades->funcionalidadesRole) }} </td>
+                                                                    <td> {{ count($funcionalidades->funcionalidadesPermissions) }}  </td>
+                                                                    <td> 
+                                                                        <label class="label label-{{ $funcionalidades->active == 1 
+                                                                                ? "success"
+                                                                                : "danger"
+                                                                            }}"
+                                                                        >
+                                                                            {{ $funcionalidades->active == 1 ? "Ativo" : "Inativo" }}
+                                                                        </label>
+                                                                    </td>
+                                                                    <td> 
+                                                                        <div class="d-flex" style="display:flex">
+                                                                            <button 
+                                                                                class="btn btn-primary btn-xs editFuncionalidade"
+                                                                                id={{ $funcionalidades->id }}
+                                                                            > 
+                                                                                <i class="fa fa-edit"> </i>
+                                                                            </button>
+                                                                            &nbsp;
+                                                                            <button 
+                                                                                class="btn btn-danger btn-xs deleteFuncionalidade"
+                                                                                id="{{ $funcionalidades->id }}"
+                                                                            > 
+                                                                                <i class="fa fa-trash"> </i>
+                                                                            </button>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            @endforeach
+                                                        @else
                                                             <tr>
-                                                                <td> {{ $funcionalidades->nome }} </td>
-                                                                <td> {{ count($funcionalidades->funcionalidadesRole) }} </td>
-                                                                <td> {{ count($funcionalidades->funcionalidadesPermissions) }}  </td>
-                                                                <td> 
-                                                                    <label class="label label-{{ $funcionalidades->active == 1 
-                                                                            ? "success"
-                                                                            : "danger"
-                                                                        }}"
-                                                                    >
-                                                                        {{ $funcionalidades->active == 1 ? "Ativo" : "Inativo" }}
-                                                                    </label>
-                                                                </td>
-                                                                <td> 
-                                                                    <div class="d-flex" style="display:flex">
-                                                                        <button 
-                                                                            class="btn btn-primary btn-xs editFuncionalidade"
-                                                                            id={{ $funcionalidades->id }}
-                                                                        > 
-                                                                            <i class="fa fa-edit"> </i>
-                                                                        </button>
-                                                                        &nbsp;
-                                                                        <button 
-                                                                            class="btn btn-danger btn-xs deleteFuncionalidade"
-                                                                            id="{{ $funcionalidades->id }}"
-                                                                        > 
-                                                                            <i class="fa fa-trash"> </i>
-                                                                        </button>
-                                                                    </div>
+                                                                <td colspan="12">
+                                                                    <div class="alert" style="background-color:lightyellow;"> 
+                                                                        <span style="color:black;">  Módulo sem funcionalidade. </span> 
+                                                                    </div>      
                                                                 </td>
                                                             </tr>
-                                                        @endforeach
-                                                    @else
-                                                        <tr>
-                                                            <td colspan="12">
-                                                                <div class="alert" style="background-color:lightyellow;"> 
-                                                                    <span style="color:black;">  Módulo sem funcionalidade. </span> 
-                                                                </div>      
-                                                            </td>
-                                                        </tr>
-                                                    @endif
-                                                </tbody>
-                                            </table>
+                                                        @endif
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>  
-                            @endforeach     
+                                    </div>  
+                                @endforeach
+                            @else 
+                                <div class="alert alert-default text-center">
+                                   <h3> Sem módulos ou funcionalidades disponíveis  </h3>
+                                </div> 
+                            @endif
                         </div>
                     </div>
                 </div>

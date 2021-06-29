@@ -35956,6 +35956,12 @@ $(function () {
   habilitaEventos();
 });
 
+var loginFacebook = function loginFacebook() {
+  FB.getLoginStatus(function (response) {
+    console.log(response);
+  });
+};
+
 var habilitaEventos = function habilitaEventos() {
   $("#seePass").on('click', function () {
     var passwordInputElement = $("input[name='password']");
@@ -35980,7 +35986,8 @@ var habilitaBotoes = function habilitaBotoes() {};
 
 module.exports = {
   habilitaBotoes: habilitaBotoes,
-  habilitaEventos: habilitaEventos
+  habilitaEventos: habilitaEventos,
+  loginFacebook: loginFacebook
 };
 
 /***/ }),
