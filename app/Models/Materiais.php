@@ -11,29 +11,25 @@ class Materiais extends Model
     protected $fillable = [
         'codigo_barra',
         'setor_id',
+        'nome_material'
     ];  
+    
     public $timestamps = false;
 
-    public function listMateriaisBySetor($request = []){
+    public function listMateriaisBySetor($setorId){
         return $this
-            ->where('setor_id', $request['setor_id'])
+            ->where('setor_id', $setorId)
             ->get();
     }
 
     public function coletaMateriais($request = []){
         try{
-            if($this->where('codigo_barra', $request['codigo_barra'])->exists()){
-                return [
-                    'error' => false,
-                    'coleta' => false,
-                    'msg' => 'Este material já foi coletado!'
-                ];
-            }
-
             $this->fill([
                 'codigo_barra' => $request['codigo_barra'],
-                'setor_id' => $request['setor_id']
-            ])->save();
+                'setor_id' => $request['setor_id'],
+                'nome_material' => $request['nome_material']
+            ])
+            ->save();
 
             return [
                 'error' => false,

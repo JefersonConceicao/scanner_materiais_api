@@ -26,11 +26,11 @@ class MateriaisController extends Controller
     /**
      * @return \Illuminate\Http\Response
      */
-    public function list(Request $request)
+    public function list($id)
     {
         $materiais = new Materiais;
 
-        $data = $materiais->listMateriaisBySetor($request->all());
+        $data = $materiais->listMateriaisBySetor($id);
         return response()->json($data);
     }
 }
