@@ -1,4 +1,4 @@
-## Aplicação base para sitemas adminsitrativos
+## Scanner de materiais API'S
 
 Ferramentas utilizadas: 
     PHP
