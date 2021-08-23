@@ -9,40 +9,44 @@ class Materiais extends Model
     protected $table = 'materiais';
     protected $primaryKey = 'id';
     protected $fillable = [
-        'codigo_barra_material',
-        'nome_material',
-        'verificado'
+        'codigo_barra',
+        'setor_id',
     ];  
     public $timestamps = false;
 
-    public function verificaMaterialPorCódigo($request = []){
+    public function listMateriaisBySetor($request = []){
+        return $this
+            ->where('setor_id', $request['setor_id'])
+            ->get();
+    }
+
+    public function coletaMateriais($request = []){
         try{
-            $materialByScan = $this->where('codigo_barra_material', $request['codigo_barra']);
-
-            if($materialByScan->exists()){
-                $materialByScan->update(['verificado' => 1]);
-
+            if($this->where('codigo_barra', $request['codigo_barra'])->exists()){
                 return [
                     'error' => false,
-                    'checked' => true,
-                    'msg' => 'Material encontrado',
-                    'material' => $materialByScan->first()
-                ];
-            }else{
-                return [
-                    'error' => false,
-                    'checked' => false,
-                    'msg' => 'Nenhum material encontrado',
-                    'material' => null  
+                    'coleta' => false,
+                    'msg' => 'Este material já foi coletado!'
                 ];
             }
 
+            $this->fill([
+                'codigo_barra' => $request['codigo_barra'],
+                'setor_id' => $request['setor_id']
+            ])->save();
+
+            return [
+                'error' => false,
+                'coleta' => true,
+                'msg' => 'Coleta realizada com sucesso!',
+                'material' => $this->find($this->id)
+            ];  
         }catch(\Exception $error){
             return [
                 'error' => true,
-                'checked' => false,
-                'error_message' => $error->getMessage()
-            ];
+                'coleta' => false,
+                'msg' => 'Algo não ocorreu bem, tente de novo'
+            ]; 
         }
     }
 }
