@@ -47,13 +47,11 @@ class Permission extends Model
                 );'
             )->pluck('nameOrfa','id')->toArray();
     }
-    
 
     /**
     *  @return array permissoes a ser adicionadas 
     * 
-    */
-    
+    */    
     public function permissionsAdded(){
         $routes = \Route::getRoutes();
         $routeNames = $this->prepareNameRoutes($routes);

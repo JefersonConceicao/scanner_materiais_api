@@ -29,9 +29,10 @@ class ForgotPassword extends Mailable
      */
     public function build()
     {
-        $templateMail = new BTEmailTemplate;
-        $html = $template->where('titulo', 'RECUPERAR SENHA');
-        
-        dd($html);
+        return $this
+            ->subject('Recuperação de senha | Não responda')
+            ->view('mails.reset_password')
+            ->with('user', $this->user)
+            ->with('token', $this->token);        
     }
 }

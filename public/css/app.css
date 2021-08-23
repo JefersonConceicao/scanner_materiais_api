@@ -16,9 +16,9 @@
 
 .login-box-body {
   width: 100%;
-  border-top: 2px solid #e91313;
-  border-bottom: 2px solid #e91313;
-  border-radius: 20px;
+  border-top: 2px solid #ffff;
+  border-bottom: 2px solid #ffff;
+  border-radius: 2%;
 }
 
 .login-box {
@@ -59,7 +59,7 @@ body {
   line-height: 50vh;
   text-align: center;
   font-size: 4em;
-  color: #e91313;
+  color: black;
 }
 
 .body-container {
@@ -69,7 +69,7 @@ body {
 }
 
 .main-header {
-  border-top: solid 2px #e91313;
+  border-top: solid 2px #ffff;
 }
 
 #containerLoadingBar {
@@ -79,7 +79,7 @@ body {
 
 #progressLoadingBar {
   height: 4px;
-  background-color: #e91313;
+  background-color: #ffff;
   width: 1%;
 }
 
@@ -125,12 +125,12 @@ body {
 
 .box-bt-red {
   border-top: none !important;
-  border-left: 3px solid #e91313;
+  border-left: 3px solid #ffff;
 }
 
 tr.row-selected {
   background-color: #e5e6e6;
-  border-color: 1px solid #e91313;
+  border-color: 1px solid #ffff;
 }
 
 .activeFilter {
@@ -251,7 +251,7 @@ tr.row-selected {
 .cardConfig:hover {
   box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, 0.33) !important;
   cursor: pointer;
-  border: 1px solid #e91313;
+  border: 1px solid #ffff;
 }
 
 .content-icon {
@@ -270,7 +270,7 @@ tr.row-selected {
 }
 
 .required {
-  color: #e91313;
+  color: red;
 }
 
 .warning-required {
@@ -278,9 +278,20 @@ tr.row-selected {
 }
 
 .register-box-body {
-  border-top: 2px solid #e91313;
-  border-bottom: 2px solid #e91313;
-  border-radius: 20px;
+  border-top: 2px solid #ffff;
+  border-bottom: 2px solid #ffff;
+  border-radius: 2%;
+}
+
+@media (max-width: 767px) {
+  .skin-black-light .main-header .logo {
+    color: black;
+  }
+
+  .skin-black-light .main-header .logo:hover {
+    color: #ffff;
+    background-color: #ffff;
+  }
 }
 
 

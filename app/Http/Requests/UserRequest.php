@@ -42,15 +42,15 @@ class UserRequest extends FormRequest
 
                 ];
             break;
+
             case 'update':
                 $validate = [
                     'name' => 'required',
-                    'username' => 'required',
                     'email' => 'required|email',
                     'role_user[].*' => 'required',
-                    'setor_id' => 'required',
                     'role_user' => 'required',
-                    'confirm_password' => 'same:password',
+                    'password' => 'min:8',
+                    'confirm_password' => 'min:8 | same:password',
                 ];
             break;
 
@@ -76,6 +76,49 @@ class UserRequest extends FormRequest
                         }
                     ]   
                 ];
+            break;
+
+            case 'signUp': 
+                $validate = [
+                    'name' => 'required',
+                    'email' => [
+                        'required',
+                        'email',
+                        function($attribute, $value, $fail){
+                            $user = new User;
+
+                            if($user->where('email', $value)->exists()){
+                                $fail('Este e-mail já existe em nossa base de dados');
+                            }
+                        }
+                    ],
+                    'password' => 'required|min:6',
+                    'password_confirmation' => 'required|min:6|same:password'
+                ];
+            break;
+
+            case 'confirMail':
+                $validate = [
+                    'email' => [
+                        'required',
+                        'email',
+                        function($attribute, $value, $fail){
+                            $user = new User;
+
+                            if(!$user->where('email', $value)->exists()){
+                                $fail('Este e-mail não existe em nossa base de dados');
+                            }
+                        }
+                    ],
+                ];
+            break;
+
+            case 'changePasswordReset': 
+                $validate = [
+                    'password' => 'required|min:8',
+                    'password_confirmation' => 'required|min:8 same:password',
+                ];
+            break;
         }
 
         return $validate;
@@ -95,6 +138,8 @@ class UserRequest extends FormRequest
             'setor_id.required' => 'Campo setor obrigatório',
             'role_user[].required' => 'Campo perfil obrigatório',
             'confirm_password.required' => 'Confirmação de senha obrigatória',
+            'password_confirmation.same' => 'Senhas não conferem',
+            'password_confirmation.required' => 'Confirmação de senha obrigatória'
         ];
     }
 }

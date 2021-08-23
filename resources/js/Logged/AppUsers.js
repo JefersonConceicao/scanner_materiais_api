@@ -7,7 +7,7 @@ const modalObject = "#nivel1";
 const grid = "#gridUsers";
 
 const changeTitle = function(){
-    document.title = 'BT | Usuários';
+    document.title = 'Admin | Usuários';
 }
 
 const habilitaEventos = function(){
@@ -155,9 +155,9 @@ const formDataUser = function(id){
 const eventShowPassword = function(){
     $('a[href="#change_password"]').on('click', function(e){
         if($("#change_password").hasClass('in')){
-            $("input[type='password']").prop("disabled", true);
+            $("input[type='password']").prop("disabled", true).val("");
         }else{
-            $("input[type='password']").prop("disabled", false);
+            $("input[type='password']").prop("disabled", false).val("");
         }
     })
 }

@@ -1,5 +1,5 @@
 @extends('adminlte::page')
-@section('title', 'BT | Grupos')
+@section('title', 'Admin | Grupos')
 @section('content')
 <section class="content-header">
     <h1> 
@@ -71,25 +71,43 @@
                             @foreach($roles as $role)
                                 <tr>
                                     <td> {{ $role->name }} </td>
-                                    <td> {{ $role->description }} </td>
-                                    <td> {{ converteData( $role->created_at, 'd/m/Y') }} </td>
-                                    <td> 
-                                        <div style="display:flex; justify-content:space-between;">
-                                            <button   
+                                    <td> {{ !empty($role->description) ? $role->description : "N\A"}} </td>
+                                    <td> {{ !empty($role->created_at)
+                                            ? converteData($role->created_at, 'd/m/Y') 
+                                            : "Não informado"
+                                        }}
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="btn-group">
+                                            <button
+                                                class="btn btn-xs btn-icon-toggle dropdown-toggle"
                                                 type="button"
-                                                class="btn btn-primary btn-xs editRole"
-                                                id="{{ $role->id }}"
-                                            >   
-                                                <i class="fa fa-edit"> </i>
+                                                data-toggle="dropdown"
+                                            > 
+
+                                                <i class="fa fa-gear" aria-hidden="true"> </i>
                                             </button>
-                                            <button 
-                                                type="button"
-                                                class="btn btn-danger btn-xs deleteRole"
-                                                id="{{ $role->id }}"
-                                            >   
-                                                <i class="fa fa-trash"> </i>
-                                            </button>
-                                        </div>  
+                                            <ul class="dropdown-menu dropdown-menu-right" role="menu"> 
+                                                <li> 
+                                                    <a 
+                                                        href="javascript:void(0)"
+                                                        class="btn editRole"
+                                                        id="{{$role->id}}"
+                                                    > 
+                                                        <i class="fa fa-edit"> </i> Editar
+                                                    </a>
+                                                </li> 
+                                                <li> 
+                                                    <a 
+                                                        href="javascript:void(0)"
+                                                        class="btn deleteRole"
+                                                        id="{{$role->id}}"
+                                                    > 
+                                                        <i style="color:red;" class="fa fa-trash"> </i> Excluir
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach

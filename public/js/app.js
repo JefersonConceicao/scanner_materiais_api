@@ -35783,12 +35783,73 @@ module.exports = function(module) {
 
 /***/ }),
 
+/***/ "./resources/js/Auth/AppConfirmMail.js":
+/*!*********************************************!*\
+  !*** ./resources/js/Auth/AppConfirmMail.js ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(function () {
+  habilitaEventos();
+});
+
+var habilitaEventos = function habilitaEventos() {
+  $("#sendConfirmMail").on("submit", function (e) {
+    e.preventDefault();
+    formConfirmMail();
+  });
+};
+
+var formConfirmMail = function formConfirmMail() {
+  var form = "#sendConfirmMail";
+  var url = '/requestConfirmMail/';
+  $.ajax({
+    type: "POST",
+    url: url,
+    data: $(form).serialize(),
+    dataType: "JSON",
+    beforeSend: function beforeSend() {
+      $(form + " .btn-primary").prop("disabled", true).html("\n                <i class=\"fa fa-spinner fa-spin\"> </i> Carregando... \n            ");
+    },
+    success: function success(response) {
+      Swal.fire({
+        showConfirmButton: true,
+        icon: response.error ? 'error' : 'success',
+        title: response.msg,
+        timer: 3000
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          window.location.href = '/login';
+        }
+      });
+      $(".error_feedback").html("");
+    },
+    error: function error(jqXHR, textStatus, _error) {
+      if (jqXHR.responseJSON.errors) {
+        var errors = jqXHR.responseJSON.errors;
+        AppUsage.showMessagesValidator(form, errors);
+      }
+    },
+    complete: function complete() {
+      $(form + " .btn-primary").prop("disabled", false).html("\n                Confirmar e-mail \n            ");
+    }
+  });
+};
+
+module.exports = {};
+
+/***/ }),
+
 /***/ "./resources/js/Auth/AppForgotPassword.js":
 /*!************************************************!*\
   !*** ./resources/js/Auth/AppForgotPassword.js ***!
   \************************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+var _require = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js"),
+    Swal = _require["default"];
 
 $(function () {
   habilitaEventos();
@@ -35799,6 +35860,10 @@ var habilitaEventos = function habilitaEventos() {
   $("#sendRecoveryPass").on("submit", function (e) {
     e.preventDefault();
     formRecoveryPassword();
+  });
+  $("#recoveryPassword").on("submit", function (e) {
+    e.preventDefault();
+    formChangePassword();
   });
 };
 
@@ -35816,7 +35881,15 @@ var formRecoveryPassword = function formRecoveryPassword() {
       $(form + " .btn-primary").prop("disabled", true).html("<i class=\"fa fa-spinner fa-spin\"> </i> &nbsp; Carregando ...");
     },
     success: function success(response) {
-      console.log(response);
+      Swal.fire({
+        showConfirmButton: true,
+        title: response.msg,
+        icon: response.error ? 'error' : 'success'
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          window.location.href = '/login';
+        }
+      });
     },
     error: function error(jqXHR, textStatus, _error) {
       if (!!jqXHR.responseJSON.errors) {
@@ -35826,6 +35899,40 @@ var formRecoveryPassword = function formRecoveryPassword() {
     },
     complete: function complete() {
       $(form + " .btn-primary").prop("disabled", false).html("Recuperar minha senha");
+    }
+  });
+};
+
+var formChangePassword = function formChangePassword() {
+  var form = "#recoveryPassword";
+  var url = "/password/resetPassword";
+  $.ajax({
+    type: "PUT",
+    url: url,
+    data: $(form).serialize(),
+    dataType: "JSON",
+    beforeSend: function beforeSend() {
+      $(form + " .btn-primary").prop("disabled", true).html("\n                <i class=\"fa fa-spinner fa-spin\"> </i> Carregando...\n            ");
+    },
+    success: function success(response) {
+      Swal.fire({
+        showConfirmButton: true,
+        title: response.msg,
+        icon: response.error ? 'error' : 'success'
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          window.location.href = '/login';
+        }
+      });
+    },
+    error: function error(jqXHR, textStatus, _error2) {
+      if (!!jqXHR.responseJSON.errors) {
+        var errors = jqXHR.responseJSON.errors;
+        AppUsage.showMessagesValidator(form, errors);
+      }
+    },
+    complete: function complete() {
+      $(form + " .btn-primary").prop("disabled", true).html("\n                Alterar senha\n            ");
     }
   });
 };
@@ -35848,6 +35955,12 @@ $(function () {
   habilitaBotoes();
   habilitaEventos();
 });
+
+var loginFacebook = function loginFacebook() {
+  FB.getLoginStatus(function (response) {
+    console.log(response);
+  });
+};
 
 var habilitaEventos = function habilitaEventos() {
   $("#seePass").on('click', function () {
@@ -35873,8 +35986,65 @@ var habilitaBotoes = function habilitaBotoes() {};
 
 module.exports = {
   habilitaBotoes: habilitaBotoes,
-  habilitaEventos: habilitaEventos
+  habilitaEventos: habilitaEventos,
+  loginFacebook: loginFacebook
 };
+
+/***/ }),
+
+/***/ "./resources/js/Auth/AppRegister.js":
+/*!******************************************!*\
+  !*** ./resources/js/Auth/AppRegister.js ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(function () {
+  habilitaEventos();
+});
+
+var habilitaEventos = function habilitaEventos() {
+  $("#signUPUser").on("submit", function (e) {
+    e.preventDefault();
+    formSignUpUser();
+  });
+};
+
+var formSignUpUser = function formSignUpUser() {
+  var form = "#signUPUser";
+  var url = "/saveSignUp";
+  $.ajax({
+    type: "POST",
+    url: url,
+    data: $(form).serialize(),
+    dataType: "JSON",
+    beforeSend: function beforeSend() {
+      $(".submitSignUP").prop("disabled", true).html("<i class=\"fa fa-spinner fa-spin\"> </i> <b> Carregando... </b>");
+    },
+    success: function success(response) {
+      Swal.fire({
+        icon: !response.error ? 'success' : 'error',
+        title: "<b style=\"color:black\"> ".concat(response.msg, " </b>"),
+        showConfirmButton: false,
+        timer: 4000,
+        didClose: function didClose() {
+          window.location.href = '/login';
+        }
+      });
+    },
+    error: function error(jqXHR, textStatus, _error) {
+      if (!!jqXHR.responseJSON.errors) {
+        var errors = jqXHR.responseJSON.errors;
+        AppUsage.showMessagesValidator(form, errors);
+      }
+    },
+    complete: function complete() {
+      $(".submitSignUP").prop("disabled", false).html(" Enviar ");
+    }
+  });
+};
+
+module.exports = {};
 
 /***/ }),
 
@@ -36782,6 +36952,12 @@ module.exports = {
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
+	"./AppFuncionalidades": "./resources/js/Logged/AppFuncionalidades.js",
+	"./AppFuncionalidades.js": "./resources/js/Logged/AppFuncionalidades.js",
+	"./AppModulos": "./resources/js/Logged/AppModulos.js",
+	"./AppModulos.js": "./resources/js/Logged/AppModulos.js",
+	"./AppPermissoes": "./resources/js/Logged/AppPermissoes.js",
+	"./AppPermissoes.js": "./resources/js/Logged/AppPermissoes.js",
 	"./AppProfile": "./resources/js/Logged/AppProfile.js",
 	"./AppProfile.js": "./resources/js/Logged/AppProfile.js",
 	"./AppRoles": "./resources/js/Logged/AppRoles.js",
@@ -36812,6 +36988,351 @@ webpackContext.id = "./resources/js/Logged sync recursive ^\\.\\/.*$";
 
 /***/ }),
 
+/***/ "./resources/js/Logged/AppFuncionalidades.js":
+/*!***************************************************!*\
+  !*** ./resources/js/Logged/AppFuncionalidades.js ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(function () {
+  habilitaBotoes();
+  habilitaEventos();
+});
+var modalObject = "#nivel1";
+
+var habilitaEventos = function habilitaEventos() {
+  var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+  $("#modalFormAddFunc").on("submit", function (e) {
+    e.preventDefault();
+    formFuncionalidade();
+  });
+  $("#modalFormEditFunc").on("submit", function (e) {
+    e.preventDefault();
+
+    if (!!id) {
+      formFuncionalidade(id);
+    }
+  });
+};
+
+var habilitaBotoes = function habilitaBotoes() {};
+
+var formFuncionalidade = function formFuncionalidade(id) {
+  var url = typeof id === "undefined" ? '/funcionalidades/store' : "/funcionalidades/update/".concat(id);
+  var type = typeof id === "undefined" ? "POST" : "PUT";
+  var form = typeof id === "undefined" ? "#modalFormAddFunc" : "#modalFormEditFunc";
+  $.ajax({
+    type: type,
+    url: url,
+    data: $(form).serialize(),
+    dataType: "JSON",
+    beforeSend: function beforeSend() {
+      $(form + " .btnSubmit").prop("disabled", true).html("\n                <i class=\"fa fa-spinner fa-spin\"> </i> Carregando...\n            ");
+    },
+    success: function success(response) {
+      Swal.fire({
+        position: 'top-end',
+        icon: !response.error ? 'success' : 'error',
+        title: "<b style=\"color:#fff\"> ".concat(response.msg, " </b>"),
+        toast: true,
+        showConfirmButton: false,
+        timer: 3500,
+        background: '#337ab7',
+        didOpen: function didOpen() {
+          $(modalObject).modal('hide');
+        }
+      });
+    },
+    error: function error(jqXHR, textstatus, _error) {
+      if (!!jqXHR.responseJSON.errors) {
+        var errors = jqXHR.responseJSON.errors;
+        AppUsage.showMessagesValidator(form, errors);
+      }
+    },
+    complete: function complete() {
+      $(form + " .btnSubmit").prop("disabled", false).html("\n                Salvar\n            ");
+    }
+  });
+};
+
+module.exports = {
+  habilitaBotoes: habilitaBotoes,
+  habilitaEventos: habilitaEventos
+};
+
+/***/ }),
+
+/***/ "./resources/js/Logged/AppModulos.js":
+/*!*******************************************!*\
+  !*** ./resources/js/Logged/AppModulos.js ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(function () {
+  habilitaBotoes();
+  habilitaEventos();
+});
+var modalObject = "#nivel2";
+var grid = "#gridModulos";
+
+var habilitaEventos = function habilitaEventos() {
+  $("#addModule").on("click", function () {
+    var url = '/modulos/create';
+    AppUsage.loadModal(url, modalObject, '600px', function () {
+      $("#formAddModule").on("submit", function (e) {
+        e.preventDefault();
+        formModule();
+      });
+    });
+  });
+};
+
+var habilitaBotoes = function habilitaBotoes() {
+  $(".btnEditarModule").on("click", function () {
+    var id = $(this).attr("id");
+    var url = '/modulos/edit/' + id;
+    AppUsage.loadModal(url, modalObject, '600px', function () {
+      $("#formEditModule").on("submit", function (e) {
+        e.preventDefault();
+        formModule(id);
+      });
+    });
+  });
+  $(".btnDeleteModule").on("click", function () {
+    var id = $(this).attr("id");
+    var url = '/modulos/delete/' + id;
+    Swal.fire({
+      title: 'Deseja realmente excluir o registro?',
+      text: 'Esta ação é irreversivel!',
+      icon: 'warning',
+      showCancelButton: true,
+      reverseButtons: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar',
+      timeProgressBar: true
+    }).then(function (result) {
+      if (result.isConfirmed) {
+        AppUsage.deleteForGrid(url, function () {
+          loadConsModules();
+        });
+      }
+    });
+  });
+};
+
+var loadConsModules = function loadConsModules() {
+  var url = '/modulos/';
+  $.ajax({
+    type: "GET",
+    url: url,
+    dataType: "HTML",
+    beforeSend: function beforeSend() {
+      AppUsage.loading($(grid));
+    },
+    success: function success(response) {
+      $(grid).html($(response).find(modalObject + " #gridModulos >"));
+      habilitaBotoes();
+    }
+  });
+};
+
+var formModule = function formModule(id) {
+  var url = typeof id === "undefined" ? '/modulos/store' : "/modulos/update/".concat(id);
+  var type = typeof id === "undefined" ? "POST" : "PUT";
+  var form = typeof id === "undefined" ? "#formAddModule" : "#formEditModule";
+  $.ajax({
+    type: type,
+    url: url,
+    data: $(form).serialize(),
+    dataType: "JSON",
+    beforeSend: function beforeSend() {
+      $(modalObject + " .btnSubmit").prop("disabled", true).html("\n                <i class=\"fa fa-spinner fa-spin\"> </i> Carregando...\n            ");
+    },
+    success: function success(response) {
+      Swal.fire({
+        position: 'top-end',
+        icon: !response.error ? 'success' : 'error',
+        title: "<b style=\"color:#fff\"> ".concat(response.msg, " </b>"),
+        toast: true,
+        showConfirmButton: false,
+        timer: 3500,
+        background: '#337ab7',
+        didOpen: function didOpen() {
+          $(modalObject).modal('hide');
+          loadConsModules();
+        }
+      });
+    },
+    error: function error(jqXHR, textStatus, _error) {
+      if (!!jqXHR.responseJSON.errors) {
+        var errors = jqXHR.responseJSON.errors;
+        AppUsage.showMessagesValidator(form, errors);
+      }
+    },
+    complete: function complete() {
+      $(modalObject + " .btnSubmit").prop("disabled", false).html("\n                Salvar\n            ");
+    }
+  });
+};
+
+module.exports = {
+  habilitaBotoes: habilitaBotoes,
+  habilitaEventos: habilitaEventos
+};
+
+/***/ }),
+
+/***/ "./resources/js/Logged/AppPermissoes.js":
+/*!**********************************************!*\
+  !*** ./resources/js/Logged/AppPermissoes.js ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(function () {
+  habilitaBotoes();
+  habilitaEventos();
+});
+var modalObject = "#nivel1";
+
+var changeTitle = function changeTitle() {
+  document.title = "Admin | Permissões";
+};
+
+var habilitaEventos = function habilitaEventos() {
+  $(".refreshDash").on("click", function () {
+    loadConsPermissoes();
+  });
+};
+
+var habilitaBotoes = function habilitaBotoes() {
+  AppModulos.habilitaBotoes();
+  $("#syncPermissions").on("click", function (e) {
+    e.preventDefault();
+    var url = '/permissoes/create';
+    AppUsage.loadModal(url, modalObject, '800px');
+  });
+  $("#gerModules").on("click", function () {
+    var url = "/modulos/";
+    AppUsage.loadModal(url, modalObject, '500px', function () {
+      AppModulos.habilitaBotoes();
+      AppModulos.habilitaEventos();
+    });
+  });
+  $("#cadastrarFuncionalidade").on("click", function () {
+    var url = "/funcionalidades/create";
+    AppUsage.loadModal(url, modalObject, '600px', function () {
+      AppFuncionalidades.habilitaBotoes();
+      AppFuncionalidades.habilitaEventos();
+    });
+  });
+  $(".editFuncionalidade").on("click", function () {
+    var id = $(this).attr('id');
+    var url = "/funcionalidades/edit/" + id;
+    AppUsage.loadModal(url, modalObject, '600px', function () {
+      AppFuncionalidades.habilitaBotoes();
+      AppFuncionalidades.habilitaEventos(id);
+    });
+  });
+  $("#reSession").on('click', function () {
+    var url = '/permissoes/renderViewSessionRevalid';
+    AppUsage.loadModal(url, modalObject, '900px', function () {
+      $("#reloadSession").on("submit", function (e) {
+        e.preventDefault();
+        formReloadSession();
+      });
+    });
+  });
+  $(".deleteFuncionalidade").on("click", function () {
+    var element = $(this);
+    var id = element.attr("id");
+    var url = "/funcionalidades/delete/" + id;
+    Swal.fire({
+      title: 'Deseja realmente excluir o registro?',
+      icon: 'warning',
+      text: 'Esta ação é irreversivel!',
+      showCancelButton: true,
+      showConfirmButton: true,
+      reverseButtons: true,
+      confirmButtonText: 'Sim, excluir!',
+      cancelButtonText: 'Cancelar',
+      cancelButtonColor: '#e91313'
+    }).then(function (result) {
+      if (result.isConfirmed) {
+        AppUsage.deleteForGrid(url, function () {
+          element.parent().parent().parent().remove();
+        });
+      }
+    });
+  });
+};
+
+var loadConsPermissoes = function loadConsPermissoes() {
+  var url = '/permissoes/';
+  var grid = "#gridDash";
+  $.ajax({
+    type: "GET",
+    url: url,
+    dataType: "HTML",
+    beforeSend: function beforeSend() {
+      AppUsage.loading($(grid));
+    },
+    success: function success(response) {
+      $(grid).html($(response).find("".concat(grid, " >")));
+      habilitaBotoes();
+    }
+  });
+};
+
+var formReloadSession = function formReloadSession() {
+  var url = '/permissoes/reloadSession';
+  var form = "#reloadSession";
+  $.ajax({
+    type: "POST",
+    url: url,
+    data: $(form).serialize(),
+    dataType: "JSON",
+    beforeSend: function beforeSend() {
+      $(form + " .btnSubmit").prop("disabled", true).html("<i class=\"fa fa-spinner fa-spin\"> </i> Carregando...");
+    },
+    success: function success(response) {
+      Swal.fire({
+        position: 'top-end',
+        icon: !response.error ? 'success' : 'error',
+        title: "<b style=\"color:#fff\"> ".concat(response.msg, " </b>"),
+        toast: true,
+        showConfirmButton: false,
+        timer: 3500,
+        background: '#337ab7',
+        didOpen: function didOpen() {
+          $(modalObject).modal('hide');
+        }
+      });
+    },
+    error: function error(jqXHR, textstatus, _error) {
+      if (!!jqXHR.responseJSON.errors) {
+        var errors = jqXHR.responseJSON.errors;
+        AppUsage.showMessagesValidator(form, errors);
+      }
+    },
+    complete: function complete() {
+      $(form + " .btnSubmit").prop("disabled", false).html("Salvar");
+    }
+  });
+};
+
+module.exports = {
+  habilitaEventos: habilitaEventos,
+  habilitaBotoes: habilitaBotoes,
+  changeTitle: changeTitle
+};
+
+/***/ }),
+
 /***/ "./resources/js/Logged/AppProfile.js":
 /*!*******************************************!*\
   !*** ./resources/js/Logged/AppProfile.js ***!
@@ -36825,7 +37346,7 @@ $(function () {
 });
 
 var setTitle = function setTitle() {
-  return document.title = "BT | Perfil";
+  return document.title = "Admin | Perfil";
 };
 
 var configDropzoneProfile = function configDropzoneProfile() {
@@ -36952,7 +37473,7 @@ $(function () {
 var modalObject = "#nivel1";
 
 var changeTitle = function changeTitle() {
-  document.title = "BT | Grupos";
+  document.title = "Admin | Grupos";
 };
 
 var habilitaEventos = function habilitaEventos() {
@@ -37087,7 +37608,7 @@ var modalObject = "#nivel1";
 var grid = "#gridUsers";
 
 var changeTitle = function changeTitle() {
-  document.title = 'BT | Usuários';
+  document.title = 'Admin | Usuários';
 };
 
 var habilitaEventos = function habilitaEventos() {
@@ -37219,9 +37740,9 @@ var formDataUser = function formDataUser(id) {
 var eventShowPassword = function eventShowPassword() {
   $('a[href="#change_password"]').on('click', function (e) {
     if ($("#change_password").hasClass('in')) {
-      $("input[type='password']").prop("disabled", true);
+      $("input[type='password']").prop("disabled", true).val("");
     } else {
-      $("input[type='password']").prop("disabled", false);
+      $("input[type='password']").prop("disabled", false).val("");
     }
   });
 };
@@ -37258,11 +37779,16 @@ window.AppUsage = __webpack_require__(/*! ./Core/AppUsage */ "./resources/js/Cor
 window.AppSettings = __webpack_require__(/*! ./Core/AppSettings */ "./resources/js/Core/AppSettings.js"); //AUTH Scripts - scripts em telas de authenticação/recuperação de senha
 
 window.AppLogin = __webpack_require__(/*! ./Auth/AppLogin */ "./resources/js/Auth/AppLogin.js");
-window.AppForgotPassword = __webpack_require__(/*! ./Auth/AppForgotPassword */ "./resources/js/Auth/AppForgotPassword.js"); //LOGGED Scripts - scripts em módulos do sistema
+window.AppForgotPassword = __webpack_require__(/*! ./Auth/AppForgotPassword */ "./resources/js/Auth/AppForgotPassword.js");
+window.AppRegister = __webpack_require__(/*! ./Auth/AppRegister */ "./resources/js/Auth/AppRegister.js");
+window.AppConfirmMail = __webpack_require__(/*! ./Auth/AppConfirmMail */ "./resources/js/Auth/AppConfirmMail.js"); //LOGGED Scripts - scripts em módulos do sistema
 
 window.AppUsers = __webpack_require__(/*! ./Logged/AppUsers */ "./resources/js/Logged/AppUsers.js");
 window.AppProfile = __webpack_require__(/*! ./Logged/AppProfile */ "./resources/js/Logged/AppProfile.js");
-window.AppRoles = __webpack_require__(/*! ./Logged/AppRoles */ "./resources/js/Logged/AppRoles.js"); //CONSTANTS métodos e propriedades constantes
+window.AppRoles = __webpack_require__(/*! ./Logged/AppRoles */ "./resources/js/Logged/AppRoles.js");
+window.AppPermissoes = __webpack_require__(/*! ./Logged/AppPermissoes */ "./resources/js/Logged/AppPermissoes.js");
+window.AppModulos = __webpack_require__(/*! ./Logged/AppModulos */ "./resources/js/Logged/AppModulos.js");
+window.AppFuncionalidades = __webpack_require__(/*! ./Logged/AppFuncionalidades */ "./resources/js/Logged/AppFuncionalidades.js"); //CONSTANTS métodos e propriedades constantes
 
 window.languageDataTable = __webpack_require__(/*! ./Constants/language_dataTable */ "./resources/js/Constants/language_dataTable.js");
 window.AcessControl = __webpack_require__(/*! ./Constants/access_control */ "./resources/js/Constants/access_control.js");
@@ -37287,8 +37813,8 @@ window.AcessControl = __webpack_require__(/*! ./Constants/access_control */ "./r
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\admin_laravel\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\admin_laravel\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\laravel_admin\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\laravel_admin\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
