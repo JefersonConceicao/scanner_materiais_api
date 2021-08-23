@@ -9,40 +9,40 @@ class Materiais extends Model
     protected $table = 'materiais';
     protected $primaryKey = 'id';
     protected $fillable = [
-        'codigo_barra_material',
-        'nome_material',
-        'verificado'
+        'codigo_barra',
+        'setor_id',
+        'nome_material'
     ];  
+    
     public $timestamps = false;
 
-    public function verificaMaterialPorCódigo($request = []){
+    public function listMateriaisBySetor($setorId){
+        return $this
+            ->where('setor_id', $setorId)
+            ->get();
+    }
+
+    public function coletaMateriais($request = []){
         try{
-            $materialByScan = $this->where('codigo_barra_material', $request['codigo_barra']);
+            $this->fill([
+                'codigo_barra' => $request['codigo_barra'],
+                'setor_id' => $request['setor_id'],
+                'nome_material' => $request['nome_material']
+            ])
+            ->save();
 
-            if($materialByScan->exists()){
-                $materialByScan->update(['verificado' => 1]);
-
-                return [
-                    'error' => false,
-                    'checked' => true,
-                    'msg' => 'Material encontrado',
-                    'material' => $materialByScan->first()
-                ];
-            }else{
-                return [
-                    'error' => false,
-                    'checked' => false,
-                    'msg' => 'Nenhum material encontrado',
-                    'material' => null  
-                ];
-            }
-
+            return [
+                'error' => false,
+                'coleta' => true,
+                'msg' => 'Coleta realizada com sucesso!',
+                'material' => $this->find($this->id)
+            ];  
         }catch(\Exception $error){
             return [
                 'error' => true,
-                'checked' => false,
-                'error_message' => $error->getMessage()
-            ];
+                'coleta' => false,
+                'msg' => 'Algo não ocorreu bem, tente de novo'
+            ]; 
         }
     }
 }
