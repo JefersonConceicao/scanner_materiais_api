@@ -1,13 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
     /**
-     * Create a new controller instance.
      *
      * @return void
      */
@@ -17,13 +16,12 @@ class HomeController extends Controller
     }
 
     /**
-     * Show the application dashboard.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index(Request $request)
-    {
+    public function index()
+    {   
         $view = view('inicio.inicio');
-        return $request->ajax() ? $view->renderSections()['content'] : $view;
+        return request()->ajax() ? $view->renderSections()['content'] : $view;
     }
 }

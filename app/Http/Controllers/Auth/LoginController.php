@@ -6,20 +6,20 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Auth;
+use App\Models\User;
 
 class LoginController extends Controller
 {
     use AuthenticatesUsers;
 
     /**
-     * Where to redirect users after login.
      *
      * @var string
      */
-    protected $redirectTo = '/users/perfil';
 
+    protected $redirectTo = '/users/perfil';
     /**
-     * Create a new controller instance.
      *
      * @return void
      */
@@ -29,19 +29,23 @@ class LoginController extends Controller
     }
 
     protected function authenticated(Request $request, $user){
+        $modelUser = new User;
+
+        if(empty($user->email_verified_at)){
+            Auth::logout();
+
+            return back()->withErrors(
+                ['mail_verified_at' => 'Confirme seu e-mail para efetuar o login']
+            );
+        }   
+
+        session(['user_permissions' => $modelUser->permissionsByUser()]);
         $user->last_login = date('Y-m-d H:i:s'); 
         $user->save();
-
-        //RETORNA ARRAY COM AS PERMISSOES DO GRUPO DO USUÁRIO
-        $permissions = $user->permissionsByUser();
-
-        //ESCREVE ESTE ARRAY NA SESSÃO DO USUÁRIO
-        session()->put('user_permissions', $permissions);
     }
 
     public function logout(){
         session()->flush();
-
         return redirect('/');
     }
 }

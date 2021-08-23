@@ -8,7 +8,7 @@
 
 @section('modal_content')
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="form-group">
                 {{ Form::label('nome', 'Nome Completo') }} <span class="required"> * </span>
                 {{ Form::text('name', $user->name, [
@@ -17,18 +17,6 @@
                     'id' => 'nome_create_user',
                 ])}}
                 
-                <div class="error_feedback"> </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                {{ Form::label('username', 'Usuário') }} <span class="required"> * </span>
-                {{ Form::text('username', $user->username, [
-                    'class' => 'form-control',
-                    'required' => true,
-                    'id' => 'username_create_user'    
-                ])}}    
-
                 <div class="error_feedback"> </div>
             </div>
         </div>
@@ -62,18 +50,6 @@
                 <div class="error_feedback"> </div>
             </div>
         </div>
-
-        <div class="col-md-12">
-            <div class="form-group">
-                {{Form::label('setor', 'Setor')}} <span class="required">  * </span>
-                {{ Form::select('setor_id', [null => 'Selecione uma opção'] + $setores, $user->setor_id ,[
-                    'class' => 'form-control select2',
-                    'id' => 'setor_create_user'
-                ])}} 
-
-                <div class="error_feedback"> </div>
-            </div>
-        </div>
     </div>
 
     <div class="row">
@@ -94,15 +70,24 @@
         <div class="col-md-6">
             <div class="form-group">
                 {{ Form::label('senha', 'Nova Senha') }} <span class="required">  * </span>
-                {{ Form::password('password', ['class' => 'form-control'])}}
+                {{ Form::password('password', [
+                    'class' => 'form-control',
+                    'autocomplete' => 'off',
+                    'disabled'
+                ])}}
 
                 <div class="error_feedback"> </div>
             </div>
         </div>
+        
         <div class="col-md-6"> 
             <div class="form-group"> <span class="required">  * </span>
                 {{ Form::label('confirm_senha', 'Confirmar Nova Senha') }}
-                {{ Form::password('confirm_password', ['class' => 'form-control'])}}
+                {{ Form::password('confirm_password', [
+                    'class' => 'form-control',
+                    'autocomplete' => 'off',
+                    'disabled'
+                ])}}
 
                 <div class="error_feedback"> </div>
             </div>

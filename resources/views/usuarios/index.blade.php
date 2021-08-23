@@ -1,5 +1,5 @@
 @extends('adminlte::page')
-@section('title', 'BT | Usuários')
+@section('title', 'Admin | Usuários')
 @section('content') 
     <section class="content-header">
         <h1> Usuários
@@ -82,11 +82,9 @@
                                 <thead> 
                                     <tr> 
                                         <th> Nome </th>
-                                        <th> Usuário </th>
                                         <th> Email </th>
-                                        <th> Setor
-                                             </th>
-                                        <th class="text-center" style="width:8%;"> 
+                                        <th> Ativo </th>
+                                        <th class="text-center" style="width:2%;"> 
                                             Ações 
                                         </th>
                                     </tr>
@@ -95,47 +93,54 @@
                                     @foreach($dados as $dado) 
                                         <tr  key={{  $dado->id }}> 
                                             <td> {{!empty($dado->name) ? $dado->name : "Não informado"}} </td>
-                                            <td> {{!empty($dado->username) ? $dado->username : "Não informado"}} </td>
                                             <td> {{!empty($dado->email) ? $dado->email : "Não informado"}} </td>
-                                            <td> {{!empty($dado->descricao_setor) ? $dado->descricao_setor : "Não informado" }} </td> 
-                                            
-                                            <td class="text-center" style="display:flex; justify-content:space-evenly;">     
-                                                <a
-                                                    href="javascript:void(0)" 
-                                                    bt_ac="users.edit" 
-                                                    class="btn btn-xs btn-primary editaUser" 
-                                                    data-toggle="tooltip" 
-                                                    title="Editar"
-                                                    bt_ac="users.edit"
-                                                    id={{$dado->id}}
-                                                >
-                                                     <i class="fa fa-edit"> </i>
-                                                </a>    
-
-                                                &nbsp;
-                                                <a       
-                                                    href="javascript:void(0)" 
-                                                    class="btn btn-xs btn-success viewUser"  
-                                                    title="Visualizar" 
-                                                    data-toggle="Visualizar"
-                                                    bt_ac="users.view"
-                                                    id={{$dado->id}}
-                                                > 
-
-                                                    <i class="fa fa-bars"> </i>
-                                                </a>
-
-                                                &nbsp;
-                                                <a 
-                                                    href="javascript:void(0)" 
-                                                    class="btn btn-xs btn-danger deleteUser" 
-                                                    title="Excluir" 
-                                                    data-toggle="Excluir"
-                                                    bt_ac="users.delete"
-                                                    id={{$dado->id}}
-                                                >
-                                                    <i class="fa fa-trash"> </i>
-                                                </a>
+                                            <td> 
+                                                <label class="label label-{{ $dado->active == 1 ? 'success' : 'danger' }}"> 
+                                                    {{ $dado->active == 1 ? "Sim" : "Não"}}
+                                                </label>
+                                            </td>
+                                            <td class="text-center">  
+                                                <div class="btn-group">
+                                                    <button 
+                                                        class="btn btn-xs btn-icon-toggle dropdown-toggle"
+                                                        type="button"
+                                                        data-toggle="dropdown"
+                                                    >
+                                                        <i class="fa fa-gear" aria-hidden="true"> </i>
+                                                    </button>
+                                                    <ul class="dropdown-menu dropdown-menu-right" role="menu"> 
+                                                        <li>
+                                                            <a 
+                                                                href="javascript:void(0)"
+                                                                bt_ac="users.view"
+                                                                class="btn viewUser"
+                                                                id="{{ $dado->id }}"
+                                                            > 
+                                                                <i class="fa fa-bars"> </i> Visualizar
+                                                            </a>
+                                                        </li>
+                                                        <li> 
+                                                            <a
+                                                                href="javascript:void(0)"
+                                                                bt_ac="users.edit"
+                                                                class="btn editaUser"
+                                                                id="{{ $dado->id  }}"
+                                                            > 
+                                                                <i class="fa fa-edit"> </i> Editar
+                                                            </a>
+                                                        </li>
+                                                        <li>     
+                                                            <a 
+                                                                href="javscript:void(0)"
+                                                                bt_ac="users.delete"
+                                                                class="btn deleteUser"
+                                                                id="{{ $dado->id  }}"
+                                                            > 
+                                                                <i style="color:red;" class="fa fa-trash"> </i> Excluir 
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
                                             </td>
                                         </tr>
                                     @endforeach                            

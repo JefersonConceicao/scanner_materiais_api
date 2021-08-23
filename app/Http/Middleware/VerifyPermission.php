@@ -24,13 +24,13 @@ class VerifyPermission
     {   
         $permissao = new Permission;    
         
-        if(!$permissao->permissionAuthorized(Route::currentRouteName())){
-            if(!$request->ajax()){
-                abort(401);
-            }else{
-                return response()->json(['msg' => 'Unauthorized'], 401);
-            }
-        }
+        // if(!$permissao->permissionAuthorized(Route::currentRouteName())){
+        //     if(!$request->ajax()){
+        //         abort(401);
+        //     }else{
+        //         return response()->json(['msg' => 'Unauthorized'], 401);
+        //     }
+        // }
 
         return $next($request);
     }

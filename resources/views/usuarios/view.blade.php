@@ -5,9 +5,7 @@
 
 @section('modal_content')
     <div class="row">
-        <div 
-            class="col-md-12 text-center"
-        >
+        <div class="col-md-12 text-center">
             <div class="box-body box-profile">
                 <img 
                     style="height:100px; object-fit:contain;"
@@ -17,21 +15,11 @@
                             : asset('img/default_icon.png')
                         }}" 
                 /> 
-
                 <h3> {{ $user->name }} </h3>
-                <b> {{ $user->userSetor->descsetor}} </b>
-
-                @if(!empty($user->rolesByUser))
-                    @foreach ($user->rolesByUser as $role)
-                        <p> {{ !empty($role->name) ? $role->name : "Não informado" }} </p>
-                    @endforeach
-                @endif
             </div>
         </div>
     </div>
-
     <hr/> 
-
     <div class="row">
         <div class="col-md-12">
             <h4 class="pull-left"> Informações Pessoais: </h4>
@@ -49,7 +37,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 {{ Form::label('username', 'Usuário')}}
-                {{ Form::text('username', $user->username, [
+                {{ Form::text('username', $user->name, [
                     'class' => 'form-control',
                     'disabled' => true,
                     'id' => 'view_username_user',

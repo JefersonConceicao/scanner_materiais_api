@@ -1,0 +1,11 @@
+@import './constants.scss';
+
+@media (max-width:767px){
+    .skin-black-light .main-header .logo{
+        color:black;
+    }
+    .skin-black-light .main-header .logo:hover{
+        color:#ffff;
+        background-color: $vermelhoBahia;
+    }
+}

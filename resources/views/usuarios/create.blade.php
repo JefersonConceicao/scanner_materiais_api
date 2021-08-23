@@ -6,7 +6,7 @@
 
 @section('modal_content')
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="form-group">
                 {{ Form::label('nome', 'Nome Completo') }} <span class="required"> * </span>
                 {{ Form::text('name', null, [
@@ -15,18 +15,6 @@
                     'id' => 'nome_create_user',
                 ])}}
                 
-                <div class="error_feedback"> </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                {{ Form::label('username', 'Usuário') }} <span class="required"> * </span>
-                {{ Form::text('username', null, [
-                    'class' => 'form-control',
-                    'required' => true,
-                    'id' => 'username_create_user'    
-                ])}}    
-
                 <div class="error_feedback"> </div>
             </div>
         </div>
@@ -56,18 +44,6 @@
                     'id' => 'role_create_user',
                     'multiple' => 'multiple',
                 ])}}  
-
-                <div class="error_feedback"> </div>
-            </div>
-        </div>
-
-        <div class="col-md-12">
-            <div class="form-group">
-                {{Form::label('setor', 'Setor')}} <span class="required">  * </span>
-                {{ Form::select('setor_id', [null => 'Selecione uma opção'] + $setores, null ,[
-                    'class' => 'form-control select2',
-                    'id' => 'setor_create_user'
-                ])}} 
 
                 <div class="error_feedback"> </div>
             </div>
