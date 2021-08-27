@@ -22,6 +22,6 @@ class Patrimonio extends Model
     public function getPatrimonioByCodigo($codigo){
         return $this
             ->where('patrimonio', $codigo)
-            ->get();
+            ->first();
     }
 }

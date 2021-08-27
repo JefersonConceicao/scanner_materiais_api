@@ -33,4 +33,11 @@ class MateriaisController extends Controller
         $data = $materiais->listMateriaisBySetor($id);
         return response()->json($data);
     }
+
+    public function store(Request $request){
+        $materiais = new Materiais;
+
+        $data = $materiais->saveMateriais($request->all());
+        return response()->json($data);
+    }
 }
