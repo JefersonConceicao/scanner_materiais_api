@@ -10,12 +10,14 @@ class Materiais extends Model
     protected $primaryKey = 'id';
     protected $fillable = [
         'codigo_barra',
+        'conta',
         'setor_id',
         'nome_material',
         'local',
+        'situacao_fisica',
     ];  
     
-    public $timestamps = false;
+    public $timestamps = true;
 
     public function listMateriaisBySetor($setorId){
         return $this
@@ -52,7 +54,9 @@ class Materiais extends Model
             $this->fill([
                 'nome_material' => $request['descricao'],
                 'local' => $request['localizacao'],
+                'conta' => $request['conta'],
                 'situacao' => $request['situacao_fisica'],
+                'codigo_barra' => $request['patrimonio'],
                 'setor_id' => 1
             ])->save();
 
@@ -62,7 +66,6 @@ class Materiais extends Model
             ];
         }catch(\Exception $error){
             return [
-                'error_message' => $error->getMessage(),
                 'error' => true,
                 'msg' => 'Não foi possível salvar o registro, tente de novo'
             ];  
