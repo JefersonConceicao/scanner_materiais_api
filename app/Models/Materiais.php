@@ -66,6 +66,7 @@ class Materiais extends Model
             ];
         }catch(\Exception $error){
             return [
+                'error_msg' => $error->getMessage(),
                 'error' => true,
                 'msg' => 'Não foi possível salvar o registro, tente de novo'
             ];  
