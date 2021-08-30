@@ -11,9 +11,7 @@ use App\Models\Patrimonio;
 
 class MateriaisController extends Controller
 {
-    /**
-     * @return \Illuminate\Http\Response
-     */
+
     public function scanner(Request $request)
     {   
         $patrimonio = new Patrimonio;
@@ -23,9 +21,6 @@ class MateriaisController extends Controller
         return response()->json($data);
     }
 
-    /**
-     * @return \Illuminate\Http\Response
-     */
     public function list($id)
     {
         $materiais = new Materiais;
@@ -39,5 +34,19 @@ class MateriaisController extends Controller
 
         $data = $materiais->saveMateriais($request->all());
         return response()->json($data);
+    }
+
+    public function update($id, Request $request){
+        $materiais = new Materiais;
+
+        $data = $materiais->updateMaterial($id, $request->all());
+        return response()->json($data);
+    }
+
+    public function deleteMaterial($id){
+        $materiais = new Materiais;
+
+        $data = $materiais->deleteMaterial($id);
+        return repsonse()->json($data);
     }
 }
