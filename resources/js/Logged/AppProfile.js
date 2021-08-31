@@ -4,7 +4,7 @@ $(function(){
 }); 
 
 const setTitle = function(){
-    return document.title = "Admin | Perfil"
+    document.title = "Admin | Perfil"
 }
 
 const configDropzoneProfile = function(){

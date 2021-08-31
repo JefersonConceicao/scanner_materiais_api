@@ -11,7 +11,6 @@ use App\Models\Patrimonio;
 
 class MateriaisController extends Controller
 {
-
     public function scanner(Request $request)
     {   
         $patrimonio = new Patrimonio;
@@ -47,6 +46,6 @@ class MateriaisController extends Controller
         $materiais = new Materiais;
 
         $data = $materiais->deleteMaterial($id);
-        return repsonse()->json($data);
+        return response()->json($data);
     }
 }

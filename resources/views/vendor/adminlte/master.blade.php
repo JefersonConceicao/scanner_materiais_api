@@ -46,9 +46,6 @@
         @include('adminlte::plugins', ['type' => 'js'])
         @yield('adminlte_js')
         <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/i18n/pt-BR.js">  </script>
-<<<<<<< HEAD
-        <script src="{{ asset('js/app.min.js')}}"> </script>
-=======
         <script src="{{ asset('js/app.js')}}"> </script>
         <script>
             window.fbAsyncInit = function() {
@@ -70,7 +67,6 @@
                fjs.parentNode.insertBefore(js, fjs);
              }(document, 'script', 'facebook-jssdk'));
           </script>
->>>>>>> dev
     </body>
     
 </html>
