@@ -4,3 +4,4 @@ Route::get('/listMateriais/{setorId}', 'Api\MateriaisController@list')->name('ma
 Route::get('/scanner', 'Api\MateriaisController@scanner')->name('materiais.scanner');
 Route::post('/saveMateriais', 'Api\MateriaisController@store')->name('materiais.store');
 Route::put('/updateMateriais/{id}', 'Api\MateriaisController@update')->name('materiiais.update');
+Route::delete('/deleteMateriais/{id}', 'Api\MateriaisController@deleteMaterial')->name('materiais.delete');

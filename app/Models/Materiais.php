@@ -22,6 +22,7 @@ class Materiais extends Model
     public function listMateriaisBySetor($setorId){
         return $this
             ->where('setor_id', $setorId)
+            ->orderBy('id', 'DESC')
             ->get();
     }
 
@@ -76,13 +77,17 @@ class Materiais extends Model
 
     public function updateMaterial($id, $request = []){
         try{
-            if(isset($request['situacao_fisica'])){
+            if(isset($request['situacao_fisica']) && !empty($request['situacao_fisica'])){
                 $request['situacao'] = $request['situacao_fisica'];
+            }
+
+            if(isset($request['localizacao']) && !empty($request['localizacao'])){
+                $request['local'] = $request['localizacao'];
             }
 
             $material = $this->find($id);
             $material->fill($request)->save();
-
+        
             return [
                 'error' => false,
                 'msg' => 'Registro atualizado com sucesso!',
