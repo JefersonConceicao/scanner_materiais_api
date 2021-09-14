@@ -57,7 +57,7 @@ class Materiais extends Model
                 'conta' => $request['conta'],
                 'situacao' => $request['situacao_fisica'],
                 'codigo_barra' => $request['patrimonio'],
-                'setor_id' => 1
+                'setor_id' => $request['setor_id']
             ])->save();
 
             return [
