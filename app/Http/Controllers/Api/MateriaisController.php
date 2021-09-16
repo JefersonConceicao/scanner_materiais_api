@@ -23,7 +23,7 @@ class MateriaisController extends Controller
     public function list($id)
     {
         $materiais = new Materiais;
-
+        
         $data = $materiais->listMateriaisBySetor($id);
         return response()->json($data);
     }

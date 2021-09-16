@@ -52,7 +52,6 @@ return [
     'dashboard_url' => 'home',
     'logout_url' => 'logout',
     'logout_method' => null,
-
     'login_url' => 'login',
     'register_url' => false,
     /*
