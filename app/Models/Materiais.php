@@ -26,30 +26,6 @@ class Materiais extends Model
             ->get();
     }
 
-    public function coletaMateriais($request = []){
-        try{
-            $this->fill([
-                'codigo_barra' => $request['codigo_barra'],
-                'setor_id' => $request['setor_id'],
-                'nome_material' => $request['nome_material']
-            ])
-            ->save();
-
-            return [
-                'error' => false,
-                'coleta' => true,
-                'msg' => 'Coleta realizada com sucesso!',
-                'material' => $this->find($this->id)
-            ];  
-        }catch(\Exception $error){
-            return [
-                'error' => true,
-                'coleta' => false,
-                'msg' => 'Algo não ocorreu bem, tente de novo'
-            ]; 
-        }
-    }
-
     public function saveMateriais($request = []){
         try{
             $this->fill([
@@ -59,7 +35,8 @@ class Materiais extends Model
                 'situacao' => $request['situacao_fisica'],
                 'codigo_barra' => $request['patrimonio'],
                 'setor_id' => $request['setor_id']
-            ])->save();
+            ])
+            ->save();
 
             return [
                 'error' => false,
@@ -114,6 +91,5 @@ class Materiais extends Model
                 'msg' => 'Não foi possível excluír o registro, tente de novo'
             ];
         }
-
     }
 }
