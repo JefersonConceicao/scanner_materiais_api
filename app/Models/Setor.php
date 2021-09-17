@@ -22,16 +22,21 @@ class Setor extends Model
 
     public function saveSetor($request = []){
         try{
-            $this->fill($request)->save();
+            $this->fill([
+                'nome_setor' => $request['nome_setor'],
+                'ativo' => 1
+            ])->save();
 
             return [
                 'error' => false,
-                'msg' => 'Registro adicionado com sucesso!'
+                'msg' => 'Registro adicionado com sucesso!',
+                'data_added' => $this->find($this->id)
             ];
         }catch(\Exception $error){
             return [
                 'error' => true,
-                'msg' => 'Não foi possível salvar o registro, tente de novo'
+                'msg' => 'Não foi possível salvar o registro, tente de novo',
+                'error_msg' => $error->getMessage()
             ];
         }
     }
