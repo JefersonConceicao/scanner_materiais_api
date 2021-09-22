@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Patrimonio;
 
 class Materiais extends Model
 {
@@ -28,16 +29,20 @@ class Materiais extends Model
 
     public function saveMateriais($request = []){
         try{
-            $this->fill([
+            $formData = [
                 'nome_material' => $request['descricao'],
                 'local' => $request['localizacao'],
                 'conta' => $request['conta'],
                 'situacao' => $request['situacao_fisica'],
                 'codigo_barra' => $request['patrimonio'],
                 'setor_id' => $request['setor_id']
-            ])
-            ->save();
+            ];
 
+            if($this->fill($formData)->save()){
+                $patrimonio = new Patrimonio;
+                $patrimonio->savePatrimonio($request);
+            }
+            
             return [
                 'error' => false,
                 'msg' => 'Registro salvo com sucesso!',

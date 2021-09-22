@@ -174,6 +174,8 @@ class UsersController extends Controller
 
         return response()->json($data);
     }   
+    // -------- END MANAGMENT USER -------------
+
     // ------------- PROFILE MANAGMENT ----------------
     public function profile(){
         $user = Auth::user();
