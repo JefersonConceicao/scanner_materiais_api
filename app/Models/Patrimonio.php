@@ -29,6 +29,18 @@ class Patrimonio extends Model
 
     public function savePatrimonio($request = []){
         try{
+            $exists = $this
+                ->where('patrimonio', $request['patrimonio'])
+                ->orWhere('patrimonio_antigo', $request['patrimonio'])
+                ->exists();
+
+            if(!$exists){
+               return [
+                    'error' => true,
+                    'msg' => 'Este registro já existe em nossa base de dados'
+               ];
+            }
+        
             $this->fill([
                 'patrimonio' => $request['patrimonio'],
                 'patrimonio_antigo' => $request['patrimonio'],

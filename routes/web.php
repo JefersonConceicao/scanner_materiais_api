@@ -72,6 +72,6 @@ Route::group(['middleware' => ['auth', 'verifyPermission']] , function(){
         Route::delete('/delete/{id}', 'RolesController@delete')->name('delete');
     });
 });
-Auth::routes();
 
+Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');

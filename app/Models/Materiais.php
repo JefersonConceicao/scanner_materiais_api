@@ -29,6 +29,13 @@ class Materiais extends Model
 
     public function saveMateriais($request = []){
         try{
+            if($this->where('codigo_barra', $request['patrimonio'])->exists()){
+                return [
+                    'error' => true,
+                    'msg' => 'Este item já foi cadastrado'
+                ];
+            }
+                
             $formData = [
                 'nome_material' => $request['descricao'],
                 'local' => $request['localizacao'],

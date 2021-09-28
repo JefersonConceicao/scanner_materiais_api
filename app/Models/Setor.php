@@ -17,7 +17,9 @@ class Setor extends Model
     public $timestamps = false;
 
     public function getSetores(){
-        return $this->all();
+        return $this
+            ->orderBy('id', 'DESC')
+            ->get();
     }
 
     public function saveSetor($request = []){
